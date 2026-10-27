@@ -61,3 +61,15 @@ Rate limiting DRF local: login IP+identidad, registro/refresh/logout/CSRF por IP
 ## ADR-007 — Diseño documental, sin reconstruir frontend en F2
 
 Industrial Precision con dos alternativas originales A (Hoja de control) y B (Terminal de trazabilidad). Referencias públicas revisadas con límites registrados, pares de color calculados y brief para Stitch. Solo documentos y SVG conceptuales; frontend sin cambios. La elección A/B y el rediseño completo requieren F4 autorizada.
+
+## ADR-008 — CRUD multiempresa inicial F3
+
+Aplicado tras comprobar Git/migraciones/suite F2: ModelViewSet con serializers estrictos, permisos por rol y querysets acotados antes de filtros/lookup. Solo superadmin elige empresa en POST; nunca se transfiere company ni se reasigna created_by por REST. FK se validan en querysets del ámbito y nuevamente bajo transacción/bloqueo; datos relacionados incoherentes externamente se excluyen de lecturas de cajas.
+
+Estados iniciales REGISTERED → RECEIVED/REJECTED, finales sin modificación efectiva ni borrado; DELETE solo REGISTERED administrativo. No se crean eventos Reception. Constraints DB de estados/prioridades en nueva migración, junto a las existentes de unicidad/cantidades. Creador histórico inmutable y válido tras reasignación del usuario. Colisiones de IDs generados se reintentan de forma acotada, sin ignorar otros errores.
+
+Rate CRUD compartido 120/min por usuario, local. Errores inesperados DRF se convierten en 500 JSON sin texto interno; log solo clase. No se añadió dependencia, paginación, CRUD de otros recursos, UI ni pruebas de carga. HTTP funcional real se verifica con servidor efímero de pytest y PostgreSQL test_, sin persistir fixtures de negocio en la base local principal.
+
+## ADR-009 — Dirección visual registrada para F4
+
+Según instrucción expresa del usuario al autorizar F3: A (Hoja de control) como base, recursos oscuros de marca inspirados en B; diseño distintivo, accesible y operativo. No se construye un tema B completo. No se autorizó implementar F4 ni se cambió el frontend durante F3.

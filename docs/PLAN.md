@@ -1,6 +1,6 @@
 # Plan de desarrollo y validación
 
-Plan original: 2026-10-26. Actualización: 2026-10-27. FASE 2 autorizada, implementada y verificada localmente; esperando aprobación de F3. Ver INFORME_FASE_2.md y PRUEBAS.md. F3–F8 no se han implementado. El añadido visual de F2 se entrega en DISENO_UI_UX.md con alternativas A/B; el frontend no fue rediseñado y la elección/implementación visual queda para F4 autorizada.
+Plan original: 2026-10-26. Actualización: 2026-10-27. FASE 3 autorizada, implementada y verificada localmente; esperando revisión antes de F4. Ver INFORME_FASE_3.md y PRUEBAS.md. F4–F8 no se han implementado. Decisión visual registrada para F4: A como base principal, con recursos oscuros de marca de B; sin segundo tema. El frontend permanece sin rediseño.
 
 ## Reglas de avance
 

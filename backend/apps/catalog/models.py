@@ -18,6 +18,12 @@ class Category(CompanyOwned):
             models.UniqueConstraint(Lower("name"), "company", name="category_company_name_ci")
         ]
 
+    def clean(self):
+        super().clean()
+        self.name = (self.name or "").strip()
+        if not self.name:
+            raise ValidationError({"name": "El nombre no puede estar vacío."})
+
     def __str__(self):
         return self.name
 

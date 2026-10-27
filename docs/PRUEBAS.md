@@ -130,3 +130,58 @@ Se calcularon pares de contraste sRGB en [fase2-contraste.json](evidencias/fase2
 No se ejecutaron carga/Locust, pruebas cloud, Android, móvil real, evaluación completa de accesibilidad, TLS ni backups. El frontend no tiene todavía formularios de autenticación. check --deploy sigue informando W005/W021 sobre HSTS, sin silenciarlas. No hay resultados que inventar para esas verificaciones pendientes.
 
 CHECKLIST HUMANO F2: revisar informe, elegir A/B antes de F4 si se desea y autorizar F3 por separado. Crear superadmin mediante prompt local únicamente si se desea revisar Admin.
+
+---
+
+## Fase 3 — Verificación vigente (2026-10-27)
+
+**146 pruebas aprobadas** en 14.02 s en la ejecución final registrada. De ellas, 67 son la base F2 y 79 los casos CRUD nuevos, con parametrizaciones. PostgreSQL real, hashing F2 intacto y migraciones aplicadas desde cero en DB test_. No SQLite ni pruebas de carga.
+
+Antes de implementar se verificaron Git limpio en e5efee1, servicios saludables, migrate --check, makemigrations --check --dry-run y suite F2: **67 passed en 8.34 s**. Resumen observado en [fase3-base-f2.json](evidencias/fase3-base-f2.json); no se asumió el resultado del informe previo.
+
+[fase3-verificacion.json](evidencias/fase3-verificacion.json) registra **19 comprobaciones con código 0** (15 comandos y cuatro lecturas HTTP). Reproducir con `python scripts/verificar_fase3.py`. Guarda comandos y salidas reales sin secretos; preserva evidencias F1/F2 como históricas.
+
+| Verificación | Resultado |
+|---|---|
+| Git de inicio | Sin cambios, rama F2 y commit e5efee1; trabajo F3 aislado en codex/fase-3-api-crud |
+| Django y dependencias | check sin problemas, pip check sin dependencias rotas |
+| Migraciones | Nueva boxes/0002 CHECK status/priority aplicada; migrate --check y makemigrations --check sin pendientes |
+| Introspección PostgreSQL | Custom User permanece en 0001, accounts_user existe y auth_user ausente |
+| pytest completo | 146 passed; incluye regresión F2, CRUD e integración concurrente/HTTP |
+| Ruff backend/scripts y ESLint | Sin errores |
+| Build frontend | Correcto, código fuente frontend sin cambios |
+| check --deploy production | Solo W005/W021 de HSTS, conservadas y no silenciadas |
+| HTTP servidor local principal | Health directo y vía frontend 200; categorías/cajas sin token 401 |
+
+### Casos nuevos de seguridad e integridad
+
+- CRUD positivo con admin/superadmin; lectura/creación/edición de cajas por operador; categorías y DELETE prohibidos al operador.
+- Usuario sin empresa denegado en colección y UUID conocido; sin token 401. Empresa inactiva deniega al usuario asignado y no admite escritura global.
+- Dos empresas: listados/detalles/PUT/PATCH/DELETE, filtros de empresa/producto/sucursal/categoría/QR/ID, búsqueda y cuerpos con referencias ajenas. La consulta no amplía el ámbito y no modifica filas ajenas.
+- Rechazo de mass assignment, campos desconocidos/solo lectura, company incluso propia en cliente no global, created_by e identificadores; superadmin solo elige company explícita al crear.
+- FK ajena/inexistente, producto inactivo y relación de categoría incoherente desde SQL externo; datos cruzados no se sirven ni enlazan.
+- Cantidades fraccionadas/booleanas/no positivas, pesos inválidos, estados/prioridades no permitidos; CHECK DB probado omitiendo clean.
+- Categoría case-insensitive por empresa, duplicados 409, mismo nombre válido en otra empresa; PROTECT y borrados con 204 sin cuerpo o conflicto.
+- Lookup autorizado por internal_id y qr_code independientes; colisión regenerada y agotamiento de tres intentos devuelve 409.
+- Estados finales sin cambios efectivos/reversión/borrado; reasignación de usuario cambia scope sin cambiar creador histórico.
+- Dos conexiones/actores sincronizados: duplicado de categoría da 201/409 y transición opuesta de una caja da 200/409, sin sobrescritura terminal.
+- 120 lecturas secuenciales para comprobar el límite privado real, 429/Retry-After, ámbito compartido entre ambos CRUD, separación por usuario y recuperación de ventana. **Es un test de contador, no una prueba de rendimiento/carga.**
+- Error 500 inyectado solo en test, JSON seguro incluso con DEBUG de prueba, sin excepción interna en el cuerpo y sin endpoint público de fallo.
+
+### HTTP funcional real sin datos permanentes
+
+`test_crud_over_real_http_in_isolated_postgresql` utiliza live_server de pytest-django y urllib sobre TCP, dentro del contenedor y con DB test_ separada. Ejecutó 15 solicitudes: anónimo 401; categoría POST 201, GET/PUT/PATCH 200 y DELETE 204; caja POST 201, GET/PUT/PATCH 200, DELETE operador 403, detalle ajeno 404, referencia ajena 400, DELETE admin 204 y consulta posterior 404.
+
+Las respuestas/códigos figuran dentro del JSON final. No se publicaron puertos nuevos ni se sembraron fixtures de negocio en la base principal. No se afirma que sea una prueba cloud o una operación manual de usuario en la interfaz. El código del frontend sigue siendo el de F1.
+
+### Migración y errores corregidos
+
+[Salida real de migrate](evidencias/fase3-migraciones.txt): CHECK status/priority aplicado conservando volumen. No se reescribió la migración del User ni se borraron datos para aprobar las pruebas.
+
+Se corrigió una importación de Decimal detectada en lint y al cargar el comando inicial de migración; se repitió y la migración se generó/aplicó correctamente. También se corrigieron formato/imports y una línea larga del verificador. Durante revisión se ajustó la validación del creador para conservarlo tras reasignaciones y se agregaron pruebas; no se ocultaron reglas de pertenencia ni se desactivó seguridad.
+
+### Limitaciones
+
+Rate limiting sigue local/no atómico entre workers. No RLS ni triggers cruzados para impedir todo SQL administrativo directo; la API filtra y valida sus vías. Listas sin paginación inicial, sin endpoints públicos de productos/sucursales, sin recepción/historial completos. Sin carga/Locust, cloud, TLS externo, backups, móvil o pruebas visuales F4. Estas verificaciones corresponden a fases todavía no autorizadas.
+
+CHECKLIST HUMANO F3: revisar informe/contrato y autorizar F4 por separado. Dirección visual ya registrada: A con recursos oscuros de B, sin segundo tema. No se necesita repetir manualmente las comprobaciones técnicas completadas.

@@ -1,0 +1,10 @@
+{
+  "fase": "Comprobación de F2 antes de implementar F3",
+  "fecha_local": "2026-10-27",
+  "tipo": "Resumen de resultados observados al inicio; no transcripción completa",
+  "git": {"commit": "e5efee1", "rama": "codex/fase-2-autenticacion", "working_tree_limpio": true},
+  "migrate_check": {"codigo_salida": 0},
+  "makemigrations_check_dry_run": {"codigo_salida": 0, "salida": "No changes detected"},
+  "pytest": {"comando": "docker compose exec -T backend python -m pytest --ds=config.settings.testing -q -o cache_dir=/tmp/pytest-f3-base", "codigo_salida": 0, "aprobadas": 67, "segundos": 8.34},
+  "compose": {"db": "healthy", "backend": "healthy", "frontend": "healthy"}
+}

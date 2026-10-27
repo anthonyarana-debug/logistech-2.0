@@ -47,6 +47,14 @@ class Box(CompanyOwned):
             models.CheckConstraint(
                 condition=Q(weight_kg__isnull=True) | Q(weight_kg__gt=0), name="box_weight_positive"
             ),
+            models.CheckConstraint(
+                condition=Q(status__in=["REGISTERED", "RECEIVED", "REJECTED"]),
+                name="box_status_allowed",
+            ),
+            models.CheckConstraint(
+                condition=Q(priority__in=["LOW", "NORMAL", "HIGH"]),
+                name="box_priority_allowed",
+            ),
         ]
         indexes = [
             models.Index(fields=["company", "status", "created_at"], name="box_company_status_date")
@@ -61,13 +69,23 @@ class Box(CompanyOwned):
                 continue  # full_clean ya registra el error de FK requerido/inexistente.
             if related.company_id != self.company_id:
                 raise ValidationError({field: "El recurso debe pertenecer a la misma empresa."})
-        if self.created_by_id:
+        # El creador histórico permanece válido aunque después cambie su asignación.
+        if self.created_by_id and self._state.adding:
             try:
                 user = self.created_by
             except ObjectDoesNotExist:
                 return
             if user.role != user.Role.SUPERADMIN and user.company_id != self.company_id:
                 raise ValidationError({"created_by": "El creador debe pertenecer a la empresa."})
+        elif not self._state.adding:
+            original = (
+                type(self)
+                .objects.filter(pk=self.pk)
+                .values_list("created_by_id", flat=True)
+                .first()
+            )
+            if original is not None and original != self.created_by_id:
+                raise ValidationError({"created_by": "No se permite cambiar el creador histórico."})
 
     def __str__(self):
         return self.internal_id

@@ -4,6 +4,8 @@ Estado F1: Docker Linux local ejecutado y verificado. Cloud no desplegado ni eva
 
 Actualización F2 (2026-10-27): modelos y autenticación migrados/verificados localmente; aplicar migraciones explícitamente como indica README antes de iniciar flujos de autenticación. Ver SEGURIDAD.md y ENDPOINTS.md. La evidencia F1 de este documento se conserva como antecedente.
 
+Actualización F3: CRUD REST y constraints de estados/prioridades aplicados localmente; ejecutar migrate explícitamente al actualizar desde F2. Ver scripts/verificar_fase3.py y su evidencia. El frontend sigue en F1; no cambió la red ni se inició despliegue. La prueba HTTP CRUD usa servidor efímero/test_ dentro del contenedor, no un puerto publicado o servicio permanente adicional.
+
 ## Local
 
 Seguir README para generar `.env`, validar Compose sin imprimir secretos y construir/iniciar los tres servicios. Docker Desktop debe ejecutar contenedores Linux. En esta sesión `docker desktop start` resolvió la ausencia inicial del motor.

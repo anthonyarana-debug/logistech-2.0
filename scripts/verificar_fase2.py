@@ -6,6 +6,10 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 root = Path(__file__).resolve().parents[1]
+if (root / "backend/apps/core/api.py").exists():
+    raise SystemExit(
+        "F2 es evidencia histórica. Usa scripts/verificar_fase3.py para el estado actual."
+    )
 prefix = ["docker", "compose", "exec", "-T", "backend"]
 commands = [
     ["docker", "compose", "config", "--quiet"],

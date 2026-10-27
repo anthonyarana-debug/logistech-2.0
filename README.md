@@ -1,6 +1,6 @@
 # LogisTech 2.0
 
-Proyecto académico de Desarrollo de Soluciones en la Nube — TECSUP. **Fase 2: modelos y autenticación local implementados.** La web sigue mostrando el estado del entorno de F1; formularios web y CRUD REST se construirán en F4 y F3 respectivamente, previa aprobación.
+Proyecto académico de Desarrollo de Soluciones en la Nube — TECSUP. **Fase 3: CRUD REST de categorías y cajas, con autorización por empresa.** La web conserva el estado del entorno de F1; formularios y rediseño esperan F4 autorizada. No está completa la entrega del 25 %.
 
 ## Iniciar localmente
 
@@ -20,19 +20,20 @@ Si `.env` ya existe, el generador se niega a sobrescribirlo: conservarlo y conti
 - [Web de estado](http://127.0.0.1:5173).
 - [Readiness con PostgreSQL](http://127.0.0.1:8000/api/v1/health/) y [liveness](http://127.0.0.1:8000/api/v1/health/live/).
 - API de autenticación: `/api/v1/auth/`; ver [ENDPOINTS.md](docs/ENDPOINTS.md).
+- CRUD JWT: `/api/v1/categories/` y `/api/v1/boxes/`, con detalle por UUID; filtros, permisos y ejemplos en ENDPOINTS.
 - [Admin restringido](http://127.0.0.1:8000/admin/): superadministrador creado mediante prompt seguro, nunca con credenciales fijas.
 
 Solo web/API publican puertos, enlazados a 127.0.0.1. PostgreSQL no publica 5432 y usa red interna; procesos web sin root. Este Compose utiliza servidores de desarrollo y **no representa un despliegue de producción**.
 
 Si Docker no responde: abrir Docker Desktop, habilitar Settings → General → Use the WSL 2 based engine y usar Linux containers. `docker desktop start`, `docker desktop status` y `wsl --status` ayudan al diagnóstico. Confirmar que docker info muestra `linux`, no solo la versión de la CLI. La habilitación de virtualización/WSL o un reinicio, si fueran necesarios, requieren intervención del usuario.
 
-## Verificar Fase 2
+## Verificar Fase 3
 
 ```powershell
-python scripts/verificar_fase2.py
+python scripts/verificar_fase3.py
 ```
 
-Registra comandos/códigos/salidas en `docs/evidencias/fase2-verificacion.json`, sin contraseñas, tokens o cookies. Incluye PostgreSQL, estado de migraciones, pytest, lint/build y flujo HTTP real. El smoke HTTP crea una cuenta técnica por ejecución y al finalizar la deja inactiva, sin empresa y con contraseña inutilizable. No genera datos de inventario.
+Registra comandos/códigos/salidas en `docs/evidencias/fase3-verificacion.json`, sin contraseñas, tokens o cookies. Incluye PostgreSQL, migraciones, suite, lint/build y comprobaciones HTTP. El CRUD por HTTP real se prueba en servidor efímero con DB test_ separada; no crea inventario permanente. Los verificadores F1/F2 conservan su evidencia histórica.
 
 Comprobaciones individuales:
 
@@ -40,13 +41,12 @@ Comprobaciones individuales:
 docker compose exec -T backend python manage.py check
 docker compose exec -T backend python manage.py migrate --check
 docker compose exec -T backend python manage.py makemigrations --check --dry-run
-docker compose exec -T backend python -m pytest --ds=config.settings.testing -q -o cache_dir=/tmp/pytest-f2
-docker compose exec -T backend python -m tools.verificar_http_auth
+docker compose exec -T backend python -m pytest --ds=config.settings.testing -q -o cache_dir=/tmp/pytest-f3
 docker compose exec -T frontend npm run lint
 docker compose exec -T frontend npm run build
 ```
 
-pytest crea una base PostgreSQL test_ desde cero y la elimina al terminar. No usar esta configuración contra producción. La evidencia de F1 se conserva como histórica, reproducible desde su commit; su verificador ya no se ejecuta sobre el esquema de F2.
+pytest crea una base PostgreSQL test_ desde cero y la elimina al terminar. No usar esta configuración contra producción. F1/F2 son reproducibles desde sus commits históricos; los verificadores actuales no sobrescriben sus reportes.
 
 ## Usuario y administración
 
@@ -80,8 +80,8 @@ Django local no carga .env automáticamente; Compose sí inyecta sus variables. 
 
 ## Documentos y límites
 
-- [Informe F2](docs/INFORME_FASE_2.md), [pruebas](docs/PRUEBAS.md), [base de datos](docs/BASE_DE_DATOS.md), [seguridad](docs/SEGURIDAD.md), [roles](docs/ROLES_PERMISOS.md) y [despliegue pendiente](docs/DESPLIEGUE.md).
-- [Industrial Precision: diseño A/B y brief Stitch](docs/DISENO_UI_UX.md), con [boceto A](docs/diseno/alternativa-a.svg) y [boceto B](docs/diseno/alternativa-b.svg). Son propuestas documentales; no rediseño implementado.
+- [Informe F3](docs/INFORME_FASE_3.md), [pruebas](docs/PRUEBAS.md), [base de datos](docs/BASE_DE_DATOS.md), [seguridad](docs/SEGURIDAD.md), [roles](docs/ROLES_PERMISOS.md) y [despliegue pendiente](docs/DESPLIEGUE.md).
+- [Industrial Precision y brief Stitch](docs/DISENO_UI_UX.md): A como base con recursos oscuros de B, sin segundo tema. Los bocetos son antecedentes documentales; no rediseño implementado.
 - [Plan](docs/PLAN.md), [matriz](docs/MATRIZ_ENTREGABLES.md), [decisiones](docs/DECISIONES_TECNICAS.md) y [diagrama actual editable](docs/MODELO_DATOS.mmd).
 
-No hay despliegue cloud, pruebas de carga, recepción, QR con cámara ni estadísticas operativas. Rate limiting actual por proceso; HSTS de subdominios/preload sigue pendiente. Android no está disponible en el repositorio y no se modificó el original ni se contactó al VPS. F3 requiere aprobación nueva; F6–F8 siguen sin autorización.
+No hay despliegue cloud, pruebas de carga, recepción, QR con cámara ni estadísticas operativas. Marcas iniciales de estado no equivalen a un módulo de recepción. Rate limiting por proceso; HSTS de subdominios/preload pendiente. Android no está disponible y no se modificó el original ni se contactó al VPS. F4/F5 requieren aprobación; F6–F8 siguen sin autorización.

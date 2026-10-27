@@ -1,10 +1,17 @@
+import logging
+
 from django.http import JsonResponse
 from rest_framework.exceptions import AuthenticationFailed, NotAuthenticated, Throttled
+from rest_framework.response import Response
 from rest_framework.views import exception_handler
 
 
 def api_exception_handler(exc, context):
     response = exception_handler(exc, context)
+    if response is None:
+        # No registrar str(exc), SQL, payloads, cookies o credenciales.
+        logging.getLogger(__name__).error("Fallo interno de API: %s", type(exc).__name__)
+        return Response({"detalle": "Error interno del servicio."}, status=500)
     if response is not None:
         if isinstance(exc, (AuthenticationFailed, NotAuthenticated)):
             response.data = {"detalle": "Credenciales o sesión no válidas."}

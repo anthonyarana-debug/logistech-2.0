@@ -86,6 +86,7 @@ REST_FRAMEWORK = {
         "refresh": "30/hour",
         "logout": "60/hour",
         "csrf": "60/min",
+        "private_api": "120/min",
     },
 }
 SIMPLE_JWT = {

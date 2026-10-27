@@ -1,0 +1,8 @@
+Comando: docker compose run --rm --no-deps --volume <backend-local>:/app backend python manage.py migrate --noinput
+Entorno: PostgreSQL local, volumen conservado.
+ Container logistech-v2-backend-run-8d703cd8ccef Creating
+ Container logistech-v2-backend-run-8d703cd8ccef Created
+Operations to perform:
+  Apply all migrations: accounts, admin, auth, boxes, catalog, contenttypes, organizations, sessions, token_blacklist
+Running migrations:
+  Applying boxes.0002_box_box_status_allowed_box_box_priority_allowed... OK

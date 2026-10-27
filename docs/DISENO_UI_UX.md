@@ -1,6 +1,6 @@
 # LogisTech 2.0 — Industrial Precision
 
-Fecha: 27 de octubre de 2026. Entregable de diseño de Fase 2. **Propuesta, no rediseño implementado.** La interfaz de F1 se conserva; la elección definitiva y su implementación corresponden a F4 con autorización. El backend no depende de Stitch.
+Fecha: 27 de octubre de 2026. Documento preparado en F2 y actualizado en F3. **No es un rediseño implementado.** Decisión registrada para la futura F4: alternativa A como base, con recursos oscuros de marca inspirados en B, sin segundo tema completo. La interfaz de F1 se conserva; F4 requiere autorización independiente. El backend no depende de Stitch.
 
 ## Identidad propia
 
@@ -22,7 +22,7 @@ Se abrió cada URL solicitada con navegación web y se inspeccionaron las vistas
 
 Estas fuentes sirven de referencia conceptual, no prueban usabilidad o accesibilidad de LogisTech. No se conservan sus capturas como activos del proyecto.
 
-## Dos alternativas para elegir
+## Alternativas estudiadas y dirección registrada
 
 ### A — Industrial Precision / Hoja de control (recomendada)
 
@@ -70,7 +70,7 @@ Mayor carácter tecnológico y continuidad con el entorno F1. Exige comprobar fa
 | Riesgo a validar | Espacio excesivo si se amplían márgenes sin criterio | Contraste y uso con mucha luz ambiental |
 | Recomendación | Base de implementación propuesta | Alternativa válida si se prefiere mayor presencia oscura |
 
-La elección no se da por aprobada. No se construyen ambos temas en F2. Ver las composiciones conceptuales originales [A](diseno/alternativa-a.svg) y [B](diseno/alternativa-b.svg); son bocetos documentales estáticos, sin operaciones ni datos de negocio.
+El usuario indicó en la autorización de F3 conservar A como base principal y recursos oscuros de B para marca/cabeceras/acentos, manteniendo densidad operativa y accesibilidad. No se implementará un segundo tema. La composición final se revisará al autorizar F4. Ver los antecedentes [A](diseno/alternativa-a.svg) y [B](diseno/alternativa-b.svg): bocetos estáticos, sin operaciones ni datos reales.
 
 Verificación de bocetos: XML válido y texto descriptivo accesible. El navegador bloqueó la apertura local file:// por su política de protocolos, y el visor de imágenes disponible no admite SVG. No se afirma haber renderizado esos dos archivos; revisar visualmente antes de implementarlos. No se intentó eludir el bloqueo.
 
@@ -136,16 +136,16 @@ Presupuestos propuestos para F4, aún no medidos: JS inicial gzip ≤200 kB por 
 
 ## Brief listo para Google Stitch
 
-Crear propuestas visuales originales de LogisTech 2.0, en español, con dirección Industrial Precision. Generar versiones comparables A (hoja de control marfil con navegación petróleo) y B (terminal de trazabilidad oscura); usar la paleta y componentes anteriores. Preparar landing, registro, login, cuenta sin asignación, dashboard con tabla de cajas y error de servicio, en escritorio y móvil. Identidad basada en esquinas de registro/recorridos; no copiar marcas o pantallas de referencias. Usar placeholders claramente rotulados “sin datos” o “maqueta conceptual”, sin estadísticas ficticias. Mostrar estados vacíos, validación y foco. No agregar funciones ni roles que la API no tenga; recepción/cámara/QR avanzado se describen como futuros. Entregar tokens, medidas y variantes de componentes; no integrar código directamente ni manejar secretos.
+Crear propuestas originales de LogisTech 2.0, en español, con dirección Industrial Precision. Usar A (hoja de control marfil con navegación petróleo) como base, con recursos oscuros de marca de B en cabeceras/acentos; no diseñar un segundo tema completo. Mantener paleta, contraste y componentes anteriores. Preparar landing, registro, login, cuenta sin asignación, dashboard con tabla de cajas y error de servicio en escritorio/móvil. Identidad basada en esquinas de registro/recorridos; no copiar marcas o pantallas de referencias. Placeholders rotulados “sin datos” o “maqueta conceptual”, sin estadísticas ficticias. Incluir vacíos, validación y foco. No agregar funciones/roles inexistentes; recepción/cámara/QR avanzado son futuros. Entregar tokens, medidas y variantes; no integrar código directamente ni manejar secretos.
 
 No se envió información a Stitch ni se generaron propuestas allí. El usuario puede utilizar este brief; no bloquea el backend.
 
 ## Plan de implementación F4
 
-1. Elegir A/B y validar las composiciones con el usuario antes del rediseño.
+1. Desarrollar A con recursos oscuros de marca de B y validar la composición antes del rediseño autorizado; no construir un segundo tema.
 2. Convertir tokens a CSS/Tailwind y verificar contrastes/estados; revisar licencias antes de autoalojar fuentes o iconos.
 3. Construir shell y componentes accesibles; integrar registro/login con CSRF, cookie HttpOnly y access en memoria.
 4. Conectar categorías/cajas a endpoints de F3; errores, vacíos, permiso y expiración reales.
 5. Probar 320/390/768/1440 px, teclado, zoom, lector de pantalla y rendimiento; registrar evidencia y ajustar.
 
-CHECKLIST HUMANO: elegir A o B antes de autorizar el rediseño en F4; opcionalmente generar y revisar variantes en Stitch con este documento, sin compartir secretos.
+CHECKLIST HUMANO: revisar la propuesta A con acentos de B al autorizar F4; Stitch sigue siendo opcional y no debe recibir secretos.

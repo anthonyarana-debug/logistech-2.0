@@ -1,4 +1,6 @@
-# Seguridad — estado de Fase 2
+# Seguridad — estado de Fase 3
+
+Las secciones de autenticación F2 se conservan; la autorización CRUD F3 se precisa al final.
 
 ## Controles implementados y verificados
 
@@ -7,7 +9,7 @@
 - Rol y flags coherentes mediante gestor, clean y CHECK DB; createsuperuser seguro y Admin limitado a superadmin activo. is_staff por sí solo no otorga privilegios globales.
 - JWT de acceso de 5 min y refresh de 1 día en cookie HttpOnly; Secure en production, SameSite=Lax, no-store en respuestas de autenticación. Rotación, blacklist y serialización transaccional del consumo de refresh. Usuario activo leído en DB.
 - CSRF obligatorio para registro/login/refresh/logout y sesión Admin; rechazo de Origin ajeno, incluso con token CSRF correcto. No se activó CORS abierto.
-- Política inicial HasCompanyAccess: sin empresa/inactiva deniega; objeto de otra empresa deniega; superadmin global requiere flags. **No equivale aún a CRUD seguro:** F3 debe aplicar filtros y permisos en endpoints reales.
+- HasCompanyAccess deniega sin empresa/inactiva y objeto ajeno; superadmin global requiere flags. F3 ya complementa esta base con ResourcePermission, querysets acotados y serializers estrictos en endpoints reales, descritos al final.
 - PostgreSQL privado en Compose; web/API en loopback, procesos web sin root; .env excluido, plantilla ficticia, secretos ausentes de evidencias.
 - Errores genéricos para login/token/CSRF y base de datos; sin contraseñas, cookies ni Authorization en logs del código.
 
@@ -21,6 +23,7 @@
 | Refresh | IP | 30/h |
 | Logout | IP | 60/h |
 | CSRF | IP | 60/min |
+| CRUD categorías/cajas | Usuario | 120/min compartido |
 
 Se cuentan intentos que pasan CSRF y llegan al handler/throttle; un POST rechazado previamente por CSRF devuelve 403 y no garantiza 429. Las pruebas de rate limiting usan CSRF válido. NUM_PROXIES=0 evita aceptar X-Forwarded-For arbitrario. La ventana de 15 minutos tiene parser explícito; DRF estándar no interpreta ese número de minutos.
 
@@ -45,3 +48,20 @@ Production activa HTTPS redirect, cookies Secure y rechaza DEBUG=true/claves cor
 [fase2-verificacion.json](evidencias/fase2-verificacion.json), pruebas test_auth.py, test_throttling.py y test_models_permissions.py. Las fixtures viven en DB test_ y la prueba HTTP deja únicamente una cuenta de prueba inactiva por ejecución; no inventario.
 
 CHECKLIST HUMANO: crear superadmin con prompt local si se necesita; configurar secretos solo en herramientas locales/gestor del proveedor; autorizar antes de recursos cloud. No enviar contraseñas o tokens al chat.
+
+## Autorización e integridad de CRUD F3
+
+- JWT obligatorio en categorías/cajas; sin empresa activa se deniega acceso. Superadmin global identificado por rol y flags vigentes. Admin y operador permanecen en su empresa; operador no administra categorías ni elimina cajas.
+- Querysets filtran empresa antes de lookup, búsqueda o filtros. Detalle ajeno 404 cuando el rol tiene permiso de método; rol sin permiso 403 sin distinguir existencia. No se acepta cambiar ámbito desde filtros/cuerpos de usuario no global.
+- Lista blanca de query params, UUID tipados, valores validados y rechazo de duplicados/lookups ORM. Search solo usa campos concretos y ORM parametrizado.
+- Serializers rechazan campos extra y de lectura. Empresa se impone desde usuario salvo POST superadmin con empresa explícita. Ni siquiera superadmin modifica company/created_by/identificadores por actualización REST.
+- Producto/sucursal activos y de la misma empresa, con categoría coherente. Referencias ajenas/no disponibles producen validación genérica. El listado de cajas no sirve filas con relaciones de pertenencia incoherentes por escrituras externas.
+- Transacciones en escrituras y bloqueos del actor/recurso/empresa/referencias para releer el estado vigente; conflictos concurrentes probados con dos actores/conexiones. No se permite sobrescribir un estado final desde una lectura anterior.
+- UNIQUE y CHECK existentes conservados; nueva migración CHECK de status/priority. Creación de identificadores reintenta solo colisiones reconocidas, hasta tres veces; no omite errores de integridad.
+- Creador histórico inmutable por save/API y conservado ante reasignaciones. Los permisos consultan la pertenencia actual del usuario. Direct SQL/bulk sigue siendo una vía administrativa privilegiada y no se promete RLS/triggers de coherencia cruzada.
+- DELETE categoría referenciada devuelve 409 mediante PROTECT; caja recibida/rechazada no admite edición efectiva ni borrado. No se ha construido historial/recepción completo.
+- Errores inesperados de vistas DRF son JSON 500 genérico incluso con DEBUG activado en la prueba de fallo. El log de ese handler registra solo la clase de excepción, sin su texto, SQL ni datos enviados. La configuración por defecto continúa DEBUG=false.
+
+Rate privado compartido: 120/min por usuario sobre categorías/cajas; 429 y Retry-After, aislamiento de contadores entre usuarios y recuperación de ventana probados. LocMemCache sigue por proceso y las operaciones de DRF no son atómicas. Es una limitación explícita, no evidencia distribuida ni prueba de carga F5.
+
+Evidencia actual: test_crud.py y fase3-verificacion.json; incluye pruebas HTTP sobre servidor efímero con DB test_, sin nuevos datos de negocio permanentes. No se abrió CORS, red, puerto ni servicio adicional.

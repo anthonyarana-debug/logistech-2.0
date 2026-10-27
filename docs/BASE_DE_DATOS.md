@@ -1,4 +1,4 @@
-# Base de datos — Fase 2
+# Base de datos — Fases 2 y 3
 
 Fecha: 2026-10-27. PostgreSQL 17.11 real, psycopg 3.3.6 y Django ORM. Sin SQLite. Diagrama actual editable: [MODELO_DATOS.mmd](MODELO_DATOS.mmd). La ampliación de F6 queda separada en [MODELO_FUTURO.mmd](MODELO_FUTURO.mmd).
 
@@ -13,7 +13,7 @@ Fecha: 2026-10-27. PostgreSQL 17.11 real, psycopg 3.3.6 y Django ORM. Sin SQLite
 | Product | UUID PK, company, category PROTECT, SKU normalizado a mayúsculas único por empresa, nombre, descripción, status y created_at |
 | Box | UUID PK, internal_id `CJ-` + UUID hexadecimal independiente, qr_code UUID diferente y UNIQUE, company/product/branch/created_by PROTECT, quantity > 0, weight_kg decimal opcional > 0, priority, status y created_at |
 
-Estados iniciales de caja: REGISTERED, RECEIVED, REJECTED. Prioridades: LOW, NORMAL, HIGH. Estos valores son decisiones nuevas; no son enums corroborados del Android. No se implementó recepción ni una máquina de transiciones: se definieron campos para el modelo. El CRUD REST y sus reglas de escritura corresponden a F3.
+Estados iniciales de caja: REGISTERED, RECEIVED, REJECTED. Prioridades: LOW, NORMAL, HIGH. Son decisiones nuevas, no enums corroborados del Android. F3 implementó validación de estados/transiciones iniciales y CRUD REST; no existe todavía el módulo completo de recepción ni sus eventos.
 
 Constraints de usuario: SUPERADMIN implica is_staff/is_superuser verdaderos y ninguna empresa; OPERATOR/COMPANY_ADMIN no pueden tener is_superuser. COMPANY_ADMIN requiere empresa. is_staff aislado no otorga alcance global ni entrada al Admin restringido.
 
@@ -44,3 +44,11 @@ El verificador imprime solo estructura/versiones/estado de migraciones, sin usua
 Para crear superadministrador: `docker compose exec backend python manage.py createsuperuser`; usar el prompt seguro. Asignación posterior de empresa/rol mediante el Admin restringido en `/admin/`, accesible únicamente a superadministradores activos. Sin credenciales fijas ni superadmin automático.
 
 CHECKLIST HUMANO: crear un superadministrador local mediante prompt si se desea revisar la administración; no enviar la contraseña al chat. Restauración/backups y roles PostgreSQL de producción siguen pendientes de fases posteriores.
+
+## Cambios F3
+
+Migración `boxes/0002_box_box_status_allowed_box_box_priority_allowed`: CHECK de status en REGISTERED/RECEIVED/REJECTED y priority en LOW/NORMAL/HIGH. Aplicada al volumen local sin reset ni eliminación de datos; salida real en evidencias/fase3-migraciones.txt. Los tests intentan omitir clean mediante QuerySet.update y PostgreSQL rechaza estados/prioridades no permitidos.
+
+No se alteró la primera migración del Custom User. Se mantienen UNIQUE de identificadores/email, cantidad/peso positivos y PROTECT. Category.clean recorta nombre y rechaza vacío. Box.clean conserva creador histórico y no lo invalida si cambia la asignación del usuario; no admite sustituirlo por save. Reglas transaccionales, búsqueda y autorización del CRUD están documentadas en ENDPOINTS.md.
+
+Las fuentes del diagrama de entidades mantienen sus campos/relaciones; los nuevos CHECK no agregan entidades. La migración no implementa Reception, movimientos o auditoría de F6. F3 no creó datos de negocio permanentes para probar CRUD: el servidor HTTP de pruebas utiliza PostgreSQL test_ separado.

@@ -1,6 +1,6 @@
 # Arquitectura propuesta — LogisTech 2.0
 
-Estado actualizado el 2026-10-27: base F1 y modelos/autenticación F2 implementados localmente. CRUD REST y permisos por acción de negocio siguen pendientes F3; frontend funcional/rediseño pendiente F4. Ver BASE_DE_DATOS.md, SEGURIDAD.md, ROLES_PERMISOS.md e INFORME_FASE_2.md. Dirección visual adicional Industrial Precision documentada en DISENO_UI_UX.md; no implementada en la interfaz.
+Estado actualizado el 2026-10-27: F1–F3 implementadas localmente, incluidos CRUD REST iniciales y autorización por recurso/empresa. Frontend funcional/rediseño pendiente F4; validación final F5 pendiente. Ver INFORME_FASE_3.md, ENDPOINTS.md y ROLES_PERMISOS.md para política efectiva. Futura dirección visual: A con recursos oscuros de marca de B, sin segundo tema; no aplicada a la interfaz todavía.
 
 ## Componentes y límites
 
@@ -21,7 +21,7 @@ El 25 % tendrá registro, login, identidad actual, categorías, cajas y un dashb
 
 ## Estructura futura
 
-Se usa la raíz actual como raíz del proyecto para evitar una carpeta duplicada `logistech-v2/`. F1 creó backend/config, apps/core, tests y tools; frontend/src y scripts. Los módulos de negocio y load-tests de la estructura futura todavía no existen.
+Se usa la raíz actual como raíz del proyecto para evitar una carpeta duplicada `logistech-v2/`. F1 creó infraestructura, F2 los modelos y F3 serializers/vistas CRUD en catalog/boxes y utilidades de autorización en core/api.py. load-tests todavía no existe; se preparará en F5 autorizada.
 
 ```text
 backend/
@@ -104,7 +104,7 @@ JWT propuesto: access de 5 minutos en memoria del navegador; refresh de 1 día e
 
 Rate limiting inicial propuesto: login 5/min/IP y 10/15 min por identidad normalizada; registro 3/h/IP; refresh 30/h por cuenta; API privada 120/min por usuario. Son valores de diseño, no límites implementados. Evitar revelar si un email existe, no confiar en X-Forwarded-For sin proxy conocido. Probar límites y expiración con caché limpia. DRF permite limitación local, pero sus contadores no atómicos no garantizan un umbral exacto bajo concurrencia; antes de producción multiproceso se requiere una estrategia compartida y atómica evaluada en F7. No añadir Redis inicialmente por apariencia.
 
-F1 aplicó configuración y red local; F2 agregó usuario propio, hashing, JWT, CSRF, rate limiting de autenticación y permisos base. F3 aplicará autorización/filtros/validaciones en CRUD REST. SEGURIDAD.md precisa límites: caché por proceso, refresh 30/h por IP y access válido hasta 5 minutos tras logout. La propuesta original de refresh por cuenta fue ajustada explícitamente.
+F1 aplicó configuración/red; F2 autenticación; F3 permisos, filtros, validaciones y transacciones CRUD. SEGURIDAD.md precisa límites: caché por proceso, 120/min por usuario en CRUD, refresh 30/h por IP y access válido hasta 5 minutos tras logout. Los valores de diseño anteriores son antecedentes; el contrato efectivo está en ENDPOINTS.md. F3 conserva marcas de estado iniciales sin implementar Reception ni flujos F6.
 
 ## ADR-001: monolito modular y base compartida con aislamiento por empresa
 
