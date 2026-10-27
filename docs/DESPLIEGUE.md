@@ -2,6 +2,8 @@
 
 Estado F1: Docker Linux local ejecutado y verificado. Cloud no desplegado ni evaluado.
 
+Actualización F2 (2026-10-27): modelos y autenticación migrados/verificados localmente; aplicar migraciones explícitamente como indica README antes de iniciar flujos de autenticación. Ver SEGURIDAD.md y ENDPOINTS.md. La evidencia F1 de este documento se conserva como antecedente.
+
 ## Local
 
 Seguir README para generar `.env`, validar Compose sin imprimir secretos y construir/iniciar los tres servicios. Docker Desktop debe ejecutar contenedores Linux. En esta sesión `docker desktop start` resolvió la ausencia inicial del motor.
@@ -12,7 +14,7 @@ Los contenedores incluyen el código al construir. Reconstruir tras modificacion
 
 ## Producción: pendiente
 
-`config.settings.production` separa ajustes y habilita protecciones iniciales, pero el Compose entregado es de desarrollo. No exponerlo directamente a Internet. Aún faltan servidor WSGI/ASGI de producción seleccionado y probado, alojamiento del frontend compilado, HTTPS/dominio, proxy confiable, límites compartidos, permisos de base, backups y observabilidad según fases aprobadas. Tampoco existe autenticación funcional todavía.
+`config.settings.production` separa ajustes y habilita protecciones iniciales, pero el Compose entregado es de desarrollo. No exponerlo directamente a Internet. Aún faltan servidor WSGI/ASGI de producción seleccionado y probado, alojamiento del frontend compilado/estáticos Admin, HTTPS/dominio, proxy confiable, límites compartidos, permisos de base, backups y observabilidad. F2 ya implementó autenticación REST; la interfaz web de registro/login espera F4.
 
 La comprobación `manage.py check --deploy --settings=config.settings.production` se ejecutó: W005 y W021 por no extender HSTS a subdominios ni solicitar preload. Mantener ambas decisiones pendientes hasta conocer todos los hosts; no habilitarlas para ocultar advertencias. No se verificaron TLS, firewall remoto, backup o restauración cloud.
 

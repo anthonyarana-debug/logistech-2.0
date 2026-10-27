@@ -9,6 +9,10 @@ from urllib.error import HTTPError
 from urllib.request import urlopen
 
 root = Path(__file__).resolve().parents[1]
+if (root / "backend/apps/accounts/models.py").exists():
+    raise SystemExit(
+        "F1 es evidencia histórica. Usa scripts/verificar_fase2.py para el estado actual."
+    )
 results = []
 commands = [
     ["docker", "info", "--format", "{{.OSType}} {{.ServerVersion}}"],

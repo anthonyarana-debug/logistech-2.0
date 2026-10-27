@@ -1,99 +1,87 @@
 # LogisTech 2.0
 
-Proyecto académico de Desarrollo de Soluciones en la Nube — TECSUP. Plataforma logística en construcción. **Fase 1: configuración local**, sin registro, login, CRUD ni inventario todavía.
+Proyecto académico de Desarrollo de Soluciones en la Nube — TECSUP. **Fase 2: modelos y autenticación local implementados.** La web sigue mostrando el estado del entorno de F1; formularios web y CRUD REST se construirán en F4 y F3 respectivamente, previa aprobación.
 
-## Inicio con Docker Desktop
+## Iniciar localmente
 
-Requiere Docker Desktop con motor Linux y Docker Compose. Ejecutar desde la raíz:
+Requiere Docker Desktop con motor Linux y Compose. Desde la raíz:
 
 ```powershell
 docker info --format '{{.OSType}} {{.ServerVersion}}'
 python scripts/configurar_entorno.py
-docker compose config --quiet
-docker compose up -d --build --wait --wait-timeout 180
-docker compose ps
+docker compose build
+docker compose up -d --wait db
+docker compose run --rm --no-deps backend python manage.py migrate --noinput
+docker compose up -d --wait --wait-timeout 180
 ```
 
-El generador solo usa la biblioteca estándar de Python, crea `.env` con secretos aleatorios, no los imprime y se niega a sobrescribir un archivo existente. `.env.example` contiene únicamente valores ficticios. No copies sus marcadores como contraseñas reales. No compartas `.env` ni ejecutes `docker compose config` sin `--quiet` en salidas que vayas a publicar: la configuración expandida incluye secretos.
+Si `.env` ya existe, el generador se niega a sobrescribirlo: conservarlo y continuar. Genera secretos aleatorios sin imprimirlos; `.env.example` tiene marcadores ficticios. No copiar esos marcadores como secretos reales. No publicar `.env` ni la salida de `docker compose config` sin `--quiet`, porque expande credenciales.
 
-- Web: [http://127.0.0.1:5173](http://127.0.0.1:5173).
-- API preparada: [health con PostgreSQL](http://127.0.0.1:8000/api/v1/health/) y [proceso vivo](http://127.0.0.1:8000/api/v1/health/live/).
-- PostgreSQL no tiene puerto publicado en el equipo. Las consultas se realizan desde la red interna de Compose.
+- [Web de estado](http://127.0.0.1:5173).
+- [Readiness con PostgreSQL](http://127.0.0.1:8000/api/v1/health/) y [liveness](http://127.0.0.1:8000/api/v1/health/live/).
+- API de autenticación: `/api/v1/auth/`; ver [ENDPOINTS.md](docs/ENDPOINTS.md).
+- [Admin restringido](http://127.0.0.1:8000/admin/): superadministrador creado mediante prompt seguro, nunca con credenciales fijas.
 
-Frontend y backend se ejecutan como usuarios no privilegiados. Sus puertos se enlazan exclusivamente a `127.0.0.1`. La web consulta `/api/v1` mediante el proxy de desarrollo Vite; no necesita abrir CORS. Esta configuración usa servidores de desarrollo y **no es un despliegue de producción**.
+Solo web/API publican puertos, enlazados a 127.0.0.1. PostgreSQL no publica 5432 y usa red interna; procesos web sin root. Este Compose utiliza servidores de desarrollo y **no representa un despliegue de producción**.
 
-## Si Docker no responde
+Si Docker no responde: abrir Docker Desktop, habilitar Settings → General → Use the WSL 2 based engine y usar Linux containers. `docker desktop start`, `docker desktop status` y `wsl --status` ayudan al diagnóstico. Confirmar que docker info muestra `linux`, no solo la versión de la CLI. La habilitación de virtualización/WSL o un reinicio, si fueran necesarios, requieren intervención del usuario.
 
-Abre Docker Desktop y espera a que el motor esté funcionando. En Settings → General activa **Use the WSL 2 based engine**. Si el menú ofrece **Switch to Linux containers**, selecciónalo. Si falta WSL 2 o virtualización, sigue el diagnóstico de Docker Desktop y sus instrucciones de Windows; puede requerir habilitación por el usuario y reinicio. No modificar BIOS ni características del sistema sin revisar ese diagnóstico.
+## Verificar Fase 2
 
 ```powershell
-docker desktop start
-docker desktop status
-wsl --status
-docker info --format '{{.OSType}} {{.ServerVersion}}'
+python scripts/verificar_fase2.py
 ```
 
-Debe responder `linux` y una versión del servidor. Una versión correcta de la CLI no demuestra que el motor esté disponible. En esta sesión el arranque mediante CLI resolvió el problema inicial.
+Registra comandos/códigos/salidas en `docs/evidencias/fase2-verificacion.json`, sin contraseñas, tokens o cookies. Incluye PostgreSQL, estado de migraciones, pytest, lint/build y flujo HTTP real. El smoke HTTP crea una cuenta técnica por ejecución y al finalizar la deja inactiva, sin empresa y con contraseña inutilizable. No genera datos de inventario.
 
-## Verificaciones reproducibles
-
-Con los contenedores saludables:
-
-```powershell
-python scripts/verificar_fase1.py
-```
-
-Guarda resultados y salidas en `docs/evidencias/fase1-verificacion.json`; no guarda la configuración expandida ni secretos. Ejecuta comprobaciones Django, conexión PostgreSQL, migraciones iniciales, ocho pruebas, Ruff, build/lint frontend, HTTP y restricciones de puertos. Las dos advertencias HSTS de producción se conservan en la evidencia. Para una comprobación individual:
+Comprobaciones individuales:
 
 ```powershell
 docker compose exec -T backend python manage.py check
-docker compose exec -T backend python -m pytest --ds=config.settings.testing -q -o cache_dir=/tmp/logistech-pytest-cache
+docker compose exec -T backend python manage.py migrate --check
+docker compose exec -T backend python manage.py makemigrations --check --dry-run
+docker compose exec -T backend python -m pytest --ds=config.settings.testing -q -o cache_dir=/tmp/pytest-f2
+docker compose exec -T backend python -m tools.verificar_http_auth
+docker compose exec -T frontend npm run lint
 docker compose exec -T frontend npm run build
 ```
 
-Las pruebas de integración crean y eliminan una base `test_` separada; no usar esta configuración contra una base de producción. El usuario PostgreSQL creado por la imagen es administrador de la instancia local; separar un rol de aplicación sin privilegios de creación de bases antes de producción.
+pytest crea una base PostgreSQL test_ desde cero y la elimina al terminar. No usar esta configuración contra producción. La evidencia de F1 se conserva como histórica, reproducible desde su commit; su verificador ya no se ejecuta sobre el esquema de F2.
 
-Para comprobaciones Python fuera de Docker, crear un entorno sin paquetes globales:
+## Usuario y administración
+
+`accounts.User` existe desde `accounts/0001_initial.py`, con `AUTH_USER_MODEL=accounts.User` configurado antes de migrar. No se creó auth_user; el check E001 previene habilitarlo por accidente. Los grupos/permisos de auth no conceden por sí solos acceso global de negocio.
+
+```powershell
+docker compose exec backend python manage.py createsuperuser
+```
+
+Introducir correo y contraseña directamente en el prompt. Solo SUPERADMIN activo con flags coherentes entra al Admin. Allí puede crear empresas/sucursales/productos mínimos y asignar empresa/rol a operadores. No enviar credenciales al chat. No se creó un superadministrador automáticamente.
+
+Registro público: solo operador sin empresa; rechaza campos privilegiados. Access JWT dura 5 minutos; refresh de un día en cookie HttpOnly, rotado y revocado al cerrar sesión. POST de autenticación exige CSRF; el contrato web inicia con GET `/auth/csrf/`. El access se conservará en memoria al conectar la web en F4; no se implementaron todavía sus formularios.
+
+## Entornos y versiones
+
+Python 3.13.17 aislado; Django 5.2.18, DRF 3.16.1, Simple JWT 5.5.1, PyJWT 2.15.1 y psycopg 3.3.6; PostgreSQL 17.11. Node 24.19.0, React 19.3.1, Vite 8.3.5, Tailwind 4.3.3 y Router DOM 7.18.4. Dependencias directas/transitivas fijadas en requirements*.txt y package-lock.json; sin nuevas dependencias en F2.
+
+Para lint Python fuera de Docker:
 
 ```powershell
 py -3.13 -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r backend/requirements-dev.txt
-.\.venv\Scripts\python.exe -m pip check
 .\.venv\Scripts\ruff.exe check --config backend/pyproject.toml backend scripts
 ```
 
-Desde `backend/`, `..\.venv\Scripts\python.exe -m pytest --ds=config.settings.testing -m 'not integration' -q` ejecuta solo pruebas sin PostgreSQL real. Esto no sustituye la integración en Docker. Django local no carga `.env` automáticamente: Compose sí inyecta las variables. No se añadió una dependencia dotenv al backend.
+Django local no carga .env automáticamente; Compose sí inyecta sus variables. Las pruebas con DB se ejecutan en Docker para evitar publicar PostgreSQL. Frontend: `npm ci`, `npm run lint` y `npm run build` desde frontend. Si se ejecuta Vite fuera del contenedor, definir `$env:API_PROXY_TARGET='http://127.0.0.1:8000'` antes de npm run dev; el proxy de Docker utiliza backend:8000. Ninguna variable VITE_ contiene secretos.
 
-El frontend usa dependencias locales y `package-lock.json`: desde `frontend/`, `npm ci`, `npm run lint`, `npm run build`. Si se usa `npm run dev` fuera del contenedor, configurar previamente `$env:API_PROXY_TARGET='http://127.0.0.1:8000'`; dentro de Docker el destino es `backend:8000`.
+## Detener y reconstruir
 
-## Migraciones y usuario personalizado
+`docker compose stop` conserva contenedores/volumen; `docker compose up -d --wait` vuelve a iniciarlos. Tras cambiar fuentes, reconstruir con `docker compose up -d --build --wait`. Aplicar explícitamente las nuevas migraciones antes de iniciar flujos que las necesiten; no hay migración automática oculta al arrancar. No usar `down -v` como rutina: destruye datos.
 
-F1 no instala `django.contrib.auth`, Admin, sesiones ni contenttypes. `migrate` funciona y no tiene migraciones que aplicar; la base de la aplicación permanece sin tablas. No se creó `auth_user`.
+## Documentos y límites
 
-En F2 crear `accounts.User`, fijar `AUTH_USER_MODEL='accounts.User'` y generar el usuario en `accounts/0001_initial.py` **antes** de habilitar/aplicar auth/admin y sus dependencias. Un system check (`logistech.E001`) rechaza habilitar auth con `auth.User`. No usar `--skip-checks` para omitirlo. La prueba JWT usa un proceso separado para importar la biblioteca; no conecta a la base ni ejecuta migraciones.
+- [Informe F2](docs/INFORME_FASE_2.md), [pruebas](docs/PRUEBAS.md), [base de datos](docs/BASE_DE_DATOS.md), [seguridad](docs/SEGURIDAD.md), [roles](docs/ROLES_PERMISOS.md) y [despliegue pendiente](docs/DESPLIEGUE.md).
+- [Industrial Precision: diseño A/B y brief Stitch](docs/DISENO_UI_UX.md), con [boceto A](docs/diseno/alternativa-a.svg) y [boceto B](docs/diseno/alternativa-b.svg). Son propuestas documentales; no rediseño implementado.
+- [Plan](docs/PLAN.md), [matriz](docs/MATRIZ_ENTREGABLES.md), [decisiones](docs/DECISIONES_TECNICAS.md) y [diagrama actual editable](docs/MODELO_DATOS.mmd).
 
-## Versiones verificadas
-
-| Componente | Versión |
-|---|---|
-| Python, venv y contenedor | 3.13.17 |
-| Django / DRF | 5.2.18 / 3.16.1 |
-| Simple JWT / PyJWT | 5.5.1 / 2.15.1 |
-| psycopg / PostgreSQL | 3.3.6 / 17.11 |
-| Node / React / Vite | 24.19.0 / 19.3.1 / 8.3.5 |
-| Tailwind / React Router DOM | 4.3.3 / 7.18.4 |
-
-`requirements.in` y `requirements-dev.in` explicitan dependencias directas; los `.txt` fijan también transitivas. `requirements-dev.txt` incluye las de ejecución. Las imágenes usan etiquetas de versión; estas etiquetas pueden recibir actualizaciones del proveedor y no son digests inmutables. Consultar [decisiones técnicas](docs/DECISIONES_TECNICAS.md).
-
-## Operación local y alcance
-
-```powershell
-docker compose stop
-docker compose up -d --wait
-```
-
-`stop` conserva contenedores y volumen. No usar `down -v` como rutina: elimina los datos persistidos. Los archivos fuente están incorporados a las imágenes; después de cambiarlos ejecutar `docker compose up -d --build --wait`.
-
-No hay auditoría Android corroborada: no se encontró el proyecto original en este repositorio y no se modificó ningún proyecto vecino. No se conectó al VPS anterior ni a infraestructura cloud.
-
-Documentación: [informe de F1](docs/INFORME_FASE_1.md), [pruebas](docs/PRUEBAS.md), [despliegue pendiente](docs/DESPLIEGUE.md), [plan](docs/PLAN.md), [matriz](docs/MATRIZ_ENTREGABLES.md). La Fase 2 requiere aprobación del usuario.
+No hay despliegue cloud, pruebas de carga, recepción, QR con cámara ni estadísticas operativas. Rate limiting actual por proceso; HSTS de subdominios/preload sigue pendiente. Android no está disponible en el repositorio y no se modificó el original ni se contactó al VPS. F3 requiere aprobación nueva; F6–F8 siguen sin autorización.

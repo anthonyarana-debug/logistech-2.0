@@ -39,10 +39,10 @@ def test_unknown_api_route_is_json_404():
     assert response.json() == {"detalle": "Recurso no encontrado."}
 
 
-def test_no_default_user_or_auth_migrations_are_enabled():
-    assert not apps.is_installed("django.contrib.auth")
-    assert not apps.is_installed("django.contrib.admin")
-    assert not apps.is_installed("django.contrib.sessions")
+def test_custom_user_is_enabled_before_auth_migrations():
+    assert apps.is_installed("django.contrib.auth")
+    assert settings.AUTH_USER_MODEL == "accounts.User"
+    assert apps.get_model(settings.AUTH_USER_MODEL)._meta.db_table == "accounts_user"
     assert settings.DATABASES["default"]["ENGINE"] == "django.db.backends.postgresql"
 
 
@@ -54,7 +54,7 @@ def test_guard_rejects_default_user_if_auth_is_enabled():
 
 
 def test_installed_jwt_backend_signs_and_verifies():
-    # La biblioteca importa auth; probar en otro proceso, sin activar auth en F1.
+    # Smoke aislado de biblioteca, conservado desde F1.
     script = Path(__file__).resolve().parents[1] / "tools" / "verificar_jwt.py"
     result = subprocess.run([sys.executable, str(script)], capture_output=True, text=True)
     assert result.returncode == 0, result.stderr

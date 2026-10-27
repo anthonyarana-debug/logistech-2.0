@@ -16,4 +16,5 @@ SECURE_HSTS_INCLUDE_SUBDOMAINS = False
 SECURE_HSTS_PRELOAD = False
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
+AUTH_COOKIE_SECURE = True
 # No confiar en cabeceras de proxy hasta configurar un proxy conocido.

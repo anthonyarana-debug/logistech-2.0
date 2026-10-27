@@ -1,0 +1,219 @@
+{
+  "fecha_utc": "2026-10-27T06:01:24.216476+00:00",
+  "entorno": "Local Docker Linux",
+  "resultados": [
+    {
+      "comando": [
+        "docker",
+        "compose",
+        "config",
+        "--quiet"
+      ],
+      "codigo_salida": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "comando": [
+        "docker",
+        "compose",
+        "ps"
+      ],
+      "codigo_salida": 0,
+      "stdout": "NAME                      IMAGE                     COMMAND                  SERVICE    CREATED              STATUS                        PORTS\nlogistech-v2-backend-1    logistech-v2-backend      \"python manage.py ru…\"   backend    About a minute ago   Up About a minute (healthy)   127.0.0.1:8000->8000/tcp\nlogistech-v2-db-1         postgres:17.11-bookworm   \"docker-entrypoint.s…\"   db         About an hour ago    Up 58 minutes (healthy)       5432/tcp\nlogistech-v2-frontend-1   logistech-v2-frontend     \"docker-entrypoint.s…\"   frontend   About a minute ago   Up 57 seconds (healthy)       127.0.0.1:5173->5173/tcp\n",
+      "stderr": ""
+    },
+    {
+      "comando": [
+        "docker",
+        "compose",
+        "exec",
+        "-T",
+        "backend",
+        "python",
+        "-m",
+        "pip",
+        "--no-cache-dir",
+        "check"
+      ],
+      "codigo_salida": 0,
+      "stdout": "No broken requirements found.\n",
+      "stderr": ""
+    },
+    {
+      "comando": [
+        "docker",
+        "compose",
+        "exec",
+        "-T",
+        "backend",
+        "python",
+        "manage.py",
+        "check"
+      ],
+      "codigo_salida": 0,
+      "stdout": "System check identified no issues (0 silenced).\n",
+      "stderr": ""
+    },
+    {
+      "comando": [
+        "docker",
+        "compose",
+        "exec",
+        "-T",
+        "backend",
+        "python",
+        "manage.py",
+        "makemigrations",
+        "--check",
+        "--dry-run"
+      ],
+      "codigo_salida": 0,
+      "stdout": "No changes detected\n",
+      "stderr": ""
+    },
+    {
+      "comando": [
+        "docker",
+        "compose",
+        "exec",
+        "-T",
+        "backend",
+        "python",
+        "manage.py",
+        "migrate",
+        "--check"
+      ],
+      "codigo_salida": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "comando": [
+        "docker",
+        "compose",
+        "exec",
+        "-T",
+        "backend",
+        "python",
+        "manage.py",
+        "showmigrations"
+      ],
+      "codigo_salida": 0,
+      "stdout": "accounts\n [X] 0001_initial\nadmin\n [X] 0001_initial\n [X] 0002_logentry_remove_auto_add\n [X] 0003_logentry_add_action_flag_choices\nauth\n [X] 0001_initial\n [X] 0002_alter_permission_name_max_length\n [X] 0003_alter_user_email_max_length\n [X] 0004_alter_user_username_opts\n [X] 0005_alter_user_last_login_null\n [X] 0006_require_contenttypes_0002\n [X] 0007_alter_validators_add_error_messages\n [X] 0008_alter_user_username_max_length\n [X] 0009_alter_user_last_name_max_length\n [X] 0010_alter_group_name_max_length\n [X] 0011_update_proxy_permissions\n [X] 0012_alter_user_first_name_max_length\nboxes\n [X] 0001_initial\ncatalog\n [X] 0001_initial\ncontenttypes\n [X] 0001_initial\n [X] 0002_remove_content_type_name\norganizations\n [X] 0001_initial\nsessions\n [X] 0001_initial\ntoken_blacklist\n [X] 0001_initial\n [X] 0002_outstandingtoken_jti_hex\n [X] 0003_auto_20171017_2007\n [X] 0004_auto_20171017_2013\n [X] 0005_remove_outstandingtoken_jti\n [X] 0006_auto_20171017_2113\n [X] 0007_auto_20171017_2214\n [X] 0008_migrate_to_bigautofield\n [X] 0010_fix_migrate_to_bigautofield\n [X] 0011_linearizes_history\n [X] 0012_alter_outstandingtoken_user\n [X] 0013_alter_blacklistedtoken_options_and_more\n",
+      "stderr": ""
+    },
+    {
+      "comando": [
+        "docker",
+        "compose",
+        "exec",
+        "-T",
+        "backend",
+        "python",
+        "-m",
+        "tools.verificar_base"
+      ],
+      "codigo_salida": 0,
+      "stdout": "{\"postgresql\": \"PostgreSQL 17.11 (Debian 17.11-1.pgdg12+2) on x86_64-pc-linux-gnu, compiled by gcc (Debian 12.2.0-14+deb12u1) 12.2.0, 64-bit\", \"tablas\": [\"accounts_user\", \"accounts_user_groups\", \"accounts_user_user_permissions\", \"auth_group\", \"auth_group_permissions\", \"auth_permission\", \"boxes_box\", \"catalog_category\", \"catalog_product\", \"django_admin_log\", \"django_content_type\", \"django_migrations\", \"django_session\", \"organizations_branch\", \"organizations_company\", \"token_blacklist_blacklistedtoken\", \"token_blacklist_outstandingtoken\"], \"autenticacion_migrada\": true, \"custom_user_en_0001\": true, \"auth_user_ausente\": true, \"migraciones_aplicadas\": [\"accounts.0001_initial\", \"admin.0001_initial\", \"admin.0002_logentry_remove_auto_add\", \"admin.0003_logentry_add_action_flag_choices\", \"auth.0001_initial\", \"auth.0002_alter_permission_name_max_length\", \"auth.0003_alter_user_email_max_length\", \"auth.0004_alter_user_username_opts\", \"auth.0005_alter_user_last_login_null\", \"auth.0006_require_contenttypes_0002\", \"auth.0007_alter_validators_add_error_messages\", \"auth.0008_alter_user_username_max_length\", \"auth.0009_alter_user_last_name_max_length\", \"auth.0010_alter_group_name_max_length\", \"auth.0011_update_proxy_permissions\", \"auth.0012_alter_user_first_name_max_length\", \"boxes.0001_initial\", \"catalog.0001_initial\", \"contenttypes.0001_initial\", \"contenttypes.0002_remove_content_type_name\", \"organizations.0001_initial\", \"sessions.0001_initial\", \"token_blacklist.0001_initial\", \"token_blacklist.0002_outstandingtoken_jti_hex\", \"token_blacklist.0003_auto_20171017_2007\", \"token_blacklist.0004_auto_20171017_2013\", \"token_blacklist.0005_remove_outstandingtoken_jti\", \"token_blacklist.0006_auto_20171017_2113\", \"token_blacklist.0007_auto_20171017_2214\", \"token_blacklist.0008_migrate_to_bigautofield\", \"token_blacklist.0010_fix_migrate_to_bigautofield\", \"token_blacklist.0011_linearizes_history\", \"token_blacklist.0012_alter_outstandingtoken_user\", \"token_blacklist.0013_alter_blacklistedtoken_options_and_more\"], \"versiones\": {\"Django\": \"5.2.18\", \"djangorestframework\": \"3.16.1\", \"djangorestframework-simplejwt\": \"5.5.1\", \"psycopg\": \"3.3.6\", \"PyJWT\": \"2.15.1\"}}\n",
+      "stderr": ""
+    },
+    {
+      "comando": [
+        "docker",
+        "compose",
+        "exec",
+        "-T",
+        "backend",
+        "python",
+        "-m",
+        "pytest",
+        "--ds=config.settings.testing",
+        "-q",
+        "-o",
+        "cache_dir=/tmp/pytest-f2"
+      ],
+      "codigo_salida": 0,
+      "stdout": "...................................................................      [100%]\n67 passed in 8.48s\n",
+      "stderr": ""
+    },
+    {
+      "comando": [
+        "docker",
+        "compose",
+        "exec",
+        "-T",
+        "backend",
+        "ruff",
+        "check",
+        "--no-cache",
+        "."
+      ],
+      "codigo_salida": 0,
+      "stdout": "All checks passed!\n",
+      "stderr": ""
+    },
+    {
+      "comando": [
+        "docker",
+        "compose",
+        "exec",
+        "-T",
+        "frontend",
+        "npm",
+        "run",
+        "lint"
+      ],
+      "codigo_salida": 0,
+      "stdout": "\n> logistech-frontend@0.1.0 lint\n> eslint .\n\n",
+      "stderr": ""
+    },
+    {
+      "comando": [
+        "docker",
+        "compose",
+        "exec",
+        "-T",
+        "frontend",
+        "npm",
+        "run",
+        "build"
+      ],
+      "codigo_salida": 0,
+      "stdout": "\n> logistech-frontend@0.1.0 build\n> vite build\n\nvite v8.3.5 building client environment for production...\ntransforming...\n✓ 24 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist/index.html                   0.55 kB │ gzip:  0.32 kB\ndist/assets/index-CvvKI7Fg.css   11.36 kB │ gzip:  3.31 kB\ndist/assets/index-CgTekpyX.js   261.40 kB │ gzip: 83.38 kB\n\n✓ built in 178ms\n",
+      "stderr": ""
+    },
+    {
+      "comando": [
+        "docker",
+        "compose",
+        "exec",
+        "-T",
+        "backend",
+        "python",
+        "manage.py",
+        "check",
+        "--deploy",
+        "--settings=config.settings.production"
+      ],
+      "codigo_salida": 0,
+      "stdout": "",
+      "stderr": "System check identified some issues:\n\nWARNINGS:\n?: (security.W005) You have not set the SECURE_HSTS_INCLUDE_SUBDOMAINS setting to True. Without this, your site is potentially vulnerable to attack via an insecure connection to a subdomain. Only set this to True if you are certain that all subdomains of your domain should be served exclusively via SSL.\n?: (security.W021) You have not set the SECURE_HSTS_PRELOAD setting to True. Without this, your site cannot be submitted to the browser preload list.\n\nSystem check identified 2 issues (0 silenced).\n"
+    },
+    {
+      "comando": [
+        "docker",
+        "compose",
+        "exec",
+        "-T",
+        "backend",
+        "python",
+        "-m",
+        "tools.verificar_http_auth"
+      ],
+      "codigo_salida": 0,
+      "stdout": "{\"entorno\": \"HTTP local real\", \"resultados\": [{\"ruta\": \"me\", \"http\": 401, \"esperado\": 401}, {\"ruta\": \"csrf\", \"http\": 200, \"esperado\": 200}, {\"ruta\": \"register\", \"http\": 201, \"esperado\": 201}, {\"ruta\": \"login\", \"http\": 200, \"esperado\": 200}, {\"ruta\": \"me\", \"http\": 200, \"esperado\": 200}, {\"ruta\": \"refresh\", \"http\": 200, \"esperado\": 200}, {\"ruta\": \"logout\", \"http\": 204, \"esperado\": 204}, {\"ruta\": \"refresh\", \"http\": 401, \"esperado\": 401}], \"cuenta_tecnica\": \"Desactivada, contraseña inutilizable y sin datos de negocio\"}\n",
+      "stderr": ""
+    }
+  ]
+}

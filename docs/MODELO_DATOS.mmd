@@ -1,29 +1,16 @@
-%% Diseño conceptual de FASE 0; ninguna entidad está implementada.
-%% Núcleo previsto F2: COMPANY, USER, BRANCH, CATEGORY, PRODUCT, BOX.
-%% Extensión F6: ORDER, ORDER_ITEM, RECEPTION, INVENTORY_MOVEMENT, AUDIT_LOG.
-%% Las relaciones por empresa requieren validación de coherencia adicional a las FK.
+%% Esquema de negocio implementado en F2 y contrastado con 0001_initial.
+%% Se omiten tablas de framework (Django auth, sesiones, Admin y blacklist); ver BASE_DE_DATOS.md.
+%% UNIQUE por empresa y CHECK se detallan en modelos/migraciones/documentación.
 erDiagram
-    COMPANY ||--o{ USER : asigna_opcionalmente
+    COMPANY o|--o{ USER : asignacion_opcional
     COMPANY ||--o{ BRANCH : posee
     COMPANY ||--o{ CATEGORY : clasifica
     COMPANY ||--o{ PRODUCT : posee
     COMPANY ||--o{ BOX : aisla
     CATEGORY ||--o{ PRODUCT : categoriza
-    PRODUCT ||--o{ BOX : contiene_producto_unico
+    PRODUCT ||--o{ BOX : producto_unico
     BRANCH ||--o{ BOX : almacena
     USER ||--o{ BOX : crea
-    COMPANY ||--o{ ORDER : recibe_pedidos_F6
-    BRANCH ||--o{ ORDER : destina_F6
-    ORDER ||--|{ ORDER_ITEM : incluye_F6
-    PRODUCT ||--o{ ORDER_ITEM : solicitado_F6
-    BOX ||--o{ RECEPTION : verifica_F6
-    BRANCH ||--o{ RECEPTION : recibe_F6
-    USER ||--o{ RECEPTION : opera_F6
-    PRODUCT ||--o{ INVENTORY_MOVEMENT : mueve_F6
-    BRANCH ||--o{ INVENTORY_MOVEMENT : registra_F6
-    USER ||--o{ INVENTORY_MOVEMENT : ejecuta_F6
-    USER o|--o{ AUDIT_LOG : actor_opcional_F6
-    COMPANY ||--o{ AUDIT_LOG : delimita_F6
     COMPANY {
         uuid id PK
         string name
@@ -32,29 +19,34 @@ erDiagram
     }
     USER {
         uuid id PK
-        string email UK
+        string email UK "Tambien UNIQUE Lower email"
         string password "Hash Django"
+        string first_name
+        string last_name
         string role
         uuid company_id FK "Nullable"
         boolean is_active
         boolean is_staff
         boolean is_superuser
+        datetime last_login "Nullable"
         datetime created_at
     }
     BRANCH {
         uuid id PK
         uuid company_id FK
-        string name "Unico por empresa"
+        string name "Unico por empresa case insensitive"
         string address
         string status
+        datetime created_at
     }
     CATEGORY {
         uuid id PK
         uuid company_id FK
-        string name "Unico por empresa"
+        string name "Unico por empresa case insensitive"
         string description
         boolean is_fragile
         boolean is_perishable
+        datetime created_at
     }
     PRODUCT {
         uuid id PK
@@ -64,58 +56,19 @@ erDiagram
         string name
         string description
         string status
+        datetime created_at
     }
     BOX {
         uuid id PK
-        string internal_id UK
-        string qr_code UK
+        string internal_id UK "CJ mas UUID independiente"
+        uuid qr_code UK
         uuid product_id FK
         uuid company_id FK
         uuid branch_id FK
-        int quantity "Mayor que cero"
-        decimal weight_kg "Opcional positivo"
+        int quantity "CHECK mayor que cero"
+        decimal weight_kg "Nullable CHECK positivo"
         string priority
         string status
-        uuid created_by FK
+        uuid created_by_id FK
         datetime created_at
-    }
-    ORDER {
-        uuid id PK
-        uuid company_id FK
-        uuid branch_id FK
-        string status
-        datetime created_at
-    }
-    ORDER_ITEM {
-        uuid id PK
-        uuid order_id FK
-        uuid product_id FK
-        int expected_quantity
-    }
-    RECEPTION {
-        uuid id PK
-        uuid box_id FK
-        uuid branch_id FK
-        uuid operator_id FK
-        string verification_status
-        string idempotency_key UK
-        datetime created_at
-    }
-    INVENTORY_MOVEMENT {
-        uuid id PK
-        uuid product_id FK
-        uuid branch_id FK
-        string movement_type
-        int quantity
-        uuid performed_by FK
-        datetime created_at
-    }
-    AUDIT_LOG {
-        uuid id PK
-        uuid company_id FK
-        uuid actor_id FK "Nullable"
-        string action
-        string resource_type
-        uuid resource_id "Referencia logica"
-        datetime timestamp
     }

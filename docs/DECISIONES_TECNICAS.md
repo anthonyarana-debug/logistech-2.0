@@ -2,6 +2,8 @@
 
 Fecha: 27 de octubre de 2026. Alcance aplicado: Fase 1. Las decisiones de negocio de ARQUITECTURA.md siguen siendo diseño futuro.
 
+Actualización F2: las decisiones F1 de abajo se conservan como antecedentes. Ya se habilitaron Custom User, modelos y autenticación según los ADR de cierre de este documento; no interpretar la suspensión de auth de F1 como el estado actual.
+
 ## ADR-001 — Monolito modular
 
 Aceptado para la configuración inicial mediante autorización del usuario. Django/DRF, React/Vite y PostgreSQL en tres servicios locales. No se agregaron microservicios, colas, Redis, Nginx ni Kubernetes. Apps de negocio se crearán en F2; ahora solo `core` tiene una responsabilidad real: infraestructura y health.
@@ -41,3 +43,21 @@ Generar `.env` local con aleatoriedad criptográfica y no sobrescribirlo; planti
 Solo frontend/backend tienen puertos en loopback. PostgreSQL vive en una red `internal` sin host port. Frontend no tiene acceso a esa red. PostgreSQL usa SCRAM para conexiones de red. Los procesos web corren sin root, con capacidades eliminadas y no-new-privileges. El usuario inicial PostgreSQL tiene privilegios locales de administración: crear un rol de aplicación restringido antes de producción. Las variables VITE_ son públicas y solo contienen la ruta API.
 
 No se activa CORS abierto: el navegador usa el proxy de desarrollo en el mismo origen. Producción necesitará definir sitio, proxy y orígenes reales. HSTS de subdominios y preload siguen desactivados hasta conocer el dominio; Django los informa como W005 y W021. No se silencian. Sin proveedor ni dominio no corresponde afirmar seguridad cloud verificada.
+
+## ADR-005 — Usuario, pertenencia y núcleo de datos F2
+
+Aplicado: accounts.User en accounts/0001_initial, email como identidad, UUID y roles explícitos. La configuración intercambiable estuvo activa antes de migrate. Se conservaron grupos/permisos Django, sin conceder negocio global por is_staff. Admin propio solo para SUPERADMIN; procedimientos administrativos para asignar empresa, sin endpoints de asignación públicos.
+
+Company, Branch, Category, Product y Box mínimos sostienen relaciones reales. Categorías privadas por empresa; fragilidad y perecibilidad independientes. Clean/save verifican pertenencia y PostgreSQL impone UNIQUE/CHECK y PROTECT. No hay API CRUD aún ni triggers cruzados; F3 necesita filtros/servicios/permisos. Identificadores independientes generados con UUID y UNIQUE: tratamiento de colisión/reimpresión y consulta REST quedan para fases correspondientes.
+
+## ADR-006 — Sesión web y protección F2
+
+Aplicado: access 5 min en JSON para memoria del cliente; refresh HttpOnly SameSite=Lax, Secure en producción, vigencia de 1 día que se renueva al rotar, path /api/v1/auth/. CSRF en registro/login/refresh/logout; GET csrf para bootstrap. No se implementó un segundo contrato Android que omita CSRF; debe diseñarse con sus fuentes reales.
+
+Refresh usa blacklist y bloqueo transaccional de OutstandingToken para consumo único; prueba concurrente con dos conexiones. Logout invalida el refresh presentado, sin prometer invalidación inmediata del access ya emitido. Desactivar cuenta sí impide access/refresh actuales. Respuestas auth no-store y errores de autenticación genéricos.
+
+Rate limiting DRF local: login IP+identidad, registro/refresh/logout/CSRF por IP; el Admin comparte límite login IP. Se decidió refresh por IP en lugar de la sugerencia inicial por cuenta. Contadores por proceso, sin garantía distribuida o exacta bajo concurrencia. SEGURIDAD.md conserva los límites y pruebas.
+
+## ADR-007 — Diseño documental, sin reconstruir frontend en F2
+
+Industrial Precision con dos alternativas originales A (Hoja de control) y B (Terminal de trazabilidad). Referencias públicas revisadas con límites registrados, pares de color calculados y brief para Stitch. Solo documentos y SVG conceptuales; frontend sin cambios. La elección A/B y el rediseño completo requieren F4 autorizada.

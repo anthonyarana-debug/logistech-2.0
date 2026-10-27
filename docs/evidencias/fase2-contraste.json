@@ -1,0 +1,93 @@
+{
+  "metodo": "Luminancia relativa sRGB WCAG; sin redondear para clasificar",
+  "pares": [
+    {
+      "par": "Marfil / petroleo",
+      "texto": "#F4F6F2",
+      "fondo": "#101F20",
+      "ratio": 15.587,
+      "AA_texto_normal": true,
+      "contraste_3_a_1": true
+    },
+    {
+      "par": "Lima / petroleo",
+      "texto": "#C5F278",
+      "fondo": "#101F20",
+      "ratio": 13.194,
+      "AA_texto_normal": true,
+      "contraste_3_a_1": true
+    },
+    {
+      "par": "Petroleo / lima",
+      "texto": "#101F20",
+      "fondo": "#C5F278",
+      "ratio": 13.194,
+      "AA_texto_normal": true,
+      "contraste_3_a_1": true
+    },
+    {
+      "par": "Gris original / marfil",
+      "texto": "#8B9A92",
+      "fondo": "#F4F6F2",
+      "ratio": 2.706,
+      "AA_texto_normal": false,
+      "contraste_3_a_1": false
+    },
+    {
+      "par": "Gris original / petroleo",
+      "texto": "#8B9A92",
+      "fondo": "#101F20",
+      "ratio": 5.759,
+      "AA_texto_normal": true,
+      "contraste_3_a_1": true
+    },
+    {
+      "par": "Texto secundario claro",
+      "texto": "#51635B",
+      "fondo": "#F4F6F2",
+      "ratio": 5.877,
+      "AA_texto_normal": true,
+      "contraste_3_a_1": true
+    },
+    {
+      "par": "Error claro",
+      "texto": "#AD3434",
+      "fondo": "#F4F6F2",
+      "ratio": 5.821,
+      "AA_texto_normal": true,
+      "contraste_3_a_1": true
+    },
+    {
+      "par": "Advertencia clara",
+      "texto": "#8A5400",
+      "fondo": "#F4F6F2",
+      "ratio": 5.767,
+      "AA_texto_normal": true,
+      "contraste_3_a_1": true
+    },
+    {
+      "par": "Exito claro",
+      "texto": "#23734B",
+      "fondo": "#F4F6F2",
+      "ratio": 5.327,
+      "AA_texto_normal": true,
+      "contraste_3_a_1": true
+    },
+    {
+      "par": "Lima sobre marfil PROHIBIDO",
+      "texto": "#C5F278",
+      "fondo": "#F4F6F2",
+      "ratio": 1.181,
+      "AA_texto_normal": false,
+      "contraste_3_a_1": false
+    },
+    {
+      "par": "Borde funcional claro",
+      "texto": "#73837A",
+      "fondo": "#F4F6F2",
+      "ratio": 3.674,
+      "AA_texto_normal": false,
+      "contraste_3_a_1": true
+    }
+  ]
+}

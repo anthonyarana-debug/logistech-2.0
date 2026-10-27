@@ -1,5 +1,7 @@
 # Comprobaciones de Fase 1
 
+> Registro histórico de F1. Para el estado actual ver el cierre F2 al final y fase2-verificacion.json; no interpretar los ocho tests y el esquema vacío de esta sección como el estado actual.
+
 Fecha: 27 de octubre de 2026 (America/Lima). Windows y contenedores Linux locales. No se ejecutaron pruebas cloud ni de carga.
 
 ## Resultados y reproducción
@@ -76,3 +78,55 @@ Pendientes no críticos: W005/W021 (HSTS subdominios/preload) y aviso de caché 
 
 - Revisar informe y web local; no es necesario repetir manualmente pruebas ya registradas.
 - Autorizar F2 para modelos y autenticación.
+
+---
+
+## Fase 2 — Resultados actuales (2026-10-27)
+
+[Evidencia F2](evidencias/fase2-verificacion.json): **14 comandos con código 0**, incluyendo **67 pruebas aprobadas**; duración exacta en la salida pytest del JSON. PostgreSQL 17.11 real; pytest creó base test_ y aplicó el grafo desde cero, sin SQLite. El código de la interfaz frontend no cambió; su build y lint también se verificaron.
+
+Comandos reproducibles desde la raíz: `python scripts/verificar_fase2.py`. Cada comando completo, stdout/stderr y código de salida está en el JSON. Incluye config --quiet, ps, pip check, Django check, makemigrations --check --dry-run, migrate --check, showmigrations, verificar_base, pytest, Ruff, frontend lint/build, check --deploy y smoke HTTP.
+
+### Cobertura relevante
+
+| Objetivo | Pruebas y resultado |
+|---|---|
+| Registro separado de login | Alta 201, sin tokens; hash PBKDF2 real, operador/company=null |
+| Validación y elevación | Email/formato/password/cuerpo inválido y duplicado; nueve combinaciones de campos privilegiados rechazadas sin crear usuarios |
+| Login | Email normalizado; válido 200; inválido/ausente/inactivo mismo 401 |
+| Endpoints protegidos | me sin token, manipulado, expirado o refresh como access devuelve 401 |
+| Sesión | Cookie HttpOnly/path/SameSite/max-age; Secure cuando se activa política production; no-store |
+| Refresh/logout | Rotación, rechazo de replay, cierre 204, cookie eliminada e idempotencia; inactividad rechaza access/refresh |
+| Concurrencia | Dos conexiones intentan consumir el mismo refresh: una 200 y otra 401, con transacciones PostgreSQL |
+| CSRF | Registro/login/refresh/logout sin CSRF 403 JSON; Origin ajeno rechazado aun con token válido |
+| Rate limiting | IP login y email entre IP distintas, ventana 15 min, 429/Retry-After y recuperación de ventana; registro, 30 rotaciones refresh y login Admin |
+| Modelo y migraciones | User en estado accounts.0001_initial, accounts_user existe/auth_user ausente, flags y email protegidos incluso omitiendo clean |
+| Roles iniciales | Superadmin coherente y entrada Admin; staff/administrador de empresa denegados; asignación administrativa validada |
+| Tenancy base | Política de empresa activa/objeto propio, sin asignación 403 en vista de prueba no publicada; validaciones de referencias cruzadas |
+| Núcleo logístico | UUID independientes, flags frágil/perecedero coexistentes, cantidad/peso válidos, referencias PROTECT y FK inexistente con ValidationError |
+
+Los tests de política y modelo no sustituyen las pruebas de endpoints CRUD de F3, aún inexistentes. No se relajó el hashing, CSRF, throttling o constraints para obtener éxito.
+
+### Migraciones locales
+
+Se ejecutó makemigrations para organizations/accounts/catalog/boxes, se revisó migrate --plan y se aplicó `docker compose run --rm --no-deps --volume "<ruta-backend>:/app" backend python manage.py migrate --noinput`. El usuario propio y su configuración existían antes de la primera aplicación. Todas las migraciones finalizaron OK; la evidencia actual lista las aplicadas y las cuatro fuentes iniciales están versionadas. Se conserva el volumen, sin reset ni reescritura de migraciones.
+
+### Prueba HTTP real
+
+La herramienta `tools.verificar_http_auth` consultó al servidor de Compose por HTTP: me 401, csrf 200, register 201, login 200, me 200, refresh 200, logout 204, refresh posterior 401. No es solamente un test client interno. Usa secretos aleatorios en memoria sin imprimirlos; la cuenta técnica creada queda desactivada, con contraseña inutilizable y sin empresa. Cada ejecución deja una cuenta de prueba rotulada, sin inventario.
+
+### Errores corregidos en F2
+
+- Array/string/número JSON podía producir errores de serializer/throttle: se valida Mapping y se devuelve 400; casos de regresión incluidos.
+- La primera prueba de rate limit Admin enviaba POST sin CSRF y recibía 403 antes del throttle. Se corrigió la prueba para enviar CSRF válido y comprobar realmente 429; no se debilitó CSRF.
+- Smoke ejecutado en un contenedor auxiliar apuntaba a su propio loopback, sin servidor: se corrigió el destino al alias local backend de Compose; no se publicaron puertos nuevos.
+- Referencias ORM inexistentes podían lanzar DoesNotExist durante clean: se conserva el ValidationError de FK de full_clean y se agregó prueba negativa.
+- Imports/formato se corrigieron con Ruff; se exceptúan longitudes de línea del código de migraciones generado, no su ejecución ni constraints.
+
+### Diseño y verificaciones no ejecutadas
+
+Se calcularon pares de contraste sRGB en [fase2-contraste.json](evidencias/fase2-contraste.json); esto no certifica accesibilidad de pantallas. Referencias públicas inspeccionadas con navegador y extracción web, con límites detallados en DISENO_UI_UX. SVG originales son composiciones conceptuales, no frontend funcional.
+
+No se ejecutaron carga/Locust, pruebas cloud, Android, móvil real, evaluación completa de accesibilidad, TLS ni backups. El frontend no tiene todavía formularios de autenticación. check --deploy sigue informando W005/W021 sobre HSTS, sin silenciarlas. No hay resultados que inventar para esas verificaciones pendientes.
+
+CHECKLIST HUMANO F2: revisar informe, elegir A/B antes de F4 si se desea y autorizar F3 por separado. Crear superadmin mediante prompt local únicamente si se desea revisar Admin.

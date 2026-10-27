@@ -1,6 +1,6 @@
 # Arquitectura propuesta — LogisTech 2.0
 
-Estado actualizado el 2026-10-27: arquitectura conservada y base de FASE 1 implementada localmente. Modelos, permisos y funcionalidades de negocio descritos aquí siguen siendo propuestas para fases posteriores. Ver DECISIONES_TECNICAS.md e INFORME_FASE_1.md para lo aplicado.
+Estado actualizado el 2026-10-27: base F1 y modelos/autenticación F2 implementados localmente. CRUD REST y permisos por acción de negocio siguen pendientes F3; frontend funcional/rediseño pendiente F4. Ver BASE_DE_DATOS.md, SEGURIDAD.md, ROLES_PERMISOS.md e INFORME_FASE_2.md. Dirección visual adicional Industrial Precision documentada en DISENO_UI_UX.md; no implementada en la interfaz.
 
 ## Componentes y límites
 
@@ -73,7 +73,7 @@ Identificador alternativo propuesto: `CJ-` seguido de UUID v4 completo sin guion
 - Order y OrderItem futuros tendrán cantidades positivas; Reception necesita evento de verificación e idempotencia para evitar recepciones duplicadas. Movimientos requieren dirección/tipo explícito y transacciones para evitar doble contabilización. No calcular stock solamente contando cajas.
 - AuditLog futuro conservará actor histórico aun si se desactiva/elimina la cuenta; no almacenará tokens ni contraseñas. Sucursal destino y caja deben pertenecer a la misma empresa; transferencias entre sucursales serán operaciones explícitas.
 
-El diagrama editable [MODELO_DATOS.mmd](MODELO_DATOS.mmd) representa el núcleo previsto para F2 y las ampliaciones F6; sus anotaciones distinguen las etapas. No es un esquema migrado.
+El diagrama editable [MODELO_DATOS.mmd](MODELO_DATOS.mmd) representa el núcleo real migrado en F2; omite tablas de framework, detalladas en BASE_DE_DATOS.md. [MODELO_FUTURO.mmd](MODELO_FUTURO.mmd) separa las ampliaciones no implementadas de F6.
 
 ## Política de acceso propuesta
 
@@ -104,7 +104,7 @@ JWT propuesto: access de 5 minutos en memoria del navegador; refresh de 1 día e
 
 Rate limiting inicial propuesto: login 5/min/IP y 10/15 min por identidad normalizada; registro 3/h/IP; refresh 30/h por cuenta; API privada 120/min por usuario. Son valores de diseño, no límites implementados. Evitar revelar si un email existe, no confiar en X-Forwarded-For sin proxy conocido. Probar límites y expiración con caché limpia. DRF permite limitación local, pero sus contadores no atómicos no garantizan un umbral exacto bajo concurrencia; antes de producción multiproceso se requiere una estrategia compartida y atómica evaluada en F7. No añadir Redis inicialmente por apariencia.
 
-F1 aplicó SECRET_KEY fuera de Git, DEBUG=false por defecto, ALLOWED_HOSTS explícitos, .env.example ficticio, .gitignore y PostgreSQL sin puerto publicado. No necesita CORS al usar proxy del mismo origen. Validación de negocio, usuarios, hashing, JWT funcional, permisos y rate limiting se implementarán en F2/F3. Ver informe para límites reales.
+F1 aplicó configuración y red local; F2 agregó usuario propio, hashing, JWT, CSRF, rate limiting de autenticación y permisos base. F3 aplicará autorización/filtros/validaciones en CRUD REST. SEGURIDAD.md precisa límites: caché por proceso, refresh 30/h por IP y access válido hasta 5 minutos tras logout. La propuesta original de refresh por cuenta fue ajustada explícitamente.
 
 ## ADR-001: monolito modular y base compartida con aislamiento por empresa
 

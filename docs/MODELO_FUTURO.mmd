@@ -1,0 +1,55 @@
+%% Propuesta conceptual F6: NO implementada ni migrada.
+%% Las entidades COMPANY, USER, PRODUCT, BRANCH y BOX ya existen; las restantes son futuras.
+erDiagram
+    COMPANY ||--o{ ORDER : empresa
+    BRANCH ||--o{ ORDER : destino
+    ORDER ||--|{ ORDER_ITEM : incluye
+    PRODUCT ||--o{ ORDER_ITEM : solicitado
+    BOX ||--o{ RECEPTION : verifica
+    BRANCH ||--o{ RECEPTION : recibe
+    USER ||--o{ RECEPTION : opera
+    PRODUCT ||--o{ INVENTORY_MOVEMENT : mueve
+    BRANCH ||--o{ INVENTORY_MOVEMENT : registra
+    USER o|--o{ INVENTORY_MOVEMENT : autor_historico
+    USER o|--o{ AUDIT_LOG : actor_opcional
+    COMPANY o|--o{ AUDIT_LOG : alcance_global_o_empresa
+    ORDER {
+        uuid id PK
+        uuid company_id FK
+        uuid branch_id FK
+        string status
+        datetime created_at
+    }
+    ORDER_ITEM {
+        uuid id PK
+        uuid order_id FK
+        uuid product_id FK
+        int expected_quantity
+    }
+    RECEPTION {
+        uuid id PK
+        uuid box_id FK
+        uuid branch_id FK
+        uuid operator_id FK
+        string verification_status
+        string idempotency_key UK
+        datetime created_at
+    }
+    INVENTORY_MOVEMENT {
+        uuid id PK
+        uuid product_id FK
+        uuid branch_id FK
+        string movement_type
+        int quantity
+        uuid performed_by_id FK
+        datetime created_at
+    }
+    AUDIT_LOG {
+        uuid id PK
+        uuid company_id FK "Nullable para acciones globales"
+        uuid actor_id FK "Nullable"
+        string action
+        string resource_type
+        uuid resource_id "Referencia logica"
+        datetime timestamp
+    }

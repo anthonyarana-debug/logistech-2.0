@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="760" viewBox="0 0 1100 760" role="img" aria-labelledby="title desc">
+  <title id="title">Alternativa A: Industrial Precision, Hoja de control</title>
+  <desc id="desc">Composición conceptual original con landing editorial marfil y tabla operacional. No representa una interfaz implementada ni datos de negocio.</desc>
+  <rect width="1100" height="760" fill="#F4F6F2"/>
+  <g font-family="system-ui, sans-serif" fill="#101F20">
+    <text x="40" y="40" font-size="16" letter-spacing="2">A / INDUSTRIAL PRECISION — HOJA DE CONTROL</text>
+    <text x="40" y="68" font-size="14" fill="#51635B">Boceto documental · propuesta para Fase 4 · sin datos operativos</text>
+    <path d="M40 108V94H54 M66 108V122H52" fill="none" stroke="#101F20" stroke-width="3"/>
+    <text x="82" y="115" font-size="24" font-weight="600">LogisTech</text>
+    <text x="720" y="112" font-size="16">El producto</text>
+    <text x="850" y="112" font-size="16">Acceder</text>
+    <rect x="940" y="87" width="120" height="42" rx="4" fill="#101F20"/>
+    <text x="959" y="113" font-size="14" fill="#F4F6F2">Crear cuenta</text>
+    <path d="M40 148H1060" stroke="#73837A"/>
+    <text x="40" y="195" font-size="14" fill="#51635B" letter-spacing="2">IDENTIFICA / ORGANIZA / CONSULTA</text>
+    <text x="40" y="255" font-size="52" font-weight="600" letter-spacing="-2">Cada caja</text>
+    <text x="40" y="312" font-size="52" font-weight="600" letter-spacing="-2">tiene un camino.</text>
+    <text x="42" y="352" font-size="17" fill="#51635B">Información clara desde la identificación.</text>
+    <rect x="42" y="377" width="178" height="44" rx="4" fill="#C5F278"/>
+    <text x="62" y="405" font-size="16" font-weight="600">Conocer LogisTech</text>
+    <rect x="668" y="180" width="392" height="242" fill="#203934" rx="8"/>
+    <path d="M694 220V204H710 M1034 384V400H1018" fill="none" stroke="#C5F278" stroke-width="3"/>
+    <text x="710" y="220" font-size="14" fill="#C5F278" letter-spacing="2">ETIQUETA / CONCEPTO</text>
+    <text x="698" y="277" font-family="monospace" font-size="36" fill="#F4F6F2">CJ—</text>
+    <path d="M700 300H1028" stroke="#8B9A92"/>
+    <text x="698" y="333" font-size="16" fill="#F4F6F2">Identificación independiente del QR</text>
+    <text x="698" y="367" font-size="14" fill="#F4F6F2">Gráfica original; no es una caja registrada</text>
+    <text x="40" y="467" font-size="14" fill="#51635B" letter-spacing="2">VISTA DE TRABAJO / ESTRUCTURA PROPUESTA</text>
+    <rect x="40" y="485" width="1020" height="218" fill="white" stroke="#73837A"/>
+    <rect x="40" y="485" width="174" height="218" fill="#101F20"/>
+    <text x="62" y="519" font-size="18" fill="#F4F6F2">LogisTech</text>
+    <rect x="52" y="544" width="150" height="38" rx="3" fill="#C5F278"/>
+    <text x="66" y="570" font-size="16">Cajas</text>
+    <text x="66" y="613" font-size="16" fill="#F4F6F2">Categorías</text>
+    <text x="238" y="520" font-size="20" font-weight="600">Cajas / empresa asignada</text>
+    <rect x="239" y="536" width="538" height="34" rx="4" fill="#F4F6F2" stroke="#73837A"/>
+    <text x="252" y="559" font-size="14" fill="#51635B">Buscar identificador · filtros disponibles</text>
+    <text x="240" y="597" font-size="14" fill="#51635B">IDENTIFICADOR</text>
+    <text x="470" y="597" font-size="14" fill="#51635B">PRODUCTO</text>
+    <text x="670" y="597" font-size="14" fill="#51635B">ESTADO</text>
+    <path d="M238 609H785 M810 485V703" stroke="#73837A"/>
+    <text x="255" y="650" font-size="16">Sin registros — sin estadísticas ficticias</text>
+    <text x="831" y="525" font-size="18" font-weight="600">Detalle</text>
+    <text x="831" y="566" font-size="14" fill="#51635B">Seleccionar una caja</text>
+    <text x="831" y="590" font-size="14" fill="#51635B">para consultar sus datos.</text>
+    <text x="40" y="737" font-size="14" fill="#51635B">Marfil para lectura · petróleo para navegación · lima para una acción principal</text>
+  </g>
+</svg>
