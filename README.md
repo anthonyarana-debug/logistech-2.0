@@ -1,8 +1,36 @@
 # LogisTech 2.0
 
-Proyecto académico de Desarrollo de Soluciones en la Nube — TECSUP. **Fase 3: CRUD REST de categorías y cajas, con autorización por empresa.** La web conserva el estado del entorno de F1; formularios y rediseño esperan F4 autorizada. No está completa la entrega del 25 %.
+Proyecto académico de Desarrollo de Soluciones en la Nube — TECSUP. **Fase 4: frontend funcional con React, autenticación y CRUD conectados a PostgreSQL.** Diseño Industrial Precision / Hoja de control. F5 requiere nueva autorización; no está completa la entrega del 25 %.
 
 ## Iniciar localmente
+
+La landing presenta las funciones actuales y futuras; `/app` requiere sesión. El superadmin selecciona ámbito; administradores y operadores quedan en su empresa. El operador consulta categorías y registra/edita cajas, sin eliminarlas. Los estados finales son inmutables. Productos/sucursales se seleccionan por nombres y SKU desde `/api/v1/references/`; no se introducen UUID manualmente.
+
+### Demostración F4 y comprobaciones
+
+Después del arranque, crear datos **solo en una base local académica** con un namespace nuevo:
+
+```powershell
+docker compose exec -T backend python manage.py create_demo --namespace mi-demo-f4 --output /tmp/logistech-demo.json
+docker compose cp backend:/tmp/logistech-demo.json .env.demo.json
+$demoOwner = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name
+icacls .env.demo.json /inheritance:r /grant:r "${demoOwner}:(F)"
+```
+
+El comando crea dos empresas rotuladas DEMO, seis categorías, seis productos, cuatro sucursales, doce cajas y cuatro usuarios: root, administrador, operador asignado y operador pendiente. Genera claves aleatorias, hashes reales y archivo exclusivo 0600 dentro de Linux; rechaza namespace/archivo existentes. La copia Windows recibe ACL del usuario con el comando anterior. Abrir `.env.demo.json` únicamente en un editor local para consultar las credenciales, nunca pegarlas en chats o capturas. Está excluido de Git. La ejecución de esta fase usó `f4-20261027`; los E2E posteriores añadieron registros de prueba identificables.
+
+Pruebas con servicios saludables:
+
+```powershell
+python scripts/verificar_fase4.py
+Set-Location frontend
+npm ci
+npx playwright install chromium
+npm run test:unit
+npm run test:e2e
+```
+
+E2E necesita `.env.demo.json`, usa PostgreSQL real y modifica exclusivamente esos datos demo; el registro público crea cuentas `e2e-...@example.test` sin empresa. No ejecutar contra producción. Respeta límites activos: el login puede esperar Retry-After; el registro permite tres intentos/hora/IP y refresh treinta/hora/IP. No repetir toda la suite dentro de esa ventana sin esperar. El caso de expiración dura unos seis minutos. No hay trazas, vídeos ni storageState con secretos; los informes de ejecución permanecen ignorados. Evidencias saneadas y capturas en `docs/evidencias/`; resultados y límites en [INFORME_FASE_4.md](docs/INFORME_FASE_4.md).
 
 Requiere Docker Desktop con motor Linux y Compose. Desde la raíz:
 
@@ -17,7 +45,7 @@ docker compose up -d --wait --wait-timeout 180
 
 Si `.env` ya existe, el generador se niega a sobrescribirlo: conservarlo y continuar. Genera secretos aleatorios sin imprimirlos; `.env.example` tiene marcadores ficticios. No copiar esos marcadores como secretos reales. No publicar `.env` ni la salida de `docker compose config` sin `--quiet`, porque expande credenciales.
 
-- [Web de estado](http://127.0.0.1:5173).
+- [Plataforma web](http://127.0.0.1:5173), [acceso](http://127.0.0.1:5173/login) y [estado](http://127.0.0.1:5173/estado).
 - [Readiness con PostgreSQL](http://127.0.0.1:8000/api/v1/health/) y [liveness](http://127.0.0.1:8000/api/v1/health/live/).
 - API de autenticación: `/api/v1/auth/`; ver [ENDPOINTS.md](docs/ENDPOINTS.md).
 - CRUD JWT: `/api/v1/categories/` y `/api/v1/boxes/`, con detalle por UUID; filtros, permisos y ejemplos en ENDPOINTS.
@@ -58,7 +86,7 @@ docker compose exec backend python manage.py createsuperuser
 
 Introducir correo y contraseña directamente en el prompt. Solo SUPERADMIN activo con flags coherentes entra al Admin. Allí puede crear empresas/sucursales/productos mínimos y asignar empresa/rol a operadores. No enviar credenciales al chat. No se creó un superadministrador automáticamente.
 
-Registro público: solo operador sin empresa; rechaza campos privilegiados. Access JWT dura 5 minutos; refresh de un día en cookie HttpOnly, rotado y revocado al cerrar sesión. POST de autenticación exige CSRF; el contrato web inicia con GET `/auth/csrf/`. El access se conservará en memoria al conectar la web en F4; no se implementaron todavía sus formularios.
+Registro público: solo operador sin empresa; rechaza campos privilegiados. Access JWT dura 5 minutos y vive en memoria; refresh de un día en cookie HttpOnly, rotado y revocado al cerrar sesión. POST de autenticación exige CSRF; la web inicia con GET `/auth/csrf/` y restaura la sesión al recargar. Sin empresa, muestra asignación pendiente sin consultar inventarios.
 
 ## Entornos y versiones
 

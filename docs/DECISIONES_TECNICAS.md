@@ -1,5 +1,13 @@
 # Decisiones técnicas
 
+## ADR-010 — Integración web F4
+
+React/Fetch sin librería de estado global ni cliente HTTP adicional: access en cierre de módulo, cookie HttpOnly existente, CSRF y promesas compartidas para restauración/renovación. Rutas privadas bloqueadas hasta resolver identidad y pertenencia; autorización definitiva en DRF. Consultas descartadas al cambiar contexto/desmontar; logout con guardia de revisión y marcador no secreto de revocación pendiente.
+
+Un único GET de referencias para formularios mantiene el alcance mínimo autorizado. Empresas/productos/sucursales no ganan CRUD público. Comando explícito crea datos académicos identificados y claves aleatorias fuera de Git, sin modificar el esquema o debilitar constraints.
+
+Dirección A con recursos oscuros de B implementada sin tema alternativo. Tipografías autoalojadas con OFL y SVG propios. Playwright y axe son dependencias de desarrollo; Node test cubre sesión sin otra librería. Trazas desactivadas para no persistir tokens. Validación de zoom CSS se distingue de zoom nativo pendiente; F5/carga/cloud no iniciados. Los ADR y fechas de fases anteriores siguientes son antecedentes.
+
 Fecha: 27 de octubre de 2026. Alcance aplicado: Fase 1. Las decisiones de negocio de ARQUITECTURA.md siguen siendo diseño futuro.
 
 Actualización F2: las decisiones F1 de abajo se conservan como antecedentes. Ya se habilitaron Custom User, modelos y autenticación según los ADR de cierre de este documento; no interpretar la suspensión de auth de F1 como el estado actual.

@@ -1,8 +1,24 @@
 # LogisTech 2.0 — Industrial Precision
 
-Fecha: 27 de octubre de 2026. Documento preparado en F2 y actualizado en F3. **No es un rediseño implementado.** Decisión registrada para la futura F4: alternativa A como base, con recursos oscuros de marca inspirados en B, sin segundo tema completo. La interfaz de F1 se conserva; F4 requiere autorización independiente. El backend no depende de Stitch.
+Fecha: 27 de octubre de 2026. Documento preparado en F2 y actualizado en F4. **Alternativa A implementada**, con recursos oscuros de marca inspirados en B y un solo sistema visual. Las secciones de alternativas y brief conservan la propuesta histórica; la implementación y sus diferencias se describen al final. El backend no depende de Stitch.
 
 ## Identidad propia
+
+### Implementación real F4
+
+Se implementó A con superficie marfil #F4F6F2, navegación petróleo #101F20, marca verde #203934 y acentos lima #C5F278. Un solo sistema visual; no selector de tema. Hero editorial asimétrico con ilustración isométrica original, sin vídeo, métricas ficticias ni QR decorativo que prometa ser escaneable. Marca propia de esquinas y recorrido, palabra LogisTech con IBM Plex, sin logos ajenos.
+
+IBM Plex Sans 400/500/600 y Mono 400 autoalojadas mediante Fontsource, SIL OFL 1.1 (copias en `licencias/`). Iconos SVG propios de trazo coherente, sin dependencia de iconografía ni activos descargados de las referencias. Las referencias de la tabla histórica se usaron como criterios de composición; el acceso público de F4 no acredita flujos premium ni auditoría de esos productos. No hubo integración Stitch.
+
+AppShell combina Sidebar, Header contextual, selector de empresa exclusivo del superadmin y menú móvil con dialog nativo. Tablas semánticas en región de desplazamiento independiente, búsqueda general/exacta, filtros y acciones con nombre de recurso. Modales nativos bloquean el fondo, conservan campos ante error, cierran con Escape cuando no hay escritura en curso y devuelven foco al activador. El detalle de caja se resolvió como página propia también en escritorio: permite leer ambos identificadores completos y mantiene una URL directa coherente entre tamaños.
+
+Componentes Button, FormField, PasswordField, SelectField, DataTable, SearchBar, FilterBar, StatusBadge, Modal/ConfirmModal, EmptyState, LoadingState, ErrorState y Toast compartidos. Objetivos táctiles principales 44–46 px; bordes contenidos; transiciones de color 150 ms y spinner de espera, anulados con movimiento reducido. Campos y ayudas asociados; errores enfocados y anunciados. Los errores de campos se presentan como resumen del backend, no se afirma marcado individual de todas las validaciones.
+
+Dashboard: conteos calculados desde colecciones actuales y cinco cajas recientes; rótulo de ámbito y advertencia de que no representan stock o historia. DEMO visible en contexto de empresa. Sin segundo tema, widgets de ingresos, gráficas inventadas, cámara, OCR o recepción avanzada. Cuenta sin empresa muestra aviso y permite comprobar asignación/cerrar sesión.
+
+Evidencia: capturas `evidencias/fase4-landing-*.png` y `fase4-cajas-*.png`, cuatro anchos, más ampliación **CSS** al 200%. Axe-core 4.14.0 no detectó infracciones de sus reglas WCAG A/AA en landing/login/registro/dashboard/categorías/modal/cajas/error comprobados. No constituye certificación; zoom nativo del navegador, lector de pantalla y tacto físico quedan en checklist humano. El navegador integrado no cambió el zoom con los atajos probados, por lo que no se declara validado.
+
+Build y tamaños reales están en fase4-verificacion.json y fase4-frontend-final.json: JS gzip alrededor de 97 kB, CSS final alrededor de 7.4 kB; fuentes locales adicionales. Sin medidas de campo LCP/INP/CLS ni promesas de rendimiento en dispositivos reales. La propuesta histórica siguiente se conserva como antecedente, no como un segundo producto implementado.
 
 Idea: una etiqueta logística convertida en lenguaje de interfaz. Dos esquinas de registro enfrentadas delimitan el símbolo; una línea de recorrido conecta origen y destino. Wordmark `LogisTech` con una sola incisión rectangular en la L, no un cubo ni un código de barras decorativo repetido. Geometría original por desarrollar/vectorizar en F4, sin reutilizar marcas ni activos de las referencias.
 

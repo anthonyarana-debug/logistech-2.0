@@ -14,6 +14,12 @@ export async function getHealth() {
       throw new Error('La API no puede confirmar la conexión con PostgreSQL.')
     }
     return body
+  } catch (error) {
+    if (error.message === 'La API no puede confirmar la conexión con PostgreSQL.') throw error
+    throw new Error(
+      'No se pudo conectar con el servicio. Comprueba tu conexión y vuelve a intentar.',
+      { cause: error },
+    )
   } finally {
     clearTimeout(timeout)
   }

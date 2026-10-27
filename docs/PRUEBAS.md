@@ -1,10 +1,38 @@
 # Comprobaciones de Fase 1
 
-> Registro histórico de F1. Para el estado actual ver el cierre F2 al final y fase2-verificacion.json; no interpretar los ocho tests y el esquema vacío de esta sección como el estado actual.
+> Registros F1–F3 históricos. El estado actual F4 se documenta en INFORME_FASE_4.md, fase4-verificacion.json y fase4-e2e.json; no interpretar los ocho tests o el esquema vacío de F1 como estado actual.
 
 Fecha: 27 de octubre de 2026 (America/Lima). Windows y contenedores Linux locales. No se ejecutaron pruebas cloud ni de carga.
 
 ## Resultados y reproducción
+
+### F4 — estado actual (2026-10-27)
+
+Antes de modificar: Git limpio en `7e9b7b9`, inspección de rutas/modelos/roles/diseño y **146 pytest aprobadas, 14.15 s**, PostgreSQL real. Rama de trabajo `codex/fase-4-frontend`. No se tomó el informe F3 como prueba de funcionamiento.
+
+Backend ampliado: **151 pytest** (146 regresión + cuatro referencias + un procedimiento demo). PostgreSQL test_ creado desde migraciones, sin SQLite. Referencias: roles, empresas cruzadas, productos/sucursales inactivos, categoría incoherente, filtros inválidos, métodos y cache. Demo: claves aleatorias/hash, cantidades esperadas, no sobrescritura y namespace repetido.
+
+Frontend: **5 unitarias Node** de restauración y CSRF, renovación única con 401 concurrentes, refresh rechazado sin bucle, logout concurrente y errores seguros. **9 E2E Chromium** en dos ejecuciones (8 flujos + 1 accesibilidad); resumen saneado `fase4-e2e.json`. Configuración con dos workers, pruebas independientes y sin retries. El caso de expiración espera cinco minutos del servidor; total aproximado seis minutos por la ventana de login. La suite mantiene throttles y puede necesitar esperar ventanas entre ejecuciones, especialmente registro 3/hora e identidad de login 10/15 min.
+
+| Caso E2E | Datos / resultado comprobado |
+|---|---|
+| Landing, teclado y rutas | CTA, enlace Producto con desplazamiento, 403/404/sesión expirada; movimiento reducido |
+| Registro y login incorrecto | POST real, confirmación distinta, operador creado sin empresa; credenciales incorrectas rechazadas |
+| Administrador | CRUD categoría; 409 de referencia mostrado; caja creada/editada/eliminada; QR exacto; estado final inmutable; reload/logout reales |
+| Operador asignado | Categorías solo lectura; crear caja y rechazarla; sin DELETE |
+| Operador pendiente | Aviso y comprobación de asignación; ninguna petición a cajas/categorías/referencias |
+| Superadmin | Segunda empresa, seis cajas de base, referencias legibles, menú móvil/Escape |
+| Red simulada | Intercepción que aborta API; error y reintento recuperable; explícitamente simulación |
+| Expiración real | Access vence a cinco minutos; dos llamadas simultáneas comparten un refresh exitoso; pérdida de cookie + Bearer inválido inyectado lleva a pantalla expirada mediante 401 reales |
+| Accesibilidad y errores | Axe sin infracciones detectadas en vistas seleccionadas; CSS zoom 200%; vacío y 403/500 simulados, sin detalles internos |
+
+Responsive automatizado: 320/390/768/1440 px, landing y cajas sin desbordamiento del documento, tabla con scroll local. Capturas verificables en `evidencias/fase4-*.png`. Keyboard automatizado: Tab, foco, Escape en formularios y menú. Ampliación CSS al 200% comprobada; no se confunde con zoom nativo ni con pantalla táctil física.
+
+Revisión manual con navegador integrado: composición de landing y legibilidad, árbol accesible, enlace Producto, vista de login y caída/recuperación real del backend según informe F4. Atajos de zoom no produjeron cambio verificable; pendiente humano. No se ejecutó lector de pantalla, Safari/Firefox, prueba física móvil o medición de campo Web Vitals.
+
+Errores corregidos: reutilización del estado de registro al abrir login; desplazamiento a ancla con React Router; bloqueo de botón durante envío; ayudas de formulario; mensajes españoles ante red caída. El primer pase E2E tuvo dos fallos (texto esperado de 404 incorrecto en prueba y transición registro→login); cinco casos pasaron. Los casos corregidos se volvieron a ejecutar con éxito. Errores de lint (globals del navegador/Node, formato e imports Python) corregidos antes del cierre.
+
+Reproducción: `python scripts/verificar_fase4.py`; desde frontend `npm run test:unit` y `npm run test:e2e` con datos demo del README. No ejecutar E2E contra producción. Evidencias F1–F3 permanecen históricas. Las siguientes secciones de F1 no describen el estado actual.
 
 Ejecutar `python scripts/verificar_fase1.py` con Compose saludable. [fase1-verificacion.json](evidencias/fase1-verificacion.json) conserva comandos, códigos, stdout/stderr y respuestas HTTP. La ejecución final sobre PostgreSQL 17.11 registró **20 comprobaciones con código 0**. Las advertencias no se ocultan: código 0 no significa ausencia de advertencias de producción.
 

@@ -1,6 +1,6 @@
 # Matriz de requisitos y evidencias
 
-Actualización al cierre de FASE 3 (2026-10-27): autenticación y CRUD REST iniciales verificados con PostgreSQL real. «Pendiente» conserva el alcance que falta; el 25 % sigue incompleto hasta F4/F5 autorizadas. Evidencias en PRUEBAS.md e INFORME_FASE_3.md. Dirección visual futura registrada: A con recursos oscuros de B, sin segundo tema; frontend intacto.
+Actualización FASE 4 (2026-10-27): frontend y CRUD conectados a PostgreSQL real; A con recursos oscuros de B, sin segundo tema. Evidencias en PRUEBAS.md e INFORME_FASE_4.md. El 25 % sigue incompleto: F5 y despliegue autorizado pendientes. Las revisiones humanas de accesibilidad se distinguen de las comprobaciones automatizadas.
 
 ## Prioridad: entrega del 25 %
 
@@ -8,14 +8,14 @@ Actualización al cierre de FASE 3 (2026-10-27): autenticación y CRUD REST inic
 |---|---|---|---|---|
 | 25-01 | Entorno cloud evaluable | F1/F5; despliegue separado autorizado | Configuración, guía, URL autorizada y health comprobado si lo exige la rúbrica | Pendiente; sin cuenta ni recursos verificados |
 | 25-02 | Endpoints funcionales y documentados | F2/F3 | Método/ruta/parámetros/auth/respuestas/ejemplos en ENDPOINTS y pruebas HTTP reales | Salud/auth/CRUD categorías y cajas implementados y documentados |
-| 25-03 | Registro y login separados | F2/F4 | Usuario nuevo operador sin empresa, login válido/inválido y flujo web | REST verificado F2; formularios web F4 pendientes |
+| 25-03 | Registro y login separados | F2/F4 | Usuario nuevo operador sin empresa, login válido/inválido y flujo web | Formularios conectados y E2E, asignación pendiente explícita |
 | 25-04 | Rate limiting | F2/F3/F5 | Límites documentados, 429 y Retry-After, recuperación de ventana; limitaciones de caché explícitas | Auth + CRUD 120/min/usuario probados localmente; revisión F5 pendiente; no distribuido |
-| 25-05 | 404, 403 y módulo en desarrollo | F4 | Navegación real y pruebas; API conserva JSON y códigos propios | Pendiente |
+| 25-05 | 404, 403 y módulo en desarrollo | F4 | Navegación real y pruebas; API conserva JSON y códigos propios | Vistas españolas, manejo de errores y rutas implementados; F4 E2E |
 | 25-06 | 200/201/204/400/401/403/404/429/500 | F2/F3/F5 | Casos positivos/negativos y fallo inyectado solo en prueba; 204 sin cuerpo | Casos API probados F2/F3, 409 adicional y 500 seguro sin ruta pública de fallo; revisión F5 pendiente |
-| 25-07 | CRUD categorías y cajas | F2/F3/F4 | Crear/leer/editar/borrar con roles, FK coherentes, validaciones y pruebas cruzadas | REST probado F3; interfaz conectada F4 pendiente |
+| 25-07 | CRUD categorías y cajas | F2/F3/F4 | Crear/leer/editar/borrar con roles, FK coherentes, validaciones y pruebas cruzadas | REST y formularios reales probados; estados finales protegidos y DELETE confirmado |
 | 25-08 | Variables de entorno | F1/F5 | .env.example ficticio, secretos ignorados, config por entorno y arranque comprobado | Implementado y comprobado localmente F1; revisión final F5 pendiente |
 | 25-09 | Hash de contraseñas | F2 | Valor almacenado distinto al original y check_password correcto | PBKDF2-SHA256 y validadores probados con hashing real |
-| 25-10 | Pruebas unitarias | F2/F3/F5 | pytest y pytest-django; resultados reales y nombres de pruebas trazables | 146 casos aprobados (67 base F2 + 79 F3); validación final F5 pendiente |
+| 25-10 | Pruebas unitarias | F2/F3/F4/F5 | pytest, unitarias JS y E2E; resultados reales y pruebas trazables | 151 pytest + 5 unitarias JS; E2E en informe F4; validación F5 pendiente |
 | 25-11 | PostgreSQL y migraciones | F1/F2/F3/F5 | Conexión real, base desde cero, migraciones versionadas y sin cambios pendientes | F2 y CHECK de estados/prioridades F3 aplicados; User 0001 sin auth_user; base test desde cero y sin pendientes |
 | 25-12 | Diagrama ER editable | F0/F2/F5 | Fuente Mermaid contrastada con modelos/migraciones reales | Actualizado al núcleo real F2, futuro separado; renderizado Mermaid no verificado; revisión F5 pendiente |
 | 25-13 | Carga inicial 50–100 usuarios | F5 | CSV e informe: usuarios alcanzados, spawn, duración, RPS, media, p95 y fallos | Pendiente; ninguna carga ejecutada |
@@ -32,12 +32,12 @@ Actualización al cierre de FASE 3 (2026-10-27): autenticación y CRUD REST inic
 | T-06 | Identificación independiente del QR | F2/F3: UNIQUE, generación automática y consulta por ambos identificadores | Generación, búsqueda autorizada por internal_id/qr_code y reintento acotado de colisiones probados |
 | T-07 | Categorías frágiles y perecederas | F2/F3: flags independientes, validación y persistencia | Modelo/CRUD/flags coexistentes y filtros probados |
 | T-08 | Empresas y sucursales | F2 núcleo mínimo; F6 administración completa | Modelos mínimos/Admin restringido disponibles; administración web completa F6 pendiente |
-| T-09 | Interfaz española y responsive | F4: escritorio/móvil, teclado y estados de error/carga | Pendiente |
+| T-09 | Interfaz española y responsive | F4: escritorio/móvil, teclado y estados de error/carga | Implementada; anchos 320/390/768/1440 y axe; zoom CSS 200%; lector/zoom nativo/táctil físico pendientes humanos |
 | T-10 | HTTPS, CORS, secretos, red privada | F1 configuración; F5 preparación; despliegue/F7 verificación externa | Pendiente |
 | T-11 | No depender ni sobrescribir Android/VPS | F0: no hay fuentes originales; API propia planificada | Restricción respetada; compatibilidad no verificada |
 | T-12 | Git y commits por fase, sin secretos | F1 en adelante: diff e historial local; nunca push implícito | Historial local por fase; sin remoto/push; secretos y artefactos ignorados |
 | T-13 | Salud de servicio | F1: respuesta y conectividad DB; 503 si dependencia falla | Comprobado: 200 con DB, 503 al detenerla y recuperación posterior |
-| T-14 | Datos demo identificados y controlados | F2/F5: comando/fixtures limitados y guion explícito | Pendiente |
+| T-14 | Datos demo identificados y controlados | F4: comando explícito con namespace, archivo privado y pruebas | create_demo, dos empresas DEMO y cuatro roles, claves aleatorias, sin sobrescritura |
 | T-15 | Documentación completa en español | F0–F5 ampliación según PLAN | F3 incluye contrato CRUD, pruebas, seguridad, roles, decisiones y cierre; revisión final F5 pendiente |
 | T-16 | Auditoría, backup y observabilidad | F6/F7: eventos sin secretos, restore y recuperación comprobados | Solo planificado |
 | T-17 | Escaneo QR en navegador móvil | F6: HTTPS, cámara y alternativa manual reales | Diferido, no implementado |

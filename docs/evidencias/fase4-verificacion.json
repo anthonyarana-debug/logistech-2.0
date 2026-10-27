@@ -1,0 +1,250 @@
+{
+  "fecha_utc": "2026-10-27T07:27:45.287849+00:00",
+  "entorno": "Docker Linux local; PostgreSQL real; Node del host para unitarias JS",
+  "resultados": [
+    {
+      "comando": [
+        "docker",
+        "info",
+        "--format",
+        "{{.OSType}} {{.ServerVersion}}"
+      ],
+      "codigo_salida": 0,
+      "stdout": "linux 29.5.3\n",
+      "stderr": ""
+    },
+    {
+      "comando": [
+        "docker",
+        "compose",
+        "config",
+        "--quiet"
+      ],
+      "codigo_salida": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "comando": [
+        "docker",
+        "compose",
+        "ps"
+      ],
+      "codigo_salida": 0,
+      "stdout": "NAME                      IMAGE                     COMMAND                  SERVICE    CREATED          STATUS                    PORTS\nlogistech-v2-backend-1    logistech-v2-backend      \"python manage.py ru…\"   backend    19 seconds ago   Up 15 seconds (healthy)   127.0.0.1:8000->8000/tcp\nlogistech-v2-db-1         postgres:17.11-bookworm   \"docker-entrypoint.s…\"   db         2 hours ago      Up 2 hours (healthy)      5432/tcp\nlogistech-v2-frontend-1   logistech-v2-frontend     \"docker-entrypoint.s…\"   frontend   17 seconds ago   Up 9 seconds (healthy)    127.0.0.1:5173->5173/tcp\n",
+      "stderr": ""
+    },
+    {
+      "comando": [
+        "docker",
+        "compose",
+        "exec",
+        "-T",
+        "backend",
+        "python",
+        "-m",
+        "pip",
+        "--no-cache-dir",
+        "check"
+      ],
+      "codigo_salida": 0,
+      "stdout": "No broken requirements found.\n",
+      "stderr": ""
+    },
+    {
+      "comando": [
+        "docker",
+        "compose",
+        "exec",
+        "-T",
+        "backend",
+        "python",
+        "manage.py",
+        "check"
+      ],
+      "codigo_salida": 0,
+      "stdout": "System check identified no issues (0 silenced).\n",
+      "stderr": ""
+    },
+    {
+      "comando": [
+        "docker",
+        "compose",
+        "exec",
+        "-T",
+        "backend",
+        "python",
+        "manage.py",
+        "makemigrations",
+        "--check",
+        "--dry-run"
+      ],
+      "codigo_salida": 0,
+      "stdout": "No changes detected\n",
+      "stderr": ""
+    },
+    {
+      "comando": [
+        "docker",
+        "compose",
+        "exec",
+        "-T",
+        "backend",
+        "python",
+        "manage.py",
+        "migrate",
+        "--check"
+      ],
+      "codigo_salida": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "comando": [
+        "docker",
+        "compose",
+        "exec",
+        "-T",
+        "backend",
+        "python",
+        "manage.py",
+        "showmigrations"
+      ],
+      "codigo_salida": 0,
+      "stdout": "accounts\n [X] 0001_initial\nadmin\n [X] 0001_initial\n [X] 0002_logentry_remove_auto_add\n [X] 0003_logentry_add_action_flag_choices\nauth\n [X] 0001_initial\n [X] 0002_alter_permission_name_max_length\n [X] 0003_alter_user_email_max_length\n [X] 0004_alter_user_username_opts\n [X] 0005_alter_user_last_login_null\n [X] 0006_require_contenttypes_0002\n [X] 0007_alter_validators_add_error_messages\n [X] 0008_alter_user_username_max_length\n [X] 0009_alter_user_last_name_max_length\n [X] 0010_alter_group_name_max_length\n [X] 0011_update_proxy_permissions\n [X] 0012_alter_user_first_name_max_length\nboxes\n [X] 0001_initial\n [X] 0002_box_box_status_allowed_box_box_priority_allowed\ncatalog\n [X] 0001_initial\ncontenttypes\n [X] 0001_initial\n [X] 0002_remove_content_type_name\norganizations\n [X] 0001_initial\nsessions\n [X] 0001_initial\ntoken_blacklist\n [X] 0001_initial\n [X] 0002_outstandingtoken_jti_hex\n [X] 0003_auto_20171017_2007\n [X] 0004_auto_20171017_2013\n [X] 0005_remove_outstandingtoken_jti\n [X] 0006_auto_20171017_2113\n [X] 0007_auto_20171017_2214\n [X] 0008_migrate_to_bigautofield\n [X] 0010_fix_migrate_to_bigautofield\n [X] 0011_linearizes_history\n [X] 0012_alter_outstandingtoken_user\n [X] 0013_alter_blacklistedtoken_options_and_more\n",
+      "stderr": ""
+    },
+    {
+      "comando": [
+        "docker",
+        "compose",
+        "exec",
+        "-T",
+        "backend",
+        "python",
+        "-m",
+        "tools.verificar_base"
+      ],
+      "codigo_salida": 0,
+      "stdout": "{\"postgresql\": \"PostgreSQL 17.11 (Debian 17.11-1.pgdg12+2) on x86_64-pc-linux-gnu, compiled by gcc (Debian 12.2.0-14+deb12u1) 12.2.0, 64-bit\", \"tablas\": [\"accounts_user\", \"accounts_user_groups\", \"accounts_user_user_permissions\", \"auth_group\", \"auth_group_permissions\", \"auth_permission\", \"boxes_box\", \"catalog_category\", \"catalog_product\", \"django_admin_log\", \"django_content_type\", \"django_migrations\", \"django_session\", \"organizations_branch\", \"organizations_company\", \"token_blacklist_blacklistedtoken\", \"token_blacklist_outstandingtoken\"], \"autenticacion_migrada\": true, \"custom_user_en_0001\": true, \"auth_user_ausente\": true, \"migraciones_aplicadas\": [\"accounts.0001_initial\", \"admin.0001_initial\", \"admin.0002_logentry_remove_auto_add\", \"admin.0003_logentry_add_action_flag_choices\", \"auth.0001_initial\", \"auth.0002_alter_permission_name_max_length\", \"auth.0003_alter_user_email_max_length\", \"auth.0004_alter_user_username_opts\", \"auth.0005_alter_user_last_login_null\", \"auth.0006_require_contenttypes_0002\", \"auth.0007_alter_validators_add_error_messages\", \"auth.0008_alter_user_username_max_length\", \"auth.0009_alter_user_last_name_max_length\", \"auth.0010_alter_group_name_max_length\", \"auth.0011_update_proxy_permissions\", \"auth.0012_alter_user_first_name_max_length\", \"boxes.0001_initial\", \"boxes.0002_box_box_status_allowed_box_box_priority_allowed\", \"catalog.0001_initial\", \"contenttypes.0001_initial\", \"contenttypes.0002_remove_content_type_name\", \"organizations.0001_initial\", \"sessions.0001_initial\", \"token_blacklist.0001_initial\", \"token_blacklist.0002_outstandingtoken_jti_hex\", \"token_blacklist.0003_auto_20171017_2007\", \"token_blacklist.0004_auto_20171017_2013\", \"token_blacklist.0005_remove_outstandingtoken_jti\", \"token_blacklist.0006_auto_20171017_2113\", \"token_blacklist.0007_auto_20171017_2214\", \"token_blacklist.0008_migrate_to_bigautofield\", \"token_blacklist.0010_fix_migrate_to_bigautofield\", \"token_blacklist.0011_linearizes_history\", \"token_blacklist.0012_alter_outstandingtoken_user\", \"token_blacklist.0013_alter_blacklistedtoken_options_and_more\"], \"versiones\": {\"Django\": \"5.2.18\", \"djangorestframework\": \"3.16.1\", \"djangorestframework-simplejwt\": \"5.5.1\", \"psycopg\": \"3.3.6\", \"PyJWT\": \"2.15.1\"}}\n",
+      "stderr": ""
+    },
+    {
+      "comando": [
+        "docker",
+        "compose",
+        "exec",
+        "-T",
+        "backend",
+        "python",
+        "-m",
+        "pytest",
+        "--ds=config.settings.testing",
+        "-q",
+        "-o",
+        "cache_dir=/tmp/pytest-f4-final"
+      ],
+      "codigo_salida": 0,
+      "stdout": "........................................................................ [ 47%]\n........................................................................ [ 95%]\n.......                                                                  [100%]\n151 passed in 16.18s\n",
+      "stderr": ""
+    },
+    {
+      "comando": [
+        "docker",
+        "compose",
+        "exec",
+        "-T",
+        "backend",
+        "ruff",
+        "check",
+        "--no-cache",
+        "."
+      ],
+      "codigo_salida": 0,
+      "stdout": "All checks passed!\n",
+      "stderr": ""
+    },
+    {
+      "comando": [
+        "docker",
+        "compose",
+        "exec",
+        "-T",
+        "frontend",
+        "npm",
+        "run",
+        "lint"
+      ],
+      "codigo_salida": 0,
+      "stdout": "\n> logistech-frontend@0.1.0 lint\n> eslint .\n\n",
+      "stderr": ""
+    },
+    {
+      "comando": [
+        "docker",
+        "compose",
+        "exec",
+        "-T",
+        "frontend",
+        "npm",
+        "run",
+        "build"
+      ],
+      "codigo_salida": 0,
+      "stdout": "\n> logistech-frontend@0.1.0 build\n> vite build\n\nvite v8.3.5 building client environment for production...\ntransforming...\n✓ 38 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist/index.html                                              0.64 kB │ gzip:  0.38 kB\ndist/assets/ibm-plex-mono-latin-400-normal-CvHOgSBP.woff    13.14 kB\ndist/assets/ibm-plex-mono-latin-400-normal-DMJ8VG8y.woff2   14.70 kB\ndist/assets/ibm-plex-sans-latin-400-normal-CYLoc0-x.woff    22.10 kB\ndist/assets/ibm-plex-sans-latin-400-normal-CDDApCn2.woff2   22.58 kB\ndist/assets/ibm-plex-sans-latin-600-normal-Cu4Hd6ag.woff    23.87 kB\ndist/assets/ibm-plex-sans-latin-500-normal-BgVn5rGT.woff    23.91 kB\ndist/assets/ibm-plex-sans-latin-500-normal-6ng42L7E.woff2   24.18 kB\ndist/assets/ibm-plex-sans-latin-600-normal-CuJfVYMP.woff2   24.25 kB\ndist/assets/index-8mHtKZl7.css                              30.37 kB │ gzip:  7.34 kB\ndist/assets/index-DrKtEHgy.js                              309.27 kB │ gzip: 96.55 kB\n\n✓ built in 264ms\n",
+      "stderr": ""
+    },
+    {
+      "comando": [
+        "docker",
+        "compose",
+        "exec",
+        "-T",
+        "frontend",
+        "npm",
+        "audit"
+      ],
+      "codigo_salida": 0,
+      "stdout": "found 0 vulnerabilities\n",
+      "stderr": ""
+    },
+    {
+      "comando": [
+        "C:\\Program Files\\nodejs\\node.EXE",
+        "--test",
+        "frontend/unit/session.test.js"
+      ],
+      "codigo_salida": 0,
+      "stdout": "✔ restauración deduplicada; CSRF y access solo en cabecera (19.9227ms)\n✔ dos 401 simultáneos comparten refresh; se reintenta una vez (2.0556ms)\n✔ refresh rechazado: termina sesión, sin bucle ni datos sensibles (1.5811ms)\n✔ logout concurrente a refresh: no resucita la identidad (1.4733ms)\n✔ fallo de logout: conserva estado de error; 500 y 429 tienen mensajes seguros (1.2373ms)\nℹ tests 5\nℹ suites 0\nℹ pass 5\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 94.7398\n",
+      "stderr": ""
+    },
+    {
+      "url": "http://127.0.0.1:5173/api/v1/health/",
+      "http": 200,
+      "esperado": 200,
+      "codigo_salida": 0,
+      "cuerpo": "{\"estado\":\"disponible\",\"base_de_datos\":\"disponible\"}"
+    },
+    {
+      "url": "http://127.0.0.1:5173/api/v1/categories/",
+      "http": 401,
+      "esperado": 401,
+      "codigo_salida": 0,
+      "cuerpo": "{\"detalle\":\"Credenciales o sesión no válidas.\"}"
+    },
+    {
+      "url": "http://127.0.0.1:5173/api/v1/boxes/",
+      "http": 401,
+      "esperado": 401,
+      "codigo_salida": 0,
+      "cuerpo": "{\"detalle\":\"Credenciales o sesión no válidas.\"}"
+    },
+    {
+      "url": "http://127.0.0.1:5173/api/v1/references/",
+      "http": 401,
+      "esperado": 401,
+      "codigo_salida": 0,
+      "cuerpo": "{\"detalle\":\"Credenciales o sesión no válidas.\"}"
+    }
+  ]
+}

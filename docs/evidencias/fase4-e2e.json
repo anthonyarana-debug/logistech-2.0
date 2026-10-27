@@ -1,0 +1,64 @@
+{
+  "fecha_utc": "2026-10-27T07:38:50.183396+00:00",
+  "entorno": "Chromium 156 / Playwright 1.64.1; servicios Compose locales",
+  "alcance": "8 flujos + 1 accesibilidad, ejecuciones separadas; sin retries",
+  "pruebas": [
+    {
+      "nombre": "landing, responsive, teclado, movimiento reducido y rutas públicas",
+      "archivo": "flows.spec.js",
+      "estado": "passed",
+      "duracion_ms": 998
+    },
+    {
+      "nombre": "registro real y validación de confirmación; login incorrecto",
+      "archivo": "flows.spec.js",
+      "estado": "passed",
+      "duracion_ms": 967
+    },
+    {
+      "nombre": "administrador: CRUD, integridad, filtros, sesión y responsive operacional",
+      "archivo": "flows.spec.js",
+      "estado": "passed",
+      "duracion_ms": 5473
+    },
+    {
+      "nombre": "operador asignado: lectura de categorías y caja autorizada",
+      "archivo": "flows.spec.js",
+      "estado": "passed",
+      "duracion_ms": 1073
+    },
+    {
+      "nombre": "operador pendiente: sin consultas de inventario privado",
+      "archivo": "flows.spec.js",
+      "estado": "passed",
+      "duracion_ms": 478
+    },
+    {
+      "nombre": "superadmin: ámbito, referencias legibles y menú móvil",
+      "archivo": "flows.spec.js",
+      "estado": "passed",
+      "duracion_ms": 948
+    },
+    {
+      "nombre": "fallo de red simulado: error de servicio seguro y recuperable",
+      "archivo": "flows.spec.js",
+      "estado": "passed",
+      "duracion_ms": 288
+    },
+    {
+      "nombre": "access expira realmente a cinco minutos: renovación única y pérdida de refresh",
+      "archivo": "session.spec.js",
+      "estado": "passed",
+      "duracion_ms": 359201
+    },
+    {
+      "nombre": "accesibilidad automática, ampliación CSS 200%, vacío, 403 y 500",
+      "archivo": "accessibility.spec.js",
+      "estado": "passed",
+      "duracion_ms": 5379
+    }
+  ],
+  "aprobadas": 9,
+  "total": 9,
+  "trazas_secretos": "No conservados en evidencia pública"
+}

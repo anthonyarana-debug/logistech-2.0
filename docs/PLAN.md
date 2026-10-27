@@ -1,6 +1,6 @@
 # Plan de desarrollo y validación
 
-Plan original: 2026-10-26. Actualización: 2026-10-27. FASE 3 autorizada, implementada y verificada localmente; esperando revisión antes de F4. Ver INFORME_FASE_3.md y PRUEBAS.md. F4–F8 no se han implementado. Decisión visual registrada para F4: A como base principal, con recursos oscuros de marca de B; sin segundo tema. El frontend permanece sin rediseño.
+Plan original: 2026-10-26. Actualización: 2026-10-27. FASE 4 autorizada e implementada localmente: frontend A con recursos oscuros de B, sesión y CRUD reales. Ver INFORME_FASE_4.md y PRUEBAS.md para evidencias y límites de validación. **F5–F8 no iniciadas; se espera revisión y nueva autorización. El 25 % no se declara completo.**
 
 ## Reglas de avance
 

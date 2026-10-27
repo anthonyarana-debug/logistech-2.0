@@ -1,6 +1,26 @@
-# Contrato REST implementado — Fase 3
+# Contrato REST implementado — Fase 4
 
-Base: `/api/v1/`. Español para mensajes; campos del código en inglés. Desarrollo local: frontend 127.0.0.1:5173 con proxy y API 127.0.0.1:8000. Autenticación de F2 conservada; CRUD inicial de categorías/cajas implementado en F3. Sin rediseño web.
+Base: `/api/v1/`. Español para mensajes; campos del código en inglés. Desarrollo local: frontend 127.0.0.1:5173 con proxy y API 127.0.0.1:8000. Autenticación F2 y CRUD F3 conservados; frontend conectado en F4.
+
+## Consulta mínima de referencias F4
+
+`GET /api/v1/references/` exige Bearer y empresa activa para usuarios no globales. Comparte el límite de 120/min/usuario con CRUD y devuelve `Cache-Control: no-store`. HEAD/OPTIONS disponibles según DRF; POST/PUT/PATCH/DELETE no implementados (405 tras autenticación).
+
+Único filtro opcional: `company=<UUID>`, una sola vez. Usuario no global: solo su empresa; otro ámbito 403 sin revelar su existencia. Superadmin: lista de empresas activas; sin company, productos/sucursales/categorías vacíos; con company, referencias de esa empresa activa. UUID inválido, empresa no disponible para el contexto global, filtro desconocido/repetido: 400. Anónimo 401; operador sin empresa/empresa inactiva 403; límite 429; inesperado 500 genérico.
+
+Respuesta 200:
+
+```json
+{
+  "companies": [{"id": "<uuid>", "name": "<empresa activa>"}],
+  "company": "<uuid o null>",
+  "products": [{"id": "<uuid>", "name": "<nombre>", "sku": "<SKU>", "category": "<uuid>", "category_name": "<nombre>"}],
+  "branches": [{"id": "<uuid>", "name": "<sucursal>"}],
+  "categories": [{"id": "<uuid>", "name": "<categoría>"}]
+}
+```
+
+Solo productos y sucursales activos. Productos con categoría de otra empresa se excluyen. Categorías no poseen campo de actividad; se restringen por pertenencia. Listas sin paginación para el alcance inicial, orden por nombre e id. No hay CRUD nuevo de empresas, productos o sucursales. Pruebas: `test_references.py`; selección visible E2E de los tres roles autorizados. Validación definitiva de FK permanece en las escrituras F3.
 
 ## Rutas
 
