@@ -3,3 +3,4 @@
 docs/evidencias/carga-fase5/** -text -whitespace
 docs/evidencias/carga-fase5/*.html -diff
 *.png binary
+.githooks/* text eol=lf

@@ -1,0 +1,11 @@
+{
+  "fecha_utc": "2026-10-27T15:21:50.424802+00:00",
+  "alcance": "Índice y blobs alcanzables desde todas las ramas/etiquetas locales; sin red",
+  "commits": 6,
+  "rutas_historicas": 230,
+  "blobs": 289,
+  "mayor_blob_bytes": 968114,
+  "exclusiones_comprobadas": 20,
+  "hallazgos": [],
+  "limites": "Patrones y valores privados locales conocidos; no certificación absoluta. Imágenes requieren revisión visual. Contraseñas sintéticas de tests no son cuentas DEMO."
+}

@@ -1,5 +1,7 @@
 # LogisTech 2.0
 
+Sincronización privada: ver [auditoría GitHub y autorización pendiente](docs/AUDITORIA_GITHUB.md) e [instrucciones para otra computadora](docs/NUEVA_COMPUTADORA.md). El código incluye F0–F5; las credenciales, bases y volúmenes locales se recrean o transfieren por un canal privado separado, nunca por Git.
+
 Proyecto académico de Desarrollo de Soluciones en la Nube — TECSUP. **Fase 5: validación local aprobada, entrega global PARCIAL por cloud.** Industrial Precision, React, autenticación y CRUD sobre PostgreSQL. 156 pruebas backend, 5 JS y 9 E2E; Locust 50/100 con resultados reales. Sin despliegue externo. F6–F8 requieren nueva autorización.
 
 Documentación de evaluación: [INFORME_FASE_5](docs/INFORME_FASE_5.md), [CHECKLIST_SEMANA_11](docs/CHECKLIST_SEMANA_11.md), [GUIA_DEMOSTRACION](docs/GUIA_DEMOSTRACION.md), [REPORTE_RENDIMIENTO](docs/REPORTE_RENDIMIENTO.md) y [DESPLIEGUE](docs/DESPLIEGUE.md).

@@ -1,0 +1,19 @@
+#!/bin/sh
+# Barrera local adicional. No crea remotos, no transmite datos y no sustituye autorización.
+case "$2" in
+  *[/:]Logis_Tech_Proyecto_Final|*[/:]Logis_Tech_Proyecto_Final.git)
+    echo "Push bloqueado: el repositorio Android original debe permanecer separado." >&2
+    exit 1
+    ;;
+esac
+
+root=$(git rev-parse --show-toplevel) || exit 1
+if command -v python >/dev/null 2>&1; then
+  runner=python
+elif command -v python3 >/dev/null 2>&1; then
+  runner=python3
+else
+  echo "Se necesita Python 3 para auditar el repositorio antes del push." >&2
+  exit 1
+fi
+exec "$runner" "$root/scripts/auditar_publicacion.py"

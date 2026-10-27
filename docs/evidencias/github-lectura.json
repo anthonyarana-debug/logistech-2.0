@@ -1,0 +1,32 @@
+{
+  "fecha_consulta_utc": "2026-10-27T15:12:47.540455+00:00",
+  "servicio": "GitHub REST API mediante Git Credential Manager; token solo en memoria",
+  "metodos_http": ["GET"],
+  "cuenta_verificada": "anthonyarana-debug",
+  "repositorios_visibles_revisados": 27,
+  "repositorios_privados_visibles": 1,
+  "commit_fase5_buscado": "04dd19a",
+  "commit_fase5_encontrado": false,
+  "informe_fase5_encontrado": false,
+  "coincidencia_android": {
+    "repositorio": "diegoaragonmurillo-sys/Logis_Tech_Proyecto_Final",
+    "privado": false,
+    "rama_predeterminada": "main",
+    "sha_main": "060cb00fecba639f1d9f05c34d33c1054169e89e",
+    "cantidad_ramas": 10,
+    "estructura_observada": ["app", "build.gradle.kts", "gradle", "settings.gradle.kts"],
+    "informe_fase5_http": 404,
+    "consulta_commit_fase5_http": 422,
+    "modificado": false
+  },
+  "destino_propuesto": {
+    "repositorio": "anthonyarana-debug/logistech-2.0",
+    "consulta_http": 404,
+    "creado": false,
+    "privacidad_propuesta": "PRIVATE",
+    "autorizacion_pendiente": true
+  },
+  "codigo_transmitido": false,
+  "push_realizado": false,
+  "limite": "Solo repositorios visibles a la credencial utilizada; no prueba ausencia de copias en otras cuentas."
+}
