@@ -15,3 +15,10 @@ USER root
 COPY requirements-dev.txt ./
 RUN pip install --no-cache-dir -r requirements-dev.txt
 USER app
+
+FROM runtime AS production
+USER root
+COPY requirements-production.txt ./
+RUN pip install --no-cache-dir -r requirements-production.txt
+USER app
+CMD ["gunicorn", "config.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "2", "--threads", "2", "--access-logfile", "-", "--error-logfile", "-"]

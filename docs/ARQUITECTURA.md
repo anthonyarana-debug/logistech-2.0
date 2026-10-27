@@ -1,6 +1,6 @@
 # Arquitectura propuesta — LogisTech 2.0
 
-Estado actualizado el 2026-10-27: F1–F3 implementadas localmente, incluidos CRUD REST iniciales y autorización por recurso/empresa. Frontend funcional/rediseño pendiente F4; validación final F5 pendiente. Ver INFORME_FASE_3.md, ENDPOINTS.md y ROLES_PERMISOS.md para política efectiva. Futura dirección visual: A con recursos oscuros de marca de B, sin segundo tema; no aplicada a la interfaz todavía.
+Estado actualizado el 2026-10-27: F1–F4 implementadas y validadas localmente en F5; frontend Industrial Precision conectado, 156 pruebas backend, 5 JS y 9 E2E aprobados. Carga local 50/100 usuarios registrada. Gunicorn/Linux preparado y comprobado en contenedor efímero; no hay cloud desplegado/verificado. Ver INFORME_FASE_5.md y CHECKLIST_SEMANA_11.md: entrega global PARCIAL por cloud. F6–F8 no iniciadas.
 
 ## Componentes y límites
 

@@ -25,6 +25,7 @@ export default [
         localStorage: 'readonly',
         sessionStorage: 'readonly',
         Buffer: 'readonly',
+        process: 'readonly',
         Response: 'readonly',
       },
     },

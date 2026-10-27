@@ -1,0 +1,8 @@
+# Solo validación local F5. Usar SIEMPRE -p logistech-f5 para aislar DB/caché/datos.
+services:
+  backend:
+    ports: !override ['127.0.0.1:8001:8000']
+    environment:
+      F5_VALIDATION: local-only
+  frontend:
+    ports: !override ['127.0.0.1:5174:5173']

@@ -1,0 +1,59 @@
+{
+  "fecha_inicio": "2026-10-27T07:44:38.962Z",
+  "estadisticas": {
+    "startTime": "2026-10-27T07:44:38.962Z",
+    "duration": 363870.57100000005,
+    "expected": 6,
+    "skipped": 0,
+    "unexpected": 3,
+    "flaky": 0
+  },
+  "casos": [
+    {
+      "nombre": "accesibilidad automática, ampliación CSS 200%, vacío, 403 y 500",
+      "estado": "passed",
+      "duracion_ms": 5890
+    },
+    {
+      "nombre": "landing, responsive, teclado, movimiento reducido y rutas públicas",
+      "estado": "passed",
+      "duracion_ms": 1147
+    },
+    {
+      "nombre": "registro real y validación de confirmación; login incorrecto",
+      "estado": "passed",
+      "duracion_ms": 982
+    },
+    {
+      "nombre": "administrador: CRUD, integridad, filtros, sesión y responsive operacional",
+      "estado": "failed",
+      "duracion_ms": 17510
+    },
+    {
+      "nombre": "operador asignado: lectura de categorías y caja autorizada",
+      "estado": "passed",
+      "duracion_ms": 994
+    },
+    {
+      "nombre": "operador pendiente: sin consultas de inventario privado",
+      "estado": "passed",
+      "duracion_ms": 495
+    },
+    {
+      "nombre": "superadmin: ámbito, referencias legibles y menú móvil",
+      "estado": "passed",
+      "duracion_ms": 55361
+    },
+    {
+      "nombre": "fallo de red simulado: error de servicio seguro y recuperable",
+      "estado": "failed",
+      "duracion_ms": 12304
+    },
+    {
+      "nombre": "access expira realmente a cinco minutos: renovación única y pérdida de refresh",
+      "estado": "failed",
+      "duracion_ms": 330375
+    }
+  ],
+  "origen": "inicial 5173"
+}

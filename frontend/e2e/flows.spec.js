@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test'
-import { Workspace, demo } from './workspace.js'
+import { Workspace, demo, evidencePath } from './workspace.js'
 import { randomUUID } from 'node:crypto'
 
 test('landing, responsive, teclado, movimiento reducido y rutas públicas', async ({ page }) => {
@@ -15,7 +15,7 @@ test('landing, responsive, teclado, movimiento reducido y rutas públicas', asyn
     expect(
       await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth),
     ).toBeTruthy()
-    await page.screenshot({ path: `../docs/evidencias/fase4-landing-${width}.png`, fullPage: true })
+    await page.screenshot({ path: evidencePath(`landing-${width}`), fullPage: true })
   }
   await page.keyboard.press('Tab')
   await expect(page.locator(':focus')).toBeVisible()
@@ -115,7 +115,7 @@ test('administrador: CRUD, integridad, filtros, sesión y responsive operacional
     expect(
       await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth),
     ).toBeTruthy()
-    await page.screenshot({ path: `../docs/evidencias/fase4-cajas-${width}.png`, fullPage: true })
+    await page.screenshot({ path: evidencePath(`cajas-${width}`), fullPage: true })
   }
   await page.getByRole('link', { name: box.internal_id, exact: true }).click()
   await page.getByRole('button', { name: 'Marcar recibida', exact: true }).click()

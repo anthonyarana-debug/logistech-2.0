@@ -7,9 +7,15 @@ export default defineConfig({
   retries: 0,
   timeout: 90000,
   expect: { timeout: 12000 },
-  reporter: [['list'], ['json', { outputFile: '../docs/evidencias/local/fase4-playwright.json' }]],
+  reporter: [
+    ['list'],
+    [
+      'json',
+      { outputFile: process.env.PW_REPORT || '../docs/evidencias/local/fase5-playwright.json' },
+    ],
+  ],
   use: {
-    baseURL: 'http://127.0.0.1:5173',
+    baseURL: process.env.PW_BASE_URL || 'http://127.0.0.1:5173',
     viewport: { width: 1440, height: 1000 },
     trace: 'off',
     screenshot: 'off',

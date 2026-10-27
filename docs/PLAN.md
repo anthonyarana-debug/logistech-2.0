@@ -1,6 +1,6 @@
 # Plan de desarrollo y validación
 
-Plan original: 2026-10-26. Actualización: 2026-10-27. FASE 4 autorizada e implementada localmente: frontend A con recursos oscuros de B, sesión y CRUD reales. Ver INFORME_FASE_4.md y PRUEBAS.md para evidencias y límites de validación. **F5–F8 no iniciadas; se espera revisión y nueva autorización. El 25 % no se declara completo.**
+Plan original: 2026-10-26. Actualización: 2026-10-27. FASE 5 autorizada: validación local ejecutada, 156/5/9 pruebas y escenarios Locust 50/100 aprobados en su alcance delimitado. Entrega global PARCIAL por cloud: arquitectura/artefacto preparados parcialmente, sin despliegue ni verificación externa. Ver INFORME_FASE_5.md y CHECKLIST_SEMANA_11.md. **F6–F8 no iniciadas; se espera revisión y nueva autorización.**
 
 ## Reglas de avance
 
@@ -58,6 +58,8 @@ Salida: demostración web funcional de los casos aprobados, evidencia real y doc
 CHECKLIST HUMANO: revisar experiencia y autorizar F5.
 
 ## F5 — Validación del 25 %
+
+Ejecución real: escenario A 50 a 5/s, B 100 a 10/s, warmup 30 s, objetivo de medida 180 s. Duraciones observadas 179.45/180.44 s por temporización CLI; sin cambiar TTL ni límites. Ajuste técnico explícito respecto al login de cada usuario: una cuenta realiza login HTTP y el resto usa JWT de fixtures autorizadas con TTL normal, porque 5 logins/min/IP impide autenticar 50/100 en la rampa prevista. No se presenta como prueba masiva de login. Se conserva login/cierre HTTP y cada cuenta verifica identidad en servidor. Incidencia de exportador CSV y solución en REPORTE_RENDIMIENTO.md; resultados originales no alterados. La lista siguiente conserva el plan de validación como referencia.
 
 1. Ejecutar suite, integración PostgreSQL, permisos y limitación; revisar errores, migraciones, dependencias, configuración y diagrama.
 2. Locust local: smoke inicial; después 50 usuarios a 5 usuarios/s y 100 a 10 usuarios/s, 3 minutos por escenario, con calentamiento separado de 30 s. Datos y cuentas de prueba por empresa preparados previamente; sin crear datos ilimitados ni probar servicios ajenos.

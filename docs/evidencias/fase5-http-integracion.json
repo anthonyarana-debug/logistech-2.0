@@ -1,0 +1,97 @@
+{
+  "entorno": "Servidor HTTP efímero en contenedor, PostgreSQL test_ separado",
+  "resultados": [
+    {
+      "metodo": "GET",
+      "ruta": "/api/v1/boxes/",
+      "http": 401,
+      "esperado": 401
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/v1/categories/",
+      "http": 201,
+      "esperado": 201
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/v1/categories/7da5e020-9b89-409b-92e6-961db305d673/",
+      "http": 200,
+      "esperado": 200
+    },
+    {
+      "metodo": "PUT",
+      "ruta": "/api/v1/categories/7da5e020-9b89-409b-92e6-961db305d673/",
+      "http": 200,
+      "esperado": 200
+    },
+    {
+      "metodo": "PATCH",
+      "ruta": "/api/v1/categories/7da5e020-9b89-409b-92e6-961db305d673/",
+      "http": 200,
+      "esperado": 200
+    },
+    {
+      "metodo": "DELETE",
+      "ruta": "/api/v1/categories/7da5e020-9b89-409b-92e6-961db305d673/",
+      "http": 204,
+      "esperado": 204
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/v1/boxes/",
+      "http": 201,
+      "esperado": 201
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/v1/boxes/9496bf67-8f6d-4de5-a765-a65f008c33e8/",
+      "http": 200,
+      "esperado": 200
+    },
+    {
+      "metodo": "PUT",
+      "ruta": "/api/v1/boxes/9496bf67-8f6d-4de5-a765-a65f008c33e8/",
+      "http": 200,
+      "esperado": 200
+    },
+    {
+      "metodo": "PATCH",
+      "ruta": "/api/v1/boxes/9496bf67-8f6d-4de5-a765-a65f008c33e8/",
+      "http": 200,
+      "esperado": 200
+    },
+    {
+      "metodo": "DELETE",
+      "ruta": "/api/v1/boxes/9496bf67-8f6d-4de5-a765-a65f008c33e8/",
+      "http": 403,
+      "esperado": 403
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/v1/boxes/f08b0136-0dd5-471e-877c-54e5625efc0a/",
+      "http": 404,
+      "esperado": 404
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/v1/boxes/",
+      "http": 400,
+      "esperado": 400
+    },
+    {
+      "metodo": "DELETE",
+      "ruta": "/api/v1/boxes/9496bf67-8f6d-4de5-a765-a65f008c33e8/",
+      "http": 204,
+      "esperado": 204
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/v1/boxes/9496bf67-8f6d-4de5-a765-a65f008c33e8/",
+      "http": 404,
+      "esperado": 404
+    }
+  ],
+  "datos_permanentes_creados": false,
+  "ejecucion": "Reejecutado por suite F5; path interno conserva nombre legado F3"
+}

@@ -1,0 +1,16 @@
+{
+  "fecha_utc": "2026-10-27T14:55:45.428Z",
+  "comando_cierre": "docker compose -p logistech-f5 -f docker-compose.yml -f compose.validation.yml stop",
+  "salida": "NAME                      IMAGE                     COMMAND                  SERVICE    CREATED          STATUS                    PORTS\nlogistech-v2-backend-1    logistech-v2-backend      \"python manage.py ru…\"   backend    16 minutes ago   Up 16 minutes (healthy)   127.0.0.1:8000->8000/tcp\nlogistech-v2-db-1         postgres:17.11-bookworm   \"docker-entrypoint.s…\"   db         10 hours ago     Up 16 minutes (healthy)   5432/tcp\nlogistech-v2-frontend-1   logistech-v2-frontend     \"docker-entrypoint.s…\"   frontend   16 minutes ago   Up 16 minutes (healthy)   127.0.0.1:5173->5173/tcp\nNAME                      IMAGE                     COMMAND                  SERVICE    CREATED          STATUS                            PORTS\nlogistech-f5-backend-1    logistech-f5-backend      \"python manage.py ru…\"   backend    19 minutes ago   Exited (137) About a minute ago   \nlogistech-f5-db-1         postgres:17.11-bookworm   \"docker-entrypoint.s…\"   db         7 hours ago      Exited (0) About a minute ago     \nlogistech-f5-frontend-1   logistech-f5-frontend     \"docker-entrypoint.s…\"   frontend   19 minutes ago   Exited (1) About a minute ago     \n{\"http\": 200, \"body\": {\"estado\": \"disponible\", \"base_de_datos\": \"disponible\"}}\r\n",
+  "codigo_salida": 0,
+  "comprobacion_previa_retirada": {
+    "usuarios_carga": 154,
+    "usuarios_carga_activos": 0,
+    "cajas_carga_conservadas": 159
+  },
+  "notas": [
+    "Usuarios retirados comprobados en DB antes de detener F5; solo datos DEMO de carga.",
+    "Manifiestos de carga privados eliminados; credenciales de demostración permanecen ignoradas y con ACL privada.",
+    "Sin cambios en evidencias F1–F4; volumen F5 conservado sin servicios ni puertos temporales activos."
+  ]
+}

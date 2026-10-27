@@ -1,4 +1,10 @@
-# Seguridad — estado de Fase 4
+# Seguridad — validación de Fase 5
+
+F5: regresión completa sobre PostgreSQL, 156 casos backend y 5 de sesión JS; 9 E2E aislados. Aislamiento/CSRF/roles/hash/constraints siguen activos. Primera regresión E2E obtuvo tres fallos por 429 de refresh tras ejecuciones acumuladas: se conserva en fase5-e2e-inicial.json. Se preparó entorno de validación con DB/caché separadas, sin reducir límites; fase5-e2e-final.json aprobó nueve casos. No se reinició el entorno de demostración para fingir recuperación de la ventana.
+
+Producción añade PostgreSQL TLS verify-full, CA externo opcional/configurable, orígenes CSRF HTTPS explícitos y proxy TLS confiable opt-in. Cinco tests nuevos comprueban políticas y rechazo de opciones inseguras. El artefacto Gunicorn se verificó solo localmente; readiness 503 sin TLS de la DB local es esperado. Cloud, certificados/proxy real, restore y limitación compartida permanecen sin verificar, con dos advertencias HSTS no silenciadas.
+
+Carga: JWT legítimos de fixtures para 50/100 identidades y un login HTTP por escenario. Cuentas solo en la DB de validación; contraseñas inutilizables excepto la del login controlado, aleatoria. Límite de un POST y PATCH por usuario; se desactivan al terminar y se eliminan manifiestos privados. No XFF falsificado, ni cambios de TTL/CSRF/throttle/autorización. No se confunde autenticación preemitida de test con una prueba masiva del login. Secretos y credenciales de demostración siguen ignorados, con ACL local restringida.
 
 Las secciones de autenticación F2 y autorización CRUD F3 se conservan. La integración web F4 añade los controles siguientes.
 

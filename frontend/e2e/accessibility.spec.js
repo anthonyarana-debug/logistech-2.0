@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
 import AxeBuilder from '@axe-core/playwright'
-import { Workspace } from './workspace.js'
+import { Workspace, evidencePath } from './workspace.js'
 
 async function accessible(page) {
   const result = await new AxeBuilder({ page })
@@ -33,7 +33,7 @@ test('accesibilidad automática, ampliación CSS 200%, vacío, 403 y 500', async
     document.documentElement.style.zoom = '2'
   })
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBeTruthy()
-  await page.screenshot({ path: '../docs/evidencias/fase4-cajas-css-200.png', fullPage: true })
+  await page.screenshot({ path: evidencePath('cajas-css-200'), fullPage: true })
   await page.evaluate(() => {
     document.documentElement.style.zoom = ''
   })

@@ -96,7 +96,9 @@ code,
   font-size: 11px;
   letter-spacing: 0;
   font-weight: 400;
-  vertical-align: top;
+  vertical-align: baseline;
+  position: static;
+  line-height: 1;
 }
 .button {
   min-height: 46px;

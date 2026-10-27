@@ -1,4 +1,6 @@
-# Contrato REST implementado — Fase 4
+# Contrato REST implementado — validado en Fase 5
+
+F5 no añade rutas de negocio. Regresión backend 156 casos, 9 E2E y carga API local 50/100, con evidencia en INFORME_FASE_5.md. Los códigos positivos/negativos y permisos siguientes conservan su contrato. Cloud/HTTPS externos sin verificar; no extrapolar los resultados locales.
 
 Base: `/api/v1/`. Español para mensajes; campos del código en inglés. Desarrollo local: frontend 127.0.0.1:5173 con proxy y API 127.0.0.1:8000. Autenticación F2 y CRUD F3 conservados; frontend conectado en F4.
 

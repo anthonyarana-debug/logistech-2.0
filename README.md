@@ -1,6 +1,52 @@
 # LogisTech 2.0
 
-Proyecto académico de Desarrollo de Soluciones en la Nube — TECSUP. **Fase 4: frontend funcional con React, autenticación y CRUD conectados a PostgreSQL.** Diseño Industrial Precision / Hoja de control. F5 requiere nueva autorización; no está completa la entrega del 25 %.
+Proyecto académico de Desarrollo de Soluciones en la Nube — TECSUP. **Fase 5: validación local aprobada, entrega global PARCIAL por cloud.** Industrial Precision, React, autenticación y CRUD sobre PostgreSQL. 156 pruebas backend, 5 JS y 9 E2E; Locust 50/100 con resultados reales. Sin despliegue externo. F6–F8 requieren nueva autorización.
+
+Documentación de evaluación: [INFORME_FASE_5](docs/INFORME_FASE_5.md), [CHECKLIST_SEMANA_11](docs/CHECKLIST_SEMANA_11.md), [GUIA_DEMOSTRACION](docs/GUIA_DEMOSTRACION.md), [REPORTE_RENDIMIENTO](docs/REPORTE_RENDIMIENTO.md) y [DESPLIEGUE](docs/DESPLIEGUE.md).
+
+## Validación F5 reproducible
+
+El Compose principal sigue en 5173/8000. Para no consumir sus ventanas ni mezclar datos, usar proyecto separado; no omitir `-p logistech-f5`:
+
+```powershell
+docker compose -p logistech-f5 -f docker-compose.yml -f compose.validation.yml up -d --build --wait db
+docker compose -p logistech-f5 -f docker-compose.yml -f compose.validation.yml run --rm --no-deps backend python manage.py migrate --noinput
+docker compose -p logistech-f5 -f docker-compose.yml -f compose.validation.yml up -d --build --wait --wait-timeout 120
+docker compose -p logistech-f5 -f docker-compose.yml -f compose.validation.yml exec -T backend python manage.py create_demo --namespace f5-validacion --output /tmp/f5-demo.json
+docker compose -p logistech-f5 -f docker-compose.yml -f compose.validation.yml cp backend:/tmp/f5-demo.json .env.f5-demo.json
+```
+
+Si namespace/archivo ya existe, conservarlo; no repetir creación ni sustituir claves. Restringir ACL como se explica en la demostración F4. Validación publica solo puertos temporales loopback 8001/5174, PostgreSQL permanece privado. Mantiene los límites reales; no reiniciarlo repetidamente para obtener resultados mejores.
+
+E2E (nombres de evidencias F5, sin sobrescribir F1–F4):
+
+```powershell
+Set-Location frontend
+$env:PW_BASE_URL='http://127.0.0.1:5174'
+$env:PW_DEMO_FILE='../.env.f5-demo.json'
+$env:PW_EVIDENCE_PREFIX='fase5'
+$env:PW_REPORT='../docs/evidencias/local/fase5-e2e-final.json'
+npm run test:e2e
+Set-Location ..
+python scripts/verificar_fase5.py
+```
+
+El verificador espera los reportes E2E inicial/final conservados localmente en esta sesión; si no existen en un checkout nuevo, registrar primero la ejecución final y omitir la inicial histórica ausente, según el script. No inventar una regresión inicial aprobada. E2E de expiración tarda unos seis minutos; registros/límites requieren esperar ventanas entre ejecuciones. Para nuevas series usar nombres nuevos, no sobrescribir los resultados ya versionados.
+
+Carga solo después del humo, con servicios de validación saludables y sin otras suites intensivas:
+
+```powershell
+.venv/Scripts/python.exe -m venv .venv-load
+.venv-load/Scripts/python.exe -m pip install -r load-requirements.txt
+.venv-load/Scripts/python.exe load/run.py --scenario smoke
+.venv-load/Scripts/python.exe load/run.py --scenario a-50
+.venv-load/Scripts/python.exe load/run.py --scenario b-100
+python scripts/resumir_carga_fase5.py
+```
+
+load-requirements.txt fija el generador **Windows/Python 3.13**, separado de Django. No instalarlo como requirements del backend. Un login HTTP por escenario; demás JWT de fixtures, sin aumentar TTL o cambiar seguridad. Datos/cuentas limitados a su namespace; cuentas retiradas al terminar y manifiestos privados eliminados. CSV iniciales con incidencia de cierre conservados; exportador corregido probado en humo posterior. Ver reporte para qué mide y qué no.
+
+Al terminar: `docker compose -p logistech-f5 -f docker-compose.yml -f compose.validation.yml stop`. Conserva volumen/evidencia para revisión, cierra puertos temporales y no afecta la demo principal. No usar down -v. Ninguno de estos comandos crea infraestructura cloud.
 
 ## Iniciar localmente
 

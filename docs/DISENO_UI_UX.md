@@ -1,5 +1,7 @@
 # LogisTech 2.0 — Industrial Precision
 
+Validación F5: se conservó A sin rediseñar. Se corrigió `2.0`, que heredaba la posición elevada de sup, usando posición estática y alineación de baseline para mantenerlo junto a la palabra LogisTech. Captura manual fase5-logo-manual.png y responsive/E2E renovados en fase5-*.png. Espaciados, jerarquía, login/registro, tablas/formularios, vacíos y errores se revisaron con las nueve pruebas y axe. No hubo nuevas dependencias UI ni animaciones. Persisten validaciones humanas de zoom nativo, lector y tacto físico; no se confunden con CSS zoom/automatización.
+
 Fecha: 27 de octubre de 2026. Documento preparado en F2 y actualizado en F4. **Alternativa A implementada**, con recursos oscuros de marca inspirados en B y un solo sistema visual. Las secciones de alternativas y brief conservan la propuesta histórica; la implementación y sus diferencias se describen al final. El backend no depende de Stitch.
 
 ## Identidad propia

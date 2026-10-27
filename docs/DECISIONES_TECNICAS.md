@@ -1,5 +1,11 @@
 # Decisiones técnicas
 
+## ADR-011 — Cierre de validación local F5
+
+La regresión se ejecuta antes de cambiar código y conserva fallos reales. Para no consumir cuotas/datos de la demostración se usa proyecto Compose separado con límites idénticos, puertos temporales loopback y DB propia; no se presenta su caché nueva como recuperación del proceso previo. Carga 50/100 con identidad autenticada por cuenta, un login HTTP controlado y JWT de fixtures con TTL normal; no prueba login masivo. CSV de cierre corregido sin alterar originales, detalles en REPORTE_RENDIMIENTO.
+
+Producción usa artefacto Linux Gunicorn, verificación de TLS PostgreSQL y proxy confiable opt-in, sin exponerlo. Pruebas locales no acreditan TLS/DB/cloud reales. Resultado global PARCIAL hasta resolver el requisito cloud con el profesor/usuario; no se autorizaron F6–F8. El cambio visual F5 se limita a alinear 2.0 y renovar comprobaciones del sistema A.
+
 ## ADR-010 — Integración web F4
 
 React/Fetch sin librería de estado global ni cliente HTTP adicional: access en cierre de módulo, cookie HttpOnly existente, CSRF y promesas compartidas para restauración/renovación. Rutas privadas bloqueadas hasta resolver identidad y pertenencia; autorización definitiva en DRF. Consultas descartadas al cambiar contexto/desmontar; logout con guardia de revisión y marcador no secreto de revocación pendiente.

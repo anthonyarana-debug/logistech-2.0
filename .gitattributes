@@ -1,2 +1,5 @@
 * text=auto eol=lf
+# Informes generados: conservar bytes originales, incluidos CR del CSV Windows.
+docs/evidencias/carga-fase5/** -text -whitespace
+docs/evidencias/carga-fase5/*.html -diff
 *.png binary

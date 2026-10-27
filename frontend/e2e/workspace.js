@@ -2,8 +2,13 @@ import { expect } from '@playwright/test'
 import { readFileSync } from 'node:fs'
 
 export const demo = JSON.parse(
-  readFileSync(new URL('../../.env.demo.json', import.meta.url), 'utf8'),
+  readFileSync(
+    process.env.PW_DEMO_FILE || new URL('../../.env.demo.json', import.meta.url),
+    'utf8',
+  ),
 )
+export const evidencePath = (name) =>
+  `../docs/evidencias/${process.env.PW_EVIDENCE_PREFIX || 'fase5'}-${name}.png`
 export class Workspace {
   constructor(page) {
     this.page = page

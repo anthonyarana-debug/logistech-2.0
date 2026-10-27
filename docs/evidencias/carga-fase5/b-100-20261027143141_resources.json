@@ -1,0 +1,1190 @@
+[
+  {
+    "fecha_utc": "2026-10-27T14:31:44.263200+00:00",
+    "contenedores": [
+      {
+        "BlockIO": "4.8MB / 28.7kB",
+        "CPUPerc": "28.37%",
+        "Container": "logistech-f5-backend-1",
+        "ID": "2bfed9f575fb",
+        "MemPerc": "1.04%",
+        "MemUsage": "77.77MiB / 7.332GiB",
+        "Name": "logistech-f5-backend-1",
+        "NetIO": "93.4MB / 62.1MB",
+        "PIDs": "11"
+      },
+      {
+        "BlockIO": "43.9MB / 1.85MB",
+        "CPUPerc": "8.87%",
+        "Container": "logistech-f5-db-1",
+        "ID": "8b2b9dd90f14",
+        "MemPerc": "0.63%",
+        "MemUsage": "47.41MiB / 7.332GiB",
+        "Name": "logistech-f5-db-1",
+        "NetIO": "20.2MB / 88.9MB",
+        "PIDs": "6"
+      }
+    ]
+  },
+  {
+    "fecha_utc": "2026-10-27T14:31:49.413977+00:00",
+    "contenedores": [
+      {
+        "BlockIO": "4.8MB / 28.7kB",
+        "CPUPerc": "30.97%",
+        "Container": "logistech-f5-backend-1",
+        "ID": "2bfed9f575fb",
+        "MemPerc": "1.10%",
+        "MemUsage": "82.8MiB / 7.332GiB",
+        "Name": "logistech-f5-backend-1",
+        "NetIO": "94.2MB / 62.8MB",
+        "PIDs": "61"
+      },
+      {
+        "BlockIO": "43.9MB / 1.96MB",
+        "CPUPerc": "17.55%",
+        "Container": "logistech-f5-db-1",
+        "ID": "8b2b9dd90f14",
+        "MemPerc": "0.63%",
+        "MemUsage": "47.36MiB / 7.332GiB",
+        "Name": "logistech-f5-db-1",
+        "NetIO": "20.5MB / 89.3MB",
+        "PIDs": "6"
+      }
+    ]
+  },
+  {
+    "fecha_utc": "2026-10-27T14:31:54.567325+00:00",
+    "contenedores": [
+      {
+        "BlockIO": "4.8MB / 28.7kB",
+        "CPUPerc": "30.02%",
+        "Container": "logistech-f5-backend-1",
+        "ID": "2bfed9f575fb",
+        "MemPerc": "1.20%",
+        "MemUsage": "90.41MiB / 7.332GiB",
+        "Name": "logistech-f5-backend-1",
+        "NetIO": "96.4MB / 64.6MB",
+        "PIDs": "101"
+      },
+      {
+        "BlockIO": "43.9MB / 2.08MB",
+        "CPUPerc": "34.47%",
+        "Container": "logistech-f5-db-1",
+        "ID": "8b2b9dd90f14",
+        "MemPerc": "0.63%",
+        "MemUsage": "47.37MiB / 7.332GiB",
+        "Name": "logistech-f5-db-1",
+        "NetIO": "21.5MB / 91MB",
+        "PIDs": "6"
+      }
+    ]
+  },
+  {
+    "fecha_utc": "2026-10-27T14:31:59.718900+00:00",
+    "contenedores": [
+      {
+        "BlockIO": "4.8MB / 81.9kB",
+        "CPUPerc": "38.31%",
+        "Container": "logistech-f5-backend-1",
+        "ID": "2bfed9f575fb",
+        "MemPerc": "1.22%",
+        "MemUsage": "91.89MiB / 7.332GiB",
+        "Name": "logistech-f5-backend-1",
+        "NetIO": "99.8MB / 67.1MB",
+        "PIDs": "101"
+      },
+      {
+        "BlockIO": "43.9MB / 2.25MB",
+        "CPUPerc": "27.40%",
+        "Container": "logistech-f5-db-1",
+        "ID": "8b2b9dd90f14",
+        "MemPerc": "0.64%",
+        "MemUsage": "47.97MiB / 7.332GiB",
+        "Name": "logistech-f5-db-1",
+        "NetIO": "22.6MB / 93.9MB",
+        "PIDs": "6"
+      }
+    ]
+  },
+  {
+    "fecha_utc": "2026-10-27T14:32:03.874979+00:00",
+    "contenedores": [
+      {
+        "BlockIO": "4.8MB / 81.9kB",
+        "CPUPerc": "34.45%",
+        "Container": "logistech-f5-backend-1",
+        "ID": "2bfed9f575fb",
+        "MemPerc": "1.24%",
+        "MemUsage": "93MiB / 7.332GiB",
+        "Name": "logistech-f5-backend-1",
+        "NetIO": "103MB / 69.4MB",
+        "PIDs": "101"
+      },
+      {
+        "BlockIO": "43.9MB / 2.34MB",
+        "CPUPerc": "25.81%",
+        "Container": "logistech-f5-db-1",
+        "ID": "8b2b9dd90f14",
+        "MemPerc": "0.67%",
+        "MemUsage": "50.47MiB / 7.332GiB",
+        "Name": "logistech-f5-db-1",
+        "NetIO": "23.7MB / 97.9MB",
+        "PIDs": "8"
+      }
+    ]
+  },
+  {
+    "fecha_utc": "2026-10-27T14:32:08.028517+00:00",
+    "contenedores": [
+      {
+        "BlockIO": "4.8MB / 81.9kB",
+        "CPUPerc": "42.11%",
+        "Container": "logistech-f5-backend-1",
+        "ID": "2bfed9f575fb",
+        "MemPerc": "1.24%",
+        "MemUsage": "93.32MiB / 7.332GiB",
+        "Name": "logistech-f5-backend-1",
+        "NetIO": "107MB / 72MB",
+        "PIDs": "101"
+      },
+      {
+        "BlockIO": "43.9MB / 2.51MB",
+        "CPUPerc": "26.42%",
+        "Container": "logistech-f5-db-1",
+        "ID": "8b2b9dd90f14",
+        "MemPerc": "0.64%",
+        "MemUsage": "47.79MiB / 7.332GiB",
+        "Name": "logistech-f5-db-1",
+        "NetIO": "24.6MB / 101MB",
+        "PIDs": "6"
+      }
+    ]
+  },
+  {
+    "fecha_utc": "2026-10-27T14:32:13.178943+00:00",
+    "contenedores": [
+      {
+        "BlockIO": "4.8MB / 81.9kB",
+        "CPUPerc": "41.12%",
+        "Container": "logistech-f5-backend-1",
+        "ID": "2bfed9f575fb",
+        "MemPerc": "1.27%",
+        "MemUsage": "95.12MiB / 7.332GiB",
+        "Name": "logistech-f5-backend-1",
+        "NetIO": "112MB / 75.3MB",
+        "PIDs": "101"
+      },
+      {
+        "BlockIO": "43.9MB / 2.6MB",
+        "CPUPerc": "23.21%",
+        "Container": "logistech-f5-db-1",
+        "ID": "8b2b9dd90f14",
+        "MemPerc": "0.63%",
+        "MemUsage": "47.28MiB / 7.332GiB",
+        "Name": "logistech-f5-db-1",
+        "NetIO": "25.4MB / 105MB",
+        "PIDs": "6"
+      }
+    ]
+  },
+  {
+    "fecha_utc": "2026-10-27T14:32:17.760529+00:00",
+    "contenedores": [
+      {
+        "BlockIO": "4.8MB / 81.9kB",
+        "CPUPerc": "42.38%",
+        "Container": "logistech-f5-backend-1",
+        "ID": "2bfed9f575fb",
+        "MemPerc": "1.28%",
+        "MemUsage": "96.12MiB / 7.332GiB",
+        "Name": "logistech-f5-backend-1",
+        "NetIO": "117MB / 78.6MB",
+        "PIDs": "101"
+      },
+      {
+        "BlockIO": "43.9MB / 2.72MB",
+        "CPUPerc": "26.99%",
+        "Container": "logistech-f5-db-1",
+        "ID": "8b2b9dd90f14",
+        "MemPerc": "0.63%",
+        "MemUsage": "47.41MiB / 7.332GiB",
+        "Name": "logistech-f5-db-1",
+        "NetIO": "26.6MB / 111MB",
+        "PIDs": "6"
+      }
+    ]
+  },
+  {
+    "fecha_utc": "2026-10-27T14:32:22.913490+00:00",
+    "contenedores": [
+      {
+        "BlockIO": "4.8MB / 81.9kB",
+        "CPUPerc": "38.20%",
+        "Container": "logistech-f5-backend-1",
+        "ID": "2bfed9f575fb",
+        "MemPerc": "1.29%",
+        "MemUsage": "97.14MiB / 7.332GiB",
+        "Name": "logistech-f5-backend-1",
+        "NetIO": "124MB / 82.9MB",
+        "PIDs": "101"
+      },
+      {
+        "BlockIO": "43.9MB / 2.85MB",
+        "CPUPerc": "29.29%",
+        "Container": "logistech-f5-db-1",
+        "ID": "8b2b9dd90f14",
+        "MemPerc": "0.74%",
+        "MemUsage": "55.24MiB / 7.332GiB",
+        "Name": "logistech-f5-db-1",
+        "NetIO": "27.5MB / 116MB",
+        "PIDs": "9"
+      }
+    ]
+  },
+  {
+    "fecha_utc": "2026-10-27T14:32:27.758682+00:00",
+    "contenedores": [
+      {
+        "BlockIO": "4.8MB / 81.9kB",
+        "CPUPerc": "43.40%",
+        "Container": "logistech-f5-backend-1",
+        "ID": "2bfed9f575fb",
+        "MemPerc": "1.32%",
+        "MemUsage": "99.31MiB / 7.332GiB",
+        "Name": "logistech-f5-backend-1",
+        "NetIO": "130MB / 87MB",
+        "PIDs": "101"
+      },
+      {
+        "BlockIO": "43.9MB / 3.2MB",
+        "CPUPerc": "25.05%",
+        "Container": "logistech-f5-db-1",
+        "ID": "8b2b9dd90f14",
+        "MemPerc": "0.65%",
+        "MemUsage": "48.54MiB / 7.332GiB",
+        "Name": "logistech-f5-db-1",
+        "NetIO": "28.7MB / 124MB",
+        "PIDs": "6"
+      }
+    ]
+  },
+  {
+    "fecha_utc": "2026-10-27T14:32:31.912096+00:00",
+    "contenedores": [
+      {
+        "BlockIO": "4.8MB / 81.9kB",
+        "CPUPerc": "53.62%",
+        "Container": "logistech-f5-backend-1",
+        "ID": "2bfed9f575fb",
+        "MemPerc": "1.35%",
+        "MemUsage": "101.3MiB / 7.332GiB",
+        "Name": "logistech-f5-backend-1",
+        "NetIO": "137MB / 90.8MB",
+        "PIDs": "101"
+      },
+      {
+        "BlockIO": "43.9MB / 3.84MB",
+        "CPUPerc": "29.98%",
+        "Container": "logistech-f5-db-1",
+        "ID": "8b2b9dd90f14",
+        "MemPerc": "0.68%",
+        "MemUsage": "50.98MiB / 7.332GiB",
+        "Name": "logistech-f5-db-1",
+        "NetIO": "29.6MB / 130MB",
+        "PIDs": "7"
+      }
+    ]
+  },
+  {
+    "fecha_utc": "2026-10-27T14:32:36.755878+00:00",
+    "contenedores": [
+      {
+        "BlockIO": "4.8MB / 81.9kB",
+        "CPUPerc": "42.35%",
+        "Container": "logistech-f5-backend-1",
+        "ID": "2bfed9f575fb",
+        "MemPerc": "1.36%",
+        "MemUsage": "102MiB / 7.332GiB",
+        "Name": "logistech-f5-backend-1",
+        "NetIO": "144MB / 95.2MB",
+        "PIDs": "101"
+      },
+      {
+        "BlockIO": "43.9MB / 4.22MB",
+        "CPUPerc": "22.92%",
+        "Container": "logistech-f5-db-1",
+        "ID": "8b2b9dd90f14",
+        "MemPerc": "0.63%",
+        "MemUsage": "47.57MiB / 7.332GiB",
+        "Name": "logistech-f5-db-1",
+        "NetIO": "30.6MB / 137MB",
+        "PIDs": "6"
+      }
+    ]
+  },
+  {
+    "fecha_utc": "2026-10-27T14:32:40.904239+00:00",
+    "contenedores": [
+      {
+        "BlockIO": "4.8MB / 81.9kB",
+        "CPUPerc": "47.05%",
+        "Container": "logistech-f5-backend-1",
+        "ID": "2bfed9f575fb",
+        "MemPerc": "1.49%",
+        "MemUsage": "111.6MiB / 7.332GiB",
+        "Name": "logistech-f5-backend-1",
+        "NetIO": "150MB / 99.2MB",
+        "PIDs": "102"
+      },
+      {
+        "BlockIO": "43.9MB / 4.37MB",
+        "CPUPerc": "26.31%",
+        "Container": "logistech-f5-db-1",
+        "ID": "8b2b9dd90f14",
+        "MemPerc": "0.68%",
+        "MemUsage": "51.25MiB / 7.332GiB",
+        "Name": "logistech-f5-db-1",
+        "NetIO": "31.5MB / 143MB",
+        "PIDs": "8"
+      }
+    ]
+  },
+  {
+    "fecha_utc": "2026-10-27T14:32:46.065185+00:00",
+    "contenedores": [
+      {
+        "BlockIO": "4.8MB / 81.9kB",
+        "CPUPerc": "43.80%",
+        "Container": "logistech-f5-backend-1",
+        "ID": "2bfed9f575fb",
+        "MemPerc": "1.37%",
+        "MemUsage": "103.1MiB / 7.332GiB",
+        "Name": "logistech-f5-backend-1",
+        "NetIO": "159MB / 105MB",
+        "PIDs": "101"
+      },
+      {
+        "BlockIO": "43.9MB / 4.45MB",
+        "CPUPerc": "23.34%",
+        "Container": "logistech-f5-db-1",
+        "ID": "8b2b9dd90f14",
+        "MemPerc": "0.66%",
+        "MemUsage": "49.84MiB / 7.332GiB",
+        "Name": "logistech-f5-db-1",
+        "NetIO": "32.3MB / 150MB",
+        "PIDs": "7"
+      }
+    ]
+  },
+  {
+    "fecha_utc": "2026-10-27T14:32:50.219817+00:00",
+    "contenedores": [
+      {
+        "BlockIO": "4.8MB / 81.9kB",
+        "CPUPerc": "43.06%",
+        "Container": "logistech-f5-backend-1",
+        "ID": "2bfed9f575fb",
+        "MemPerc": "1.40%",
+        "MemUsage": "104.9MiB / 7.332GiB",
+        "Name": "logistech-f5-backend-1",
+        "NetIO": "166MB / 109MB",
+        "PIDs": "101"
+      },
+      {
+        "BlockIO": "43.9MB / 4.56MB",
+        "CPUPerc": "23.07%",
+        "Container": "logistech-f5-db-1",
+        "ID": "8b2b9dd90f14",
+        "MemPerc": "0.64%",
+        "MemUsage": "48.29MiB / 7.332GiB",
+        "Name": "logistech-f5-db-1",
+        "NetIO": "33.4MB / 158MB",
+        "PIDs": "6"
+      }
+    ]
+  },
+  {
+    "fecha_utc": "2026-10-27T14:32:55.369505+00:00",
+    "contenedores": [
+      {
+        "BlockIO": "4.8MB / 81.9kB",
+        "CPUPerc": "41.90%",
+        "Container": "logistech-f5-backend-1",
+        "ID": "2bfed9f575fb",
+        "MemPerc": "1.40%",
+        "MemUsage": "105.4MiB / 7.332GiB",
+        "Name": "logistech-f5-backend-1",
+        "NetIO": "174MB / 114MB",
+        "PIDs": "101"
+      },
+      {
+        "BlockIO": "43.9MB / 4.65MB",
+        "CPUPerc": "25.77%",
+        "Container": "logistech-f5-db-1",
+        "ID": "8b2b9dd90f14",
+        "MemPerc": "0.65%",
+        "MemUsage": "48.43MiB / 7.332GiB",
+        "Name": "logistech-f5-db-1",
+        "NetIO": "34.2MB / 165MB",
+        "PIDs": "6"
+      }
+    ]
+  },
+  {
+    "fecha_utc": "2026-10-27T14:33:00.526279+00:00",
+    "contenedores": [
+      {
+        "BlockIO": "4.8MB / 81.9kB",
+        "CPUPerc": "34.71%",
+        "Container": "logistech-f5-backend-1",
+        "ID": "2bfed9f575fb",
+        "MemPerc": "1.41%",
+        "MemUsage": "106MiB / 7.332GiB",
+        "Name": "logistech-f5-backend-1",
+        "NetIO": "183MB / 119MB",
+        "PIDs": "101"
+      },
+      {
+        "BlockIO": "43.9MB / 4.78MB",
+        "CPUPerc": "27.29%",
+        "Container": "logistech-f5-db-1",
+        "ID": "8b2b9dd90f14",
+        "MemPerc": "0.63%",
+        "MemUsage": "47.56MiB / 7.332GiB",
+        "Name": "logistech-f5-db-1",
+        "NetIO": "35.3MB / 174MB",
+        "PIDs": "6"
+      }
+    ]
+  },
+  {
+    "fecha_utc": "2026-10-27T14:33:05.678100+00:00",
+    "contenedores": [
+      {
+        "BlockIO": "4.8MB / 81.9kB",
+        "CPUPerc": "33.06%",
+        "Container": "logistech-f5-backend-1",
+        "ID": "2bfed9f575fb",
+        "MemPerc": "1.43%",
+        "MemUsage": "107.4MiB / 7.332GiB",
+        "Name": "logistech-f5-backend-1",
+        "NetIO": "190MB / 124MB",
+        "PIDs": "101"
+      },
+      {
+        "BlockIO": "43.9MB / 4.93MB",
+        "CPUPerc": "27.00%",
+        "Container": "logistech-f5-db-1",
+        "ID": "8b2b9dd90f14",
+        "MemPerc": "0.64%",
+        "MemUsage": "47.74MiB / 7.332GiB",
+        "Name": "logistech-f5-db-1",
+        "NetIO": "36.5MB / 184MB",
+        "PIDs": "6"
+      }
+    ]
+  },
+  {
+    "fecha_utc": "2026-10-27T14:33:10.829887+00:00",
+    "contenedores": [
+      {
+        "BlockIO": "4.8MB / 81.9kB",
+        "CPUPerc": "39.51%",
+        "Container": "logistech-f5-backend-1",
+        "ID": "2bfed9f575fb",
+        "MemPerc": "1.44%",
+        "MemUsage": "107.9MiB / 7.332GiB",
+        "Name": "logistech-f5-backend-1",
+        "NetIO": "199MB / 129MB",
+        "PIDs": "101"
+      },
+      {
+        "BlockIO": "43.9MB / 4.99MB",
+        "CPUPerc": "20.28%",
+        "Container": "logistech-f5-db-1",
+        "ID": "8b2b9dd90f14",
+        "MemPerc": "0.70%",
+        "MemUsage": "52.8MiB / 7.332GiB",
+        "Name": "logistech-f5-db-1",
+        "NetIO": "37.4MB / 193MB",
+        "PIDs": "10"
+      }
+    ]
+  },
+  {
+    "fecha_utc": "2026-10-27T14:33:14.979867+00:00",
+    "contenedores": [
+      {
+        "BlockIO": "4.8MB / 81.9kB",
+        "CPUPerc": "40.34%",
+        "Container": "logistech-f5-backend-1",
+        "ID": "2bfed9f575fb",
+        "MemPerc": "1.44%",
+        "MemUsage": "108MiB / 7.332GiB",
+        "Name": "logistech-f5-backend-1",
+        "NetIO": "208MB / 134MB",
+        "PIDs": "101"
+      },
+      {
+        "BlockIO": "43.9MB / 5.04MB",
+        "CPUPerc": "26.49%",
+        "Container": "logistech-f5-db-1",
+        "ID": "8b2b9dd90f14",
+        "MemPerc": "0.65%",
+        "MemUsage": "49.04MiB / 7.332GiB",
+        "Name": "logistech-f5-db-1",
+        "NetIO": "38.2MB / 199MB",
+        "PIDs": "8"
+      }
+    ]
+  },
+  {
+    "fecha_utc": "2026-10-27T14:33:20.131935+00:00",
+    "contenedores": [
+      {
+        "BlockIO": "4.8MB / 81.9kB",
+        "CPUPerc": "48.47%",
+        "Container": "logistech-f5-backend-1",
+        "ID": "2bfed9f575fb",
+        "MemPerc": "1.45%",
+        "MemUsage": "108.8MiB / 7.332GiB",
+        "Name": "logistech-f5-backend-1",
+        "NetIO": "216MB / 140MB",
+        "PIDs": "101"
+      },
+      {
+        "BlockIO": "43.9MB / 5.04MB",
+        "CPUPerc": "19.12%",
+        "Container": "logistech-f5-db-1",
+        "ID": "8b2b9dd90f14",
+        "MemPerc": "0.67%",
+        "MemUsage": "50.14MiB / 7.332GiB",
+        "Name": "logistech-f5-db-1",
+        "NetIO": "39MB / 206MB",
+        "PIDs": "8"
+      }
+    ]
+  },
+  {
+    "fecha_utc": "2026-10-27T14:33:25.286412+00:00",
+    "contenedores": [
+      {
+        "BlockIO": "4.8MB / 81.9kB",
+        "CPUPerc": "43.67%",
+        "Container": "logistech-f5-backend-1",
+        "ID": "2bfed9f575fb",
+        "MemPerc": "1.45%",
+        "MemUsage": "108.7MiB / 7.332GiB",
+        "Name": "logistech-f5-backend-1",
+        "NetIO": "225MB / 145MB",
+        "PIDs": "101"
+      },
+      {
+        "BlockIO": "43.9MB / 5.07MB",
+        "CPUPerc": "18.93%",
+        "Container": "logistech-f5-db-1",
+        "ID": "8b2b9dd90f14",
+        "MemPerc": "0.70%",
+        "MemUsage": "52.67MiB / 7.332GiB",
+        "Name": "logistech-f5-db-1",
+        "NetIO": "39.9MB / 214MB",
+        "PIDs": "13"
+      }
+    ]
+  },
+  {
+    "fecha_utc": "2026-10-27T14:33:30.445575+00:00",
+    "contenedores": [
+      {
+        "BlockIO": "4.8MB / 81.9kB",
+        "CPUPerc": "38.67%",
+        "Container": "logistech-f5-backend-1",
+        "ID": "2bfed9f575fb",
+        "MemPerc": "1.46%",
+        "MemUsage": "109.4MiB / 7.332GiB",
+        "Name": "logistech-f5-backend-1",
+        "NetIO": "235MB / 150MB",
+        "PIDs": "101"
+      },
+      {
+        "BlockIO": "43.9MB / 5.1MB",
+        "CPUPerc": "25.42%",
+        "Container": "logistech-f5-db-1",
+        "ID": "8b2b9dd90f14",
+        "MemPerc": "0.67%",
+        "MemUsage": "50.59MiB / 7.332GiB",
+        "Name": "logistech-f5-db-1",
+        "NetIO": "40.9MB / 224MB",
+        "PIDs": "7"
+      }
+    ]
+  },
+  {
+    "fecha_utc": "2026-10-27T14:33:35.599448+00:00",
+    "contenedores": [
+      {
+        "BlockIO": "4.8MB / 81.9kB",
+        "CPUPerc": "40.61%",
+        "Container": "logistech-f5-backend-1",
+        "ID": "2bfed9f575fb",
+        "MemPerc": "1.47%",
+        "MemUsage": "110MiB / 7.332GiB",
+        "Name": "logistech-f5-backend-1",
+        "NetIO": "242MB / 155MB",
+        "PIDs": "101"
+      },
+      {
+        "BlockIO": "43.9MB / 5.19MB",
+        "CPUPerc": "25.78%",
+        "Container": "logistech-f5-db-1",
+        "ID": "8b2b9dd90f14",
+        "MemPerc": "0.63%",
+        "MemUsage": "47.43MiB / 7.332GiB",
+        "Name": "logistech-f5-db-1",
+        "NetIO": "42.1MB / 234MB",
+        "PIDs": "6"
+      }
+    ]
+  },
+  {
+    "fecha_utc": "2026-10-27T14:33:39.747240+00:00",
+    "contenedores": [
+      {
+        "BlockIO": "4.8MB / 81.9kB",
+        "CPUPerc": "40.32%",
+        "Container": "logistech-f5-backend-1",
+        "ID": "2bfed9f575fb",
+        "MemPerc": "1.46%",
+        "MemUsage": "109.9MiB / 7.332GiB",
+        "Name": "logistech-f5-backend-1",
+        "NetIO": "250MB / 160MB",
+        "PIDs": "101"
+      },
+      {
+        "BlockIO": "43.9MB / 5.19MB",
+        "CPUPerc": "27.71%",
+        "Container": "logistech-f5-db-1",
+        "ID": "8b2b9dd90f14",
+        "MemPerc": "0.63%",
+        "MemUsage": "47.5MiB / 7.332GiB",
+        "Name": "logistech-f5-db-1",
+        "NetIO": "42.9MB / 240MB",
+        "PIDs": "6"
+      }
+    ]
+  },
+  {
+    "fecha_utc": "2026-10-27T14:33:44.900250+00:00",
+    "contenedores": [
+      {
+        "BlockIO": "4.8MB / 81.9kB",
+        "CPUPerc": "35.85%",
+        "Container": "logistech-f5-backend-1",
+        "ID": "2bfed9f575fb",
+        "MemPerc": "1.47%",
+        "MemUsage": "110.7MiB / 7.332GiB",
+        "Name": "logistech-f5-backend-1",
+        "NetIO": "257MB / 164MB",
+        "PIDs": "101"
+      },
+      {
+        "BlockIO": "43.9MB / 5.21MB",
+        "CPUPerc": "29.27%",
+        "Container": "logistech-f5-db-1",
+        "ID": "8b2b9dd90f14",
+        "MemPerc": "0.64%",
+        "MemUsage": "47.95MiB / 7.332GiB",
+        "Name": "logistech-f5-db-1",
+        "NetIO": "43.9MB / 249MB",
+        "PIDs": "6"
+      }
+    ]
+  },
+  {
+    "fecha_utc": "2026-10-27T14:33:50.050018+00:00",
+    "contenedores": [
+      {
+        "BlockIO": "4.8MB / 81.9kB",
+        "CPUPerc": "38.60%",
+        "Container": "logistech-f5-backend-1",
+        "ID": "2bfed9f575fb",
+        "MemPerc": "1.48%",
+        "MemUsage": "110.9MiB / 7.332GiB",
+        "Name": "logistech-f5-backend-1",
+        "NetIO": "269MB / 171MB",
+        "PIDs": "101"
+      },
+      {
+        "BlockIO": "43.9MB / 5.23MB",
+        "CPUPerc": "26.31%",
+        "Container": "logistech-f5-db-1",
+        "ID": "8b2b9dd90f14",
+        "MemPerc": "0.64%",
+        "MemUsage": "48.16MiB / 7.332GiB",
+        "Name": "logistech-f5-db-1",
+        "NetIO": "44.7MB / 257MB",
+        "PIDs": "6"
+      }
+    ]
+  },
+  {
+    "fecha_utc": "2026-10-27T14:33:55.200598+00:00",
+    "contenedores": [
+      {
+        "BlockIO": "4.8MB / 81.9kB",
+        "CPUPerc": "42.70%",
+        "Container": "logistech-f5-backend-1",
+        "ID": "2bfed9f575fb",
+        "MemPerc": "1.48%",
+        "MemUsage": "110.9MiB / 7.332GiB",
+        "Name": "logistech-f5-backend-1",
+        "NetIO": "279MB / 177MB",
+        "PIDs": "101"
+      },
+      {
+        "BlockIO": "43.9MB / 5.23MB",
+        "CPUPerc": "18.58%",
+        "Container": "logistech-f5-db-1",
+        "ID": "8b2b9dd90f14",
+        "MemPerc": "0.67%",
+        "MemUsage": "50.14MiB / 7.332GiB",
+        "Name": "logistech-f5-db-1",
+        "NetIO": "45.7MB / 267MB",
+        "PIDs": "8"
+      }
+    ]
+  },
+  {
+    "fecha_utc": "2026-10-27T14:34:00.353797+00:00",
+    "contenedores": [
+      {
+        "BlockIO": "4.8MB / 81.9kB",
+        "CPUPerc": "40.08%",
+        "Container": "logistech-f5-backend-1",
+        "ID": "2bfed9f575fb",
+        "MemPerc": "1.49%",
+        "MemUsage": "111.7MiB / 7.332GiB",
+        "Name": "logistech-f5-backend-1",
+        "NetIO": "288MB / 183MB",
+        "PIDs": "101"
+      },
+      {
+        "BlockIO": "43.9MB / 5.23MB",
+        "CPUPerc": "20.24%",
+        "Container": "logistech-f5-db-1",
+        "ID": "8b2b9dd90f14",
+        "MemPerc": "0.64%",
+        "MemUsage": "47.88MiB / 7.332GiB",
+        "Name": "logistech-f5-db-1",
+        "NetIO": "46.6MB / 276MB",
+        "PIDs": "6"
+      }
+    ]
+  },
+  {
+    "fecha_utc": "2026-10-27T14:34:04.502252+00:00",
+    "contenedores": [
+      {
+        "BlockIO": "4.8MB / 81.9kB",
+        "CPUPerc": "46.96%",
+        "Container": "logistech-f5-backend-1",
+        "ID": "2bfed9f575fb",
+        "MemPerc": "1.48%",
+        "MemUsage": "111MiB / 7.332GiB",
+        "Name": "logistech-f5-backend-1",
+        "NetIO": "295MB / 187MB",
+        "PIDs": "101"
+      },
+      {
+        "BlockIO": "43.9MB / 5.27MB",
+        "CPUPerc": "25.76%",
+        "Container": "logistech-f5-db-1",
+        "ID": "8b2b9dd90f14",
+        "MemPerc": "0.64%",
+        "MemUsage": "47.7MiB / 7.332GiB",
+        "Name": "logistech-f5-db-1",
+        "NetIO": "47.6MB / 284MB",
+        "PIDs": "6"
+      }
+    ]
+  },
+  {
+    "fecha_utc": "2026-10-27T14:34:09.657187+00:00",
+    "contenedores": [
+      {
+        "BlockIO": "4.8MB / 81.9kB",
+        "CPUPerc": "39.42%",
+        "Container": "logistech-f5-backend-1",
+        "ID": "2bfed9f575fb",
+        "MemPerc": "1.49%",
+        "MemUsage": "111.6MiB / 7.332GiB",
+        "Name": "logistech-f5-backend-1",
+        "NetIO": "304MB / 192MB",
+        "PIDs": "101"
+      },
+      {
+        "BlockIO": "43.9MB / 5.28MB",
+        "CPUPerc": "25.96%",
+        "Container": "logistech-f5-db-1",
+        "ID": "8b2b9dd90f14",
+        "MemPerc": "0.69%",
+        "MemUsage": "51.84MiB / 7.332GiB",
+        "Name": "logistech-f5-db-1",
+        "NetIO": "48.4MB / 291MB",
+        "PIDs": "8"
+      }
+    ]
+  },
+  {
+    "fecha_utc": "2026-10-27T14:34:14.810704+00:00",
+    "contenedores": [
+      {
+        "BlockIO": "4.8MB / 81.9kB",
+        "CPUPerc": "37.35%",
+        "Container": "logistech-f5-backend-1",
+        "ID": "2bfed9f575fb",
+        "MemPerc": "1.48%",
+        "MemUsage": "111.1MiB / 7.332GiB",
+        "Name": "logistech-f5-backend-1",
+        "NetIO": "313MB / 198MB",
+        "PIDs": "101"
+      },
+      {
+        "BlockIO": "43.9MB / 5.28MB",
+        "CPUPerc": "24.29%",
+        "Container": "logistech-f5-db-1",
+        "ID": "8b2b9dd90f14",
+        "MemPerc": "0.67%",
+        "MemUsage": "50.18MiB / 7.332GiB",
+        "Name": "logistech-f5-db-1",
+        "NetIO": "49.3MB / 300MB",
+        "PIDs": "7"
+      }
+    ]
+  },
+  {
+    "fecha_utc": "2026-10-27T14:34:19.962570+00:00",
+    "contenedores": [
+      {
+        "BlockIO": "4.8MB / 81.9kB",
+        "CPUPerc": "30.66%",
+        "Container": "logistech-f5-backend-1",
+        "ID": "2bfed9f575fb",
+        "MemPerc": "1.50%",
+        "MemUsage": "112.8MiB / 7.332GiB",
+        "Name": "logistech-f5-backend-1",
+        "NetIO": "322MB / 203MB",
+        "PIDs": "101"
+      },
+      {
+        "BlockIO": "43.9MB / 5.28MB",
+        "CPUPerc": "25.70%",
+        "Container": "logistech-f5-db-1",
+        "ID": "8b2b9dd90f14",
+        "MemPerc": "0.64%",
+        "MemUsage": "48.13MiB / 7.332GiB",
+        "Name": "logistech-f5-db-1",
+        "NetIO": "50.3MB / 309MB",
+        "PIDs": "6"
+      }
+    ]
+  },
+  {
+    "fecha_utc": "2026-10-27T14:34:24.114977+00:00",
+    "contenedores": [
+      {
+        "BlockIO": "4.8MB / 81.9kB",
+        "CPUPerc": "46.85%",
+        "Container": "logistech-f5-backend-1",
+        "ID": "2bfed9f575fb",
+        "MemPerc": "1.49%",
+        "MemUsage": "112.1MiB / 7.332GiB",
+        "Name": "logistech-f5-backend-1",
+        "NetIO": "330MB / 208MB",
+        "PIDs": "101"
+      },
+      {
+        "BlockIO": "43.9MB / 5.28MB",
+        "CPUPerc": "27.02%",
+        "Container": "logistech-f5-db-1",
+        "ID": "8b2b9dd90f14",
+        "MemPerc": "0.66%",
+        "MemUsage": "49.27MiB / 7.332GiB",
+        "Name": "logistech-f5-db-1",
+        "NetIO": "51.3MB / 318MB",
+        "PIDs": "6"
+      }
+    ]
+  },
+  {
+    "fecha_utc": "2026-10-27T14:34:29.267796+00:00",
+    "contenedores": [
+      {
+        "BlockIO": "4.8MB / 81.9kB",
+        "CPUPerc": "39.88%",
+        "Container": "logistech-f5-backend-1",
+        "ID": "2bfed9f575fb",
+        "MemPerc": "1.50%",
+        "MemUsage": "112.3MiB / 7.332GiB",
+        "Name": "logistech-f5-backend-1",
+        "NetIO": "340MB / 214MB",
+        "PIDs": "101"
+      },
+      {
+        "BlockIO": "43.9MB / 5.29MB",
+        "CPUPerc": "21.38%",
+        "Container": "logistech-f5-db-1",
+        "ID": "8b2b9dd90f14",
+        "MemPerc": "0.64%",
+        "MemUsage": "47.72MiB / 7.332GiB",
+        "Name": "logistech-f5-db-1",
+        "NetIO": "52.1MB / 326MB",
+        "PIDs": "6"
+      }
+    ]
+  },
+  {
+    "fecha_utc": "2026-10-27T14:34:34.420732+00:00",
+    "contenedores": [
+      {
+        "BlockIO": "4.8MB / 81.9kB",
+        "CPUPerc": "40.77%",
+        "Container": "logistech-f5-backend-1",
+        "ID": "2bfed9f575fb",
+        "MemPerc": "1.50%",
+        "MemUsage": "112.4MiB / 7.332GiB",
+        "Name": "logistech-f5-backend-1",
+        "NetIO": "349MB / 219MB",
+        "PIDs": "101"
+      },
+      {
+        "BlockIO": "43.9MB / 5.31MB",
+        "CPUPerc": "26.80%",
+        "Container": "logistech-f5-db-1",
+        "ID": "8b2b9dd90f14",
+        "MemPerc": "0.64%",
+        "MemUsage": "48.08MiB / 7.332GiB",
+        "Name": "logistech-f5-db-1",
+        "NetIO": "53.1MB / 335MB",
+        "PIDs": "7"
+      }
+    ]
+  },
+  {
+    "fecha_utc": "2026-10-27T14:34:39.582328+00:00",
+    "contenedores": [
+      {
+        "BlockIO": "4.8MB / 81.9kB",
+        "CPUPerc": "36.78%",
+        "Container": "logistech-f5-backend-1",
+        "ID": "2bfed9f575fb",
+        "MemPerc": "1.50%",
+        "MemUsage": "112.9MiB / 7.332GiB",
+        "Name": "logistech-f5-backend-1",
+        "NetIO": "358MB / 225MB",
+        "PIDs": "101"
+      },
+      {
+        "BlockIO": "43.9MB / 5.31MB",
+        "CPUPerc": "21.18%",
+        "Container": "logistech-f5-db-1",
+        "ID": "8b2b9dd90f14",
+        "MemPerc": "0.65%",
+        "MemUsage": "48.88MiB / 7.332GiB",
+        "Name": "logistech-f5-db-1",
+        "NetIO": "54MB / 344MB",
+        "PIDs": "7"
+      }
+    ]
+  },
+  {
+    "fecha_utc": "2026-10-27T14:34:43.745656+00:00",
+    "contenedores": [
+      {
+        "BlockIO": "4.8MB / 81.9kB",
+        "CPUPerc": "63.09%",
+        "Container": "logistech-f5-backend-1",
+        "ID": "2bfed9f575fb",
+        "MemPerc": "1.49%",
+        "MemUsage": "112.1MiB / 7.332GiB",
+        "Name": "logistech-f5-backend-1",
+        "NetIO": "366MB / 229MB",
+        "PIDs": "101"
+      },
+      {
+        "BlockIO": "43.9MB / 5.31MB",
+        "CPUPerc": "26.12%",
+        "Container": "logistech-f5-db-1",
+        "ID": "8b2b9dd90f14",
+        "MemPerc": "0.64%",
+        "MemUsage": "47.94MiB / 7.332GiB",
+        "Name": "logistech-f5-db-1",
+        "NetIO": "55MB / 353MB",
+        "PIDs": "6"
+      }
+    ]
+  },
+  {
+    "fecha_utc": "2026-10-27T14:34:47.964520+00:00",
+    "contenedores": [
+      {
+        "BlockIO": "4.8MB / 81.9kB",
+        "CPUPerc": "46.07%",
+        "Container": "logistech-f5-backend-1",
+        "ID": "2bfed9f575fb",
+        "MemPerc": "1.50%",
+        "MemUsage": "112.9MiB / 7.332GiB",
+        "Name": "logistech-f5-backend-1",
+        "NetIO": "373MB / 233MB",
+        "PIDs": "101"
+      },
+      {
+        "BlockIO": "43.9MB / 5.32MB",
+        "CPUPerc": "27.58%",
+        "Container": "logistech-f5-db-1",
+        "ID": "8b2b9dd90f14",
+        "MemPerc": "0.63%",
+        "MemUsage": "47.53MiB / 7.332GiB",
+        "Name": "logistech-f5-db-1",
+        "NetIO": "55.7MB / 360MB",
+        "PIDs": "6"
+      }
+    ]
+  },
+  {
+    "fecha_utc": "2026-10-27T14:34:53.331739+00:00",
+    "contenedores": [
+      {
+        "BlockIO": "4.8MB / 81.9kB",
+        "CPUPerc": "41.93%",
+        "Container": "logistech-f5-backend-1",
+        "ID": "2bfed9f575fb",
+        "MemPerc": "1.50%",
+        "MemUsage": "112.8MiB / 7.332GiB",
+        "Name": "logistech-f5-backend-1",
+        "NetIO": "381MB / 238MB",
+        "PIDs": "101"
+      },
+      {
+        "BlockIO": "43.9MB / 5.32MB",
+        "CPUPerc": "32.90%",
+        "Container": "logistech-f5-db-1",
+        "ID": "8b2b9dd90f14",
+        "MemPerc": "0.65%",
+        "MemUsage": "48.95MiB / 7.332GiB",
+        "Name": "logistech-f5-db-1",
+        "NetIO": "56.8MB / 369MB",
+        "PIDs": "6"
+      }
+    ]
+  },
+  {
+    "fecha_utc": "2026-10-27T14:34:58.523092+00:00",
+    "contenedores": [
+      {
+        "BlockIO": "4.8MB / 81.9kB",
+        "CPUPerc": "33.65%",
+        "Container": "logistech-f5-backend-1",
+        "ID": "2bfed9f575fb",
+        "MemPerc": "1.53%",
+        "MemUsage": "114.6MiB / 7.332GiB",
+        "Name": "logistech-f5-backend-1",
+        "NetIO": "392MB / 245MB",
+        "PIDs": "101"
+      },
+      {
+        "BlockIO": "43.9MB / 5.32MB",
+        "CPUPerc": "21.10%",
+        "Container": "logistech-f5-db-1",
+        "ID": "8b2b9dd90f14",
+        "MemPerc": "0.67%",
+        "MemUsage": "49.96MiB / 7.332GiB",
+        "Name": "logistech-f5-db-1",
+        "NetIO": "57.6MB / 378MB",
+        "PIDs": "7"
+      }
+    ]
+  },
+  {
+    "fecha_utc": "2026-10-27T14:35:03.677592+00:00",
+    "contenedores": [
+      {
+        "BlockIO": "4.8MB / 81.9kB",
+        "CPUPerc": "47.27%",
+        "Container": "logistech-f5-backend-1",
+        "ID": "2bfed9f575fb",
+        "MemPerc": "1.52%",
+        "MemUsage": "113.9MiB / 7.332GiB",
+        "Name": "logistech-f5-backend-1",
+        "NetIO": "401MB / 251MB",
+        "PIDs": "101"
+      },
+      {
+        "BlockIO": "43.9MB / 5.32MB",
+        "CPUPerc": "25.48%",
+        "Container": "logistech-f5-db-1",
+        "ID": "8b2b9dd90f14",
+        "MemPerc": "0.66%",
+        "MemUsage": "49.6MiB / 7.332GiB",
+        "Name": "logistech-f5-db-1",
+        "NetIO": "58.5MB / 386MB",
+        "PIDs": "6"
+      }
+    ]
+  },
+  {
+    "fecha_utc": "2026-10-27T14:35:08.343325+00:00",
+    "contenedores": [
+      {
+        "BlockIO": "4.8MB / 81.9kB",
+        "CPUPerc": "49.63%",
+        "Container": "logistech-f5-backend-1",
+        "ID": "2bfed9f575fb",
+        "MemPerc": "1.52%",
+        "MemUsage": "114.4MiB / 7.332GiB",
+        "Name": "logistech-f5-backend-1",
+        "NetIO": "409MB / 255MB",
+        "PIDs": "101"
+      },
+      {
+        "BlockIO": "43.9MB / 5.32MB",
+        "CPUPerc": "29.14%",
+        "Container": "logistech-f5-db-1",
+        "ID": "8b2b9dd90f14",
+        "MemPerc": "0.64%",
+        "MemUsage": "47.98MiB / 7.332GiB",
+        "Name": "logistech-f5-db-1",
+        "NetIO": "59.5MB / 395MB",
+        "PIDs": "6"
+      }
+    ]
+  },
+  {
+    "fecha_utc": "2026-10-27T14:35:13.532432+00:00",
+    "contenedores": [
+      {
+        "BlockIO": "4.8MB / 81.9kB",
+        "CPUPerc": "35.88%",
+        "Container": "logistech-f5-backend-1",
+        "ID": "2bfed9f575fb",
+        "MemPerc": "1.55%",
+        "MemUsage": "116MiB / 7.332GiB",
+        "Name": "logistech-f5-backend-1",
+        "NetIO": "417MB / 260MB",
+        "PIDs": "101"
+      },
+      {
+        "BlockIO": "43.9MB / 5.32MB",
+        "CPUPerc": "26.43%",
+        "Container": "logistech-f5-db-1",
+        "ID": "8b2b9dd90f14",
+        "MemPerc": "0.65%",
+        "MemUsage": "48.96MiB / 7.332GiB",
+        "Name": "logistech-f5-db-1",
+        "NetIO": "60.5MB / 405MB",
+        "PIDs": "7"
+      }
+    ]
+  }
+]

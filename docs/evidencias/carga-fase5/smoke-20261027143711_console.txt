@@ -1,0 +1,6 @@
+[2026-10-27 09:37:14,343] DESKTOP-4AE2AJC/INFO/locust.main: Starting Locust 2.47.0
+[2026-10-27 09:37:14,344] DESKTOP-4AE2AJC/INFO/locust.main: Run time limit set to 20 seconds
+[2026-10-27 09:37:14,345] DESKTOP-4AE2AJC/INFO/locust.runners: Ramping to 2 users at a rate of 1.00 per second
+[2026-10-27 09:37:15,354] DESKTOP-4AE2AJC/INFO/locust.runners: All users spawned: {"InventoryUser": 2} (2 total users)
+[2026-10-27 09:37:33,321] DESKTOP-4AE2AJC/INFO/locust.main: --run-time limit reached, shutting down
+[2026-10-27 09:37:33,531] DESKTOP-4AE2AJC/INFO/locust.main: Shutting down (exit code 0)

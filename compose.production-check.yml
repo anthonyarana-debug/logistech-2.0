@@ -1,0 +1,10 @@
+# Verifica el artefacto de producción local, sin arrancar/publicar servicios.
+# docker compose -p logistech-f5 -f docker-compose.yml -f compose.validation.yml
+#   -f compose.production-check.yml run --rm --no-deps backend gunicorn config.wsgi:application --check-config
+services:
+  backend:
+    image: logistech-f5-production-check:local
+    build:
+      target: production
+    environment:
+      DJANGO_SETTINGS_MODULE: config.settings.production

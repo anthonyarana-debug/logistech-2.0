@@ -1,24 +1,24 @@
 # Matriz de requisitos y evidencias
 
-Actualización FASE 4 (2026-10-27): frontend y CRUD conectados a PostgreSQL real; A con recursos oscuros de B, sin segundo tema. Evidencias en PRUEBAS.md e INFORME_FASE_4.md. El 25 % sigue incompleto: F5 y despliegue autorizado pendientes. Las revisiones humanas de accesibilidad se distinguen de las comprobaciones automatizadas.
+Actualización FASE 5 (2026-10-27): **12 requisitos completados localmente y 1 parcial (cloud)**. Validación local aprobada, entrega global PARCIAL si se exige cloud activo; no hay despliegue externo verificado. Código/prueba/resultado/evidencia/pendiente individual en CHECKLIST_SEMANA_11.md. 156 backend + 5 JS + 9 E2E; carga API 50/100 con límites explícitos. Zoom nativo/lector/tacto físico pendientes humanos. F6–F8 no iniciadas.
 
 ## Prioridad: entrega del 25 %
 
 | ID | Requisito | Fase responsable | Criterio verificable / evidencia prevista | Estado real |
 |---|---|---|---|---|
-| 25-01 | Entorno cloud evaluable | F1/F5; despliegue separado autorizado | Configuración, guía, URL autorizada y health comprobado si lo exige la rúbrica | Pendiente; sin cuenta ni recursos verificados |
+| 25-01 | Entorno cloud evaluable | F1/F5; despliegue separado autorizado | Configuración, guía, URL autorizada y health comprobado si lo exige la rúbrica | PARCIAL: artefacto Gunicorn/variables/guía, sin proxy/TLS/DB cloud ni URL verificados |
 | 25-02 | Endpoints funcionales y documentados | F2/F3 | Método/ruta/parámetros/auth/respuestas/ejemplos en ENDPOINTS y pruebas HTTP reales | Salud/auth/CRUD categorías y cajas implementados y documentados |
 | 25-03 | Registro y login separados | F2/F4 | Usuario nuevo operador sin empresa, login válido/inválido y flujo web | Formularios conectados y E2E, asignación pendiente explícita |
-| 25-04 | Rate limiting | F2/F3/F5 | Límites documentados, 429 y Retry-After, recuperación de ventana; limitaciones de caché explícitas | Auth + CRUD 120/min/usuario probados localmente; revisión F5 pendiente; no distribuido |
+| 25-04 | Rate limiting | F2/F3/F5 | Límites documentados, 429 y Retry-After, recuperación de ventana; limitaciones de caché explícitas | COMPLETADO local: auth/CRUD, 429 real de refresh y ventanas probadas; LocMem no distribuido |
 | 25-05 | 404, 403 y módulo en desarrollo | F4 | Navegación real y pruebas; API conserva JSON y códigos propios | Vistas españolas, manejo de errores y rutas implementados; F4 E2E |
-| 25-06 | 200/201/204/400/401/403/404/429/500 | F2/F3/F5 | Casos positivos/negativos y fallo inyectado solo en prueba; 204 sin cuerpo | Casos API probados F2/F3, 409 adicional y 500 seguro sin ruta pública de fallo; revisión F5 pendiente |
+| 25-06 | 200/201/204/400/401/403/404/429/500 | F2/F3/F5 | Casos positivos/negativos y fallo inyectado solo en prueba; 204 sin cuerpo | COMPLETADO local: reejecutados F5, 405/409/503 adicionales; 500 inyectado seguro sin ruta pública |
 | 25-07 | CRUD categorías y cajas | F2/F3/F4 | Crear/leer/editar/borrar con roles, FK coherentes, validaciones y pruebas cruzadas | REST y formularios reales probados; estados finales protegidos y DELETE confirmado |
-| 25-08 | Variables de entorno | F1/F5 | .env.example ficticio, secretos ignorados, config por entorno y arranque comprobado | Implementado y comprobado localmente F1; revisión final F5 pendiente |
+| 25-08 | Variables de entorno | F1/F5 | .env.example ficticio, secretos ignorados, config por entorno y arranque comprobado | COMPLETADO local: configuración y políticas F5 probadas; secretos cloud humanos |
 | 25-09 | Hash de contraseñas | F2 | Valor almacenado distinto al original y check_password correcto | PBKDF2-SHA256 y validadores probados con hashing real |
-| 25-10 | Pruebas unitarias | F2/F3/F4/F5 | pytest, unitarias JS y E2E; resultados reales y pruebas trazables | 151 pytest + 5 unitarias JS; E2E en informe F4; validación F5 pendiente |
+| 25-10 | Pruebas unitarias | F2/F3/F4/F5 | pytest, unitarias JS y E2E; resultados reales y pruebas trazables | COMPLETADO: 156 pytest + 5 Node + 9 E2E F5, inicial con 3 fallos por 429 conservado |
 | 25-11 | PostgreSQL y migraciones | F1/F2/F3/F5 | Conexión real, base desde cero, migraciones versionadas y sin cambios pendientes | F2 y CHECK de estados/prioridades F3 aplicados; User 0001 sin auth_user; base test desde cero y sin pendientes |
-| 25-12 | Diagrama ER editable | F0/F2/F5 | Fuente Mermaid contrastada con modelos/migraciones reales | Actualizado al núcleo real F2, futuro separado; renderizado Mermaid no verificado; revisión F5 pendiente |
-| 25-13 | Carga inicial 50–100 usuarios | F5 | CSV e informe: usuarios alcanzados, spawn, duración, RPS, media, p95 y fallos | Pendiente; ninguna carga ejecutada |
+| 25-12 | Diagrama ER editable | F0/F2/F5 | Fuente Mermaid contrastada con modelos/migraciones reales | COMPLETADO: columnas comparadas sin diferencias, SVG/PNG renderizados e inspeccionados |
+| 25-13 | Carga inicial 50–100 usuarios | F5 | CSV e informe: usuarios alcanzados, spawn, duración, RPS, media, p95 y fallos | COMPLETADO local delimitado: 50/100 activos, 0 fallos HTTP; login fixture/CSV de cierre documentados |
 
 ## Requisitos transversales
 
@@ -33,7 +33,7 @@ Actualización FASE 4 (2026-10-27): frontend y CRUD conectados a PostgreSQL real
 | T-07 | Categorías frágiles y perecederas | F2/F3: flags independientes, validación y persistencia | Modelo/CRUD/flags coexistentes y filtros probados |
 | T-08 | Empresas y sucursales | F2 núcleo mínimo; F6 administración completa | Modelos mínimos/Admin restringido disponibles; administración web completa F6 pendiente |
 | T-09 | Interfaz española y responsive | F4: escritorio/móvil, teclado y estados de error/carga | Implementada; anchos 320/390/768/1440 y axe; zoom CSS 200%; lector/zoom nativo/táctil físico pendientes humanos |
-| T-10 | HTTPS, CORS, secretos, red privada | F1 configuración; F5 preparación; despliegue/F7 verificación externa | Pendiente |
+| T-10 | HTTPS, CORS, secretos, red privada | F1 configuración; F5 preparación; despliegue/F7 verificación externa | PARCIAL: producción SSL/cookies/proxy opt-in preparados; TLS/CA/red cloud sin verificación |
 | T-11 | No depender ni sobrescribir Android/VPS | F0: no hay fuentes originales; API propia planificada | Restricción respetada; compatibilidad no verificada |
 | T-12 | Git y commits por fase, sin secretos | F1 en adelante: diff e historial local; nunca push implícito | Historial local por fase; sin remoto/push; secretos y artefactos ignorados |
 | T-13 | Salud de servicio | F1: respuesta y conectividad DB; 503 si dependencia falla | Comprobado: 200 con DB, 503 al detenerla y recuperación posterior |

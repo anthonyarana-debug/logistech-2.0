@@ -1,0 +1,47 @@
+[2026-10-27 09:28:02,210] DESKTOP-4AE2AJC/INFO/locust.main: Starting Locust 2.47.0
+[2026-10-27 09:28:02,212] DESKTOP-4AE2AJC/INFO/locust.main: Run time limit set to 210 seconds
+[2026-10-27 09:28:02,213] DESKTOP-4AE2AJC/INFO/locust.runners: Ramping to 50 users at a rate of 5.00 per second
+[2026-10-27 09:28:11,271] DESKTOP-4AE2AJC/INFO/locust.runners: All users spawned: {"InventoryUser": 50} (50 total users)
+[2026-10-27 09:31:31,520] DESKTOP-4AE2AJC/INFO/locust.main: --run-time limit reached, shutting down
+[2026-10-27 09:31:31,804] DESKTOP-4AE2AJC/INFO/locust.main: Shutting down (exit code 0)
+Type     Name                                                                          # reqs      # fails |    Avg     Min     Max    Med |   req/s  failures/s
+--------|----------------------------------------------------------------------------|-------|-------------|-------|-------|-------|-------|--------|-----------
+GET      cajas: ID exacto                                                                 957     0(0.00%) |     13       9      64     13 |    5.33        0.00
+POST     cajas: crear                                                                      21     0(0.00%) |     26      21      35     25 |    0.12        0.00
+PATCH    cajas: editar                                                                     36     0(0.00%) |     27      20      64     24 |    0.20        0.00
+GET      cajas: lista                                                                    2187     0(0.00%) |     15      10      51     15 |   12.19        0.00
+GET      categorias: lista                                                                959     0(0.00%) |     11       7      41     11 |    5.34        0.00
+GET      csrf                                                                               0     0(0.00%) |      0       0       0      0 |    0.00        0.00
+GET      identidad autorizada                                                               0     0(0.00%) |      0       0       0      0 |    0.00        0.00
+POST     login controlado                                                                   0     0(0.00%) |      0       0       0      0 |    0.00        0.00
+POST     logout controlado                                                                  1     0(0.00%) |     13      13      13     13 |    0.01        0.00
+--------|----------------------------------------------------------------------------|-------|-------------|-------|-------|-------|-------|--------|-----------
+         Aggregated                                                                      4161     0(0.00%) |     14       7      64     14 |   23.19        0.00
+
+Response time percentiles (approximated)
+Type     Name                                                                                  50%    66%    75%    80%    90%    95%    98%    99%  99.9% 99.99%   100% # reqs
+--------|--------------------------------------------------------------------------------|--------|------|------|------|------|------|------|------|------|------|------|------
+GET      cajas: ID exacto                                                                       13     14     14     15     17     20     24     31     64     64     64    957
+POST     cajas: crear                                                                           25     27     28     29     31     32     35     35     35     35     35     21
+PATCH    cajas: editar                                                                          24     27     29     30     33     41     65     65     65     65     65     36
+GET      cajas: lista                                                                           15     16     17     17     20     22     26     30     48     51     51   2187
+GET      categorias: lista                                                                      11     12     12     13     14     17     20     25     41     41     41    959
+POST     logout controlado                                                                      13     13     13     13     13     13     13     13     13     13     13      1
+--------|--------------------------------------------------------------------------------|--------|------|------|------|------|------|------|------|------|------|------|------
+         Aggregated                                                                             14     15     16     16     19     22     27     31     53     65     65   4161
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "C:\Users\anthony\Documents\ChatGPT\Proyecto final dsn\.venv-load\Lib\site-packages\locust\stats.py", line 1170, in stats_writer
+    self.requests_csv_filehandle.seek(requests_csv_data_start)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: I/O operation on closed file.
+2026-10-27T14:31:31Z <Greenlet at 0x276fa810d60: <bound method StatsCSVFileWriter.stats_writer of <locust.stats.StatsCSVFileWriter object at 0x00000276FA81C050>>> failed with ValueError
+
+[2026-10-27 09:31:31,807] DESKTOP-4AE2AJC/CRITICAL/locust.main: Unhandled exception in greenlet: <Greenlet at 0x276fa810d60: <bound method StatsCSVFileWriter.stats_writer of <locust.stats.StatsCSVFileWriter object at 0x00000276FA81C050>>>
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "C:\Users\anthony\Documents\ChatGPT\Proyecto final dsn\.venv-load\Lib\site-packages\locust\stats.py", line 1170, in stats_writer
+    self.requests_csv_filehandle.seek(requests_csv_data_start)
+    ^^^^^^^
+ValueError: I/O operation on closed file.

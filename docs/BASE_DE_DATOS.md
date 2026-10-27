@@ -2,6 +2,8 @@
 
 Fecha: 2026-10-27. PostgreSQL 17.11 real, psycopg 3.3.6 y Django ORM. Sin SQLite. Diagrama actual editable: [MODELO_DATOS.mmd](MODELO_DATOS.mmd). La ampliación de F6 queda separada en [MODELO_FUTURO.mmd](MODELO_FUTURO.mmd).
 
+Validación F5: sin migraciones nuevas/pendientes; User permanece en 0001 y auth_user ausente. Introspección de constraints, pertenencia y cantidades sin inconsistencias; columnas de las seis entidades comparadas con el ER sin diferencias en fase5-verificacion.json. ER renderizado e inspeccionado: [SVG](evidencias/fase5-modelo-datos.svg) y [PNG](evidencias/fase5-modelo-datos.png). El diagrama de negocio omite expresamente tablas de framework y relaciones M2M de permisos. PostgreSQL de carga vive en volumen de logistech-f5 separado; no modifica la base principal. TLS verify-full está preparado para producción, pero no conectado a un PostgreSQL cloud real.
+
 ## Esquema implementado
 
 | Entidad | Campos y restricciones principales |

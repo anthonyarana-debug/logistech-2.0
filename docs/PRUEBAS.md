@@ -1,4 +1,20 @@
-# Comprobaciones de Fase 1
+# Comprobaciones — historial y cierre Fase 5
+
+## F5 — ejecución vigente
+
+Antes de modificar: Git limpio en b05ce9e, Docker Linux/servicios, Django/migraciones y **151 pytest aprobadas en 15.73 s**. Lint/build y cinco unitarias JS aprobados. E2E contra el proceso de demostración: **6 aprobados/3 fallidos**, todos por cuota real de refresh consumida previamente (429 y Retry-After ~45 min). No se ocultó la ejecución ni se desactivó el límite.
+
+Entorno aislado `logistech-f5`, puertos temporales loopback 8001/5174, volumen/caché separados y datos DEMO propios: **9/9 E2E aprobados**, incluida expiración real a cinco minutos, mismos controles y dos empresas. Resumen saneado en fase5-e2e-final.json; ejecución inicial en fase5-e2e-inicial.json. Las interceptaciones de fallo de red y de errores 403/500 de interfaz siguen explícitamente simuladas; los casos HTTP TCP/backend se ejecutan realmente. Baseline/migraciones de F1–F4 no se editaron.
+
+Verificador final `python scripts/verificar_fase5.py`: **26 comprobaciones con código 0** en fase5-verificacion.json. Backend **156 passed, 17.05 s** (151 anteriores + cinco políticas de producción), **5 Node**, lint/Ruff/build/npm audit 0 vulnerabilidades, pip check y migraciones sin pendientes. Postgres sin inconsistencias de pertenencia/cantidades ni constraints sin validar; ER de seis entidades sin diferencia de columnas y renderizado SVG/PNG inspeccionado.
+
+Artefacto Gunicorn/Linux: construcción, check-config y dependencias aprobados; contenedor efímero en loopback comprobó 301, liveness 200 con proxy controlado y readiness 503 sin TLS de PostgreSQL. No se presenta como despliegue cloud. check --deploy conserva W005/W021 de HSTS, sin silenciar.
+
+Locust: humo + 50 y 100 usuarios activos reales de API, a 5/10 usuarios/s, warmup 30 s y medida ~180 s. A: 23.19 RPS/p95 22 ms; B: 46.37 RPS/p95 38 ms; sin fallos HTTP. Login masivo no probado: una cuenta HTTP y demás JWT de fixtures. CSV de cierre tuvo incidencia Windows documentada, sin alterar HTTP; exportador corregido y humo posterior aprobado. Ver REPORTE_RENDIMIENTO.md y fase5-carga-resumen.json para las cifras, recursos y límites completos.
+
+UI: alineación 2.0 corregida con posición/baseline explícita, conservando A; revisión manual de landing/login y capturas automatizadas 320/390/768/1440. Axe sin infracciones detectadas en reglas/vistas probadas, Tab/Escape/foco, movimiento reducido y CSS zoom 200%. No certificación WCAG, zoom nativo/lector/tacto físico pendientes. Guion y checklist humano entregados. No carga externa, cloud, pruebas de navegadores adicionales o fases F6–F8.
+
+Las siguientes secciones son registros históricos.
 
 > Registros F1–F3 históricos. El estado actual F4 se documenta en INFORME_FASE_4.md, fase4-verificacion.json y fase4-e2e.json; no interpretar los ocho tests o el esquema vacío de F1 como estado actual.
 

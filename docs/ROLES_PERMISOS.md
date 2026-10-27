@@ -1,5 +1,7 @@
 # Roles y permisos — Fase 3
 
+Revalidado en F5: mismas reglas, sin expansión de privilegios. 156 casos backend y 9 E2E aislados cubren cuatro estados de cuenta (los tres roles y operador pendiente), cruces empresariales y campos protegidos. Los usuarios de Locust son operadores de fixtures limitadas, retirados al terminar; no son cuentas de producción. Ver INFORME_FASE_5.md.
+
 El rol de aplicación es explícito: SUPERADMIN, COMPANY_ADMIN y OPERATOR. Los porcentajes académicos no son una política de autorización. Registro público fija OPERATOR/company=null; no asigna empresa automáticamente ni ofrece elegir rol.
 
 | Recurso / acción | Rol autorizado | Restricciones | Prueba / estado |

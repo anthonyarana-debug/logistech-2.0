@@ -1,0 +1,9 @@
+method,name,requests,failures,mean_ms,p95_ms
+GET,csrf,0,0,0.0,0
+POST,login controlado,0,0,0.0,0
+GET,identidad autorizada,0,0,0.0,0
+GET,cajas: lista,8,0,15.661350000300445,21
+GET,cajas: ID exacto,4,0,13.98825000069337,15
+GET,categorias: lista,4,0,11.91974999528611,13
+POST,logout controlado,1,0,22.084299998823553,22
+,Aggregated,17,0,14.765123528537943,22

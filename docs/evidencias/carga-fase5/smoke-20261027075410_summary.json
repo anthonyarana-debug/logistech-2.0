@@ -1,0 +1,49 @@
+{
+  "fecha_utc": "2026-10-27T07:54:32.771262+00:00",
+  "namespace": "f5load-smoke-20261027075410",
+  "target": "http://127.0.0.1:8001",
+  "usuarios_configurados": 2,
+  "usuarios_autenticados_pico": 2,
+  "usuarios_medicion_min": 2,
+  "usuarios_medicion_max": 2,
+  "spawn_rate": 1.0,
+  "calentamiento_segundos": 5.0,
+  "medicion_segundos_reales": 14.49287230000482,
+  "solicitudes": 17,
+  "fallos": 0,
+  "fallos_porcentaje": 0.0,
+  "rps": 1.1729903947331646,
+  "latencia_media_ms": 13.741770589737879,
+  "p95_ms": 26,
+  "http_calentamiento": {
+    "200": 8
+  },
+  "http_medicion": {
+    "200": 15,
+    "201": 1,
+    "204": 1
+  },
+  "auth_http": {
+    "login controlado:HTTP 200": 1,
+    "logout controlado:HTTP 204": 1
+  },
+  "usuarios_autenticados_muestras_1s": [
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2
+  ],
+  "autenticacion": "1 login HTTP por ejecución; demás usuarios JWT de fixtures, TTL sin cambio",
+  "limite_escrituras": "1 POST y 1 PATCH de caja por usuario como máximo"
+}
