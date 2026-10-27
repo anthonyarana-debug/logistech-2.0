@@ -1,0 +1,5 @@
+# Dependencias directas. requirements.txt fija también sus transitivas.
+Django==5.2.18
+djangorestframework==3.16.1
+djangorestframework-simplejwt==5.5.1
+psycopg[binary]==3.3.6

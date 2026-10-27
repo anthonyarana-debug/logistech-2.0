@@ -1,6 +1,6 @@
 # Matriz de requisitos y evidencias
 
-Estado al cierre de FASE 0: solo auditoría y planificación completadas. «Pendiente» significa que no existe implementación ni prueba que permita darlo por cumplido. La fecha objetivo de entrega no fue proporcionada.
+Actualización al cierre de FASE 1 (2026-10-27): base local de Django/React/PostgreSQL/Compose verificada. «Pendiente» conserva el alcance funcional que falta. La fecha objetivo de entrega no fue proporcionada. Evidencias en PRUEBAS.md e INFORME_FASE_1.md.
 
 ## Prioridad: entrega del 25 %
 
@@ -13,10 +13,10 @@ Estado al cierre de FASE 0: solo auditoría y planificación completadas. «Pend
 | 25-05 | 404, 403 y módulo en desarrollo | F4 | Navegación real y pruebas; API conserva JSON y códigos propios | Pendiente |
 | 25-06 | 200/201/204/400/401/403/404/429/500 | F2/F3/F5 | Casos positivos/negativos y fallo inyectado solo en prueba; 204 sin cuerpo | Pendiente |
 | 25-07 | CRUD categorías y cajas | F2/F3/F4 | Crear/leer/editar/borrar con roles, FK coherentes, validaciones y pruebas cruzadas | Pendiente |
-| 25-08 | Variables de entorno | F1/F5 | .env.example ficticio, secretos ignorados, config por entorno y arranque comprobado | Pendiente |
+| 25-08 | Variables de entorno | F1/F5 | .env.example ficticio, secretos ignorados, config por entorno y arranque comprobado | Implementado y comprobado localmente F1; revisión final F5 pendiente |
 | 25-09 | Hash de contraseñas | F2 | Valor almacenado distinto al original y check_password correcto | Pendiente |
 | 25-10 | Pruebas unitarias | F2/F3/F5 | pytest y pytest-django; resultados reales y nombres de pruebas trazables | Pendiente |
-| 25-11 | PostgreSQL y migraciones | F1/F2/F5 | Conexión real, base desde cero, migraciones versionadas y sin cambios pendientes | Pendiente; motor Docker inaccesible |
+| 25-11 | PostgreSQL y migraciones | F1/F2/F5 | Conexión real, base desde cero, migraciones versionadas y sin cambios pendientes | PostgreSQL 17.11 conectado; mecanismo migrate sin migraciones F1 comprobado; modelos/migraciones F2 pendientes |
 | 25-12 | Diagrama ER editable | F0/F2/F5 | Fuente Mermaid contrastada con modelos/migraciones reales | Diseño conceptual creado; esquema real pendiente |
 | 25-13 | Carga inicial 50–100 usuarios | F5 | CSV e informe: usuarios alcanzados, spawn, duración, RPS, media, p95 y fallos | Pendiente; ninguna carga ejecutada |
 
@@ -24,8 +24,8 @@ Estado al cierre de FASE 0: solo auditoría y planificación completadas. «Pend
 
 | ID | Requisito | Fase / prueba prevista | Estado |
 |---|---|---|---|
-| T-01 | Backend Django/DRF, React/Vite/JS/Tailwind, PostgreSQL | F1: arranque y build; F2: integración DB | Pendiente |
-| T-02 | JWT mantenido y compatible | F1 selección; F2 emisión/refresh/expiración/revocación según política | Pendiente, matriz conjunta sin verificar |
+| T-01 | Backend Django/DRF, React/Vite/JS/Tailwind, PostgreSQL | F1: arranque/build e integración PostgreSQL | Base configurada y comprobada localmente |
+| T-02 | JWT mantenido y compatible | F1 selección; F2 emisión/refresh/expiración/revocación según política | Versiones fijadas y smoke criptográfico aprobado; auth de aplicación pendiente F2 |
 | T-03 | Tres roles explícitos y mínimo privilegio | F2/F3: matriz en arquitectura trasladada a ROLES_PERMISOS y casos por rol | Diseño propuesto |
 | T-04 | Evitar autoasignación y aislamiento entre empresas | F2/F3: dos empresas, lista/detalle/FK, operador sin empresa, flags privilegiados | Diseño propuesto |
 | T-05 | Superadmin seguro y flags coherentes | F2: createsuperuser y formularios/gestores administrativos | Pendiente |
@@ -35,10 +35,10 @@ Estado al cierre de FASE 0: solo auditoría y planificación completadas. «Pend
 | T-09 | Interfaz española y responsive | F4: escritorio/móvil, teclado y estados de error/carga | Pendiente |
 | T-10 | HTTPS, CORS, secretos, red privada | F1 configuración; F5 preparación; despliegue/F7 verificación externa | Pendiente |
 | T-11 | No depender ni sobrescribir Android/VPS | F0: no hay fuentes originales; API propia planificada | Restricción respetada; compatibilidad no verificada |
-| T-12 | Git y commits por fase, sin secretos | F1 en adelante: diff e historial local; nunca push implícito | Git disponible, sin commits |
-| T-13 | Salud de servicio | F1: respuesta y conectividad DB; 503 si dependencia falla | Pendiente |
+| T-12 | Git y commits por fase, sin secretos | F1 en adelante: diff e historial local; nunca push implícito | Historial local por fase; sin remoto/push; secretos y artefactos ignorados |
+| T-13 | Salud de servicio | F1: respuesta y conectividad DB; 503 si dependencia falla | Comprobado: 200 con DB, 503 al detenerla y recuperación posterior |
 | T-14 | Datos demo identificados y controlados | F2/F5: comando/fixtures limitados y guion explícito | Pendiente |
-| T-15 | Documentación completa en español | F0 cuatro documentos principales; F1–F5 ampliación según PLAN | F0 entregada; documentos de implementación pendientes |
+| T-15 | Documentación completa en español | F0 cuatro documentos principales; F1–F5 ampliación según PLAN | F0 y documentación de F1 entregadas; contratos/modelos/roles funcionales pendientes |
 | T-16 | Auditoría, backup y observabilidad | F6/F7: eventos sin secretos, restore y recuperación comprobados | Solo planificado |
 | T-17 | Escaneo QR en navegador móvil | F6: HTTPS, cámara y alternativa manual reales | Diferido, no implementado |
 

@@ -1,0 +1,75 @@
+name: logistech-v2
+
+services:
+  db:
+    image: postgres:17.11-bookworm
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:?Configura POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER:?Configura POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Configura POSTGRES_PASSWORD}
+      POSTGRES_INITDB_ARGS: --auth-host=scram-sha-256
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks: [database]
+    healthcheck:
+      test: [CMD-SHELL, 'pg_isready -U "$${POSTGRES_USER}" -d "$${POSTGRES_DB}"']
+      interval: 5s
+      timeout: 3s
+      retries: 12
+      start_period: 15s
+
+  backend:
+    build:
+      context: ./backend
+      target: development
+    environment:
+      DJANGO_SETTINGS_MODULE: ${DJANGO_SETTINGS_MODULE:-config.settings.development}
+      SECRET_KEY: ${SECRET_KEY:?Configura SECRET_KEY}
+      DEBUG: ${DEBUG:-false}
+      ALLOWED_HOSTS: ${ALLOWED_HOSTS:-localhost,127.0.0.1,backend}
+      POSTGRES_DB: ${POSTGRES_DB:?Configura POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER:?Configura POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Configura POSTGRES_PASSWORD}
+      DB_HOST: db
+      DB_PORT: '5432'
+      DB_CONNECT_TIMEOUT: ${DB_CONNECT_TIMEOUT:-3}
+    ports: ['127.0.0.1:8000:8000']
+    networks: [application, database]
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: [CMD, python, -c, 'import urllib.request; urllib.request.urlopen("http://127.0.0.1:8000/api/v1/health/", timeout=4)']
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 10s
+    security_opt: [no-new-privileges:true]
+    cap_drop: [ALL]
+
+  frontend:
+    build: ./frontend
+    environment:
+      VITE_API_BASE_URL: ${VITE_API_BASE_URL:-/api/v1}
+      API_PROXY_TARGET: http://backend:8000
+    ports: ['127.0.0.1:5173:5173']
+    networks: [application]
+    depends_on:
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test: [CMD, node, -e, 'fetch("http://127.0.0.1:5173").then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))']
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 10s
+    security_opt: [no-new-privileges:true]
+    cap_drop: [ALL]
+
+networks:
+  application:
+  database:
+    internal: true
+
+volumes:
+  postgres_data:

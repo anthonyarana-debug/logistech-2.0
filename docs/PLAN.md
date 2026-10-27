@@ -1,6 +1,6 @@
 # Plan de desarrollo y validación
 
-Fecha: 2026-10-26. FASE 0 documentada; esperando aprobación de F1. No existen implementaciones ni pruebas de aplicación ejecutadas.
+Plan original: 2026-10-26. Actualización: 2026-10-27. FASE 1 autorizada, implementada y verificada localmente; esperando aprobación de F2. Consultar INFORME_FASE_1.md y PRUEBAS.md. Las secciones siguientes describen el alcance previsto por fase; F2–F8 no se han implementado.
 
 ## Reglas de avance
 

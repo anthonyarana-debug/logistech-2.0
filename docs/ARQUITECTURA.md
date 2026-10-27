@@ -1,6 +1,6 @@
 # Arquitectura propuesta — LogisTech 2.0
 
-Estado: propuesta de FASE 0, pendiente de aprobación. No implementada.
+Estado actualizado el 2026-10-27: arquitectura conservada y base de FASE 1 implementada localmente. Modelos, permisos y funcionalidades de negocio descritos aquí siguen siendo propuestas para fases posteriores. Ver DECISIONES_TECNICAS.md e INFORME_FASE_1.md para lo aplicado.
 
 ## Componentes y límites
 
@@ -21,7 +21,7 @@ El 25 % tendrá registro, login, identidad actual, categorías, cajas y un dashb
 
 ## Estructura futura
 
-Se usará la raíz actual como raíz del proyecto para evitar una carpeta duplicada `logistech-v2/`. Solo existe `docs/` en esta fase.
+Se usa la raíz actual como raíz del proyecto para evitar una carpeta duplicada `logistech-v2/`. F1 creó backend/config, apps/core, tests y tools; frontend/src y scripts. Los módulos de negocio y load-tests de la estructura futura todavía no existen.
 
 ```text
 backend/
@@ -104,7 +104,7 @@ JWT propuesto: access de 5 minutos en memoria del navegador; refresh de 1 día e
 
 Rate limiting inicial propuesto: login 5/min/IP y 10/15 min por identidad normalizada; registro 3/h/IP; refresh 30/h por cuenta; API privada 120/min por usuario. Son valores de diseño, no límites implementados. Evitar revelar si un email existe, no confiar en X-Forwarded-For sin proxy conocido. Probar límites y expiración con caché limpia. DRF permite limitación local, pero sus contadores no atómicos no garantizan un umbral exacto bajo concurrencia; antes de producción multiproceso se requiere una estrategia compartida y atómica evaluada en F7. No añadir Redis inicialmente por apariencia.
 
-Configurar SECRET_KEY sin valor real en Git; DEBUG falso y ALLOWED_HOSTS explícito en producción; CORS solo orígenes aprobados, CSRF confiables separados; PostgreSQL sin puerto público. ORM y serializers validan datos; logs no incluyen passwords, cuerpos de login ni Authorization. Configurar hashing y validadores Django. .env.example ficticio y .gitignore en F1. No se implementó ninguno de estos controles todavía.
+F1 aplicó SECRET_KEY fuera de Git, DEBUG=false por defecto, ALLOWED_HOSTS explícitos, .env.example ficticio, .gitignore y PostgreSQL sin puerto publicado. No necesita CORS al usar proxy del mismo origen. Validación de negocio, usuarios, hashing, JWT funcional, permisos y rate limiting se implementarán en F2/F3. Ver informe para límites reales.
 
 ## ADR-001: monolito modular y base compartida con aislamiento por empresa
 

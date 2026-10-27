@@ -1,0 +1,23 @@
+{
+  "entorno": "Local; PostgreSQL detenido intencionalmente con docker compose stop db",
+  "resultados": [
+    {
+      "url": "http://127.0.0.1:8000/api/v1/health/",
+      "http": 503,
+      "esperado": 503,
+      "cuerpo": "{\"estado\":\"no_disponible\",\"detalle\":\"Dependencia de datos no disponible.\"}"
+    },
+    {
+      "url": "http://127.0.0.1:8000/api/v1/health/live/",
+      "http": 200,
+      "esperado": 200,
+      "cuerpo": "{\"estado\":\"disponible\",\"servicio\":\"LogisTech API\"}"
+    },
+    {
+      "url": "http://127.0.0.1:5173/api/v1/health/",
+      "http": 503,
+      "esperado": 503,
+      "cuerpo": "{\"estado\":\"no_disponible\",\"detalle\":\"Dependencia de datos no disponible.\"}"
+    }
+  ]
+}
