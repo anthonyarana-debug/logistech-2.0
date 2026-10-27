@@ -1,6 +1,6 @@
 # Continuar LogisTech 2.0 en otra computadora
 
-Estado: repositorio privado propuesto `anthonyarana-debug/logistech-2.0`, **pendiente de autorización, creación y primer push**. Los comandos de clonación solo funcionarán después. No usar el repositorio Android como remoto de este proyecto.
+Estado: [anthonyarana-debug/logistech-2.0](https://github.com/anthonyarana-debug/logistech-2.0) **publicado como PRIVATE**, con main predeterminada y F0–F5, tras autorización expresa el 27/10/2026. Clonación HTTPS autenticada comprobada. Ver [registro de publicación](PUBLICACION_GITHUB.md). Requiere iniciar sesión con una cuenta que tenga acceso privado. No usar el repositorio Android como remoto de este proyecto.
 
 Git conservará código, documentación, migraciones, resultados saneados e historial de F0–F5. No transporta `.env`, contraseñas/cuentas DEMO, contenedores, imágenes, bases o volúmenes Docker. La otra computadora inicia con una base nueva; generar datos DEMO nuevos. Si se necesitan datos existentes, planificar un respaldo cifrado fuera de Git y una restauración separada; no se ha exportado ni eliminado la base actual.
 
@@ -12,7 +12,7 @@ Compose debe soportar `!override` para el entorno opcional F5 (2.24.4 o posterio
 
 ## Clonar y arrancar (Windows / PowerShell)
 
-Después de autorizar y verificar el primer push:
+Desde una carpeta de trabajo vacía o que no contenga otra copia del proyecto:
 
 ```powershell
 git clone https://github.com/anthonyarana-debug/logistech-2.0.git
@@ -104,6 +104,6 @@ git commit -m "Describe el cambio"
 git push -u origin codex/mi-siguiente-tarea
 ```
 
-El primer push de este proyecto sigue requiriendo la autorización solicitada en esta conversación. Los push futuros deben dirigirse al remoto privado confirmado. Verificar estado antes de cambiar de equipo; Git no transporta modificaciones sin commit. Resolver conflictos conservando ambos trabajos; no usar force push, reset --hard, borrado de volúmenes o mirror como rutina. Publicar ramas de trabajo y revisarlas antes de integrar a main.
+El primer push fue autorizado y realizado el 27/10/2026. Los push futuros deben dirigirse al remoto privado confirmado. Verificar estado antes de cambiar de equipo; Git no transporta modificaciones sin commit. Resolver conflictos conservando ambos trabajos; no usar force push, reset --hard, borrado de volúmenes o mirror como rutina. Publicar ramas de trabajo y revisarlas antes de integrar a main.
 
 En otro equipo: `git fetch origin` y `git switch --track origin/codex/mi-siguiente-tarea` para continuar una rama ya publicada. No trabajar simultáneamente sobre la misma rama sin coordinar. Mantener copias privadas de datos necesarios fuera de Git; recrear la configuración local desde la plantilla.

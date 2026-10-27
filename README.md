@@ -1,6 +1,6 @@
 # LogisTech 2.0
 
-Sincronización privada: ver [auditoría GitHub y autorización pendiente](docs/AUDITORIA_GITHUB.md) e [instrucciones para otra computadora](docs/NUEVA_COMPUTADORA.md). El código incluye F0–F5; las credenciales, bases y volúmenes locales se recrean o transfieren por un canal privado separado, nunca por Git.
+Repositorio privado: [anthonyarana-debug/logistech-2.0](https://github.com/anthonyarana-debug/logistech-2.0), main predeterminada y F0–F5 publicados. Ver [publicación verificada](docs/PUBLICACION_GITHUB.md), [auditoría previa](docs/AUDITORIA_GITHUB.md) e [instrucciones para otra computadora](docs/NUEVA_COMPUTADORA.md). Las credenciales, bases y volúmenes locales se recrean o transfieren por un canal privado separado, nunca por Git. GitHub aloja el código; la aplicación no se desplegó en cloud.
 
 Proyecto académico de Desarrollo de Soluciones en la Nube — TECSUP. **Fase 5: validación local aprobada, entrega global PARCIAL por cloud.** Industrial Precision, React, autenticación y CRUD sobre PostgreSQL. 156 pruebas backend, 5 JS y 9 E2E; Locust 50/100 con resultados reales. Sin despliegue externo. F6–F8 requieren nueva autorización.
 

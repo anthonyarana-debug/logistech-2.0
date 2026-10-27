@@ -1,0 +1,40 @@
+{
+  "creacion": {
+    "fecha": "2026-10-27",
+    "cuenta_verificada": "anthonyarana-debug",
+    "destino_antes_http": 404,
+    "creacion_http": 201,
+    "verificacion_http": 200,
+    "repositorio": "anthonyarana-debug/logistech-2.0",
+    "visibilidad": "private",
+    "url": "https://github.com/anthonyarana-debug/logistech-2.0"
+  },
+  "primer_push": {
+    "autorizado_por_usuario": true,
+    "atomico": true,
+    "force": false,
+    "ramas": 8,
+    "rama_predeterminada": "main",
+    "sha_main": "951c36cbfc9297478fd815f4cb7925b2a8afaf03",
+    "commit_fase5": "04dd19ab41182fb194517c159d4df8a6b40a1e7d"
+  },
+  "verificacion_remota": {
+    "fecha_utc": "2026-10-27T15:28:57.671601+00:00",
+    "sha_main_coincide_con_local": true,
+    "informe_fase5_blob_sha": "daa86dbd455dfa1e3081b24c3324e5d4365010b9",
+    "consulta_anonima_http": 404,
+    "sha_android_solo_lectura": "060cb00fecba639f1d9f05c34d33c1054169e89e"
+  },
+  "clon_autenticado": {
+    "fecha_utc": "2026-10-27T15:29:09.312973+00:00",
+    "origen": "HTTPS GitHub real, no clon local",
+    "rama": "main",
+    "sha": "951c36cbfc9297478fd815f4cb7925b2a8afaf03",
+    "commits": 7,
+    "fase5_ancestro": true,
+    "hallazgos_auditoria": [],
+    "env_y_credenciales_demo_ausentes": true,
+    "temporal_eliminado": true
+  },
+  "nota": "Registro de publicación inicial; main avanza después para incluir esta documentación mediante push normal."
+}

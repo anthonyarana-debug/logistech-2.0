@@ -1,6 +1,6 @@
 # Auditoría y preparación de sincronización privada
 
-Fecha de revisión: 27/10/2026, America/Lima. **Preparado localmente; pendiente de autorización para crear el remoto y realizar el primer push.** No se modificó el repositorio Android.
+Fecha de revisión: 27/10/2026, America/Lima. **Actualización: publicación privada autorizada y verificada** en [anthonyarana-debug/logistech-2.0](https://github.com/anthonyarana-debug/logistech-2.0); ver [PUBLICACION_GITHUB.md](PUBLICACION_GITHUB.md). No se modificó el repositorio Android. Las secciones siguientes conservan el registro de auditoría y la propuesta **previos a la autorización**.
 
 ## Estado encontrado
 
