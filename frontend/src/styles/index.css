@@ -1416,6 +1416,7 @@ tbody tr:hover {
 }
 .detail-panel h2 {
   font-size: 23px;
+  overflow-wrap: anywhere;
 }
 .detail-panel dl {
   margin: 20px 0 0;
@@ -1448,6 +1449,7 @@ tbody tr:hover {
 .record-actions h2 {
   font-size: 23px;
   margin-bottom: 10px;
+  overflow-wrap: anywhere;
 }
 .record-actions p {
   max-width: 65ch;

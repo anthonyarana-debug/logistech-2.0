@@ -19,6 +19,7 @@ test('F6B2 live QR lookup, printable label, uncertain-network replay and immutab
   const token = await login(page, 'operator'), w = new Workspace(page)
   const box = await w.box()
   await expect(page.getByRole('img', { name: `QR code for ${box.internal_id}` })).toBeVisible()
+  expect((await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze()).violations).toEqual([])
   await page.screenshot({ path: evidence('box-qr-live'), fullPage: true })
   const download = page.waitForEvent('download')
   await page.getByRole('button', { name: 'Download printable label' }).click()
@@ -28,8 +29,10 @@ test('F6B2 live QR lookup, printable label, uncertain-network replay and immutab
   await labelDownload.saveAs(labelPath)
   const labelPreview = await page.context().newPage()
   try {
-    await labelPreview.goto(`data:image/svg+xml,${encodeURIComponent(readFileSync(labelPath, 'utf8'))}`)
-    await labelPreview.locator('svg').screenshot({ path: evidence('printable-label-live') })
+    await labelPreview.setContent(`<img alt="Downloaded printable label" src="data:image/svg+xml,${encodeURIComponent(readFileSync(labelPath, 'utf8'))}">`)
+    const labelImage = labelPreview.getByRole('img', { name: 'Downloaded printable label' })
+    await expect.poll(() => labelImage.evaluate(img => img.complete && img.naturalWidth > 0)).toBe(true)
+    await labelImage.screenshot({ path: evidence('printable-label-live') })
   } finally { await labelPreview.close() }
   await w.nav('Identify a box')
   for (const code of [`logistech:box:${box.qr_code}`, box.qr_code, box.internal_id]) {
@@ -50,6 +53,13 @@ test('F6B2 live QR lookup, printable label, uncertain-network replay and immutab
   await expect(page.getByRole('heading', { name: box.internal_id, exact: true })).toBeVisible()
   expect((await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze()).violations).toEqual([])
   await page.screenshot({ path: evidence('identification-manual-live'), fullPage: true })
+  for (const width of [320, 390, 768, 1440]) {
+    await page.setViewportSize({ width, height: 1000 })
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+  }
+  await page.setViewportSize({ width: 390, height: 1000 })
+  await page.screenshot({ path: evidence('identification-result-390'), fullPage: true })
+  await page.setViewportSize({ width: 1440, height: 1000 })
   await page.getByRole('link', { name: 'Box details', exact: true }).click()
   await page.locator('.qr-content').getByRole('link', { name: 'Receptions', exact: true }).click()
   await expect(page.getByRole('button', { name: 'Record reception', exact: true })).toBeVisible()
@@ -61,6 +71,10 @@ test('F6B2 live QR lookup, printable label, uncertain-network replay and immutab
   await expect(page.getByRole('button', { name: 'Record reception', exact: true })).toHaveCount(0)
   await page.getByLabel('QR or internal identifier').fill(box.internal_id)
   await page.getByRole('button', { name: 'Find box' }).click()
+  for (const width of [320, 390, 768, 1440]) {
+    await page.setViewportSize({ width, height: 1000 })
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+  }
   await expect(page.getByRole('button', { name: 'Record reception', exact: true })).toBeVisible()
   expect((await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze()).violations).toEqual([])
   let firstKey, firstData
@@ -109,7 +123,17 @@ test('F6B2 live QR lookup, printable label, uncertain-network replay and immutab
   }
   expect((await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze()).violations).toEqual([])
   await page.screenshot({ path: evidence('history-live-readonly'), fullPage: true })
-  await page.goto(`/app/receptions?box=${box.id}`)
+  for (const width of [320, 390, 768, 1440]) {
+    await page.setViewportSize({ width, height: 1000 })
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+  }
+  await page.setViewportSize({ width: 390, height: 1000 })
+  await page.screenshot({ path: evidence('history-390'), fullPage: true })
+  await page.setViewportSize({ width: 1440, height: 1000 })
+  await w.nav('Boxes')
+  await page.getByRole('link', { name: box.internal_id, exact: true }).click()
+  await page.locator('.qr-content').getByRole('link', { name: 'Receptions', exact: true }).click()
+  await expect(page).toHaveURL(new RegExp(`/app/receptions\\?box=${box.id}$`))
   await expect(page.getByText('This box already has a final status', { exact: false })).toBeVisible()
   await expect(page.getByRole('button', { name: 'Record reception' })).toHaveCount(0)
 })

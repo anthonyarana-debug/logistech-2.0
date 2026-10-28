@@ -36,7 +36,7 @@ function BoxIdentity({ box }) {
     {qr.loading ? <LoadingState /> : qr.error ? <ErrorState error={qr.error} onRetry={qr.reload} /> : <>
       {url && <img src={url} alt={t('trace_qr_alt', { identifier: box.internal_id })} width="200" height="200" style={{ maxWidth: '100%' }} />}
       <p><code style={{ overflowWrap: 'anywhere' }}>{qr.data.payload}</code></p>
-      <Button variant="secondary" busy={busy} onClick={download}>{t('trace_download_label')}</Button>
+      <Button variant="primary" busy={busy} onClick={download}>{t('trace_download_label')}</Button>
     </>}
     {error && <ErrorState error={error} />}
     <p>{t('independent_identifier_if_the_qr_code_is_damaged')}</p>
