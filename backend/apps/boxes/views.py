@@ -5,6 +5,7 @@ from rest_framework.exceptions import ValidationError
 
 from apps.catalog.models import Product
 from apps.core.api import Conflict, TenantViewSet
+from apps.core.messages import message
 from apps.organizations.models import Branch, Company
 
 from .models import Box
@@ -34,22 +35,23 @@ class BoxViewSet(TenantViewSet):
         if "internal_id" in params:
             value = params["internal_id"].upper()
             if not re.fullmatch(r"CJ-[A-F0-9]{32}", value):
-                raise ValidationError({"internal_id": "Identificador interno no válido."})
+                raise ValidationError({"internal_id": message("invalid_internal_identifier")})
             queryset = queryset.filter(internal_id=value)
         return queryset
 
     def lock_references(self, serializer, company):
+        """Lock and validate active references against the selected company."""
         for key, model in (("product", Product), ("branch", Branch)):
             related = serializer.validated_data.get(key) or getattr(serializer.instance, key, None)
             related = model.objects.select_for_update().filter(pk=related.pk).first()
             if related is None:
-                raise Conflict("Una referencia ya no está disponible.")
+                raise Conflict(message("a_reference_is_no_longer_available"))
             if related.company_id != company.pk or related.status != Company.Status.ACTIVE:
-                raise Conflict("Las referencias deben estar activas y pertenecer a la empresa.")
+                raise Conflict(message("references_must_be_active_and_belong_to_the_company"))
             if key == "product":
                 category = related.category
                 if category.company_id != company.pk:
-                    raise Conflict("Las referencias deben pertenecer a la empresa.")
+                    raise Conflict(message("references_must_belong_to_the_company"))
             serializer.validated_data[key] = related
 
     def perform_create(self, serializer):
@@ -64,5 +66,7 @@ class BoxViewSet(TenantViewSet):
 
     def perform_destroy(self, instance):
         if instance.status != Box.Status.REGISTERED:
-            raise Conflict("Solo se pueden eliminar cajas registradas sin recepción ni rechazo.")
+            raise Conflict(
+                message("only_registered_boxes_without_reception_or_rejection_can_be_deleted")
+            )
         super().perform_destroy(instance)

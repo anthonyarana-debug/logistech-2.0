@@ -1,0 +1,23 @@
+sequenceDiagram
+  participant U as Usuario
+  participant W as React
+  participant A as Django/DRF
+  participant P as PostgreSQL
+  U->>W: Iniciar sesión con email y contraseña
+  W->>A: GET /api/v1/auth/csrf/
+  A-->>W: csrfToken y cookie CSRF
+  W->>A: POST login con JSON y X-CSRFToken
+  A->>P: Verificar cuenta activa y hash
+  A-->>W: Access en JSON y refresh en cookie HttpOnly
+  W->>W: Conservar access solo en memoria
+  W->>A: Inventario con Bearer access
+  A->>P: Consultar rol y empresa vigentes
+  A-->>W: Datos autorizados
+  W->>A: POST refresh con cookie y CSRF
+  A->>P: Bloquear token, revocar anterior y registrar reemplazo
+  A-->>W: Access nuevo y cookie refresh rotada
+  U->>W: Cerrar sesión
+  W->>W: Borrar identidad y access
+  W->>A: POST logout con CSRF
+  A->>P: Revocar refresh presentado
+  A-->>W: 204 y cookie eliminada

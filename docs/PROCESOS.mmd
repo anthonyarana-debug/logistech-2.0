@@ -1,0 +1,18 @@
+flowchart TD
+  Start[Solicitud de inventario] --> Token{Access JWT válido y cuenta activa}
+  Token -->|No| Unauthorized[401 JSON seguro]
+  Token -->|Sí| Role{Rol y asignación vigentes}
+  Role -->|Sin empresa / empresa inactiva| Forbidden[403 sin inventario]
+  Role -->|Superadmin coherente| Global[Ámbito global o empresa explícita]
+  Role -->|Admin / operador asignado| Tenant[Imponer empresa del actor]
+  Global --> Scope[Acotar consulta y validar filtros]
+  Tenant --> Scope
+  Scope --> Object{Recurso visible y operación autorizada}
+  Object -->|Ajeno / inexistente| Missing[404 sin revelar existencia]
+  Object -->|Operación prohibida| Forbidden
+  Object -->|Lectura| Read[200 con datos autorizados]
+  Object -->|Escritura| Atomic[Transacción: bloquear actor / empresa / referencias]
+  Atomic --> Validate{Integridad / pertenencia / cantidad / estado / unicidad}
+  Validate -->|Inválido| Invalid[400 o 409; rollback]
+  Validate -->|Válido| Save[Persistir con restricciones PostgreSQL]
+  Save --> Result[201 creación / 200 edición / 204 borrado]

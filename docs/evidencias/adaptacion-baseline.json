@@ -1,0 +1,28 @@
+{
+  "timestamp_utc": "2026-10-28T02:53:15.742326+00:00",
+  "scope": "Original backend image before language changes; real PostgreSQL in isolated logistech-language project",
+  "command": [
+    "docker",
+    "compose",
+    "-p",
+    "logistech-language",
+    "-f",
+    "docker-compose.yml",
+    "-f",
+    "compose.validation.yml",
+    "run",
+    "--rm",
+    "--no-deps",
+    "backend",
+    "python",
+    "-m",
+    "pytest",
+    "--ds=config.settings.testing",
+    "-q",
+    "-o",
+    "cache_dir=/tmp/pytest-language-baseline"
+  ],
+  "exit_code": 0,
+  "stdout": "........................................................................ [ 46%]\n........................................................................ [ 92%]\n............                                                             [100%]\n156 passed in 15.33s\n",
+  "stderr": " Network logistech-language_application Creating \n Network logistech-language_application Created \n Container logistech-language-backend-run-9074a373dbf4 Creating \n Container logistech-language-backend-run-9074a373dbf4 Created \n"
+}

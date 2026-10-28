@@ -10,9 +10,9 @@ from .base import *  # noqa: F403
 from .base import DATABASES, DEBUG, SECRET_KEY, env_bool
 
 if DEBUG:
-    raise ImproperlyConfigured("DEBUG debe ser false en producción.")
+    raise ImproperlyConfigured("DEBUG must be false in production.")
 if len(SECRET_KEY) < 50:
-    raise ImproperlyConfigured("SECRET_KEY de producción requiere al menos 50 caracteres.")
+    raise ImproperlyConfigured("Production SECRET_KEY requires at least 50 characters.")
 
 SECURE_SSL_REDIRECT = True
 SECURE_HSTS_SECONDS = 3600
@@ -40,7 +40,7 @@ for origin in CSRF_TRUSTED_ORIGINS:
         or parsed.username
         or "*" in origin
     ):
-        raise ImproperlyConfigured("CSRF_TRUSTED_ORIGINS requiere orígenes HTTPS explícitos.")
+        raise ImproperlyConfigured("CSRF_TRUSTED_ORIGINS requires explicit HTTPS origins.")
 # Activar solo con backend privado y proxy que elimine/sustituya la cabecera entrante.
 if env_bool("TRUSTED_TLS_PROXY"):
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")

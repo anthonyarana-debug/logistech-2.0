@@ -1,3 +1,4 @@
+import { t, formatDate } from '../i18n/index.js'
 import { useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useAuth } from '../auth.jsx'
@@ -26,22 +27,18 @@ export default function BoxDetail() {
     [busy, setBusy] = useState(false),
     [error, setError] = useState(null),
     [toast, setToast] = useState('')
-  if (resource.loading) return <LoadingState label="Consultando la caja…" />
+  if (resource.loading) return <LoadingState label={t("loading_box")} />
   if (resource.error)
     return (
       <>
         <PageIntro
-          eyebrow="CONSULTA DE CAJA"
+          eyebrow={t("box_lookup")}
           title={
-            resource.error.status === 404 ? 'Caja no disponible.' : 'No pudimos consultar la caja.'
+            resource.error.status === 404 ? t("box_unavailable") : t("we_could_not_retrieve_the_box")
           }
-        >
-          El registro puede no existir o no estar disponible para tu empresa.
-        </PageIntro>
+        >{t("the_record_may_not_exist_or_may_be")}</PageIntro>
         <ErrorState error={resource.error} onRetry={resource.reload} />
-        <Link className="text-link" to="/app/cajas">
-          Volver a cajas
-        </Link>
+        <Link className="text-link" to="/app/cajas">{t("back_to_boxes")}</Link>
       </>
     )
   const box = resource.data,
@@ -58,7 +55,7 @@ export default function BoxDetail() {
       else {
         setAction('')
         resource.reload()
-        setToast('Estado actualizado.')
+        setToast(t("status_updated"))
       }
     } catch (error) {
       setError(error)
@@ -69,18 +66,14 @@ export default function BoxDetail() {
   return (
     <>
       <Link className="text-link back-link" to="/app/cajas">
-        <Icon name="arrow" className="rotate-arrow" />
-        Volver a cajas
-      </Link>
+        <Icon name="arrow" className="rotate-arrow" />{t("back_to_boxes")}</Link>
       <PageIntro
-        eyebrow="IDENTIFICACIÓN / CONTEXTO / ESTADO"
-        title="Detalle de caja"
+        eyebrow={t("identification_context_status")}
+        title={t("box_details")}
         action={
           mutable && (
             <Button variant="dark" onClick={() => setEdit(true)}>
-              <Icon name="edit" />
-              Editar caja
-            </Button>
+              <Icon name="edit" />{t("edit_box")}</Button>
           )
         }
       >
@@ -88,33 +81,28 @@ export default function BoxDetail() {
       </PageIntro>
       <div className="box-detail-grid">
         <section className="identity-panel">
-          <p className="eyebrow">IDENTIFICADOR INTERNO</p>
+          <p className="eyebrow">{t("internal_identifier")}</p>
           <h2 className="mono">{box.internal_id}</h2>
           <StatusBadge value={box.status} />
           <div className="qr-content">
-            <p className="eyebrow">CÓDIGO QR / CONTENIDO</p>
+            <p className="eyebrow">{t("qr_code_content")}</p>
             <code>{box.qr_code}</code>
-            <p>
-              Identificador independiente. Si el QR se daña, utiliza el ID interno para consultar
-              esta caja.
-            </p>
+            <p>{t("independent_identifier_if_the_qr_code_is_damaged")}</p>
           </div>
-          <p className="small-note">
-            La lectura mediante cámara se incorporará en una fase posterior.
-          </p>
+          <p className="small-note">{t("camera_scanning_will_be_added_in_a_later")}</p>
         </section>
         <section className="detail-panel">
-          <h2>Datos de la mercancía</h2>
+          <h2>{t("goods_details")}</h2>
           <dl>
             {[
-              ['Producto', box.product_name],
+              [t("product"), box.product_name],
               ['SKU', box.product_sku],
-              ['Categoría', box.category_name],
-              ['Cantidad', box.quantity],
-              ['Peso (kg)', box.weight_kg || 'No registrado'],
-              ['Sucursal', box.branch_name],
-              ['Prioridad', <StatusBadge value={box.priority} />],
-              ['Creación', new Date(box.created_at).toLocaleString('es-PE')],
+              [t("category"), box.category_name],
+              [t("quantity"), box.quantity],
+              [t("weight_kg"), box.weight_kg || t("not_recorded")],
+              [t("branch"), box.branch_name],
+              [t("priority"), <StatusBadge value={box.priority} />],
+              [t("created"), formatDate(box.created_at)],
             ].map(([term, value]) => (
               <div key={term}>
                 <dt>{term}</dt>
@@ -126,11 +114,11 @@ export default function BoxDetail() {
       </div>
       <section className="record-actions">
         <div>
-          <h2>{mutable ? 'Actualizar el estado inicial' : 'Estado final protegido'}</h2>
+          <h2>{mutable ? t("update_the_initial_status") : t("final_status_protected")}</h2>
           <p>
             {mutable
-              ? 'Estas marcas no sustituyen un proceso de recepción avanzada. El cambio a un estado final no se puede revertir en este alcance.'
-              : 'Esta caja ya no admite edición ni eliminación. Puedes seguir consultando sus datos.'}
+              ? t("these_labels_do_not_replace_an_advanced_reception")
+              : t("this_box_can_no_longer_be_edited_or")}
           </p>
         </div>
         {mutable && (
@@ -141,18 +129,14 @@ export default function BoxDetail() {
                 setError(null)
                 setAction('RECEIVED')
               }}
-            >
-              Marcar recibida
-            </Button>
+            >{t("mark_as_received")}</Button>
             <Button
               variant="secondary"
               onClick={() => {
                 setError(null)
                 setAction('REJECTED')
               }}
-            >
-              Marcar rechazada
-            </Button>
+            >{t("mark_as_rejected")}</Button>
             {auth.user.role !== 'OPERATOR' && (
               <Button
                 variant="text"
@@ -161,9 +145,7 @@ export default function BoxDetail() {
                   setError(null)
                   setAction('delete')
                 }}
-              >
-                Eliminar caja
-              </Button>
+              >{t("delete_box")}</Button>
             )}
           </div>
         )}
@@ -181,31 +163,22 @@ export default function BoxDetail() {
       )}
       {action === 'delete' && (
         <ConfirmModal
-          title="Eliminar caja"
+          title={t("delete_box")}
           onClose={() => setAction('')}
           onConfirm={execute}
           busy={busy}
           error={error}
-        >
-          Se eliminará la caja {box.internal_id}. Esta acción no se puede deshacer.
-        </ConfirmModal>
+        >{t("this_box_will_be_deleted")}{' '}{box.internal_id}{t("this_action_cannot_be_undone")}</ConfirmModal>
       )}
       {action && action !== 'delete' && (
-        <Modal title="Confirmar cambio de estado" onClose={() => setAction('')} busy={busy}>
+        <Modal title={t("confirm_status_change")} onClose={() => setAction('')} busy={busy}>
           <div className="modal-body">
-            <p>
-              La caja quedará <strong>{action === 'RECEIVED' ? 'recibida' : 'rechazada'}</strong> y
-              no admitirá nuevos cambios de datos en este CRUD.
-            </p>
+            <p>{t("the_box_will_be_marked")}{' '}<strong>{action === 'RECEIVED' ? t("received_2") : t("rejected_2")}</strong>{' '}{t("and_will_no_longer_accept_data_changes_in")}</p>
             {error && <ErrorState error={error} />}
           </div>
           <footer>
-            <Button variant="secondary" disabled={busy} onClick={() => setAction('')}>
-              Cancelar
-            </Button>
-            <Button variant="dark" busy={busy} onClick={execute}>
-              Confirmar estado
-            </Button>
+            <Button variant="secondary" disabled={busy} onClick={() => setAction('')}>{t("cancel")}</Button>
+            <Button variant="dark" busy={busy} onClick={execute}>{t("confirm_status")}</Button>
           </footer>
         </Modal>
       )}

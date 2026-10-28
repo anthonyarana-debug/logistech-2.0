@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from apps.core.api import Conflict, StrictModelSerializer
+from apps.core.messages import message
 from apps.organizations.models import Company
 
 from .models import Category
@@ -35,5 +36,5 @@ class CategorySerializer(StrictModelSerializer):
         if self.instance:
             existing = existing.exclude(pk=self.instance.pk)
         if existing.exists():
-            raise Conflict("Ya existe una categoría con ese nombre en la empresa.")
+            raise Conflict(message("a_category_with_this_name_already_exists_in_the_company"))
         return attrs

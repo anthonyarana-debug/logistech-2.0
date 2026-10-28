@@ -1,3 +1,4 @@
+import { t } from '../i18n/index.js'
 import { useState } from 'react'
 import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth.jsx'
@@ -16,7 +17,7 @@ export default function AuthPage({ signup = false }) {
     setError(null)
     const data = Object.fromEntries(new FormData(event.currentTarget))
     if (signup && data.password !== data.confirmation) {
-      setError(new Error('Las contraseñas no coinciden.'))
+      setError(new Error(t("passwords_do_not_match")))
       return
     }
     delete data.confirmation
@@ -38,17 +39,13 @@ export default function AuthPage({ signup = false }) {
   return (
     <main className="auth-layout">
       <aside className="auth-brand">
-        <Link to="/" aria-label="Volver al inicio">
+        <Link to="/" aria-label={t("back_to_home")}>
           <Logo />
         </Link>
         <div>
-          <p className="eyebrow">IDENTIFICA. ORGANIZA. CONTROLA.</p>
-          <h2>
-            La información
-            <br />
-            correcta.
-            <br />
-            <em>En tus manos.</em>
+          <p className="eyebrow">{t("identify_organize_control")}</p>
+          <h2>{t("the_right")}<br />{t("information")}<br />
+            <em>{t("in_your_hands")}</em>
           </h2>
           <div className="tracking-lines" aria-hidden="true">
             <span />
@@ -58,43 +55,37 @@ export default function AuthPage({ signup = false }) {
             <span />
             <span />
           </div>
-          <p>
-            Una identidad para cada caja.
-            <br />
-            Un espacio para cada empresa.
-          </p>
+          <p>{t("an_identity_for_every_box")}<br />{t("a_workspace_for_every_company")}</p>
         </div>
-        <p className="auth-brand-footer">LOGISTECH / PLATAFORMA LOGÍSTICA</p>
+        <p className="auth-brand-footer">{t("logistech_logistics_platform")}</p>
       </aside>
       <section className="auth-content">
         <Link className="auth-back text-link" to="/">
-          <Icon name="arrow" className="rotate-arrow" /> Volver al inicio
-        </Link>
+          <Icon name="arrow" className="rotate-arrow" />{' '}{t("back_to_home")}</Link>
         <div className="auth-form-wrap">
-          <p className="eyebrow">TU ESPACIO DE TRABAJO</p>
+          <p className="eyebrow">{t("your_workspace")}</p>
           <h1>
-            {success ? 'Tu cuenta está creada.' : signup ? 'Empezamos por ti.' : 'Qué bueno verte.'}
+            {success ? t("your_account_has_been_created") : signup ? t("it_starts_with_you") : t("welcome_back")}
           </h1>
           <p className="auth-lead">
             {success
-              ? 'Tu cuenta de operador está pendiente de asignación a una empresa. Ya puedes iniciar sesión.'
+              ? t("your_operator_account_is_awaiting_company_assignment_you")
               : signup
-                ? 'Regístrate como operador. Un superadministrador asignará tu empresa antes de acceder al inventario.'
-                : 'Inicia sesión para continuar con tus operaciones.'}
+                ? t("register_as_an_operator_a_superadmin_will_assign")
+                : t("sign_in_to_continue_your_operations")}
           </p>
           {success ? (
-            <Link className="button button-dark" to="/login">
-              Ir a iniciar sesión <Icon name="arrow" />
+            <Link className="button button-dark" to="/login">{t("go_to_sign_in")}{' '}<Icon name="arrow" />
             </Link>
           ) : (
             <form
               onSubmit={submit}
-              aria-label={signup ? 'Formulario de registro' : 'Formulario de inicio de sesión'}
+              aria-label={signup ? t("registration_form") : t("sign_in_form")}
             >
               {error && <ErrorState error={error} />}
               {signup && (
                 <FormField
-                  label="Nombre"
+                  label={t("first_name")}
                   name="first_name"
                   autoComplete="given-name"
                   maxLength={150}
@@ -102,7 +93,7 @@ export default function AuthPage({ signup = false }) {
                 />
               )}
               <FormField
-                label="Correo electrónico"
+                label={t("email_address")}
                 name="email"
                 type="email"
                 autoComplete="username"
@@ -117,13 +108,13 @@ export default function AuthPage({ signup = false }) {
                 required
                 hint={
                   signup
-                    ? 'Mínimo 12 caracteres. Evita contraseñas comunes, solo números o similares a tu correo.'
+                    ? t("at_least_12_characters_avoid_common_passwords_numbers")
                     : undefined
                 }
               />
               {signup && (
                 <PasswordField
-                  label="Confirmar contraseña"
+                  label={t("confirm_password")}
                   name="confirmation"
                   autoComplete="new-password"
                   minLength={12}
@@ -132,23 +123,23 @@ export default function AuthPage({ signup = false }) {
                 />
               )}
               <Button variant="dark" type="submit" busy={busy} className="full-width">
-                {signup ? 'Crear cuenta de operador' : 'Iniciar sesión'}
+                {signup ? t("create_operator_account") : t("sign_in")}
                 <Icon name="arrow" />
               </Button>
               <p className="auth-switch">
-                {signup ? '¿Ya tienes una cuenta?' : '¿Es tu primera vez aquí?'}{' '}
+                {signup ? t("already_have_an_account") : t("new_here")}{' '}
                 <Link to={signup ? '/login' : '/registro'}>
-                  {signup ? 'Inicia sesión' : 'Crea tu cuenta'}
+                  {signup ? t("sign_in") : t("create_your_account")}
                 </Link>
               </p>
             </form>
           )}
           <div className="auth-assurance">
             <Icon name="check" />
-            <p>Sesión protegida. El acceso a la información depende de tu rol y tu empresa.</p>
+            <p>{t("protected_session_information_access_depends_on_your_role")}</p>
           </div>
         </div>
-        <p className="auth-footnote">LogisTech 2.0 · Desarrollo de Soluciones en la Nube</p>
+        <p className="auth-footnote">{t("logistech_2_0_cloud_solutions_development")}</p>
       </section>
     </main>
   )

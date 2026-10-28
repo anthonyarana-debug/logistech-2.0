@@ -2,6 +2,10 @@
 
 Plan original: 2026-10-26. Actualización: 2026-10-27. FASE 5 autorizada: validación local ejecutada, 156/5/9 pruebas y escenarios Locust 50/100 aprobados en su alcance delimitado. Entrega global PARCIAL por cloud: arquitectura/artefacto preparados parcialmente, sin despliegue ni verificación externa. Ver INFORME_FASE_5.md y CHECKLIST_SEMANA_11.md. **F6–F8 no iniciadas; se espera revisión y nueva autorización.**
 
+## Adaptación de idioma y documentación autorizada
+
+Ajuste posterior a F5: inglés predeterminado centralizado, documentos académicos según guía y regresión con PostgreSQL. Sin nuevas funciones F6/F7/F8. Informes/evidencias anteriores se preservan; la nueva rama queda local hasta revisión, sin push/despliegue. Alcance y resultados en INFORME_ADAPTACION.md.
+
 ## Reglas de avance
 
 Detenerse al finalizar cada fase y presentar informe con estado, archivos, comandos/resultados, errores, seguridad, documentación, checklist humano y siguiente fase. F6, F7 y F8 requieren autorización expresa adicional. No crear recursos cloud, publicar ni contratar servicios sin autorización. Los commits futuros serán locales, revisando antes el diff y ausencia de secretos; no se creó commit en F0.

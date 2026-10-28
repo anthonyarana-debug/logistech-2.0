@@ -2,6 +2,8 @@
 
 Actualización FASE 5 (2026-10-27): **12 requisitos completados localmente y 1 parcial (cloud)**. Validación local aprobada, entrega global PARCIAL si se exige cloud activo; no hay despliegue externo verificado. Código/prueba/resultado/evidencia/pendiente individual en CHECKLIST_SEMANA_11.md. 156 backend + 5 JS + 9 E2E; carga API 50/100 con límites explícitos. Zoom nativo/lector/tacto físico pendientes humanos. F6–F8 no iniciadas.
 
+Adaptación posterior: [matriz de la guía del profesor](MATRIZ_GUIA_PROFESOR.md), [informe académico](INFORME_ACADEMICO.md) y [cierre del ajuste](INFORME_ADAPTACION.md). Sin nuevas funciones F6–F8; cloud continúa parcial.
+
 ## Prioridad: entrega del 25 %
 
 | ID | Requisito | Fase responsable | Criterio verificable / evidencia prevista | Estado real |
@@ -10,7 +12,7 @@ Actualización FASE 5 (2026-10-27): **12 requisitos completados localmente y 1 p
 | 25-02 | Endpoints funcionales y documentados | F2/F3 | Método/ruta/parámetros/auth/respuestas/ejemplos en ENDPOINTS y pruebas HTTP reales | Salud/auth/CRUD categorías y cajas implementados y documentados |
 | 25-03 | Registro y login separados | F2/F4 | Usuario nuevo operador sin empresa, login válido/inválido y flujo web | Formularios conectados y E2E, asignación pendiente explícita |
 | 25-04 | Rate limiting | F2/F3/F5 | Límites documentados, 429 y Retry-After, recuperación de ventana; limitaciones de caché explícitas | COMPLETADO local: auth/CRUD, 429 real de refresh y ventanas probadas; LocMem no distribuido |
-| 25-05 | 404, 403 y módulo en desarrollo | F4 | Navegación real y pruebas; API conserva JSON y códigos propios | Vistas españolas, manejo de errores y rutas implementados; F4 E2E |
+| 25-05 | 404, 403 y módulo en desarrollo | F4 | Navegación real y pruebas; API conserva JSON y códigos propios | Vistas en inglés tras adaptación, manejo de errores y rutas implementados; F4 E2E |
 | 25-06 | 200/201/204/400/401/403/404/429/500 | F2/F3/F5 | Casos positivos/negativos y fallo inyectado solo en prueba; 204 sin cuerpo | COMPLETADO local: reejecutados F5, 405/409/503 adicionales; 500 inyectado seguro sin ruta pública |
 | 25-07 | CRUD categorías y cajas | F2/F3/F4 | Crear/leer/editar/borrar con roles, FK coherentes, validaciones y pruebas cruzadas | REST y formularios reales probados; estados finales protegidos y DELETE confirmado |
 | 25-08 | Variables de entorno | F1/F5 | .env.example ficticio, secretos ignorados, config por entorno y arranque comprobado | COMPLETADO local: configuración y políticas F5 probadas; secretos cloud humanos |
@@ -32,10 +34,10 @@ Actualización FASE 5 (2026-10-27): **12 requisitos completados localmente y 1 p
 | T-06 | Identificación independiente del QR | F2/F3: UNIQUE, generación automática y consulta por ambos identificadores | Generación, búsqueda autorizada por internal_id/qr_code y reintento acotado de colisiones probados |
 | T-07 | Categorías frágiles y perecederas | F2/F3: flags independientes, validación y persistencia | Modelo/CRUD/flags coexistentes y filtros probados |
 | T-08 | Empresas y sucursales | F2 núcleo mínimo; F6 administración completa | Modelos mínimos/Admin restringido disponibles; administración web completa F6 pendiente |
-| T-09 | Interfaz española y responsive | F4: escritorio/móvil, teclado y estados de error/carga | Implementada; anchos 320/390/768/1440 y axe; zoom CSS 200%; lector/zoom nativo/táctil físico pendientes humanos |
+| T-09 | Interfaz inglesa por defecto y responsive | F4: escritorio/móvil, teclado y estados de error/carga | Implementada y adaptada al inglés; anchos 320/390/768/1440 y axe; zoom CSS 200%; lector/zoom nativo/táctil físico pendientes humanos |
 | T-10 | HTTPS, CORS, secretos, red privada | F1 configuración; F5 preparación; despliegue/F7 verificación externa | PARCIAL: producción SSL/cookies/proxy opt-in preparados; TLS/CA/red cloud sin verificación |
 | T-11 | No depender ni sobrescribir Android/VPS | F0: no hay fuentes originales; API propia planificada | Restricción respetada; compatibilidad no verificada |
-| T-12 | Git y commits por fase, sin secretos | F1 en adelante: diff e historial local; nunca push implícito | Historial local por fase; sin remoto/push; secretos y artefactos ignorados |
+| T-12 | Git y commits por fase, sin secretos | F1 en adelante: diff e historial local; nunca push implícito | F0–F5 publicados en GitHub, ahora público; adaptación solo local hasta revisión; secretos y artefactos ignorados |
 | T-13 | Salud de servicio | F1: respuesta y conectividad DB; 503 si dependencia falla | Comprobado: 200 con DB, 503 al detenerla y recuperación posterior |
 | T-14 | Datos demo identificados y controlados | F4: comando explícito con namespace, archivo privado y pruebas | create_demo, dos empresas DEMO y cuatro roles, claves aleatorias, sin sobrescritura |
 | T-15 | Documentación completa en español | F0–F5 ampliación según PLAN | F3 incluye contrato CRUD, pruebas, seguridad, roles, decisiones y cierre; revisión final F5 pendiente |

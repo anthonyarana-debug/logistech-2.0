@@ -8,6 +8,10 @@ Carga: JWT legítimos de fixtures para 50/100 identidades y un login HTTP por es
 
 Las secciones de autenticación F2 y autorización CRUD F3 se conservan. La integración web F4 añade los controles siguientes.
 
+## Adaptación de idioma y repositorio público
+
+La adaptación conserva contratos, permisos, restricciones DB y migraciones. Mensajes propios centralizados y 500 seguro; sin traducción de datos del usuario. Admin localiza etiquetas en presentación, sin mutar modelos; sus filtros mantienen el escape de HTML y tienen prueba específica. No se usa API externa. El repositorio ahora es público: no confundirlo con una aplicación cloud disponible. Se repite auditoría de secretos sobre índice/historial antes de cualquier futura publicación; esta adaptación no hace push.
+
 ## Sesión y referencias web F4
 
 - Access solo en memoria de módulo, sin localStorage/sessionStorage/IndexedDB. Refresh HttpOnly sigue en cookie del backend; CSRF se obtiene mediante la ruta autorizada. Credenciales Fetch `same-origin`; proxy existente, sin abrir CORS.
@@ -15,7 +19,7 @@ Las secciones de autenticación F2 y autorización CRUD F3 se conservan. La inte
 - Logout borra inmediatamente access/identidad y revoca refresh en servidor. Si la red falla, conserva únicamente `logistech.logout-pending=true` en sessionStorage para reintentar la revocación antes de restaurar o iniciar otra sesión. Este marcador no contiene identidad ni secretos. La UI informa que el cierre no pudo confirmarse. Almacenamiento web deshabilitado limita esa persistencia entre recargas.
 - Rutas privadas bloqueadas durante restauración/error/expiración. Cuenta sin empresa no monta AppShell ni consulta referencias/inventario. Caches de consultas quedan en componentes, se descartan al desmontar y no muestran resultados de otro contexto al cambiar filtros de empresa.
 - Selección de empresa solo para superadmin; formularios no ofrecen role/created_by/identificadores ni transferencias de empresa. Cada operación sigue validada por el backend. Referencias de lectura no amplían los permisos de escritura.
-- Errores 500 del cliente muestran texto genérico, nunca el cuerpo interno. Fallos de red y health tienen mensajes españoles. Timeout 15 s en API y 6 s en health. No se registra cuerpo de autenticación ni access en consola.
+- Errores 500 del cliente muestran texto genérico, nunca el cuerpo interno. Fallos de red y health tienen mensajes ingleses centralizados. Timeout 15 s en API y 6 s en health. No se registra cuerpo de autenticación ni access en consola.
 - Datos DEMO se crean por comando explícito y namespace nuevo; archivo de claves aleatorias 0600, copia local ignorada con ACL restringida al usuario. No usar contra producción, no publicar/copiar el archivo ni capturar formularios con claves visibles. Usuarios demo incluyen superadmin: usar solo para la demostración local autorizada. No hay claves fijas ni variables VITE_ secretas.
 - Playwright no conserva trace, vídeo ni storageState. Salidas crudas y contextos de fallo se ignoran; solo resumen de nombres/resultados y capturas sin secretos se versionan. Los tests no desactivan CSRF, permisos, expiración o throttles. El test de pérdida de refresh elimina su propia cookie e inyecta un Bearer inválido; ambos rechazos los resuelve el servidor.
 

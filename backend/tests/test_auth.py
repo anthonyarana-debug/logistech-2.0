@@ -182,7 +182,7 @@ def test_deactivation_rejects_existing_access_and_refresh(client, user):
 def test_cookie_mutations_require_csrf(client, endpoint):
     response = client.post(f"/api/v1/auth/{endpoint}/", {}, format="json")
     assert response.status_code == 403
-    assert response.json() == {"detalle": "La verificación CSRF no fue válida."}
+    assert response.json() == {"detalle": "CSRF verification failed."}
 
 
 def test_foreign_origin_rejected_even_with_csrf(client, user):

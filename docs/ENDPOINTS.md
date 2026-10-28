@@ -4,6 +4,10 @@ F5 no añade rutas de negocio. Regresión backend 156 casos, 9 E2E y carga API l
 
 Base: `/api/v1/`. Español para mensajes; campos del código en inglés. Desarrollo local: frontend 127.0.0.1:5173 con proxy y API 127.0.0.1:8000. Autenticación F2 y CRUD F3 conservados; frontend conectado en F4.
 
+## Idioma y compatibilidad tras la adaptación
+
+Mensajes humanos predeterminados en inglés, incluidos errores y etiquetas de OPTIONS. No cambian nombres de campos/rutas/filtros, enums, métodos o códigos HTTP. Se conservan `detalle`, `errores`, `campos`, `filtros`, `estado`, `servicio`, `base_de_datos` y valores de salud `disponible`/`no_disponible`. No se traducen nombres de negocio. No hay negociación por Accept-Language ni API externa. Ver [API_INTERNA](API_INTERNA.md) e [INTERNACIONALIZACION](INTERNACIONALIZACION.md).
+
 ## Consulta mínima de referencias F4
 
 `GET /api/v1/references/` exige Bearer y empresa activa para usuarios no globales. Comparte el límite de 120/min/usuario con CRUD y devuelve `Cache-Control: no-store`. HEAD/OPTIONS disponibles según DRF; POST/PUT/PATCH/DELETE no implementados (405 tras autenticación).
@@ -80,7 +84,7 @@ Crea una cuenta técnica de prueba, verifica ocho respuestas reales y al finaliz
 
 La prueba HTTP consume las cuotas reales, incluido registro 3/h/IP: varias ejecuciones seguidas pueden obtener 429. No se reinician contadores ni se desactivan límites para presentar un resultado exitoso. Las pruebas pytest usan su propio proceso/caché y base de prueba.
 
-Errores: autenticación `{detalle: "Credenciales o sesión no válidas."}`; CSRF `{detalle: "La verificación CSRF no fue válida."}`; throttling `{detalle: "Demasiadas solicitudes..."}` con Retry-After; validación `{errores: {...}}`; ruta inexistente 404 JSON y error inesperado 500 genérico. No se usa 200 para fallos de la API. El formulario HTML del Admin sigue el comportamiento Django y puede devolver 200 mostrando errores del formulario.
+Errores: autenticación `{detalle: "Invalid credentials or session."}`; CSRF `{detalle: "CSRF verification failed."}`; throttling `{detalle: "Demasiadas solicitudes..."}` con Retry-After; validación `{errores: {...}}`; ruta inexistente 404 JSON y error inesperado 500 genérico. No se usa 200 para fallos de la API. El formulario HTML del Admin sigue el comportamiento Django y puede devolver 200 mostrando errores del formulario.
 
 ## Cookies y revocación
 

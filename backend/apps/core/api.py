@@ -18,6 +18,8 @@ from rest_framework.permissions import SAFE_METHODS, IsAuthenticated
 
 from apps.accounts.permissions import HasCompanyAccess
 from apps.accounts.throttles import AuthThrottle
+from apps.core.labels import CHOICE_LABELS, FIELD_LABELS
+from apps.core.messages import message
 from apps.organizations.models import Company
 
 
@@ -27,7 +29,7 @@ def is_global(user):
 
 class Conflict(APIException):
     status_code = status.HTTP_409_CONFLICT
-    default_detail = "La operación entra en conflicto con el estado o las referencias del recurso."
+    default_detail = message("the_operation_conflicts_with_the_resource_status_or_references")
     default_code = "conflict"
 
 
@@ -41,7 +43,7 @@ class PrivateUserThrottle(AuthThrottle):
 
 
 class ResourcePermission(HasCompanyAccess):
-    message = "No tienes permiso para realizar esta operación."
+    message = message("you_do_not_have_permission_to_perform_this_operation")
 
     def has_permission(self, request, view):
         if not super().has_permission(request, view):
@@ -56,6 +58,13 @@ class ResourcePermission(HasCompanyAccess):
 class StrictModelSerializer(serializers.ModelSerializer):
     def get_fields(self):
         fields = super().get_fields()
+        for name, field in fields.items():
+            field.label = FIELD_LABELS.get(name, field.label)
+            if isinstance(field, serializers.ChoiceField):
+                field.choices = [
+                    (value, CHOICE_LABELS.get(value, label))
+                    for value, label in field.choices.items()
+                ]
         # Solo el superadmin elige empresa al crear. Nadie transfiere recursos por CRUD.
         request = self.context["request"]
         if not (is_global(request.user) and self.instance is None):
@@ -64,16 +73,18 @@ class StrictModelSerializer(serializers.ModelSerializer):
 
     def to_internal_value(self, data):
         if not isinstance(data, Mapping):
-            raise ValidationError({"detalle": "Se requiere un objeto JSON."})
+            raise ValidationError({"detalle": message("a_json_object_is_required")})
         if any(key not in self.fields or self.fields[key].read_only for key in data):
-            raise ValidationError({"campos": "La solicitud contiene campos no permitidos."})
+            raise ValidationError(
+                {"campos": message("the_request_contains_fields_that_are_not_allowed")}
+            )
         return super().to_internal_value(data)
 
     def validate(self, attrs):
         user = self.context["request"].user
         if self.instance is None:
             if is_global(user) and "company" not in attrs:
-                raise ValidationError({"company": "Elige explícitamente una empresa activa."})
+                raise ValidationError({"company": message("explicitly_select_an_active_company")})
             attrs.setdefault("company", user.company)
         return attrs
 
@@ -95,6 +106,7 @@ class TenantViewSet(viewsets.ModelViewSet):
         return response
 
     def get_queryset(self):
+        """Scope before filtering; reject unknown filters and lock authorized writes."""
         queryset = super().get_queryset()
         user = self.request.user
         if not is_global(user):
@@ -103,28 +115,30 @@ class TenantViewSet(viewsets.ModelViewSet):
         allowed = set(self.uuid_filters) | set(self.choice_filters) | set(self.extra_filters)
         allowed |= {"search"} if self.search_fields else set()
         if self.action != "list" and params:
-            raise ValidationError({"filtros": "Los filtros solo se admiten en la colección."})
+            raise ValidationError(
+                {"filtros": message("filters_are_only_accepted_on_the_collection")}
+            )
         if any(key not in allowed or len(params.getlist(key)) != 1 for key in params):
-            raise ValidationError({"filtros": "Filtro desconocido o repetido."})
+            raise ValidationError({"filtros": message("unknown_or_repeated_filter")})
         for key, lookup in self.uuid_filters.items():
             if key not in params:
                 continue
             try:
                 value = uuid.UUID(params[key])
             except (ValueError, TypeError):
-                raise ValidationError({key: "Se requiere un UUID válido."}) from None
+                raise ValidationError({key: message("a_valid_uuid_is_required")}) from None
             if key == "company" and not is_global(user) and value != user.company_id:
-                raise PermissionDenied("No tienes permiso para consultar ese ámbito.")
+                raise PermissionDenied(message("you_do_not_have_permission_to_access_that_scope"))
             queryset = queryset.filter(**{lookup: value})
         for key, choices in self.choice_filters.items():
             if key in params:
                 if params[key] not in choices:
-                    raise ValidationError({key: "Valor de filtro no permitido."})
+                    raise ValidationError({key: message("filter_value_not_allowed")})
                 queryset = queryset.filter(**{key: params[key]})
         if "search" in params:
             value = params["search"].strip()
             if not value or len(value) > 100:
-                raise ValidationError({"search": "Usa entre 1 y 100 caracteres."})
+                raise ValidationError({"search": message("use_between_1_and_100_characters")})
             expression = Q()
             for field in self.search_fields:
                 expression |= Q(**{f"{field}__icontains": value})
@@ -138,10 +152,11 @@ class TenantViewSet(viewsets.ModelViewSet):
         return queryset
 
     def lock_actor(self):
+        """Recheck current privileges under a row lock inside the write transaction."""
         # Releer el usuario en la transacción: rol/asignación no provienen del payload/JWT.
         actor = get_user_model().objects.select_for_update().filter(pk=self.request.user.pk).first()
         if actor is None:
-            raise AuthenticationFailed("La cuenta no está disponible.")
+            raise AuthenticationFailed(message("the_account_is_unavailable"))
         self.request.user = actor
         self.check_permissions(self.request)
         return actor
@@ -149,9 +164,9 @@ class TenantViewSet(viewsets.ModelViewSet):
     def lock_company(self, company):
         company = Company.objects.select_for_update().filter(pk=company.pk).first()
         if company is None:
-            raise Conflict("La empresa no está disponible.")
+            raise Conflict(message("the_company_is_unavailable"))
         if company.status != Company.Status.ACTIVE:
-            raise Conflict("La empresa debe estar activa para modificar recursos.")
+            raise Conflict(message("the_company_must_be_active_to_modify_resources"))
         return company
 
     @transaction.atomic
@@ -183,7 +198,7 @@ class TenantViewSet(viewsets.ModelViewSet):
 
     def handle_exception(self, exc):
         if isinstance(exc, ModelValidationError):
-            exc = ValidationError({"detalle": "Los datos no cumplen las reglas del recurso."})
+            exc = ValidationError({"detalle": message("the_data_does_not_meet_the_resource_rules")})
         elif isinstance(exc, IntegrityError):
             exc = Conflict()
         return super().handle_exception(exc)

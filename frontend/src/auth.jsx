@@ -1,3 +1,4 @@
+import { t } from './i18n/index.js'
 import { createContext, useContext, useEffect, useState, useSyncExternalStore } from 'react'
 import { Link, Navigate } from 'react-router-dom'
 import * as session from './services/api.js'
@@ -30,15 +31,11 @@ export function SessionExpired() {
     <main className="standalone">
       <Logo />
       <EmptyState
-        title="Tu sesión ha expirado"
+        title={t("your_session_has_expired")}
         action={
-          <Link className="button button-primary" to="/login">
-            Volver a iniciar sesión
-          </Link>
+          <Link className="button button-primary" to="/login">{t("sign_in_again")}</Link>
         }
-      >
-        Por seguridad, vuelve a identificarte para continuar. No se muestran datos privados.
-      </EmptyState>
+      >{t("for_your_security_sign_in_again_to_continue")}</EmptyState>
     </main>
   )
 }
@@ -48,7 +45,7 @@ export function Protected({ children }) {
     return (
       <main className="standalone">
         <Logo />
-        <LoadingState label="Restaurando sesión de forma segura…" />
+        <LoadingState label={t("restoring_your_session_securely")} />
       </main>
     )
   if (auth.status === 'error')
@@ -59,12 +56,12 @@ export function Protected({ children }) {
           error={auth.error}
           title={
             auth.reason === 'logout-pending'
-              ? 'El cierre de sesión no pudo confirmarse'
-              : 'No pudimos restaurar tu sesión'
+              ? t("sign_out_could_not_be_confirmed")
+              : t("we_could_not_restore_your_session")
           }
           onRetry={() => session.restore(true)}
         />
-        <Link to="/login">Ir al inicio de sesión</Link>
+        <Link to="/login">{t("go_to_sign_in")}</Link>
       </main>
     )
   if (!auth.user)
@@ -73,10 +70,7 @@ export function Protected({ children }) {
     return (
       <main className="standalone">
         <Logo />
-        <EmptyState title="Tu cuenta está lista. Falta una asignación.">
-          Eres operador y todavía no tienes una empresa asignada. Un superadministrador debe
-          habilitar tu acceso al inventario.
-        </EmptyState>
+        <EmptyState title={t("your_account_is_ready_assignment_pending")}>{t("you_are_an_operator_without_an_assigned_company")}</EmptyState>
         <p className="identity-line">{auth.user.email}</p>
         <AssignmentActions />
       </main>
@@ -101,12 +95,8 @@ function AssignmentActions() {
   return (
     <>
       <div className="standalone-actions">
-        <Button variant="secondary" busy={busy} onClick={check}>
-          Comprobar asignación
-        </Button>
-        <Button variant="text" disabled={busy} onClick={() => auth.logout().catch(() => {})}>
-          Cerrar sesión
-        </Button>
+        <Button variant="secondary" busy={busy} onClick={check}>{t("check_assignment")}</Button>
+        <Button variant="text" disabled={busy} onClick={() => auth.logout().catch(() => {})}>{t("sign_out")}</Button>
       </div>
       {error && <ErrorState error={error} />}
     </>

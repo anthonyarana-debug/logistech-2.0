@@ -6,17 +6,19 @@ from django.db import IntegrityError, transaction
 from rest_framework import serializers
 from rest_framework.exceptions import AuthenticationFailed
 
+from apps.core.messages import message
+
 User = get_user_model()
 
 
 class StrictSerializer(serializers.Serializer):
     def to_internal_value(self, data):
         if not isinstance(data, Mapping):
-            raise serializers.ValidationError({"detalle": "Se requiere un objeto JSON."})
+            raise serializers.ValidationError({"detalle": message("a_json_object_is_required")})
         unknown = set(data) - set(self.fields)
         if unknown:
             raise serializers.ValidationError(
-                {"campos": "La solicitud contiene campos no permitidos."}
+                {"campos": message("the_request_contains_fields_that_are_not_allowed")}
             )
         return super().to_internal_value(data)
 
@@ -48,7 +50,7 @@ class RegistrationSerializer(StrictSerializer):
                 )
         except (DjangoValidationError, IntegrityError):
             raise serializers.ValidationError(
-                {"detalle": "No se pudo registrar con los datos proporcionados."}
+                {"detalle": message("registration_could_not_be_completed_with_the_supplied_data")}
             ) from None
 
 
@@ -63,11 +65,12 @@ class LoginSerializer(StrictSerializer):
             password=attrs["password"],
         )
         if user is None:
-            raise AuthenticationFailed("Credenciales inválidas o cuenta no disponible.")
+            raise AuthenticationFailed(message("invalid_credentials_or_unavailable_account"))
         return {"user": user}
 
 
 def identity(user):
+    """Return safe identity fields; never include password hashes or refresh tokens."""
     return {
         "id": str(user.pk),
         "email": user.email,

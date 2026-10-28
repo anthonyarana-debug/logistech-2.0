@@ -1,3 +1,4 @@
+import { t, defaultLocale } from './i18n/index.js'
 import { createRoot } from 'react-dom/client'
 import { useEffect } from 'react'
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom'
@@ -23,6 +24,10 @@ function ScrollNavigation() {
   }, [location.pathname, location.hash])
   return null
 }
+
+document.documentElement.lang = defaultLocale
+document.title = t('page_title')
+document.querySelector('meta[name="description"]').content = t('page_description')
 
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>

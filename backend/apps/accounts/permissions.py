@@ -1,10 +1,12 @@
 from rest_framework.permissions import BasePermission
 
+from apps.core.messages import message
+
 
 class HasCompanyAccess(BasePermission):
-    """Política inicial para futuros recursos privados; aún no hay CRUD REST."""
+    """Authorize private CRUD using the current account and active company."""
 
-    message = "Se requiere una empresa activa asignada para acceder a este recurso."
+    message = message('an_assigned_active_company_is_required_to_access_this_resource')
 
     def has_permission(self, request, view):
         user = request.user

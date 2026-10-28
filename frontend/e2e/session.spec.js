@@ -38,6 +38,6 @@ test('access expira realmente a cinco minutos: renovación única y pérdida de 
     const { api } = await import('/src/services/api.js')
     await api('/boxes/').catch(() => {})
   })
-  await expect(page.getByRole('heading', { name: 'Tu sesión ha expirado' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: "Your session has expired" })).toBeVisible()
   expect(refreshes).toBe(1)
 })

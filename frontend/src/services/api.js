@@ -1,3 +1,4 @@
+import { t } from '../i18n/index.js'
 // Access solo en este módulo en memoria. Ningún token se persiste en almacenamiento web.
 const base = (import.meta.env?.VITE_API_BASE_URL || '/api/v1').replace(/\/$/, '')
 let access = null
@@ -34,8 +35,8 @@ export class ApiError extends Error {
   constructor(status, data, retryAfter) {
     super(
       status >= 500
-        ? 'El servicio no pudo completar la operación. Intenta nuevamente.'
-        : messages(data).join(' ') || 'No se pudo completar la operación.',
+        ? t("the_service_could_not_complete_the_operation_please")
+        : messages(data).join(' ') || t("the_operation_could_not_be_completed_2"),
     )
     this.status = status
     this.fields = data?.errores || {}
@@ -63,7 +64,7 @@ async function raw(path, { method = 'GET', data, token, signal, csrf } = {}) {
   } catch (error) {
     if (signal?.aborted) throw error
     throw new ApiError(0, {
-      detalle: 'No hay conexión con el servicio. Comprueba tu conexión y vuelve a intentar.',
+      detalle: t("no_connection_to_the_service_check_your_connection"),
     })
   }
   const body = response.status === 204 ? null : await response.json().catch(() => null)
@@ -156,7 +157,7 @@ export async function api(path, options = {}) {
   } catch (error) {
     if (error.status !== 401 || options.signal?.aborted || started !== revision) throw error
     if (!access || access === usedToken) await renew()
-    if (started !== revision) throw new ApiError(401, { detalle: 'La sesión cambió.' })
+    if (started !== revision) throw new ApiError(401, { detalle: t("the_session_changed") })
     try {
       return await raw(path, { ...options, token: access })
     } catch (retryError) {

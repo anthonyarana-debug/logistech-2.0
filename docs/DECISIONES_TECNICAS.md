@@ -1,5 +1,9 @@
 # Decisiones técnicas
 
+## ADR-012 — Inglés predeterminado y consolidación documental
+
+Adaptación aprobada después de F5. Catálogo frontend local e inglés explícito; mensajes/etiquetas backend centralizados y defaults Django en inglés. Se conserva contrato legado español en claves/valores de protocolo, sin traducir datos de usuarios ni modelos/migraciones. Admin adapta presentación mediante copias/contextos/formularios y filtros de etiquetas, preservando seguridad/escape. Español completo opcional no habilitado; no API externa ni nuevas dependencias. Informe académico en español, cinco conclusiones finales; cloud parcial. Rama local hasta revisión, sin push ni F6–F8.
+
 ## ADR-011 — Cierre de validación local F5
 
 La regresión se ejecuta antes de cambiar código y conserva fallos reales. Para no consumir cuotas/datos de la demostración se usa proyecto Compose separado con límites idénticos, puertos temporales loopback y DB propia; no se presenta su caché nueva como recuperación del proceso previo. Carga 50/100 con identidad autenticada por cuenta, un login HTTP controlado y JWT de fixtures con TTL normal; no prueba login masivo. CSV de cierre corregido sin alterar originales, detalles en REPORTE_RENDIMIENTO.

@@ -1,6 +1,6 @@
 # Continuar LogisTech 2.0 en otra computadora
 
-Estado: [anthonyarana-debug/logistech-2.0](https://github.com/anthonyarana-debug/logistech-2.0) **publicado como PRIVATE**, con main predeterminada y F0–F5, tras autorización expresa el 27/10/2026. Clonación HTTPS autenticada comprobada. Ver [registro de publicación](PUBLICACION_GITHUB.md). Requiere iniciar sesión con una cuenta que tenga acceso privado. No usar el repositorio Android como remoto de este proyecto.
+Estado vigente: [anthonyarana-debug/logistech-2.0](https://github.com/anthonyarana-debug/logistech-2.0) es **público**, confirmado por GET de GitHub (`private=false`, `visibility=public`). La publicación inicial fue privada; ver [registro histórico y estado actual](PUBLICACION_GITHUB.md). El clon público no exige autenticación; publicar cambios sí requiere cuenta autorizada. La adaptación de idioma de esta entrega permanece local hasta revisión, sin push. No usar el repositorio Android como remoto.
 
 Git conservará código, documentación, migraciones, resultados saneados e historial de F0–F5. No transporta `.env`, contraseñas/cuentas DEMO, contenedores, imágenes, bases o volúmenes Docker. La otra computadora inicia con una base nueva; generar datos DEMO nuevos. Si se necesitan datos existentes, planificar un respaldo cifrado fuera de Git y una restauración separada; no se ha exportado ni eliminado la base actual.
 
@@ -24,7 +24,7 @@ git log -8 --oneline
 git config --local core.hooksPath .githooks
 ```
 
-Autenticarse con la cuenta autorizada mediante el flujo de Git Credential Manager. No pegar un PAT en la URL, en documentos o en el chat. Si GitHub responde Repository not found, comprobar que el remoto existe y que la cuenta tiene acceso privado. El hook es local: cada clon debe activarlo, y no protege comandos que lo omitan.
+Para escribir en GitHub, autenticarse mediante Git Credential Manager con cuenta autorizada. Nunca pegar un PAT en URL/documentos/chat. El clon de este repositorio público no requiere credenciales; si falla, comprobar URL y conectividad. El hook es local: cada clon debe activarlo, y no protege comandos que lo omitan.
 
 Configurar secretos nuevos sin copiarlos del repositorio:
 
@@ -104,6 +104,6 @@ git commit -m "Describe el cambio"
 git push -u origin codex/mi-siguiente-tarea
 ```
 
-El primer push fue autorizado y realizado el 27/10/2026. Los push futuros deben dirigirse al remoto privado confirmado. Verificar estado antes de cambiar de equipo; Git no transporta modificaciones sin commit. Resolver conflictos conservando ambos trabajos; no usar force push, reset --hard, borrado de volúmenes o mirror como rutina. Publicar ramas de trabajo y revisarlas antes de integrar a main.
+El primer push fue autorizado y realizado el 27/10/2026. Los push futuros deben dirigirse al remoto confirmado, actualmente público. Verificar estado antes de cambiar de equipo; Git no transporta modificaciones sin commit. Resolver conflictos conservando ambos trabajos; no usar force push, reset --hard, borrado de volúmenes o mirror como rutina. Publicar ramas de trabajo y revisarlas antes de integrar a main.
 
 En otro equipo: `git fetch origin` y `git switch --track origin/codex/mi-siguiente-tarea` para continuar una rama ya publicada. No trabajar simultáneamente sobre la misma rama sin coordinar. Mantener copias privadas de datos necesarios fuera de Git; recrear la configuración local desde la plantilla.

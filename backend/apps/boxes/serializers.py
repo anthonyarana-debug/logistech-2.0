@@ -8,6 +8,7 @@ from rest_framework.exceptions import ValidationError
 
 from apps.catalog.models import Product
 from apps.core.api import Conflict, StrictModelSerializer, is_global
+from apps.core.messages import message
 from apps.organizations.models import Branch, Company
 
 from .models import Box
@@ -26,11 +27,11 @@ class BoxSerializer(StrictModelSerializer):
     )
     product = serializers.PrimaryKeyRelatedField(
         queryset=Product.objects.none(),
-        error_messages={"does_not_exist": "Referencia no disponible."},
+        error_messages={"does_not_exist": message("reference_unavailable")},
     )
     branch = serializers.PrimaryKeyRelatedField(
         queryset=Branch.objects.none(),
-        error_messages={"does_not_exist": "Referencia no disponible."},
+        error_messages={"does_not_exist": message("reference_unavailable")},
     )
     company_name = serializers.CharField(source="company.name", read_only=True)
     product_name = serializers.CharField(source="product.name", read_only=True)
@@ -87,14 +88,14 @@ class BoxSerializer(StrictModelSerializer):
         for key in ("product", "branch"):
             related = attrs.get(key) or getattr(self.instance, key, None)
             if related and related.company_id != company.pk:
-                raise ValidationError({key: "Referencia no disponible para esta empresa."})
+                raise ValidationError({key: message("reference_unavailable_for_this_company")})
         if self.instance is None:
             if attrs.get("status", Box.Status.REGISTERED) != Box.Status.REGISTERED:
-                raise ValidationError({"status": "Una caja nueva debe estar registrada."})
+                raise ValidationError({"status": message("a_new_box_must_have_registered_status")})
         elif self.instance.status != Box.Status.REGISTERED:
             if any(getattr(self.instance, key) != value for key, value in attrs.items()):
                 raise Conflict(
-                    "Una caja recibida o rechazada no admite modificaciones en este CRUD."
+                    message("a_received_or_rejected_box_cannot_be_modified_in_this_crud")
                 )
         return attrs
 
@@ -118,4 +119,4 @@ class BoxSerializer(StrictModelSerializer):
                     "boxes_box_qr_code_key",
                 }:
                     raise
-        raise Conflict("No se pudo generar un identificador único. Intenta nuevamente.")
+        raise Conflict(message("a_unique_identifier_could_not_be_generated_please_try_again"))

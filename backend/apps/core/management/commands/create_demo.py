@@ -12,11 +12,12 @@ from django.db import transaction
 from apps.accounts.models import User
 from apps.boxes.models import Box
 from apps.catalog.models import Category, Product
+from apps.core.messages import message
 from apps.organizations.models import Branch, Company
 
 
 class Command(BaseCommand):
-    help = "Crea dos empresas DEMO y credenciales aleatorias en un archivo privado nuevo."
+    help = message("demo_help")
 
     def add_arguments(self, parser):
         parser.add_argument("--namespace", required=True)
@@ -25,14 +26,14 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         namespace = options["namespace"]
         if not re.fullmatch(r"[a-z0-9-]{3,32}", namespace):
-            raise CommandError("Namespace: 3–32 letras minúsculas, números o guiones.")
+            raise CommandError(message("demo_namespace"))
         target = Path(options["output"])
         if (
             target.exists()
             or User.objects.filter(email__endswith=f".{namespace}@example.test").exists()
         ):
             raise CommandError(
-                "El namespace o archivo ya existe. Usa valores nuevos; no se reinician claves."
+                message("demo_exists")
             )
         credentials = {"namespace": namespace, "users": {}}
         created_file = False
@@ -116,4 +117,4 @@ class Command(BaseCommand):
             if created_file:
                 target.unlink(missing_ok=True)
             raise
-        self.stdout.write(self.style.SUCCESS(f"Datos DEMO creados. Credenciales solo en {target}."))
+        self.stdout.write(self.style.SUCCESS(message("demo_created").format(target=target)))

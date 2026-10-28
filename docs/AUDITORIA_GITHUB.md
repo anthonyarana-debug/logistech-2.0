@@ -1,5 +1,7 @@
 # Auditoría y preparación de sincronización privada
 
+**Estado vigente:** repositorio público, confirmado por API durante la adaptación. La auditoría y propuesta de privacidad que siguen son históricas; no se cambió visibilidad ni se publicó esta adaptación. Ver PUBLICACION_GITHUB.md.
+
 Fecha de revisión: 27/10/2026, America/Lima. **Actualización: publicación privada autorizada y verificada** en [anthonyarana-debug/logistech-2.0](https://github.com/anthonyarana-debug/logistech-2.0); ver [PUBLICACION_GITHUB.md](PUBLICACION_GITHUB.md). No se modificó el repositorio Android. Las secciones siguientes conservan el registro de auditoría y la propuesta **previos a la autorización**.
 
 ## Estado encontrado

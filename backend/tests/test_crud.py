@@ -410,7 +410,7 @@ def test_private_errors_are_safe_json_even_with_debug(client, scope):
     ):
         response = client.get("/api/v1/boxes/")
     assert response.status_code == 500
-    assert response.json() == {"detalle": "Error interno del servicio."}
+    assert response.json() == {"detalle": "Internal service error."}
     assert b"dato-reservado" not in response.content
     assert client.get("/api/v1/boxes/uuid-invalido/").status_code == 404
 

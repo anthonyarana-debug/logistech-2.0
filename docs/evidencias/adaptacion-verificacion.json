@@ -1,0 +1,253 @@
+{
+  "timestamp_utc": "2026-10-28T03:21:45.458983+00:00",
+  "scope": "Local isolated PostgreSQL; E2E recorded separately; no cloud deployment",
+  "results": [
+    {
+      "command": [
+        "docker",
+        "info",
+        "--format",
+        "{{.OSType}} {{.ServerVersion}}"
+      ],
+      "exit_code": 0,
+      "stdout": "linux 29.5.3\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "compose",
+        "-p",
+        "logistech-language",
+        "-f",
+        "docker-compose.yml",
+        "-f",
+        "compose.validation.yml",
+        "config",
+        "--quiet"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "compose",
+        "-p",
+        "logistech-language",
+        "-f",
+        "docker-compose.yml",
+        "-f",
+        "compose.validation.yml",
+        "exec",
+        "-T",
+        "backend",
+        "python",
+        "manage.py",
+        "check"
+      ],
+      "exit_code": 0,
+      "stdout": "System check identified no issues (0 silenced).\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "compose",
+        "-p",
+        "logistech-language",
+        "-f",
+        "docker-compose.yml",
+        "-f",
+        "compose.validation.yml",
+        "exec",
+        "-T",
+        "backend",
+        "python",
+        "manage.py",
+        "migrate",
+        "--check"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "compose",
+        "-p",
+        "logistech-language",
+        "-f",
+        "docker-compose.yml",
+        "-f",
+        "compose.validation.yml",
+        "exec",
+        "-T",
+        "backend",
+        "python",
+        "manage.py",
+        "makemigrations",
+        "--check",
+        "--dry-run"
+      ],
+      "exit_code": 0,
+      "stdout": "No changes detected\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "compose",
+        "-p",
+        "logistech-language",
+        "-f",
+        "docker-compose.yml",
+        "-f",
+        "compose.validation.yml",
+        "exec",
+        "-T",
+        "backend",
+        "python",
+        "-m",
+        "tools.verificar_base"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"postgresql\": \"PostgreSQL 17.11 (Debian 17.11-1.pgdg12+2) on x86_64-pc-linux-gnu, compiled by gcc (Debian 12.2.0-14+deb12u1) 12.2.0, 64-bit\", \"tablas\": [\"accounts_user\", \"accounts_user_groups\", \"accounts_user_user_permissions\", \"auth_group\", \"auth_group_permissions\", \"auth_permission\", \"boxes_box\", \"catalog_category\", \"catalog_product\", \"django_admin_log\", \"django_content_type\", \"django_migrations\", \"django_session\", \"organizations_branch\", \"organizations_company\", \"token_blacklist_blacklistedtoken\", \"token_blacklist_outstandingtoken\"], \"autenticacion_migrada\": true, \"custom_user_en_0001\": true, \"auth_user_ausente\": true, \"migraciones_aplicadas\": [\"accounts.0001_initial\", \"admin.0001_initial\", \"admin.0002_logentry_remove_auto_add\", \"admin.0003_logentry_add_action_flag_choices\", \"auth.0001_initial\", \"auth.0002_alter_permission_name_max_length\", \"auth.0003_alter_user_email_max_length\", \"auth.0004_alter_user_username_opts\", \"auth.0005_alter_user_last_login_null\", \"auth.0006_require_contenttypes_0002\", \"auth.0007_alter_validators_add_error_messages\", \"auth.0008_alter_user_username_max_length\", \"auth.0009_alter_user_last_name_max_length\", \"auth.0010_alter_group_name_max_length\", \"auth.0011_update_proxy_permissions\", \"auth.0012_alter_user_first_name_max_length\", \"boxes.0001_initial\", \"boxes.0002_box_box_status_allowed_box_box_priority_allowed\", \"catalog.0001_initial\", \"contenttypes.0001_initial\", \"contenttypes.0002_remove_content_type_name\", \"organizations.0001_initial\", \"sessions.0001_initial\", \"token_blacklist.0001_initial\", \"token_blacklist.0002_outstandingtoken_jti_hex\", \"token_blacklist.0003_auto_20171017_2007\", \"token_blacklist.0004_auto_20171017_2013\", \"token_blacklist.0005_remove_outstandingtoken_jti\", \"token_blacklist.0006_auto_20171017_2113\", \"token_blacklist.0007_auto_20171017_2214\", \"token_blacklist.0008_migrate_to_bigautofield\", \"token_blacklist.0010_fix_migrate_to_bigautofield\", \"token_blacklist.0011_linearizes_history\", \"token_blacklist.0012_alter_outstandingtoken_user\", \"token_blacklist.0013_alter_blacklistedtoken_options_and_more\"], \"versiones\": {\"Django\": \"5.2.18\", \"djangorestframework\": \"3.16.1\", \"djangorestframework-simplejwt\": \"5.5.1\", \"psycopg\": \"3.3.6\", \"PyJWT\": \"2.15.1\"}}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "compose",
+        "-p",
+        "logistech-language",
+        "-f",
+        "docker-compose.yml",
+        "-f",
+        "compose.validation.yml",
+        "exec",
+        "-T",
+        "backend",
+        "python",
+        "-m",
+        "pytest",
+        "--ds=config.settings.testing",
+        "-q",
+        "-o",
+        "cache_dir=/tmp/pytest-language-final"
+      ],
+      "exit_code": 0,
+      "stdout": "........................................................................ [ 44%]\n........................................................................ [ 88%]\n...................                                                      [100%]\n163 passed in 15.66s\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "compose",
+        "-p",
+        "logistech-language",
+        "-f",
+        "docker-compose.yml",
+        "-f",
+        "compose.validation.yml",
+        "exec",
+        "-T",
+        "backend",
+        "ruff",
+        "check",
+        "--no-cache",
+        "."
+      ],
+      "exit_code": 0,
+      "stdout": "All checks passed!\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "compose",
+        "-p",
+        "logistech-language",
+        "-f",
+        "docker-compose.yml",
+        "-f",
+        "compose.validation.yml",
+        "exec",
+        "-T",
+        "backend",
+        "python",
+        "-m",
+        "pip",
+        "check"
+      ],
+      "exit_code": 0,
+      "stdout": "No broken requirements found.\n",
+      "stderr": "WARNING: The directory '/home/app/.cache/pip' or its parent directory is not owned or is not writable by the current user. The cache has been disabled. Check the permissions and owner of that directory. If executing pip with sudo, you should use sudo's -H flag.\n"
+    },
+    {
+      "command": [
+        "docker",
+        "compose",
+        "-p",
+        "logistech-language",
+        "-f",
+        "docker-compose.yml",
+        "-f",
+        "compose.validation.yml",
+        "exec",
+        "-T",
+        "frontend",
+        "npm",
+        "run",
+        "lint"
+      ],
+      "exit_code": 0,
+      "stdout": "\n> logistech-frontend@0.1.0 lint\n> eslint .\n\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "compose",
+        "-p",
+        "logistech-language",
+        "-f",
+        "docker-compose.yml",
+        "-f",
+        "compose.validation.yml",
+        "exec",
+        "-T",
+        "frontend",
+        "npm",
+        "run",
+        "build"
+      ],
+      "exit_code": 0,
+      "stdout": "\n> logistech-frontend@0.1.0 build\n> vite build\n\nvite v8.3.5 building client environment for production...\ntransforming...\n✓ 40 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist/index.html                                              0.65 kB │ gzip:   0.39 kB\ndist/assets/ibm-plex-mono-latin-400-normal-CvHOgSBP.woff    13.14 kB\ndist/assets/ibm-plex-mono-latin-400-normal-DMJ8VG8y.woff2   14.70 kB\ndist/assets/ibm-plex-sans-latin-400-normal-CYLoc0-x.woff    22.10 kB\ndist/assets/ibm-plex-sans-latin-400-normal-CDDApCn2.woff2   22.58 kB\ndist/assets/ibm-plex-sans-latin-600-normal-Cu4Hd6ag.woff    23.87 kB\ndist/assets/ibm-plex-sans-latin-500-normal-BgVn5rGT.woff    23.91 kB\ndist/assets/ibm-plex-sans-latin-500-normal-6ng42L7E.woff2   24.18 kB\ndist/assets/ibm-plex-sans-latin-600-normal-CuJfVYMP.woff2   24.25 kB\ndist/assets/index-DpPcfx2o.css                              33.57 kB │ gzip:   8.04 kB\ndist/assets/index-Cy1xW8DS.js                              325.02 kB │ gzip: 101.63 kB\n\n✓ built in 419ms\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "compose",
+        "-p",
+        "logistech-language",
+        "-f",
+        "docker-compose.yml",
+        "-f",
+        "compose.validation.yml",
+        "exec",
+        "-T",
+        "frontend",
+        "npm",
+        "run",
+        "test:unit"
+      ],
+      "exit_code": 0,
+      "stdout": "\n> logistech-frontend@0.1.0 test:unit\n> node --test unit/*.test.js\n\nℹ tests 0\nℹ suites 0\nℹ pass 0\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 6.778227\n",
+      "stderr": ""
+    }
+  ]
+}

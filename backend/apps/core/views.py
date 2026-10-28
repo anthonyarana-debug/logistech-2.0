@@ -4,6 +4,8 @@ from rest_framework.decorators import api_view, authentication_classes, permissi
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
+from apps.core.messages import message
+
 
 @api_view(["GET"])
 @authentication_classes([])
@@ -25,15 +27,15 @@ def health(request):
                 raise DatabaseError("Respuesta de comprobación no válida")
     except DatabaseError:
         return Response(
-            {"estado": "no_disponible", "detalle": "Dependencia de datos no disponible."},
+            {"estado": "no_disponible", "detalle": message("data_dependency_unavailable")},
             status=503,
         )
     return Response({"estado": "disponible", "base_de_datos": "disponible"})
 
 
 def not_found(request, exception):
-    return JsonResponse({"detalle": "Recurso no encontrado."}, status=404)
+    return JsonResponse({"detalle": message("resource_not_found")}, status=404)
 
 
 def server_error(request):
-    return JsonResponse({"detalle": "Error interno del servicio."}, status=500)
+    return JsonResponse({"detalle": message("internal_service_error")}, status=500)

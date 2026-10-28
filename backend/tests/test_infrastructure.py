@@ -36,7 +36,7 @@ def test_readiness_failure_does_not_leak_database_error():
 def test_unknown_api_route_is_json_404():
     response = Client().get("/api/v1/no-existe/")
     assert response.status_code == 404
-    assert response.json() == {"detalle": "Recurso no encontrado."}
+    assert response.json() == {"detalle": "Resource not found."}
 
 
 def test_custom_user_is_enabled_before_auth_migrations():

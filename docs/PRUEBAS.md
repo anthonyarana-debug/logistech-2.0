@@ -1,6 +1,41 @@
 # Comprobaciones — historial y cierre Fase 5
 
-## F5 — ejecución vigente
+## Adaptación posterior a F5 — idioma y consolidación documental
+
+Nueva base previa: 156 backend aprobadas en 15.33 s sobre PostgreSQL real, antes de cambiar backend. Regresión de adaptación: 163 backend (156 anteriores + siete nuevas), ocho unitarias JS y diez E2E Chromium (nueve anteriores + idioma predeterminado con navegador es-PE); resultado/cifras finales en INFORME_ADAPTACION.md y evidencias/adaptacion-verificacion.json. E2E sin retries, incluida expiración real; no se desactivan límites, CSRF o permisos. Axe y responsive 320/390/768/1440, foco/teclado/Escape y CSS zoom 200% incluidos.
+
+Se conserva la primera regresión ampliada con 162 aprobadas/una fallida por display_name de OPTIONS; corrección a lista de pares para choices DRF, sin cambiar valores de enums. Ver adaptacion-verificacion-inicial.json. No editar F0–F5 para convertirlos en resultados de esta adaptación.
+
+Reproducción aislada, desde la raíz:
+
+```powershell
+docker compose -p logistech-language -f docker-compose.yml -f compose.validation.yml up -d --build --wait db
+docker compose -p logistech-language -f docker-compose.yml -f compose.validation.yml run --rm --no-deps backend python manage.py migrate --noinput
+docker compose -p logistech-language -f docker-compose.yml -f compose.validation.yml up -d --build --wait --wait-timeout 120
+.venv/Scripts/python.exe scripts/verify_adaptation.py
+```
+
+Preparar datos únicamente en esa base académica nueva (si existen, conservarlos; no repetir creación):
+
+```powershell
+docker compose -p logistech-language -f docker-compose.yml -f compose.validation.yml exec -T backend python manage.py create_demo --namespace language-adaptation --output /tmp/language-demo.json
+docker compose -p logistech-language -f docker-compose.yml -f compose.validation.yml cp backend:/tmp/language-demo.json .env.language-demo.json
+$demoOwner = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name
+icacls .env.language-demo.json /inheritance:r /grant:r "${demoOwner}:(F)"
+$env:PW_BASE_URL='http://127.0.0.1:5174'
+$env:PW_DEMO_FILE='../.env.language-demo.json'
+$env:PW_EVIDENCE_PREFIX='adaptacion-nueva-ejecucion'
+$env:PW_REPORT='../docs/evidencias/local/adaptacion-nueva-ejecucion.json'
+Set-Location frontend
+npm ci
+npx playwright install chromium
+npm run test:e2e
+Set-Location ..
+```
+
+Usar nombres nuevos de evidencia para cada serie; las imágenes y resultados presentes son registros de esta entrega. El resumen E2E saneado está en adaptacion-e2e.json. El script de comprobaciones escribe adaptacion-verificacion.json; para repetir conservando el cierre, copiarlo primero con otro nombre de evidencia. No reiniciar caché para ocultar 429; esperar Retry-After. Ningún comando anterior despliega cloud. Al terminar: `docker compose -p logistech-language -f docker-compose.yml -f compose.validation.yml stop`, conserva volumen y datos. Los puertos 8001/5174 no deben estar ocupados por logistech-f5.
+
+## F5 — registro histórico previo a la adaptación
 
 Antes de modificar: Git limpio en b05ce9e, Docker Linux/servicios, Django/migraciones y **151 pytest aprobadas en 15.73 s**. Lint/build y cinco unitarias JS aprobados. E2E contra el proceso de demostración: **6 aprobados/3 fallidos**, todos por cuota real de refresh consumida previamente (429 y Retry-After ~45 min). No se ocultó la ejecución ni se desactivó el límite.
 

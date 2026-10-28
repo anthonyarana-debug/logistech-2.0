@@ -1,3 +1,4 @@
+import { t } from '../i18n/index.js'
 import { createContext, useContext, useEffect, useRef, useState } from 'react'
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
 import { useAuth } from '../auth.jsx'
@@ -7,14 +8,14 @@ import { Button, Icon, Logo, SelectField } from './ui.jsx'
 const Tenant = createContext(null)
 export const useTenant = () => useContext(Tenant)
 export const roleNames = {
-  SUPERADMIN: 'Superadministrador',
-  COMPANY_ADMIN: 'Administrador de empresa',
-  OPERATOR: 'Operador',
+  SUPERADMIN: t("superadmin"),
+  COMPANY_ADMIN: t("company_administrator"),
+  OPERATOR: t("operator"),
 }
 const navigation = [
-  ['/app', 'grid', 'Vista general'],
-  ['/app/cajas', 'box', 'Cajas'],
-  ['/app/categorias', 'tag', 'Categorías'],
+  ['/app', 'grid', t("overview")],
+  ['/app/cajas', 'box', t("boxes")],
+  ['/app/categorias', 'tag', t("categories")],
 ]
 export default function AppShell() {
   const auth = useAuth(),
@@ -36,15 +37,15 @@ export default function AppShell() {
   const selected = global ? company : auth.user.company.id
   const companyName =
     refs.data?.companies.find((c) => c.id === selected)?.name ||
-    (global ? 'Todas las empresas' : auth.user.company.name)
+    (global ? t("all_companies") : auth.user.company.name)
   function sidebar(mobile = false) {
     return (
       <>
-        <Link className="sidebar-brand" to="/app" aria-label="LogisTech, vista general">
+        <Link className="sidebar-brand" to="/app" aria-label={t("logistech_overview")}>
           <Logo compact />
         </Link>
-        <p className="sidebar-section">ESPACIO DE TRABAJO</p>
-        <nav aria-label={mobile ? 'Navegación móvil' : 'Navegación del sistema'}>
+        <p className="sidebar-section">{t("workspace")}</p>
+        <nav aria-label={mobile ? t("mobile_navigation") : t("system_navigation")}>
           {navigation.map(([to, icon, text]) => (
             <NavLink key={to} to={to} end={to === '/app'} onClick={() => setMenu(false)}>
               <Icon name={icon} />
@@ -54,18 +55,15 @@ export default function AppShell() {
           ))}
         </nav>
         <div className="sidebar-upcoming">
-          <p className="sidebar-section">PRÓXIMAMENTE</p>
+          <p className="sidebar-section">{t("coming_soon")}</p>
           <Link to="/app/en-desarrollo" onClick={() => setMenu(false)}>
-            <Icon name="clock" />
-            Recepciones<span className="soon-label">F6</span>
+            <Icon name="clock" />{t("receptions")}<span className="soon-label">F6</span>
           </Link>
         </div>
         <div className="sidebar-footer">
           <span className="status-dot" />
-          <p>
-            Un lugar para cada cosa.
-            <br />
-            <strong>Contexto para cada decisión.</strong>
+          <p>{t("a_place_for_everything")}<br />
+            <strong>{t("context_for_every_decision")}</strong>
           </p>
         </div>
       </>
@@ -76,9 +74,7 @@ export default function AppShell() {
       value={{ company: global ? company : '', selected, companyName, global, refs, setCompany }}
     >
       <div className="app-layout">
-        <a className="skip-link" href="#app-contenido">
-          Saltar al contenido
-        </a>
+        <a className="skip-link" href="#app-contenido">{t("skip_to_content")}</a>
         <aside className="sidebar">{sidebar()}</aside>
         <dialog
           className="mobile-sidebar"
@@ -90,7 +86,7 @@ export default function AppShell() {
         >
           <button
             className="icon-button close-menu"
-            aria-label="Cerrar menú"
+            aria-label={t("close_menu")}
             onClick={() => setMenu(false)}
           >
             <Icon name="close" />
@@ -101,13 +97,13 @@ export default function AppShell() {
           <header className="app-header">
             <button
               className="icon-button mobile-menu"
-              aria-label="Abrir menú"
+              aria-label={t("open_menu")}
               onClick={() => setMenu(true)}
             >
               <Icon name="menu" />
             </button>
             <div className="header-context">
-              <span className="mono eyebrow">EMPRESA / CONTEXTO</span>
+              <span className="mono eyebrow">{t("company_context")}</span>
               <strong>{companyName}</strong>
             </div>
             <div className="header-user">
@@ -121,7 +117,7 @@ export default function AppShell() {
               <button
                 className="icon-button"
                 onClick={() => auth.logout().catch(() => {})}
-                aria-label="Cerrar sesión"
+                aria-label={t("sign_out")}
               >
                 <Icon name="logout" />
               </button>
@@ -129,32 +125,29 @@ export default function AppShell() {
           </header>
           <div className="context-bar">
             <span className="context-caption">
-              <Icon name="box" /> Operaciones con identidad propia
-            </span>
+              <Icon name="box" />{' '}{t("operations_with_a_clear_identity")}</span>
             {global ? (
               <SelectField
-                label="Ámbito empresarial"
+                label={t("company_scope")}
                 value={company}
                 onChange={(e) => setCompany(e.target.value)}
                 options={refs.data?.companies || []}
-                placeholder="Todas las empresas"
+                placeholder={t("all_companies")}
                 disabled={refs.loading}
               />
             ) : (
-              <span className="mono">ACCESO LIMITADO A TU EMPRESA</span>
+              <span className="mono">{t("access_limited_to_your_company")}</span>
             )}
           </div>
           {companyName.startsWith('DEMO ·') && (
-            <p className="demo-banner">
-              Datos de demostración controlados. No representan operaciones de producción.
-            </p>
+            <p className="demo-banner">{t("controlled_demonstration_data_these_records_do_not_represent")}</p>
           )}
           <main id="app-contenido" tabIndex="-1" ref={content} className="app-content">
             <Outlet />
           </main>
           <footer className="app-footer">
-            <span>LogisTech 2.0 / Hoja de control</span>
-            <span>TECSUP · Proyecto académico</span>
+            <span>{t("logistech_2_0_control_sheet")}</span>
+            <span>{t("tecsup_academic_project")}</span>
           </footer>
         </div>
       </div>

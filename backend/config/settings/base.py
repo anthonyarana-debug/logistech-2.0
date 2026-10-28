@@ -12,14 +12,14 @@ BASE_DIR = Path(__file__).resolve().parents[2]
 def required(name):
     value = os.environ.get(name, "").strip()
     if not value or value.startswith("REEMPLAZAR_"):
-        raise ImproperlyConfigured(f"Configura la variable {name} en el entorno.")
+        raise ImproperlyConfigured(f"Set the {name} environment variable.")
     return value
 
 
 def env_bool(name, default="false"):
     value = os.environ.get(name, default).lower()
     if value not in {"true", "false"}:
-        raise ImproperlyConfigured(f"{name} debe ser true o false.")
+        raise ImproperlyConfigured(f"{name} must be true or false.")
     return value == "true"
 
 
@@ -27,10 +27,11 @@ SECRET_KEY = required("SECRET_KEY")
 DEBUG = env_bool("DEBUG")
 ALLOWED_HOSTS = [host.strip() for host in required("ALLOWED_HOSTS").split(",") if host.strip()]
 if "*" in ALLOWED_HOSTS:
-    raise ImproperlyConfigured("ALLOWED_HOSTS debe enumerar hosts explícitos.")
+    raise ImproperlyConfigured("ALLOWED_HOSTS must list explicit hosts.")
 
 AUTH_USER_MODEL = "accounts.User"
 INSTALLED_APPS = [
+    "apps.core.apps.CoreConfig",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -39,7 +40,6 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "rest_framework_simplejwt.token_blacklist",
-    "apps.core.apps.CoreConfig",
     "apps.organizations",
     "apps.accounts",
     "apps.catalog",
@@ -126,7 +126,7 @@ TEMPLATES = [
 ]
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
-LANGUAGE_CODE = "es-pe"
+LANGUAGE_CODE = "en"
 TIME_ZONE = "America/Lima"
 USE_I18N = True
 USE_TZ = True

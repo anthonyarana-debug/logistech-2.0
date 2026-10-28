@@ -1,6 +1,8 @@
-# Arquitectura propuesta — LogisTech 2.0
+# Arquitectura vigente — LogisTech 2.0
 
 Estado actualizado el 2026-10-27: F1–F4 implementadas y validadas localmente en F5; frontend Industrial Precision conectado, 156 pruebas backend, 5 JS y 9 E2E aprobados. Carga local 50/100 usuarios registrada. Gunicorn/Linux preparado y comprobado en contenedor efímero; no hay cloud desplegado/verificado. Ver INFORME_FASE_5.md y CHECKLIST_SEMANA_11.md: entrega global PARCIAL por cloud. F6–F8 no iniciadas.
+
+Presentación vigente: inglés predeterminado, catálogos locales, sin API de traducción externa. Contratos/datos/modelos/migraciones estables; [INTERNACIONALIZACION](INTERNACIONALIZACION.md). Los ADR finales de este documento conservan contexto de propuesta inicial; las decisiones vigentes están en DECISIONES_TECNICAS. La estructura y el estado de F5 se precisan aquí.
 
 ## Componentes y límites
 
@@ -17,11 +19,11 @@ flowchart LR
     M[Android futuro] -. Integración pendiente .-> A
 ```
 
-El 25 % tendrá registro, login, identidad actual, categorías, cajas y un dashboard limitado a datos reales autorizados. Recepciones, QR con cámara, movimientos, reportes y estadísticas avanzadas permanecen para F6. La vista «módulo en desarrollo» será informativa, sin botones que aparenten ejecutar esas operaciones.
+El núcleo del 25 % tiene registro, login, identidad actual, categorías, cajas y un dashboard limitado a datos reales autorizados. Recepciones, QR con cámara, movimientos, reportes y estadísticas avanzadas permanecen para F6. La vista «módulo en desarrollo» es informativa, sin botones que aparenten ejecutar esas operaciones.
 
-## Estructura futura
+## Estructura implementada
 
-Se usa la raíz actual como raíz del proyecto para evitar una carpeta duplicada `logistech-v2/`. F1 creó infraestructura, F2 los modelos y F3 serializers/vistas CRUD en catalog/boxes y utilidades de autorización en core/api.py. load-tests todavía no existe; se preparará en F5 autorizada.
+Se usa la raíz actual como raíz del proyecto para evitar una carpeta duplicada `logistech-v2/`. F1 creó infraestructura, F2 los modelos y F3 serializers/vistas CRUD en catalog/boxes y utilidades de autorización en core/api.py. F5 creó `load/` para Locust. La adaptación posterior agrega catálogos/etiquetas ingleses sin alterar módulos de negocio.
 
 ```text
 backend/
@@ -33,12 +35,12 @@ backend/
   requirements-dev.txt
   Dockerfile
 frontend/
-  src/{components,pages,services,hooks,styles}/
+  src/{components,pages,services,hooks,styles,i18n}/
   package.json
   package-lock.json
   Dockerfile
 docs/
-load-tests/
+load/
 docker-compose.yml
 .env.example
 .gitignore
@@ -47,11 +49,11 @@ README.md
 
 `core`: salud y respuestas comunes; `accounts`: usuario y autenticación; `organizations`: empresa y sucursal; `catalog`: categorías y productos mínimos; `boxes`: cajas. Se crearán módulos cuando tengan responsabilidad real. Sin Kubernetes, microservicios, colas, TypeScript, Vitest ni herramienta extra de documentación API.
 
-## Datos: alcance mínimo normalizado
+## Datos: núcleo normalizado implementado
 
-Implementar en F2 User, Company, Branch, Category, Product y Box. Branch y Product serán referencias mínimas necesarias para que la caja tenga producto, categoría y pertenencia coherentes; no implican construir su CRUD público en el 25 %. Se administrarán con Django Admin o comando de demostración autorizado. Pedidos, recepciones, movimientos y auditoría persistente completa son diseño futuro.
+F2 implementó User, Company, Branch, Category, Product y Box. Branch y Product son referencias mínimas necesarias para que la caja tenga producto, categoría y pertenencia coherentes; no implican construir su CRUD público en el 25 %. Se administrarán con Django Admin o comando de demostración autorizado. Pedidos, recepciones, movimientos y auditoría persistente completa son diseño futuro.
 
-| Entidad | Decisiones propuestas |
+| Entidad | Decisiones implementadas |
 |---|---|
 | User | UUID, email normalizado único, password de Django, role, company nullable, activo y fechas. Email case-insensitive mediante normalización y restricción de base de datos |
 | Company | UUID, nombre, estado y fechas; sin borrado en cascada del historial |
@@ -75,7 +77,7 @@ Identificador alternativo propuesto: `CJ-` seguido de UUID v4 completo sin guion
 
 El diagrama editable [MODELO_DATOS.mmd](MODELO_DATOS.mmd) representa el núcleo real migrado en F2; omite tablas de framework, detalladas en BASE_DE_DATOS.md. [MODELO_FUTURO.mmd](MODELO_FUTURO.mmd) separa las ampliaciones no implementadas de F6.
 
-## Política de acceso propuesta
+## Política de acceso implementada
 
 Todo permiso se decide en el backend y consulta la cuenta activa en base de datos. Los claims JWT no sustituyen la pertenencia vigente. Empresa inactiva deniega operaciones. Las listas devuelven solo recursos de la empresa autorizada; un detalle de otra empresa devuelve 404 para no revelar existencia. Usuario autenticado sin empresa obtiene 403 en recursos privados, no un inventario global.
 
@@ -94,11 +96,11 @@ En el 25 %, el operador asignado trabaja en las sucursales de su empresa. Las as
 
 `createsuperuser` debe generar role=SUPERADMIN y flags is_staff/is_superuser coherentes. is_staff por sí solo no otorga acceso global de negocio; rechazar combinaciones incoherentes en gestores y formularios administrativos. No exponer edición pública de rol/empresa/flags.
 
-## Contrato y seguridad inicial
+## Contrato y antecedentes de seguridad
 
 Rutas propuestas: `/api/v1/health/`, `/auth/register/`, `/auth/login/`, `/auth/refresh/`, `/auth/me/`, `/categories/`, `/categories/{uuid}/`, `/boxes/`, `/boxes/{uuid}/` bajo el mismo prefijo. En F3 documentar cuerpos, filtros, autenticación, ejemplos y cada respuesta. Health no expone configuración y devuelve 503 si su comprobación de base de datos falla.
 
-Registro 201; lectura/login 200; DELETE correcto 204; validación 400; token ausente/inválido/expirado 401; permiso 403; inexistencia 404; conflicto de integridad de negocio 409 cuando proceda; límite 429 con Retry-After; error inesperado 500 sin traceback. La API devuelve JSON en español y estructura consistente; React muestra pantallas apropiadas sin convertir fallos en respuestas 200 de API.
+Registro 201; lectura/login 200; DELETE correcto 204; validación 400; token ausente/inválido/expirado 401; permiso 403; inexistencia 404; conflicto de integridad de negocio 409 cuando proceda; límite 429 con Retry-After; error inesperado 500 sin traceback. La API conserva claves legadas españolas y estructura consistente; los mensajes humanos predeterminados están en inglés; React muestra pantallas apropiadas sin convertir fallos en respuestas 200 de API.
 
 JWT propuesto: access de 5 minutos en memoria del navegador; refresh de 1 día en cookie HttpOnly, SameSite y Secure en producción, restringida a renovación. Proteger renovación/logout contra CSRF y validar origen; frontend y API preferentemente en el mismo sitio. Android podrá requerir un flujo refresh distinto autenticado, pendiente. Cerrar sesión borra cookie y memoria; revocación/rotación se verificará con la biblioteca elegida. No persistir tokens en localStorage ni incluir secretos en variables VITE_.
 
@@ -106,7 +108,7 @@ Rate limiting inicial propuesto: login 5/min/IP y 10/15 min por identidad normal
 
 F1 aplicó configuración/red; F2 autenticación; F3 permisos, filtros, validaciones y transacciones CRUD. SEGURIDAD.md precisa límites: caché por proceso, 120/min por usuario en CRUD, refresh 30/h por IP y access válido hasta 5 minutos tras logout. Los valores de diseño anteriores son antecedentes; el contrato efectivo está en ENDPOINTS.md. F3 conserva marcas de estado iniciales sin implementar Reception ni flujos F6.
 
-## ADR-001: monolito modular y base compartida con aislamiento por empresa
+## Antecedente ADR-001: monolito modular y base compartida con aislamiento por empresa
 
 Estado: propuesto. Fecha: 2026-10-26. Decisor: usuario mediante aprobación de la fase siguiente.
 
@@ -119,7 +121,7 @@ Contexto: proyecto académico demostrable, equipo y presupuesto no especificados
 
 Decisión propuesta: primera opción; prioriza transacciones y pruebas de permisos. Consecuencia: cada consulta y escritura debe imponer el tenant; no hay aislamiento físico entre empresas. Revisar si el volumen o las obligaciones reales lo requieren, sin prometer capacidad no medida.
 
-## ADR-002: versiones aisladas y usuario propio antes de migrar autenticación
+## Antecedente ADR-002: versiones aisladas y usuario propio antes de migrar autenticación
 
 Estado: propuesto. Las instalaciones globales no definen las versiones del proyecto. Seleccionar una combinación mantenida de Python/Django/DRF/JWT/psycopg y PostgreSQL en F1 con dependencias fijadas; Node/npm y lockfile equivalentes para frontend. La documentación JWT consultada no acredita la combinación local actual.
 

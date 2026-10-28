@@ -1,3 +1,4 @@
+import { t, resultCount } from '../i18n/index.js'
 import { useCallback, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../auth.jsx'
@@ -43,7 +44,7 @@ function CategoryForm({ record, onClose, onSaved }) {
         method: record ? 'PATCH' : 'POST',
         data,
       })
-      onSaved(record ? 'Categoría actualizada.' : 'Categoría creada.')
+      onSaved(record ? t("category_updated") : t("category_created"))
     } catch (error) {
       setError(error)
     } finally {
@@ -51,13 +52,13 @@ function CategoryForm({ record, onClose, onSaved }) {
     }
   }
   return (
-    <Modal title={record ? 'Editar categoría' : 'Crear categoría'} onClose={onClose} busy={busy}>
+    <Modal title={record ? t("edit_category") : t("create_category")} onClose={onClose} busy={busy}>
       <form onSubmit={save}>
         <div className="modal-body">
           {error && <ErrorState error={error} />}
           {tenant.global && !record ? (
             <SelectField
-              label="Empresa"
+              label={t("company")}
               name="company"
               options={tenant.refs.data?.companies || []}
               defaultValue={tenant.selected}
@@ -67,13 +68,13 @@ function CategoryForm({ record, onClose, onSaved }) {
             <p className="form-context">{record?.company_name || tenant.companyName}</p>
           )}
           <FormField
-            label="Nombre de categoría"
+            label={t("category_name")}
             name="name"
             maxLength={120}
             defaultValue={record?.name || ''}
             required
           />
-          <FormField label="Descripción">
+          <FormField label={t("description")}>
             {(id) => (
               <textarea
                 id={id}
@@ -84,28 +85,22 @@ function CategoryForm({ record, onClose, onSaved }) {
             )}
           </FormField>
           <fieldset className="condition-options">
-            <legend>Condiciones de la mercancía</legend>
+            <legend>{t("goods_conditions")}</legend>
             <label>
               <input type="checkbox" name="is_fragile" defaultChecked={record?.is_fragile} />
-              <span>
-                Frágil<small>Requiere cuidado en su manipulación.</small>
+              <span>{t("fragile")}<small>{t("requires_careful_handling")}</small>
               </span>
             </label>
             <label>
               <input type="checkbox" name="is_perishable" defaultChecked={record?.is_perishable} />
-              <span>
-                Perecedera<small>Sus condiciones cambian con el tiempo.</small>
+              <span>{t("perishable")}<small>{t("its_conditions_change_over_time")}</small>
               </span>
             </label>
           </fieldset>
         </div>
         <footer>
-          <Button variant="secondary" type="button" onClick={onClose} disabled={busy}>
-            Cancelar
-          </Button>
-          <Button variant="dark" type="submit" busy={busy}>
-            Guardar categoría
-          </Button>
+          <Button variant="secondary" type="button" onClick={onClose} disabled={busy}>{t("cancel")}</Button>
+          <Button variant="dark" type="submit" busy={busy}>{t("save_category")}</Button>
         </footer>
       </form>
     </Modal>
@@ -137,7 +132,7 @@ export function BoxForm({ record, onClose, onSaved }) {
         method: record ? 'PATCH' : 'POST',
         data,
       })
-      onSaved(record ? 'Caja actualizada.' : 'Caja registrada con identificación propia.')
+      onSaved(record ? t("box_updated") : t("box_registered_with_its_own_identification"))
     } catch (error) {
       setError(error)
     } finally {
@@ -146,13 +141,13 @@ export function BoxForm({ record, onClose, onSaved }) {
   }
   const unavailable = !refs.data?.products.length || !refs.data?.branches.length
   return (
-    <Modal title={record ? 'Editar caja' : 'Registrar una caja'} onClose={onClose} busy={busy}>
+    <Modal title={record ? t("edit_box") : t("register_a_box")} onClose={onClose} busy={busy}>
       <form onSubmit={save}>
         <div className="modal-body">
           {error && <ErrorState error={error} />}
           {tenant.global && !record ? (
             <SelectField
-              label="Empresa"
+              label={t("company")}
               value={company}
               onChange={(e) => {
                 setCompany(e.target.value)
@@ -166,23 +161,18 @@ export function BoxForm({ record, onClose, onSaved }) {
             <p className="form-context">{record?.company_name || tenant.companyName}</p>
           )}
           {!company ? (
-            <p className="inline-note">
-              Selecciona una empresa para consultar sus productos y sucursales.
-            </p>
+            <p className="inline-note">{t("select_a_company_to_view_its_products_and")}</p>
           ) : refs.loading ? (
-            <LoadingState label="Consultando referencias autorizadas…" />
+            <LoadingState label={t("loading_authorized_references")} />
           ) : refs.error ? (
             <ErrorState error={refs.error} onRetry={refs.reload} />
           ) : (
             <>
               {unavailable && (
-                <p className="inline-note">
-                  Faltan productos o sucursales activos. Un superadministrador debe prepararlos
-                  mediante el procedimiento de configuración.
-                </p>
+                <p className="inline-note">{t("active_products_or_branches_are_missing_a_superadmin")}</p>
               )}
               <SelectField
-                label="Producto"
+                label={t("product")}
                 options={(refs.data?.products || []).map((p) => ({
                   id: p.id,
                   name: `${p.sku} · ${p.name} / ${p.category_name}`,
@@ -192,7 +182,7 @@ export function BoxForm({ record, onClose, onSaved }) {
                 required
               />
               <SelectField
-                label="Sucursal"
+                label={t("branch")}
                 options={refs.data?.branches || []}
                 value={branch}
                 onChange={(e) => setBranch(e.target.value)}
@@ -200,7 +190,7 @@ export function BoxForm({ record, onClose, onSaved }) {
               />
               <div className="form-grid">
                 <FormField
-                  label="Cantidad"
+                  label={t("quantity")}
                   name="quantity"
                   type="number"
                   min="1"
@@ -210,7 +200,7 @@ export function BoxForm({ record, onClose, onSaved }) {
                   required
                 />
                 <FormField
-                  label="Peso (kg), opcional"
+                  label={t("weight_kg_optional")}
                   name="weight_kg"
                   type="number"
                   min="0.001"
@@ -220,37 +210,32 @@ export function BoxForm({ record, onClose, onSaved }) {
                 />
               </div>
               <SelectField
-                label="Prioridad"
+                label={t("priority")}
                 name="priority"
                 options={[
-                  { id: 'LOW', name: 'Baja' },
-                  { id: 'NORMAL', name: 'Normal' },
-                  { id: 'HIGH', name: 'Alta' },
+                  { id: 'LOW', name: t("low") },
+                  { id: 'NORMAL', name: t("normal") },
+                  { id: 'HIGH', name: t("high") },
                 ]}
                 defaultValue={record?.priority || 'NORMAL'}
                 required
               />
-              <p className="inline-note">
-                El identificador interno, el QR y el creador los asigna el servidor.{' '}
+              <p className="inline-note">{t("the_server_assigns_the_internal_identifier_qr_code")}{' '}
                 {record
-                  ? 'La empresa y el creador se conservan.'
-                  : 'La caja se crea en estado registrada.'}
+                  ? t("the_company_and_creator_are_preserved")
+                  : t("the_box_is_created_with_registered_status")}
               </p>
             </>
           )}
         </div>
         <footer>
-          <Button variant="secondary" type="button" onClick={onClose} disabled={busy}>
-            Cancelar
-          </Button>
+          <Button variant="secondary" type="button" onClick={onClose} disabled={busy}>{t("cancel")}</Button>
           <Button
             variant="dark"
             type="submit"
             busy={busy}
             disabled={!company || refs.loading || !!refs.error || unavailable}
-          >
-            Guardar caja
-          </Button>
+          >{t("save_box")}</Button>
         </footer>
       </form>
     </Modal>
@@ -303,7 +288,7 @@ export default function Resources({ kind }) {
     try {
       await api(`/${kind}/${remove.id}/`, { method: 'DELETE' })
       setRemove(null)
-      setToast(boxes ? 'Caja eliminada.' : 'Categoría eliminada.')
+      setToast(boxes ? t("box_deleted") : t("category_deleted"))
       resource.reload()
     } catch (error) {
       setRemoveError(error)
@@ -323,19 +308,19 @@ export default function Resources({ kind }) {
     ? [
         {
           key: 'internal_id',
-          title: 'Identificación',
+          title: t("identification"),
           render: (r) => (
             <>
               <Link className="mono id-link" to={`/app/cajas/${r.id}`}>
                 {r.internal_id}
               </Link>
-              <span className="cell-secondary">QR independiente · ver detalle</span>
+              <span className="cell-secondary">{t("independent_qr_view_details")}</span>
             </>
           ),
         },
         {
           key: 'product_name',
-          title: 'Producto',
+          title: t("product"),
           render: (r) => (
             <>
               <strong>{r.product_name}</strong>
@@ -346,28 +331,27 @@ export default function Resources({ kind }) {
         },
         {
           key: 'quantity',
-          title: 'Cantidad',
+          title: t("quantity"),
           render: (r) => <span className="mono">{r.quantity}</span>,
         },
-        { key: 'branch_name', title: 'Sucursal' },
-        { key: 'priority', title: 'Prioridad', render: (r) => <StatusBadge value={r.priority} /> },
-        { key: 'status', title: 'Estado', render: (r) => <StatusBadge value={r.status} /> },
+        { key: 'branch_name', title: t("branch") },
+        { key: 'priority', title: t("priority"), render: (r) => <StatusBadge value={r.priority} /> },
+        { key: 'status', title: t("status"), render: (r) => <StatusBadge value={r.status} /> },
         {
           key: 'actions',
-          title: 'Acciones',
+          title: t("actions"),
           render: (r) => (
             <div className="row-actions">
               <Link
                 className="button button-text"
                 to={`/app/cajas/${r.id}`}
-                aria-label={`Ver caja ${r.internal_id}`}
-              >
-                Ver <Icon name="arrow" />
+                aria-label={t('view_box_label', { identifier: r.internal_id })}
+              >{t("view")}{' '}<Icon name="arrow" />
               </Link>
               {r.status === 'REGISTERED' && (
                 <button
                   className="icon-button"
-                  aria-label={`Editar caja ${r.internal_id}`}
+                  aria-label={t('edit_box_label', { identifier: r.internal_id })}
                   onClick={() => setEditor(r)}
                 >
                   <Icon name="edit" />
@@ -380,7 +364,7 @@ export default function Resources({ kind }) {
     : [
         {
           key: 'name',
-          title: 'Categoría',
+          title: t("category"),
           render: (r) => (
             <>
               <strong>{r.name}</strong>
@@ -390,17 +374,17 @@ export default function Resources({ kind }) {
         },
         {
           key: 'description',
-          title: 'Descripción',
-          render: (r) => r.description || <span className="muted">Sin descripción</span>,
+          title: t("description"),
+          render: (r) => r.description || <span className="muted">{t("no_description")}</span>,
         },
         {
           key: 'conditions',
-          title: 'Condiciones',
+          title: t("conditions"),
           render: (r) => (
             <div className="badge-group">
-              {r.is_fragile && <span className="badge badge-fragile">Frágil</span>}
-              {r.is_perishable && <span className="badge badge-perishable">Perecedera</span>}
-              {!r.is_fragile && !r.is_perishable && <span className="muted">Estándar</span>}
+              {r.is_fragile && <span className="badge badge-fragile">{t("fragile")}</span>}
+              {r.is_perishable && <span className="badge badge-perishable">{t("perishable")}</span>}
+              {!r.is_fragile && !r.is_perishable && <span className="muted">{t("standard")}</span>}
             </div>
           ),
         },
@@ -408,27 +392,23 @@ export default function Resources({ kind }) {
           ? [
               {
                 key: 'actions',
-                title: 'Acciones',
+                title: t("actions"),
                 render: (r) => (
                   <div className="row-actions">
                     <button
                       className="button button-text"
                       onClick={() => setEditor(r)}
-                      aria-label={`Editar categoría ${r.name}`}
+                      aria-label={t('edit_category_label', { name: r.name })}
                     >
-                      <Icon name="edit" />
-                      Editar
-                    </button>
+                      <Icon name="edit" />{t("edit")}</button>
                     <button
                       className="button button-text danger-text"
                       onClick={() => {
                         setRemoveError(null)
                         setRemove(r)
                       }}
-                      aria-label={`Eliminar categoría ${r.name}`}
-                    >
-                      Eliminar
-                    </button>
+                      aria-label={t('delete_category_label', { name: r.name })}
+                    >{t("delete")}</button>
                   </div>
                 ),
               },
@@ -439,9 +419,9 @@ export default function Resources({ kind }) {
     <>
       <PageIntro
         eyebrow={
-          boxes ? 'REGISTRO / IDENTIFICACIÓN / CONSULTA' : 'CATÁLOGO / CONDICIONES DE MERCANCÍA'
+          boxes ? t("registration_identification_lookup") : t("catalog_goods_conditions")
         }
-        title={boxes ? 'Cada caja tiene identidad.' : 'Clasificar para cuidar.'}
+        title={boxes ? t("every_box_has_an_identity") : t("classify_to_care")}
         action={
           canCreate && (
             <Button
@@ -450,14 +430,14 @@ export default function Resources({ kind }) {
               disabled={tenant.refs.loading || !!tenant.refs.error}
             >
               <Icon name="plus" />
-              {boxes ? 'Registrar caja' : 'Crear categoría'}
+              {boxes ? t("register_box") : t("create_category")}
             </Button>
           )
         }
       >
         {boxes
-          ? 'Consulta y gestiona los registros de mercancía de tu ámbito autorizado.'
-          : 'Organiza categorías y distingue las condiciones que requiere cada producto.'}
+          ? t("view_and_manage_goods_records_within_your_authorized")
+          : t("organize_categories_and_identify_the_conditions_each_product")}
       </PageIntro>
       {tenant.refs.error && <ErrorState error={tenant.refs.error} onRetry={tenant.refs.reload} />}
       <section className="workspace-section">
@@ -465,25 +445,25 @@ export default function Resources({ kind }) {
           <SearchBar
             value={search}
             onChange={setSearch}
-            label={boxes ? 'Buscar cajas' : 'Buscar categorías'}
+            label={boxes ? t("search_boxes") : t("search_categories")}
             placeholder={
               boxes
                 ? mode === 'search'
-                  ? 'Producto, SKU o identificador…'
+                  ? t("product_sku_or_identifier")
                   : mode === 'internal_id'
-                    ? 'CJ- seguido de 32 caracteres'
-                    : 'Contenido del QR (UUID)'
-                : 'Nombre o descripción…'
+                    ? t("cj_followed_by_32_characters")
+                    : t("qr_content_uuid")
+                : t("name_or_description")
             }
           />
           {boxes ? (
             <>
               <SelectField
-                label="Buscar por"
+                label={t("search_by")}
                 options={[
-                  { id: 'search', name: 'Búsqueda general' },
-                  { id: 'internal_id', name: 'ID interno exacto' },
-                  { id: 'qr_code', name: 'QR exacto' },
+                  { id: 'search', name: t("general_search") },
+                  { id: 'internal_id', name: t("exact_internal_id") },
+                  { id: 'qr_code', name: t("exact_qr") },
                 ]}
                 value={mode}
                 onChange={(e) => {
@@ -492,24 +472,24 @@ export default function Resources({ kind }) {
                 }}
               />
               <SelectField
-                label="Estado"
+                label={t("status")}
                 options={[
-                  { id: 'REGISTERED', name: 'Registrada' },
-                  { id: 'RECEIVED', name: 'Recibida' },
-                  { id: 'REJECTED', name: 'Rechazada' },
+                  { id: 'REGISTERED', name: t("registered") },
+                  { id: 'RECEIVED', name: t("received") },
+                  { id: 'REJECTED', name: t("rejected") },
                 ]}
-                placeholder="Todos"
+                placeholder={t("all")}
                 value={status}
                 onChange={(e) => setStatus(e.target.value)}
               />
               <SelectField
-                label="Prioridad"
+                label={t("priority")}
                 options={[
-                  { id: 'HIGH', name: 'Alta' },
-                  { id: 'NORMAL', name: 'Normal' },
-                  { id: 'LOW', name: 'Baja' },
+                  { id: 'HIGH', name: t("high") },
+                  { id: 'NORMAL', name: t("normal") },
+                  { id: 'LOW', name: t("low") },
                 ]}
-                placeholder="Todas"
+                placeholder={t("all")}
                 value={priority}
                 onChange={(e) => setPriority(e.target.value)}
               />
@@ -517,22 +497,22 @@ export default function Resources({ kind }) {
           ) : (
             <>
               <SelectField
-                label="Fragilidad"
+                label={t("fragility")}
                 options={[
-                  { id: 'true', name: 'Frágil' },
-                  { id: 'false', name: 'No frágil' },
+                  { id: 'true', name: t("fragile") },
+                  { id: 'false', name: t("not_fragile") },
                 ]}
-                placeholder="Todas"
+                placeholder={t("all")}
                 value={fragile}
                 onChange={(e) => setFragile(e.target.value)}
               />
               <SelectField
-                label="Perecibilidad"
+                label={t("perishability")}
                 options={[
-                  { id: 'true', name: 'Perecedera' },
-                  { id: 'false', name: 'No perecedera' },
+                  { id: 'true', name: t("perishable") },
+                  { id: 'false', name: t("not_perishable") },
                 ]}
-                placeholder="Todas"
+                placeholder={t("all")}
                 value={perishable}
                 onChange={(e) => setPerishable(e.target.value)}
               />
@@ -542,23 +522,20 @@ export default function Resources({ kind }) {
         <div className="results-caption" aria-live="polite">
           <span>
             {resource.loading
-              ? 'Consultando…'
-              : `${rows.length} ${boxes ? 'cajas' : 'categorías'} en esta consulta`}
+              ? t("loading")
+              : resultCount(rows.length, boxes)}
           </span>
           <span>{tenant.companyName}</span>
         </div>
         {!validSearch ? (
-          <EmptyState title="Completa el identificador">
-            La búsqueda exacta necesita el código completo. También puedes cambiar a búsqueda
-            general.
-          </EmptyState>
+          <EmptyState title={t("enter_the_complete_identifier")}>{t("exact_search_requires_the_complete_code_you_can")}</EmptyState>
         ) : resource.loading ? (
           <LoadingState />
         ) : resource.error ? (
           <ErrorState error={resource.error} onRetry={resource.reload} />
         ) : rows.length ? (
           <DataTable
-            caption={boxes ? 'Cajas autorizadas' : 'Categorías autorizadas'}
+            caption={boxes ? t("authorized_boxes") : t("authorized_categories")}
             columns={columns}
             rows={rows}
           />
@@ -566,23 +543,20 @@ export default function Resources({ kind }) {
           <EmptyState
             title={
               search || status || priority || fragile || perishable
-                ? 'No hay coincidencias con estos filtros'
+                ? t("no_matches_for_these_filters")
                 : boxes
-                  ? 'Tu primera caja empieza aquí'
-                  : 'Todavía no hay categorías'
+                  ? t("your_first_box_starts_here")
+                  : t("no_categories_yet")
             }
-          >
-            Prueba otros filtros o registra un recurso si tu rol lo permite.
-          </EmptyState>
+          >{t("try_other_filters_or_register_a_resource_if")}</EmptyState>
         )}
       </section>
-      <p className="scope-note">
-        La API es la autoridad de permisos.{' '}
+      <p className="scope-note">{t("the_api_enforces_permissions")}{' '}
         {boxes
-          ? 'Los estados finales no admiten cambios ni eliminación en este alcance.'
+          ? t("final_statuses_prevent_changes_and_deletion_within_this")
           : canManage
-            ? 'Las categorías referenciadas por productos no se pueden eliminar.'
-            : 'Tu rol de operador permite consultar categorías, sin administrarlas.'}
+            ? t("categories_referenced_by_products_cannot_be_deleted")
+            : t("your_operator_role_allows_viewing_categories_but_not")}
       </p>
       {editor &&
         (boxes ? (
@@ -600,15 +574,12 @@ export default function Resources({ kind }) {
         ))}
       {remove && (
         <ConfirmModal
-          title="Eliminar categoría"
+          title={t('delete_category')}
           busy={removeBusy}
           error={removeError}
           onClose={() => setRemove(null)}
           onConfirm={doRemove}
-        >
-          Se eliminará «{remove.name}». La operación se rechazará si existen referencias. Esta
-          acción no se puede deshacer.
-        </ConfirmModal>
+        >{t("delete_2")}{remove.name}{t("the_operation_will_be_rejected_if_references_exist")}</ConfirmModal>
       )}
       {toast && <Toast message={toast} onClose={closeToast} />}
     </>

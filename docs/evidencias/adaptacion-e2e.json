@@ -1,0 +1,74 @@
+{
+  "timestamp_utc": "2026-10-28T03:09:29.843305+00:00",
+  "scope": "Chromium; local isolated PostgreSQL; two workers; no retries; screenshots without secrets",
+  "tests": [
+    {
+      "name": "accesibilidad automática, ampliación CSS 200%, vacío, 403 y 500",
+      "status": "passed",
+      "duration_ms": 7086,
+      "retry": 0
+    },
+    {
+      "name": "landing, responsive, teclado, movimiento reducido y rutas públicas",
+      "status": "passed",
+      "duration_ms": 2602,
+      "retry": 0
+    },
+    {
+      "name": "registro real y validación de confirmación; login incorrecto",
+      "status": "passed",
+      "duration_ms": 1046,
+      "retry": 0
+    },
+    {
+      "name": "administrador: CRUD, integridad, filtros, sesión y responsive operacional",
+      "status": "passed",
+      "duration_ms": 5757,
+      "retry": 0
+    },
+    {
+      "name": "operador asignado: lectura de categorías y caja autorizada",
+      "status": "passed",
+      "duration_ms": 1106,
+      "retry": 0
+    },
+    {
+      "name": "operador pendiente: sin consultas de inventario privado",
+      "status": "passed",
+      "duration_ms": 496,
+      "retry": 0
+    },
+    {
+      "name": "superadmin: ámbito, referencias legibles y menú móvil",
+      "status": "passed",
+      "duration_ms": 56506,
+      "retry": 0
+    },
+    {
+      "name": "fallo de red simulado: error de servicio seguro y recuperable",
+      "status": "passed",
+      "duration_ms": 393,
+      "retry": 0
+    },
+    {
+      "name": "English remains the default with Spanish browser preferences",
+      "status": "passed",
+      "duration_ms": 504,
+      "retry": 0
+    },
+    {
+      "name": "access expira realmente a cinco minutos: renovación única y pérdida de refresh",
+      "status": "passed",
+      "duration_ms": 354872,
+      "retry": 0
+    }
+  ],
+  "stats": {
+    "startTime": "2026-10-28T02:58:11.421Z",
+    "duration": 366318.428,
+    "expected": 10,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

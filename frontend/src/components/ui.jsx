@@ -1,3 +1,4 @@
+import { t } from '../i18n/index.js'
 import { useEffect, useId, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 
@@ -131,7 +132,7 @@ export function FormField({ label, error, hint, children, ...props }) {
     </div>
   )
 }
-export function SelectField({ label, options, placeholder = 'Seleccionar…', hint, ...props }) {
+export function SelectField({ label, options, placeholder = t("select"), hint, ...props }) {
   return (
     <FormField label={label} hint={hint}>
       {(id) => (
@@ -147,7 +148,7 @@ export function SelectField({ label, options, placeholder = 'Seleccionar…', hi
     </FormField>
   )
 }
-export function PasswordField({ label = 'Contraseña', hint, ...props }) {
+export function PasswordField({ label = t("password"), hint, ...props }) {
   const [visible, setVisible] = useState(false)
   return (
     <FormField label={label} hint={hint}>
@@ -162,7 +163,7 @@ export function PasswordField({ label = 'Contraseña', hint, ...props }) {
           <button
             type="button"
             aria-label={
-              visible ? `Ocultar ${label.toLowerCase()}` : `Mostrar ${label.toLowerCase()}`
+              visible ? t('hide_password', { label: label.toLowerCase() }) : t('show_password', { label: label.toLowerCase() })
             }
             aria-pressed={visible}
             onClick={() => setVisible(!visible)}
@@ -174,7 +175,7 @@ export function PasswordField({ label = 'Contraseña', hint, ...props }) {
     </FormField>
   )
 }
-export function LoadingState({ label = 'Cargando información…' }) {
+export function LoadingState({ label = t("loading_information") }) {
   return (
     <div className="loading-state" role="status">
       <span className="spinner" />
@@ -182,7 +183,7 @@ export function LoadingState({ label = 'Cargando información…' }) {
     </div>
   )
 }
-export function EmptyState({ title = 'Todavía no hay registros', children, action }) {
+export function EmptyState({ title = t("no_records_yet"), children, action }) {
   return (
     <section className="empty-state">
       <span className="empty-mark">
@@ -205,16 +206,14 @@ export function ErrorState({ error, onRetry, title }) {
       <div>
         <h2>
           {title ||
-            (error?.status === 403 ? 'Acceso denegado' : 'No se pudo completar la operación')}
+            (error?.status === 403 ? t("access_denied") : t("the_operation_could_not_be_completed"))}
         </h2>
         <p>
-          {error?.message || 'El servicio no está disponible. Intenta nuevamente.'}
-          {error?.retryAfter ? ` Puedes reintentar en ${error.retryAfter} segundos.` : ''}
+          {error?.message || t("the_service_is_unavailable_please_try_again")}
+          {error?.retryAfter ? t('retry_after', { seconds: error.retryAfter }) : ''}
         </p>
         {onRetry && (
-          <Button variant="secondary" onClick={onRetry}>
-            Volver a intentar
-          </Button>
+          <Button variant="secondary" onClick={onRetry}>{t("try_again")}</Button>
         )}
       </div>
     </div>
@@ -222,16 +221,16 @@ export function ErrorState({ error, onRetry, title }) {
 }
 export function StatusBadge({ value }) {
   const names = {
-    REGISTERED: 'Registrada',
-    RECEIVED: 'Recibida',
-    REJECTED: 'Rechazada',
-    LOW: 'Baja',
-    NORMAL: 'Normal',
-    HIGH: 'Alta',
+    REGISTERED: t("registered"),
+    RECEIVED: t("received"),
+    REJECTED: t("rejected"),
+    LOW: t("low"),
+    NORMAL: t("normal"),
+    HIGH: t("high"),
   }
   return <span className={`badge badge-${value?.toLowerCase()}`}>{names[value] || value}</span>
 }
-export function SearchBar({ value, onChange, placeholder = 'Buscar…', label = 'Buscar' }) {
+export function SearchBar({ value, onChange, placeholder = t("search"), label = t("search_2") }) {
   return (
     <label className="search-bar">
       <Icon name="search" />
@@ -251,9 +250,7 @@ export function FilterBar({ children, onClear }) {
     <div className="filter-bar">
       {children}
       {onClear && (
-        <Button variant="text" onClick={onClear}>
-          Limpiar filtros
-        </Button>
+        <Button variant="text" onClick={onClear}>{t("clear_filters")}</Button>
       )}
     </div>
   )
@@ -308,7 +305,7 @@ export function Modal({ title, children, onClose, busy = false, className = '' }
         <button
           type="button"
           className="icon-button"
-          aria-label="Cerrar diálogo"
+          aria-label={t("close_dialog")}
           disabled={busy}
           onClick={onClose}
         >
@@ -327,12 +324,8 @@ export function ConfirmModal({ title, children, onConfirm, onClose, busy, error 
         {error && <ErrorState error={error} />}
       </div>
       <footer>
-        <Button variant="secondary" onClick={onClose} disabled={busy}>
-          Cancelar
-        </Button>
-        <Button variant="danger" onClick={onConfirm} busy={busy}>
-          Eliminar definitivamente
-        </Button>
+        <Button variant="secondary" onClick={onClose} disabled={busy}>{t("cancel")}</Button>
+        <Button variant="danger" onClick={onConfirm} busy={busy}>{t("delete_permanently")}</Button>
       </footer>
     </Modal>
   )
@@ -346,7 +339,7 @@ export function Toast({ message, onClose }) {
     <div className="toast" role="status">
       <Icon name="check" />
       {message}
-      <button className="icon-button" onClick={onClose} aria-label="Cerrar notificación">
+      <button className="icon-button" onClick={onClose} aria-label={t("dismiss_notification")}>
         <Icon name="close" />
       </button>
     </div>
@@ -367,16 +360,13 @@ export function PageIntro({ eyebrow, title, children, action }) {
 export function PublicHeader() {
   return (
     <header className="public-header">
-      <Link to="/" aria-label="LogisTech, inicio">
+      <Link to="/" aria-label={t("logistech_home")}>
         <Logo />
       </Link>
-      <nav aria-label="Navegación principal">
-        <Link className="desktop-link" to="/#producto">
-          Producto
-        </Link>
-        <Link to="/login">Acceder</Link>
-        <Link className="button button-dark" to="/registro">
-          Crear cuenta <Icon name="arrow" />
+      <nav aria-label={t("main_navigation")}>
+        <Link className="desktop-link" to="/#producto">{t("product")}</Link>
+        <Link to="/login">{t("sign_in")}</Link>
+        <Link className="button button-dark" to="/registro">{t("create_account")}{' '}<Icon name="arrow" />
         </Link>
       </nav>
     </header>

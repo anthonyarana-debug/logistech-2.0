@@ -14,6 +14,8 @@ from rest_framework_simplejwt.exceptions import TokenError
 from rest_framework_simplejwt.token_blacklist.models import OutstandingToken
 from rest_framework_simplejwt.tokens import RefreshToken
 
+from apps.core.messages import message
+
 from .serializers import LoginSerializer, RegistrationSerializer, identity
 from .throttles import (
     CsrfThrottle,
@@ -86,13 +88,14 @@ class LoginView(PublicAuthView):
 
 
 def read_refresh(request):
+    """Read only the HttpOnly cookie; reject missing, expired or invalid tokens."""
     raw = request.COOKIES.get(settings.AUTH_REFRESH_COOKIE)
     if not raw:
-        raise AuthenticationFailed("La sesión no está disponible.")
+        raise AuthenticationFailed(message("the_session_is_unavailable"))
     try:
         return raw, RefreshToken(raw)
     except TokenError:
-        raise AuthenticationFailed("La sesión no está disponible.") from None
+        raise AuthenticationFailed(message("the_session_is_unavailable")) from None
 
 
 @method_decorator(csrf_protect, name="dispatch")
@@ -112,7 +115,7 @@ class RefreshView(PublicAuthView):
                 original.blacklist()
                 replacement = RefreshToken.for_user(user)
         except (TokenError, User.DoesNotExist, OutstandingToken.DoesNotExist, ValidationError):
-            raise AuthenticationFailed("La sesión no está disponible.") from None
+            raise AuthenticationFailed(message("the_session_is_unavailable")) from None
         return token_response(user, replacement)
 
 

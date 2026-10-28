@@ -1,3 +1,4 @@
+import { t } from '../i18n/index.js'
 const apiBase = (import.meta.env.VITE_API_BASE_URL || '/api/v1').replace(/\/$/, '')
 
 export async function getHealth() {
@@ -11,13 +12,15 @@ export async function getHealth() {
     })
     const body = await response.json()
     if (!response.ok || body.estado !== 'disponible') {
-      throw new Error('La API no puede confirmar la conexión con PostgreSQL.')
+      const error = new Error(t('the_api_cannot_confirm_its_connection_to_postgresql'))
+      error.code = 'health_unavailable'
+      throw error
     }
     return body
   } catch (error) {
-    if (error.message === 'La API no puede confirmar la conexión con PostgreSQL.') throw error
+    if (error.code === 'health_unavailable') throw error
     throw new Error(
-      'No se pudo conectar con el servicio. Comprueba tu conexión y vuelve a intentar.',
+      t("could_not_connect_to_the_service_check_your"),
       { cause: error },
     )
   } finally {

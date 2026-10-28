@@ -1,6 +1,8 @@
 # LogisTech 2.0
 
-Repositorio privado: [anthonyarana-debug/logistech-2.0](https://github.com/anthonyarana-debug/logistech-2.0), main predeterminada y F0–F5 publicados. Ver [publicación verificada](docs/PUBLICACION_GITHUB.md), [auditoría previa](docs/AUDITORIA_GITHUB.md) e [instrucciones para otra computadora](docs/NUEVA_COMPUTADORA.md). Las credenciales, bases y volúmenes locales se recrean o transfieren por un canal privado separado, nunca por Git. GitHub aloja el código; la aplicación no se desplegó en cloud.
+Repositorio público: [anthonyarana-debug/logistech-2.0](https://github.com/anthonyarana-debug/logistech-2.0), main predeterminada y F0–F5 publicados. Ver [publicación verificada](docs/PUBLICACION_GITHUB.md), [auditoría previa](docs/AUDITORIA_GITHUB.md) e [instrucciones para otra computadora](docs/NUEVA_COMPUTADORA.md). Las credenciales, bases y volúmenes locales se recrean o transfieren por un canal privado separado, nunca por Git. GitHub aloja el código; la aplicación no se desplegó en cloud.
+
+Adaptación local aprobada: aplicación en inglés por defecto y documentación académica consolidada. Ver [INFORME_ACADEMICO](docs/INFORME_ACADEMICO.md), [matriz de la guía](docs/MATRIZ_GUIA_PROFESOR.md), [API interna](docs/API_INTERNA.md), [internacionalización](docs/INTERNACIONALIZACION.md) y [cierre de adaptación](docs/INFORME_ADAPTACION.md). Estos cambios permanecen en la rama local `codex/documentacion-internacionalizacion` hasta revisión; no se ha hecho push de esta adaptación.
 
 Proyecto académico de Desarrollo de Soluciones en la Nube — TECSUP. **Fase 5: validación local aprobada, entrega global PARCIAL por cloud.** Industrial Precision, React, autenticación y CRUD sobre PostgreSQL. 156 pruebas backend, 5 JS y 9 E2E; Locust 50/100 con resultados reales. Sin despliegue externo. F6–F8 requieren nueva autorización.
 
@@ -160,4 +162,4 @@ Django local no carga .env automáticamente; Compose sí inyecta sus variables. 
 - [Industrial Precision y brief Stitch](docs/DISENO_UI_UX.md): A como base con recursos oscuros de B, sin segundo tema. Los bocetos son antecedentes documentales; no rediseño implementado.
 - [Plan](docs/PLAN.md), [matriz](docs/MATRIZ_ENTREGABLES.md), [decisiones](docs/DECISIONES_TECNICAS.md) y [diagrama actual editable](docs/MODELO_DATOS.mmd).
 
-No hay despliegue cloud, pruebas de carga, recepción, QR con cámara ni estadísticas operativas. Marcas iniciales de estado no equivalen a un módulo de recepción. Rate limiting por proceso; HSTS de subdominios/preload pendiente. Android no está disponible y no se modificó el original ni se contactó al VPS. F4/F5 requieren aprobación; F6–F8 siguen sin autorización.
+No hay despliegue cloud, recepción avanzada, QR con cámara ni estadísticas históricas operativas. Sí hay pruebas de carga locales F5 con alcance y límites documentados. Marcas iniciales de estado no equivalen a un módulo de recepción. Rate limiting por proceso; HSTS de subdominios/preload pendiente. No se auditaron las fuentes Android ni se modificó el original o contactó al VPS. F0–F5 están cerradas; F6–F8 siguen sin autorización.

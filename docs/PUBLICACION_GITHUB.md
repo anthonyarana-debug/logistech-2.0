@@ -1,8 +1,12 @@
-# Publicación privada de LogisTech 2.0
+# Publicación de LogisTech 2.0 y visibilidad vigente
+
+**Estado vigente:** repositorio **público**, confirmado durante la adaptación mediante API anónima GitHub: `private=false`, `visibility=public`. La adaptación no cambió su visibilidad ni realizó push. Los ocho puntos de control de la publicación original permanecen como antecedentes; esta rama de adaptación sigue solo local.
+
+## Registro histórico de publicación privada inicial
 
 Fecha: 27/10/2026, America/Lima. Autorización expresa del propietario para crear el destino PRIVATE y efectuar el primer push. **Repositorio publicado y clonación autenticada comprobada.**
 
-Enlace definitivo: [https://github.com/anthonyarana-debug/logistech-2.0](https://github.com/anthonyarana-debug/logistech-2.0). GitHub exige acceso privado; un usuario sin autenticación recibe 404. Esa respuesta anónima no significa que el repositorio no exista.
+Enlace definitivo: [https://github.com/anthonyarana-debug/logistech-2.0](https://github.com/anthonyarana-debug/logistech-2.0). Durante la publicación privada inicial se exigía acceso autorizado y la consulta anónima devolvía 404. Actualmente el repositorio es público y esa descripción no representa su visibilidad vigente.
 
 ## Comprobaciones realizadas
 
@@ -34,10 +38,10 @@ La rama pública del Android original permaneció en `060cb00fecba639f1d9f05c34d
 
 Código, migraciones, documentación, licencias, pruebas y evidencias académicas saneadas. No se publicaron .env reales, contraseñas/cuentas DEMO privadas, tokens, bases, dumps o volúmenes Docker. Las plantillas .env.example y deploy/production.env.example tienen marcadores ficticios. Los ejemplos y claves sintéticas de unitarias no son credenciales de cuentas activas. Los archivos privados locales existentes no se borraron ni modificaron para publicar.
 
-La auditoría es una defensa por patrones y valores conocidos, no certificación absoluta. Mantener repositorio privado y activar el hook en cada clon. Historial Git incluye autoría y las evidencias contienen metadatos académicos/rutas de equipo ya revisados, sin acceso a cuentas.
+La auditoría es una defensa por patrones y valores conocidos, no certificación absoluta. Con el repositorio ahora público, mantener la exclusión de secretos y activar el hook en cada clon. Historial Git incluye autoría y las evidencias contienen metadatos académicos/rutas de equipo ya revisados, sin acceso a cuentas.
 
 ## Continuar en otra computadora
 
-Seguir [NUEVA_COMPUTADORA.md](NUEVA_COMPUTADORA.md). Requiere Git/Git Credential Manager, Docker Desktop Linux y Python 3.13 para generar configuración con biblioteca estándar; la aplicación usa sus entornos Docker fijados. Clonar con la cuenta autorizada, generar secretos nuevos, construir, migrar la base nueva e iniciar servicios. Datos de PostgreSQL no viajan con el clon: crear DEMO nuevos o usar un respaldo cifrado autorizado fuera de Git.
+Seguir [NUEVA_COMPUTADORA.md](NUEVA_COMPUTADORA.md). Requiere Git/Git Credential Manager, Docker Desktop Linux y Python 3.13 para generar configuración con biblioteca estándar; la aplicación usa sus entornos Docker fijados. Clonar el repositorio público sin credenciales, generar secretos nuevos, construir, migrar la base nueva e iniciar servicios. Datos de PostgreSQL no viajan con el clon: crear DEMO nuevos o usar un respaldo cifrado autorizado fuera de Git.
 
 No se inició ninguna fase adicional. Publicar código en GitHub no equivale a desplegar LogisTech en cloud; la situación académica de F5 permanece documentada en su informe.

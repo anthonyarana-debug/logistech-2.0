@@ -10,6 +10,7 @@ from rest_framework.views import APIView
 
 from apps.accounts.permissions import HasCompanyAccess
 from apps.catalog.models import Category, Product
+from apps.core.messages import message
 from apps.organizations.models import Branch, Company
 
 from .api import PrivateUserThrottle, is_global
@@ -22,7 +23,7 @@ class ReferenceView(APIView):
     def get(self, request):
         params = request.query_params
         if any(key != "company" or len(params.getlist(key)) != 1 for key in params):
-            raise ValidationError({"filtros": "Filtro desconocido o repetido."})
+            raise ValidationError({"filtros": message("unknown_or_repeated_filter")})
         companies = Company.objects.filter(status="ACTIVE").order_by("name", "id")
         if not is_global(request.user):
             companies = companies.filter(pk=request.user.company_id)
@@ -31,12 +32,12 @@ class ReferenceView(APIView):
             try:
                 chosen = uuid.UUID(params["company"])
             except (ValueError, TypeError):
-                raise ValidationError({"company": "Se requiere un UUID válido."}) from None
+                raise ValidationError({"company": message("a_valid_uuid_is_required")}) from None
             if not is_global(request.user) and chosen != request.user.company_id:
-                raise PermissionDenied("No tienes permiso para consultar ese ámbito.")
+                raise PermissionDenied(message("you_do_not_have_permission_to_access_that_scope"))
         company = companies.filter(pk=chosen).first() if chosen else None
         if chosen and company is None:
-            raise ValidationError({"company": "Empresa no disponible."})
+            raise ValidationError({"company": message("company_unavailable")})
         products = Product.objects.none()
         branches = Branch.objects.none()
         categories = Category.objects.none()

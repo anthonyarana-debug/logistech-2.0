@@ -1,4 +1,5 @@
 import json
+from io import StringIO
 
 import pytest
 from django.core.management import call_command
@@ -11,7 +12,9 @@ from apps.boxes.models import Box
 @pytest.mark.django_db
 def test_demo_is_explicit_random_and_non_destructive(tmp_path):
     output = tmp_path / "credentials.json"
-    call_command("create_demo", namespace="test-f4", output=str(output))
+    messages = StringIO()
+    call_command("create_demo", namespace="test-f4", output=str(output), stdout=messages)
+    assert "DEMO data created." in messages.getvalue()
     data = json.loads(output.read_text())
     assert Box.objects.count() == 12
     assert len({x["password"] for x in data["users"].values()}) == 4
