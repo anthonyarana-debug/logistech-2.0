@@ -27,6 +27,13 @@ class User(AbstractUser):
         on_delete=models.PROTECT,
         verbose_name="empresa",
     )
+    branch = models.ForeignKey(
+        "organizations.Branch",
+        null=True,
+        blank=True,
+        on_delete=models.PROTECT,
+        related_name="assigned_users",
+    )
     created_at = models.DateTimeField(auto_now_add=True)
 
     USERNAME_FIELD = "email"
@@ -37,6 +44,10 @@ class User(AbstractUser):
         verbose_name = "usuario"
         verbose_name_plural = "usuarios"
         constraints = [
+            models.CheckConstraint(
+                condition=Q(branch__isnull=True) | Q(company__isnull=False),
+                name="user_branch_requires_company",
+            ),
             models.UniqueConstraint(Lower("email"), name="user_email_ci"),
             models.CheckConstraint(
                 condition=(
@@ -54,6 +65,12 @@ class User(AbstractUser):
     def clean(self):
         super().clean()
         self.email = (self.email or "").strip().lower()
+        if self.branch_id:
+            from apps.core.operations_messages import text
+            from apps.organizations.models import Branch
+
+            if not Branch.objects.filter(pk=self.branch_id, company_id=self.company_id).exists():
+                raise ValidationError({"branch": text("branch_scope")})
         if self.is_superuser != (self.role == self.Role.SUPERADMIN):
             raise ValidationError("El rol y el indicador de superusuario deben coincidir.")
         if self.role == self.Role.SUPERADMIN and (not self.is_staff or self.company_id):

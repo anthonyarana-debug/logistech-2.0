@@ -7,6 +7,7 @@ import AppShell from './components/AppShell.jsx'
 import Landing from './pages/Landing.jsx'
 import AuthPage from './pages/AuthPage.jsx'
 import Dashboard from './pages/Dashboard.jsx'
+import Administration from './pages/Administration.jsx'
 import Resources from './pages/Resources.jsx'
 import BoxDetail from './pages/BoxDetail.jsx'
 import { InDevelopment, NotFound, ServiceStatus } from './pages/Special.jsx'
@@ -50,6 +51,8 @@ createRoot(document.getElementById('root')).render(
           }
         >
           <Route index element={<Dashboard />} />
+          {['companies', 'branches', 'products', 'users'].map(kind =>
+            <Route key={kind} path={kind} element={<Administration key={kind} kind={kind} />} />)}
           <Route path="categorias" element={<Resources key="categories" kind="categories" />} />
           <Route path="cajas" element={<Resources key="boxes" kind="boxes" />} />
           <Route path="cajas/:id" element={<BoxDetail />} />

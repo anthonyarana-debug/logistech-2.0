@@ -77,6 +77,9 @@ def identity(user):
         "first_name": user.first_name,
         "last_name": user.last_name,
         "role": user.role,
+        "branch": {"id": str(user.branch_id), "name": user.branch.name}
+        if user.branch_id and user.branch.company_id == user.company_id
+        else None,
         "company": {"id": str(user.company_id), "name": user.company.name}
         if user.company_id
         else None,

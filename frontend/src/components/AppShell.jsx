@@ -3,6 +3,7 @@ import { createContext, useContext, useEffect, useRef, useState } from 'react'
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
 import { useAuth } from '../auth.jsx'
 import { useRemote } from '../hooks/useRemote.js'
+import { canAdminister } from '../services/operations.js'
 import { Button, Icon, Logo, SelectField } from './ui.jsx'
 
 const Tenant = createContext(null)
@@ -12,7 +13,7 @@ export const roleNames = {
   COMPANY_ADMIN: t("company_administrator"),
   OPERATOR: t("operator"),
 }
-const navigation = [
+const baseNavigation = [
   ['/app', 'grid', t("overview")],
   ['/app/cajas', 'box', t("boxes")],
   ['/app/categorias', 'tag', t("categories")],
@@ -25,6 +26,12 @@ export default function AppShell() {
   const dialog = useRef(null),
     content = useRef(null)
   const global = auth.user.role === 'SUPERADMIN'
+  const navigation = [...baseNavigation,
+    ['/app/branches', 'grid', t('ops_branches')],
+    ['/app/products', 'tag', t('ops_products')],
+    ...(canAdminister(auth.user, 'companies') ? [['/app/companies', 'grid', t('ops_companies')]] : []),
+    ...(canAdminister(auth.user, 'users') ? [['/app/users', 'grid', t('ops_users')]] : []),
+  ]
   const refs = useRemote('/references/', { company: global ? company : '' })
   useEffect(() => {
     if (menu) dialog.current.showModal()
@@ -57,7 +64,7 @@ export default function AppShell() {
         <div className="sidebar-upcoming">
           <p className="sidebar-section">{t("coming_soon")}</p>
           <Link to="/app/en-desarrollo" onClick={() => setMenu(false)}>
-            <Icon name="clock" />{t("receptions")}<span className="soon-label">F6</span>
+            <Icon name="clock" />{t("receptions")}<span className="soon-label">{t('ops_planned')}</span>
           </Link>
         </div>
         <div className="sidebar-footer">
@@ -143,7 +150,7 @@ export default function AppShell() {
             <p className="demo-banner">{t("controlled_demonstration_data_these_records_do_not_represent")}</p>
           )}
           <main id="app-contenido" tabIndex="-1" ref={content} className="app-content">
-            <Outlet />
+            <Outlet key={selected} />
           </main>
           <footer className="app-footer">
             <span>{t("logistech_2_0_control_sheet")}</span>

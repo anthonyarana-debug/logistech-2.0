@@ -39,7 +39,10 @@ class Product(CompanyOwned):
         verbose_name = "producto"
         verbose_name_plural = "productos"
         constraints = [
-            models.UniqueConstraint(fields=["company", "sku"], name="product_company_sku")
+            models.UniqueConstraint(fields=["company", "sku"], name="product_company_sku"),
+            models.CheckConstraint(
+                condition=models.Q(status__in=["ACTIVE", "INACTIVE"]), name="product_status_allowed"
+            ),
         ]
 
     def clean(self):

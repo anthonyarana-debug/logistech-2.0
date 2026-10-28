@@ -12,22 +12,30 @@ import {
   StatusBadge,
 } from '../components/ui.jsx'
 import { useRemote } from '../hooks/useRemote.js'
+import { dashboardKey } from '../services/operations.js'
 
 export default function Dashboard() {
   const auth = useAuth(),
     tenant = useTenant()
   const boxes = useRemote('/boxes/', { company: tenant.company }),
     cats = useRemote('/categories/', { company: tenant.company })
+  const overview = useRemote('/overview/', { company: tenant.company })
   return (
     <>
       <PageIntro
         eyebrow={t("your_control_sheet")}
-        title={t('dashboard_greeting', { name: auth.user.first_name ? `, ${auth.user.first_name}` : '' })}
+        title={t(dashboardKey(auth.user.role))}
         action={
           <Link to="/app/cajas" className="button button-dark">{t("go_to_boxes")}{' '}<Icon name="arrow" />
           </Link>
         }
       >{t("view_records_in_the_selected_scope_indicators_are")}</PageIntro>
+      {overview.loading ? <LoadingState /> : overview.error ? <ErrorState error={overview.error} onRetry={overview.reload} /> :
+        <section className="overview-strip" aria-label={t('ops_administration')}>
+          {Object.entries(overview.data.counts).filter(([kind]) => !['boxes', 'categories'].includes(kind)).map(([kind, count]) =>
+            <div key={kind}><span className="mono">{t(`ops_${kind}`)}</span>
+              <strong>{formatNumber(count)}</strong><Link className="text-link" to={`/app/${kind}`}>{t('ops_open_records')}</Link></div>)}
+        </section>}
       {boxes.error || cats.error ? (
         <ErrorState
           error={boxes.error || cats.error}

@@ -28,6 +28,11 @@ class Company(ValidatedModel):
     class Meta:
         verbose_name = "empresa"
         verbose_name_plural = "empresas"
+        constraints = [
+            models.CheckConstraint(
+                condition=models.Q(status__in=["ACTIVE", "INACTIVE"]), name="company_status_allowed"
+            )
+        ]
 
     def __str__(self):
         return self.name
@@ -56,7 +61,10 @@ class Branch(CompanyOwned):
         verbose_name = "sucursal"
         verbose_name_plural = "sucursales"
         constraints = [
-            models.UniqueConstraint(Lower("name"), "company", name="branch_company_name_ci")
+            models.CheckConstraint(
+                condition=models.Q(status__in=["ACTIVE", "INACTIVE"]), name="branch_status_allowed"
+            ),
+            models.UniqueConstraint(Lower("name"), "company", name="branch_company_name_ci"),
         ]
 
     def __str__(self):

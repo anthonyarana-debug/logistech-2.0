@@ -221,6 +221,8 @@ export function ErrorState({ error, onRetry, title }) {
 }
 export function StatusBadge({ value }) {
   const names = {
+    ACTIVE: t('ops_active'),
+    INACTIVE: t('ops_inactive'),
     REGISTERED: t("registered"),
     RECEIVED: t("received"),
     REJECTED: t("rejected"),
