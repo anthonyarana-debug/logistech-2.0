@@ -49,7 +49,7 @@ Validación en proyecto `logistech-language`, base/volumen propios, puertos temp
 
 Se ejecuta auditoría nueva de índice e historial antes del commit local; el resultado saneado queda en [adaptacion-secretos.json](evidencias/adaptacion-secretos.json). Comprueba patrones y valores privados locales conocidos y exclusiones; no es certificación absoluta ni OCR de imágenes. Plantillas ficticias permitidas, credenciales reales/DEMO, .env, bases, dumps y volúmenes excluidos. Los datos privados existentes no se borran para hacer pasar la auditoría.
 
-Al terminar se detiene únicamente el proyecto temporal de adaptación, conservando su volumen. No se despliega ni actualiza el stack principal como parte de este ajuste; para revisarlo se puede reconstruir localmente desde esta rama con las instrucciones documentadas.
+Se detuvo únicamente el proyecto temporal de adaptación, conservando su volumen. La orden Compose terminó con código 0; durante esta parada intencional los procesos de desarrollo finalizaron con backend 137, frontend 1 y PostgreSQL 0, sin OOMKilled ni error de Docker. Se registra como comportamiento de cierre local, no como resultado de las pruebas; la terminación gradual de servidores de producción no se evaluó. [Estado final del entorno](evidencias/adaptacion-cierre-entorno.json). No se despliega ni actualiza el stack principal como parte de este ajuste; para revisarlo se puede reconstruir localmente desde esta rama con las instrucciones documentadas.
 
 ## Limitaciones y pruebas no ejecutadas
 
@@ -172,3 +172,4 @@ La lista siguiente incluye código, documentos, pruebas y evidencias de esta ada
 - `frontend/unit/i18n.test.js`
 - `scripts/check_documentation.py`
 - `scripts/verify_adaptation.py`
+- `docs/evidencias/adaptacion-cierre-entorno.json`

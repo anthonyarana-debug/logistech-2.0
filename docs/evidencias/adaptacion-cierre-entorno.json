@@ -1,0 +1,27 @@
+{
+  "timestamp_utc": "2026-10-28T03:25:44.410667+00:00",
+  "action": "Intentional docker compose stop after completed validation; volumes preserved; no down -v",
+  "containers": [
+    {
+      "container": "logistech-language-backend-1",
+      "status": "exited",
+      "exit_code": 137,
+      "oom_killed": false,
+      "error": ""
+    },
+    {
+      "container": "logistech-language-frontend-1",
+      "status": "exited",
+      "exit_code": 1,
+      "oom_killed": false,
+      "error": ""
+    },
+    {
+      "container": "logistech-language-db-1",
+      "status": "exited",
+      "exit_code": 0,
+      "oom_killed": false,
+      "error": ""
+    }
+  ]
+}
