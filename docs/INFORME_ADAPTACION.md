@@ -4,6 +4,10 @@ Fecha: 27 de octubre de 2026, America/Lima. Rama local `codex/documentacion-inte
 
 **Adaptación completada y verificada localmente para revisión.** No se inició F6/F7/F8. No se hizo push, no se cambió visibilidad en GitHub y no se desplegó infraestructura o aplicación externa. El repositorio ya era público, confirmado por consulta anónima; esta adaptación permanece local hasta autorización de publicación. Cloud continúa **PARCIAL**.
 
+## Revisión probatoria para la presentación
+
+El archivo adaptacion-verificacion.json registra cero pruebas para el comando unitario Docker, aunque finaliza con código 0; ese paso no acredita ocho pruebas. La nueva evidencia presentacion/unitarias-frontend-recuperacion.json registra ocho unitarias locales reales con Node 24.19.0 y mocks, sin base ni servicios. No se repitieron pytest, Playwright o Locust. Se conserva el registro original y se corrige la trazabilidad del resultado previamente comunicado. Ver ANEXO_PRUEBAS.md.
+
 ## Alcance entregado
 
 Inglés predeterminado en landing, login, registro, dashboard, navegación, categorías, cajas/detalle, estados/prioridades/roles, formularios, vacíos, confirmaciones, notificaciones, errores, salud y ayudas accesibles. HTML lang/title/description coherentes. Catálogo local frontend de 305 mensajes, interpolaciones y formatos Intl; mensajes/etiquetas API y Admin centralizados, y salida/ayuda inglesa del comando create_demo. Sin API externa ni nuevas dependencias de producción.
@@ -20,7 +24,7 @@ Documentación nueva: [INFORME_ACADEMICO](INFORME_ACADEMICO.md), [MATRIZ_GUIA_PR
 |---|---|
 | Base previa de backend | 156 passed, 15.33 s, imagen original y PostgreSQL real aislado |
 | Regresión backend ampliada | **163 passed in 15.66s**; 156 anteriores + siete pruebas de idioma/contrato/Admin/datos/escape |
-| Unitarias frontend | **8/8**, cinco de sesión conservadas y tres nuevas de idioma/formatos/errores |
+| Unitarias frontend | **8/8 en la recuperación local E19**; el comando Docker original ejecutó cero y no las acredita |
 | E2E Chromium | **10/10**, dos workers, sin retries; 366.32 s; incluye expiración real de access |
 | Inglés por defecto | Navegador es-PE sigue mostrando inglés; lang=en, título, campos, mostrar/ocultar password y salud |
 | Accesibilidad y responsive | Axe sin infracciones detectadas en vistas/reglas probadas; teclado/foco/Escape, movimiento reducido y anchos 320/390/768/1440; CSS zoom 200% |

@@ -1,0 +1,24 @@
+{
+  "timestamp_utc": "2026-10-28T04:19:06.451199+00:00",
+  "path_lookup_exit_code": 1,
+  "binary_found_in_path": false,
+  "standard_paths_checked": {
+    "C:\\Program Files\\k6\\k6.exe": false,
+    "C:\\ProgramData\\chocolatey\\bin\\k6.exe": false,
+    "C:\\Users\\anthony\\AppData\\Local\\Microsoft\\WinGet\\Links\\k6.exe": false
+  },
+  "local_k6_images": [],
+  "project_containers": [
+    "logistech-language-backend-1 Exited (137) 54 minutes ago",
+    "logistech-language-frontend-1 Exited (1) 54 minutes ago",
+    "logistech-language-db-1 Exited (0) 54 minutes ago",
+    "logistech-v2-frontend-1 Exited (255) About an hour ago",
+    "logistech-v2-backend-1 Exited (255) About an hour ago",
+    "logistech-f5-frontend-1 Exited (1) 13 hours ago",
+    "logistech-f5-backend-1 Exited (137) 13 hours ago",
+    "logistech-f5-db-1 Exited (0) 13 hours ago",
+    "logistech-v2-db-1 Exited (255) About an hour ago"
+  ],
+  "k6_load_executed": false,
+  "decision": "No installation, image pull, service start or k6 load run. Preserve valid Locust evidence and prioritize documentation."
+}

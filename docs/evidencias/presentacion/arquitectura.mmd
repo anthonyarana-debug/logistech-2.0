@@ -1,0 +1,14 @@
+flowchart LR
+    Browser[Navegador] --> Frontend[React: páginas / sesión / catálogo inglés]
+    Frontend -->|HTTP local /api/v1/| Core[Core: salud / errores / alcance]
+    Core --> Accounts[Accounts: identidad y permisos]
+    Core --> Catalog[Catalog: categorías y productos]
+    Core --> Boxes[Boxes: cajas y referencias]
+    Accounts --> Organizations[Organizations: empresa y sucursal]
+    Catalog --> Organizations
+    Boxes --> Catalog
+    Boxes --> Organizations
+    Accounts --> DB[(PostgreSQL privado)]
+    Catalog --> DB
+    Boxes --> DB
+    Organizations --> DB

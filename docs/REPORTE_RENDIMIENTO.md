@@ -2,6 +2,10 @@
 
 Fecha: 27/10/2026, America/Lima. Pruebas **exclusivamente locales y controladas**, sin carga a terceros. Locust 2.47.0/gevent 26.9.0 en Python 3.13 aislado en .venv-load; versiones fijadas en load-requirements.txt. Destino permitido por código: solo `http://127.0.0.1:8001` del proyecto Compose logistech-f5, con DB/volumen/red separados del entorno de demostración.
 
+## Evidencia para la presentación
+
+Las métricas de este documento se reutilizan sin nuevas cargas en ANEXO_PRUEBAS.md e INFORME_ACADEMICO.md. Las capturas de presentacion/locust-* muestran los HTML originales abiertos localmente sin red; no son una ejecución adicional. En la semana 9 se propuso Grafana k6, según antecedente del responsable; no se encontró disponible en el entorno inspeccionado y no se ejecutó. Las cargas documentadas son de Locust. Manifiesto de integridad: evidencias/presentacion/manifest-evidencias.json.
+
 ## Método y recursos
 
 Equipo identificado: Windows, AMD Ryzen 9 9950X, 16 núcleos/32 hilos y aproximadamente 15.15 GiB de RAM visible. Docker Linux 29.5.3 informa 32 CPU y 7.33 GiB de memoria. Backend Django runserver con hilos y PostgreSQL 17.11 privado; **no es Gunicorn/HTTPS/cloud**. El generador está en el mismo equipo. La memoria libre del host varió; no se capturó una serie continua de CPU/RAM del generador. Recursos de backend/DB muestreados aproximadamente cada cinco segundos con docker stats, no picos continuos.

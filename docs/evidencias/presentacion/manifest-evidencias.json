@@ -1,0 +1,182 @@
+{
+  "prepared_at_utc": "2026-10-28T04:24:07.609480+00:00",
+  "purpose": "Documentary evidence reuse; no new pytest/Playwright/Locust/k6 run; one missing Node unit receipt captured",
+  "sources": [
+    {
+      "id": "E01",
+      "path": "docs/evidencias/adaptacion-verificacion.json",
+      "bytes": 9229,
+      "sha256": "718bc8dedd553c8a3f353bdfcb80c85ee35a207245d6d00400362050d77af7cf"
+    },
+    {
+      "id": "E02",
+      "path": "docs/evidencias/adaptacion-e2e.json",
+      "bytes": 2067,
+      "sha256": "5adfe8c1aa51bf05b20716da36a9265cc88462f34fb4c578b3aefd3974906026"
+    },
+    {
+      "id": "E03",
+      "path": "docs/evidencias/carga-fase5/a-50-20261027142759_summary.json",
+      "bytes": 2606,
+      "sha256": "463d15879f1dbe729cec3d12ba3b62f2afe9eca4c4694d13c802a207b629b2eb"
+    },
+    {
+      "id": "E04",
+      "path": "docs/evidencias/carga-fase5/b-100-20261027143141_summary.json",
+      "bytes": 2801,
+      "sha256": "4d349a6d2961bd6593495fc6fec3ba350a29e36764afb65024852f0659fe41fa"
+    },
+    {
+      "id": "E05",
+      "path": "docs/evidencias/carga-fase5/resumen-escenarios.csv",
+      "bytes": 649,
+      "sha256": "46685ed9a8455ad174f381bafacdf5eeb7041c15317731844162216ed3c0deea"
+    },
+    {
+      "id": "E06",
+      "path": "docs/evidencias/carga-fase5/a-50-20261027142759.html",
+      "bytes": 968069,
+      "sha256": "e6cd601fe0d8dd3ed7e8e57fc4c31e6f9820bfdb23e41f0174ce64611b864304"
+    },
+    {
+      "id": "E07",
+      "path": "docs/evidencias/carga-fase5/b-100-20261027143141.html",
+      "bytes": 968114,
+      "sha256": "2991cd4d1655c3483607db135fc91a4885630b1aeca8b5a7ecc3b40a73f8f152"
+    },
+    {
+      "id": "E08",
+      "path": "docs/evidencias/carga-fase5/a-50-20261027142759_console.txt",
+      "bytes": 5762,
+      "sha256": "ce0610bb713d571b8cbaf3731b484adafde60c6cb13231b2620f0dd5928b6184"
+    },
+    {
+      "id": "E09",
+      "path": "docs/evidencias/carga-fase5/b-100-20261027143141_console.txt",
+      "bytes": 5766,
+      "sha256": "77b4da8797140aeb28fbf4706c53789c08d383b235f39f41f6cf61e8aadb4b0c"
+    },
+    {
+      "id": "E10",
+      "path": "docs/evidencias/adaptacion-verificacion-inicial.json",
+      "bytes": 10852,
+      "sha256": "08c48beccb91d20193f38f4c906c1be15cf48613eb52bde7f8b936da86647bc3"
+    },
+    {
+      "id": "E11",
+      "path": "docs/evidencias/fase5-e2e-inicial.json",
+      "bytes": 1680,
+      "sha256": "374e49b17886d38f8341b1f7523bbce8ffb1844540d1ed317e5efa16c91804a2"
+    },
+    {
+      "id": "E12",
+      "path": "docs/evidencias/fase5-verificacion.json",
+      "bytes": 28260,
+      "sha256": "62c97d9968882870f055aa354819a581b7cd1385522734b590f813d59e2a0b62"
+    },
+    {
+      "id": "E13",
+      "path": "docs/evidencias/adaptacion-cajas-1440.png",
+      "bytes": 90117,
+      "sha256": "ea0170fbf28734876d07916073d8952d0521eb103496b07325a4e9d29b45c33d"
+    },
+    {
+      "id": "E14",
+      "path": "docs/evidencias/adaptacion-cajas-390.png",
+      "bytes": 57135,
+      "sha256": "fccdfc70ba53b34389d5d31db74043c49049faa97d61777392e211c0fb69c1dd"
+    },
+    {
+      "id": "E15",
+      "path": "docs/evidencias/adaptacion-cajas-css-200.png",
+      "bytes": 321855,
+      "sha256": "de14862fdfbc5b75921fc9ee3be6d3c6b45c81bee8425b48e7922ca3bb4d8866"
+    },
+    {
+      "id": "E16",
+      "path": "docs/evidencias/carga-fase5/a-50-20261027142759_stats.csv",
+      "bytes": 1378,
+      "sha256": "7968afd5fc3c57c93c11378baf45416864114ad112213774c923a3e77b80390a"
+    },
+    {
+      "id": "E17",
+      "path": "docs/evidencias/carga-fase5/b-100-20261027143141_stats.csv",
+      "bytes": 1395,
+      "sha256": "416b0e76dfc10563b990864b7831808a3fc2049e685db8bc968aafe7f25ce45a"
+    },
+    {
+      "id": "E18",
+      "path": "docs/evidencias/carga-fase5/smoke-20261027143711_stats_final.json.json",
+      "bytes": 3041,
+      "sha256": "edca9964ef3176c20343a820d6b45df04b7b0c2f04d715862249c0503d8790ba"
+    },
+    {
+      "id": "E19",
+      "path": "docs/evidencias/presentacion/unitarias-frontend-recuperacion.json",
+      "bytes": 1282,
+      "sha256": "604af6172434f6b483d8760b2fd86cd0982939656d2f0b6ea57c5be035f1da99"
+    },
+    {
+      "id": "E20",
+      "path": "docs/evidencias/presentacion/k6-disponibilidad.json",
+      "bytes": 1103,
+      "sha256": "d34d6810ffa56c1d3f60fd16804d97246424efd58862ec4946eef997d5594ddc"
+    }
+  ],
+  "delivery_verification": {
+    "verified_at_utc": "2026-10-28T04:33:27.524751+00:00",
+    "source_hashes_match": true,
+    "original_sources": 20,
+    "pdf_pages": 29,
+    "tables": 10,
+    "embedded_figures": 10,
+    "final_numbered_conclusions": 5,
+    "visually_reviewed_pages": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29
+    ],
+    "application_code_and_working_database_unchanged": true,
+    "pytest_playwright_locust_reexecuted": false,
+    "k6_executed": false,
+    "new_execution": "8 mocked frontend unit tests only; previous persisted container receipt had zero tests"
+  },
+  "deliverables": [
+    {
+      "path": "output/documents/INFORME_ACADEMICO_FINAL.docx",
+      "bytes": 496026,
+      "sha256": "78a6c73c447b076ee774f18bfc328a9cfab8e0c436243ec0ee1421c1a9a7548f"
+    },
+    {
+      "path": "output/pdf/INFORME_ACADEMICO_FINAL.pdf",
+      "bytes": 636960,
+      "sha256": "70492444f6dab8ec2640c2c3f87c554d236006f145aa0afae02be1267018e49e"
+    }
+  ]
+}

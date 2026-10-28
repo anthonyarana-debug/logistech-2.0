@@ -1,0 +1,15 @@
+{
+  "timestamp_utc": "2026-10-28T04:19:05.616734+00:00",
+  "purpose": "Fill missing persisted evidence: the previous container command recorded zero tests; no repeat of pytest, Playwright or Locust",
+  "runtime": "v24.19.0",
+  "command": [
+    "C:\\Program Files\\nodejs\\node.exe",
+    "--test",
+    "frontend/unit/i18n.test.js",
+    "frontend/unit/session.test.js"
+  ],
+  "exit_code": 0,
+  "stdout": "✔ English is explicit; user data and template interpolation remain literal (2.7181ms)\n✔ English plural forms and numeric/date formatting use centralized locale (199.8609ms)\n✔ English safe errors preserve the legacy API error contract (0.7971ms)\n✔ restauración deduplicada; CSRF y access solo en cabecera (76.299ms)\n✔ dos 401 simultáneos comparten refresh; se reintenta una vez (4.2983ms)\n✔ refresh rechazado: termina sesión, sin bucle ni datos sensibles (5.4203ms)\n✔ logout concurrente a refresh: no resucita la identidad (1.944ms)\n✔ fallo de logout: conserva estado de error; 500 y 429 tienen mensajes seguros (1.4781ms)\nℹ tests 8\nℹ suites 0\nℹ pass 8\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 315.2775\n",
+  "stderr": "",
+  "scope": "Local mocked Node unit tests; no database or services started"
+}

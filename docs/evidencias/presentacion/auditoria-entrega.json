@@ -1,0 +1,7 @@
+{
+  "verified_at_utc": "2026-10-28T04:33:27.969971+00:00",
+  "scope": "Explicit delivery paths plus extracted DOCX XML and PDF text; private values compared in memory only",
+  "files_checked": 38,
+  "findings": [],
+  "limits": "Known patterns and local values, not absolute certification; figures reviewed visually."
+}

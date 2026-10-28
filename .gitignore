@@ -55,3 +55,6 @@ pgdata/
 .venv-*/
 .idea/
 *.bundle
+
+# Vistas de revisión documental, no forman parte de la entrega.
+output/qa/
