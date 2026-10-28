@@ -2,9 +2,33 @@
 
 Repositorio público: [anthonyarana-debug/logistech-2.0](https://github.com/anthonyarana-debug/logistech-2.0), main predeterminada y F0–F5 publicados. Ver [publicación verificada](docs/PUBLICACION_GITHUB.md), [auditoría previa](docs/AUDITORIA_GITHUB.md) e [instrucciones para otra computadora](docs/NUEVA_COMPUTADORA.md). Las credenciales, bases y volúmenes locales se recrean o transfieren por un canal privado separado, nunca por Git. GitHub aloja el código; la aplicación no se desplegó en cloud.
 
-Adaptación local aprobada: aplicación en inglés por defecto y documentación académica consolidada. Ver [INFORME_ACADEMICO](docs/INFORME_ACADEMICO.md), [matriz de la guía](docs/MATRIZ_GUIA_PROFESOR.md), [API interna](docs/API_INTERNA.md), [internacionalización](docs/INTERNACIONALIZACION.md) y [cierre de adaptación](docs/INFORME_ADAPTACION.md). Estos cambios permanecen en la rama local `codex/documentacion-internacionalizacion` hasta revisión; no se ha hecho push de esta adaptación.
+Adaptación local aprobada: aplicación en inglés por defecto y documentación académica consolidada. Ver [INFORME_ACADEMICO](docs/INFORME_ACADEMICO.md), [matriz de la guía](docs/MATRIZ_GUIA_PROFESOR.md), [API interna](docs/API_INTERNA.md), [internacionalización](docs/INTERNACIONALIZACION.md) y [cierre de adaptación](docs/INFORME_ADAPTACION.md). Estos cambios se conservaron en `codex/documentacion-internacionalizacion` y forman parte de la base de `codex/fase-6-administracion`; todavía no se han publicado en GitHub.
 
-Proyecto académico de Desarrollo de Soluciones en la Nube — TECSUP. **Fase 5: validación local aprobada, entrega global PARCIAL por cloud.** Industrial Precision, React, autenticación y CRUD sobre PostgreSQL. 156 pruebas backend, 5 JS y 9 E2E; Locust 50/100 con resultados reales. Sin despliegue externo. F6–F8 requieren nueva autorización.
+Origen académico: Desarrollo de Soluciones en la Nube — TECSUP. La evolución funcional continúa con **F6, bloque 1: administración operativa**, autorizada el 28 de octubre de 2026. Reutiliza Django/DRF, React, PostgreSQL e Industrial Precision; los informes académicos y evidencias F0–F5 permanecen históricos. Cloud continúa parcial, sin despliegue externo.
+
+## Desarrollo F6
+
+Rama `codex/fase-6-administracion`, basada en la internacionalización y documentación
+locales, sin modificar `main`. [Alcance y evolución](docs/PLAN_FASE_6.md),
+[contrato REST](docs/ENDPOINTS.md) y [cierre con resultados reales](docs/INFORME_FASE_6.md).
+Empresas para SUPERADMIN; sucursales, productos y categorías por empresa; cuentas y
+asignaciones autorizadas; paneles con recuentos reales por rol. Recepción, movimientos,
+stock, escaneo y analítica histórica siguen pendientes.
+
+Validación aislada (no reutilizar el proyecto/volumen de trabajo):
+
+```powershell
+docker compose -p logistech-f6 -f docker-compose.yml -f compose.validation.yml build
+docker compose -p logistech-f6 -f docker-compose.yml -f compose.validation.yml up -d --wait db
+docker compose -p logistech-f6 -f docker-compose.yml -f compose.validation.yml run --rm --no-deps backend python manage.py migrate --noinput
+docker compose -p logistech-f6 -f docker-compose.yml -f compose.validation.yml up -d --wait
+python scripts/verify_f6.py
+```
+
+Web de validación: `http://127.0.0.1:5174/`, API loopback 8001 y PostgreSQL privado.
+La base principal no se migra automáticamente. Ver [pruebas](docs/PRUEBAS.md)
+y [ruta cloud sin aprovisionamiento](docs/CLOUD_FASE_6.md). `docker compose ... stop`
+conserva los datos; nunca usar `down -v` como rutina.
 
 Documentación de evaluación: [INFORME_FASE_5](docs/INFORME_FASE_5.md), [CHECKLIST_SEMANA_11](docs/CHECKLIST_SEMANA_11.md), [GUIA_DEMOSTRACION](docs/GUIA_DEMOSTRACION.md), [REPORTE_RENDIMIENTO](docs/REPORTE_RENDIMIENTO.md) y [DESPLIEGUE](docs/DESPLIEGUE.md).
 

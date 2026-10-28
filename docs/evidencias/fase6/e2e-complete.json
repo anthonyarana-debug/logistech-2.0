@@ -1,0 +1,160 @@
+{
+  "source": "Playwright JSON report; credentials, attachments and error contexts excluded",
+  "config": {
+    "workers": 1,
+    "retries": 0
+  },
+  "stats": {
+    "startTime": "2026-10-28T10:41:59.356Z",
+    "duration": 375664.399,
+    "expected": 13,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "tests": [
+    {
+      "title": "accesibilidad automática, ampliación CSS 200%, vacío, 403 y 500",
+      "file": "accessibility.spec.js",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration_ms": 5357
+        }
+      ]
+    },
+    {
+      "title": "landing, responsive, teclado, movimiento reducido y rutas públicas",
+      "file": "flows.spec.js",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration_ms": 750
+        }
+      ]
+    },
+    {
+      "title": "registro real y validación de confirmación; login incorrecto",
+      "file": "flows.spec.js",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration_ms": 752
+        }
+      ]
+    },
+    {
+      "title": "administrador: CRUD, integridad, filtros, sesión y responsive operacional",
+      "file": "flows.spec.js",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration_ms": 5242
+        }
+      ]
+    },
+    {
+      "title": "operador asignado: lectura de categorías y caja autorizada",
+      "file": "flows.spec.js",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration_ms": 889
+        }
+      ]
+    },
+    {
+      "title": "operador pendiente: sin consultas de inventario privado",
+      "file": "flows.spec.js",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration_ms": 437
+        }
+      ]
+    },
+    {
+      "title": "superadmin: ámbito, referencias legibles y menú móvil",
+      "file": "flows.spec.js",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration_ms": 49240
+        }
+      ]
+    },
+    {
+      "title": "fallo de red simulado: error de servicio seguro y recuperable",
+      "file": "flows.spec.js",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration_ms": 241
+        }
+      ]
+    },
+    {
+      "title": "English remains the default with Spanish browser preferences",
+      "file": "language.spec.js",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration_ms": 416
+        }
+      ]
+    },
+    {
+      "title": "superadmin creates an enterprise and assigns a real administrative account",
+      "file": "operations.spec.js",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration_ms": 5896
+        }
+      ]
+    },
+    {
+      "title": "company admin manages branch, category, product and operator in its scope",
+      "file": "operations.spec.js",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration_ms": 2199
+        }
+      ]
+    },
+    {
+      "title": "operator has a real role dashboard and read-only catalogue without user directory",
+      "file": "operations.spec.js",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration_ms": 1647
+        }
+      ]
+    },
+    {
+      "title": "access expira realmente a cinco minutos: renovación única y pérdida de refresh",
+      "file": "session.spec.js",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration_ms": 301743
+        }
+      ]
+    }
+  ]
+}

@@ -1,4 +1,12 @@
-# Base de datos — Fases 2 y 3
+# Base de datos — esquema vigente F6
+
+## Ampliación vigente F6
+
+Migraciones aditivas: accounts/0002 añade User.branch nullable con FK PROTECT y CHECK branch requiere company; organizations/0002 añade CHECK ACTIVE/INACTIVE para Company/Branch; catalog/0002 añade CHECK ACTIVE/INACTIVE para Product. Las 0001, los UUID, internal_id y qr_code existentes se conservan. Diagrama editable actualizado; SVG/PNG fase5 permanecen evidencia histórica.
+
+Aplicadas únicamente a PostgreSQL aislado logistech-f6. Una prueba transaccional migra datos históricos 0001 al esquema actual y comprueba preservación de usuario, caja, cantidades, identificadores y referencias. Antes de migrar otra base: backup/restauración verificados y revisión de estados/relaciones; los CHECK deben fallar ante datos inválidos, no borrarlos automáticamente. User.branch es asignación organizativa, no nuevo límite de autorización de inventario.
+
+Permanece la limitación de FKs simples: igualdad de empresa entre tablas se valida en modelos y servicios REST con bloqueos; no hay RLS ni triggers de aislamiento. No utilizar bulk/SQL para saltar estas validaciones.
 
 Fecha: 2026-10-27. PostgreSQL 17.11 real, psycopg 3.3.6 y Django ORM. Sin SQLite. Diagrama actual editable: [MODELO_DATOS.mmd](MODELO_DATOS.mmd). La ampliación de F6 queda separada en [MODELO_FUTURO.mmd](MODELO_FUTURO.mmd).
 

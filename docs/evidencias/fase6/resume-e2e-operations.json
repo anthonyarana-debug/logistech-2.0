@@ -1,0 +1,50 @@
+{
+  "source": "Playwright JSON report; credentials, attachments and error contexts excluded",
+  "config": {
+    "workers": 1,
+    "retries": 0
+  },
+  "stats": {
+    "startTime": "2026-10-28T10:38:45.599Z",
+    "duration": 5340.112,
+    "expected": 3,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "tests": [
+    {
+      "title": "superadmin creates an enterprise and assigns a real administrative account",
+      "file": "operations.spec.js",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration_ms": 1559
+        }
+      ]
+    },
+    {
+      "title": "company admin manages branch, category, product and operator in its scope",
+      "file": "operations.spec.js",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration_ms": 2271
+        }
+      ]
+    },
+    {
+      "title": "operator has a real role dashboard and read-only catalogue without user directory",
+      "file": "operations.spec.js",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration_ms": 559
+        }
+      ]
+    }
+  ]
+}

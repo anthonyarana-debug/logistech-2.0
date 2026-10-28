@@ -1,8 +1,9 @@
-%% Esquema de negocio implementado en F2 y contrastado con 0001_initial.
+%% Esquema de negocio actualizado en F6: 0001 conservadas y User.branch agregado en 0002.
 %% Se omiten tablas de framework (Django auth, sesiones, Admin y blacklist); ver BASE_DE_DATOS.md.
 %% UNIQUE por empresa y CHECK se detallan en modelos/migraciones/documentación.
 erDiagram
     COMPANY o|--o{ USER : asignacion_opcional
+    BRANCH o|--o{ USER : asignacion_organizativa_opcional
     COMPANY ||--o{ BRANCH : posee
     COMPANY ||--o{ CATEGORY : clasifica
     COMPANY ||--o{ PRODUCT : posee
@@ -25,6 +26,7 @@ erDiagram
         string last_name
         string role
         uuid company_id FK "Nullable"
+        uuid branch_id FK "Nullable, misma empresa"
         boolean is_active
         boolean is_staff
         boolean is_superuser

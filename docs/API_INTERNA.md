@@ -1,5 +1,17 @@
 # Referencia de API interna para mantenimiento
 
+## Ampliación F6
+
+- accounts.operations: UserAdministration, UserAdministrationSerializer, UserViewSet; asignación y desactivación con filas bloqueadas. Sin DELETE ni reset de contraseña.
+- organizations.serializers/views: CompanySerializer/CompanyViewSet (global), BranchSerializer/BranchViewSet (tenant).
+- catalog.serializers/views: ProductSerializer/ProductViewSet, queryset y categoría limitados por empresa.
+- core.operational_serializers: validación estricta de payload; core.operations_messages: mensajes ingleses centralizados.
+- core.overview: recuentos reales según rol y company; sin métricas históricas inventadas.
+- frontend/services/operations.js: política de presentación canAdminister/canEditUser/dashboardKey; la autorización efectiva permanece en API.
+- frontend/pages/Administration.jsx: formularios y tablas Companies/Branches/Products/Users conectados a servicios reales. AppShell limita navegación y remonta Outlet al cambiar empresa.
+
+Contratos públicos, filtros y códigos: ENDPOINTS.md. User.branch nullable es aditivo; campos y rutas anteriores se conservan.
+
 Esta referencia complementa [ENDPOINTS](ENDPOINTS.md), que define el contrato REST. Expone las interfaces relevantes existentes; no declara módulos futuros implementados. Los tipos son descriptivos de Python/JavaScript, sin introducir TypeScript ni cambiar firmas públicas.
 
 ## Backend: identidad y sesión

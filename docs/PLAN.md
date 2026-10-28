@@ -1,5 +1,9 @@
 # Plan de desarrollo y validación
 
+## Actualización de autorización F6
+
+F6 bloque 1 está autorizado e implementado en codex/fase-6-administracion; ver PLAN_FASE_6.md e INFORME_FASE_6.md. La planificación original F6–F8 al final de este documento es histórica: ya no implica falta de autorización para este primer bloque. F7/F8 no se iniciaron.
+
 Plan original: 2026-10-26. Actualización: 2026-10-27. FASE 5 autorizada: validación local ejecutada, 156/5/9 pruebas y escenarios Locust 50/100 aprobados en su alcance delimitado. Entrega global PARCIAL por cloud: arquitectura/artefacto preparados parcialmente, sin despliegue ni verificación externa. Ver INFORME_FASE_5.md y CHECKLIST_SEMANA_11.md. **F6–F8 no iniciadas; se espera revisión y nueva autorización.**
 
 ## Adaptación de idioma y documentación autorizada

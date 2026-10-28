@@ -1,8 +1,32 @@
-# Contrato REST implementado — validado en Fase 5
+# Contrato REST vigente — F6 bloque 1
+
+## Administración operativa F6 (contrato vigente)
+
+Base `/api/v1/`; Bearer JWT, CSRF en auth con cookies, errores humanos en inglés y claves JSON heredadas conservadas. Listas devuelven arrays; todavía sin paginación. Campos UUID; fechas e identificadores son de solo lectura. Límite privado compartido: 120/min por usuario; `Cache-Control: no-store`. Sin nuevos endpoints públicos.
+
+| Colección / detalle UUID | Métodos | Permisos | Filtros de colección |
+|---|---|---|---|
+| `companies/`, `companies/{id}/` | GET/POST; GET/PUT/PATCH/DELETE | Solo SUPERADMIN global válido | search (name), status ACTIVE/INACTIVE |
+| `branches/`, `branches/{id}/` | GET/POST; GET/PUT/PATCH/DELETE | Lectura asignados; escritura SUPERADMIN/COMPANY_ADMIN | company, status, search (name/address) |
+| `products/`, `products/{id}/` | GET/POST; GET/PUT/PATCH/DELETE | Lectura asignados; escritura SUPERADMIN/COMPANY_ADMIN | company, category, status, search (name/sku/description) |
+| `users/`, `users/{id}/` | GET/POST; GET/PUT/PATCH; DELETE 405 | SUPERADMIN y COMPANY_ADMIN según reglas siguientes | company, branch, role, is_active=true/false, search (email/nombres) |
+| `overview/` | GET | Cuenta con acceso empresarial o SUPERADMIN | company opcional |
+
+Los filtros desconocidos/repetidos, UUID/choices inválidos o filtros en detalle producen 400; búsqueda de 1–100 caracteres. company ajena produce 403 para no globales; detalle ajeno 404. branch/category ajenos no amplían el queryset: listas vacías o referencia de escritura 400 sin revelar recursos. Sin empresa o empresa inactiva: 403. Anónimo: 401; exceso: 429; error inesperado: 500 genérico.
+
+Escrituras: empresa `{name,status}`; sucursal `{name,address,status,company}`; producto `{name,sku,description,status,category,company}`. `company` solo se admite en POST global, se impone para administradores y nunca se transfiere catálogo mediante PATCH/PUT. SKU se normaliza a mayúsculas; categoría debe pertenecer a la misma empresa. Duplicados por empresa y borrados con dependencias: 409; recurso libre borrado: 204. POST: 201; lectura/actualización: 200. Estados inválidos: 400 y CHECK PostgreSQL.
+
+Cuenta: `{email,first_name,last_name,role,company,branch,is_active,password}`. SUPERADMIN crea/edita OPERATOR/COMPANY_ADMIN; COMPANY_ADMIN crea/edita únicamente operadores propios y no puede enviar company/role, ni siquiera iguales. Sin asignación no se permite reclamar cuentas. Nunca se admiten is_staff/is_superuser/groups/user_permissions. SUPERADMIN, staff y el propio actor son destinos protegidos (403). Nadie obtiene SUPERADMIN mediante esta API. Contraseña obligatoria en creación, validada y nunca devuelta; actualización de password rechazada (400), pendiente flujo específico de revocación. DELETE siempre 405. Desactivación usa PATCH `{is_active:false}` y bloquea access/refresh al comprobar cuenta actual.
+
+branch es nullable, debe pertenecer a company y estar activa para nuevas asignaciones. Se puede conservar una asignación inactiva al desactivar una cuenta. No puede asignarse a una empresa inactiva ni cambiar a sucursal inactiva. No representa un permiso de inventario restringido por sucursal: se conserva el ámbito empresarial F3.
+
+overview devuelve recuentos actuales de branches/products/categories/boxes; users solo para administradores; companies solo global. Sin company global cuenta todas las empresas. No expone stock, series temporales ni movimientos. Identidad `/auth/me/` añade branch `{id,name}` o null sin modificar campos previos.
+
+Evidencias y limitaciones: [INFORME_FASE_6](INFORME_FASE_6.md). Las secciones F2–F5 siguientes conservan contratos y resultados históricos, no sustituyen esta ampliación.
 
 F5 no añade rutas de negocio. Regresión backend 156 casos, 9 E2E y carga API local 50/100, con evidencia en INFORME_FASE_5.md. Los códigos positivos/negativos y permisos siguientes conservan su contrato. Cloud/HTTPS externos sin verificar; no extrapolar los resultados locales.
 
-Base: `/api/v1/`. Español para mensajes; campos del código en inglés. Desarrollo local: frontend 127.0.0.1:5173 con proxy y API 127.0.0.1:8000. Autenticación F2 y CRUD F3 conservados; frontend conectado en F4.
+Base: `/api/v1/`. Inglés para mensajes tras la adaptación; campos del código en inglés. Desarrollo local: frontend 127.0.0.1:5173 con proxy y API 127.0.0.1:8000. Autenticación F2 y CRUD F3 conservados; frontend conectado en F4.
 
 ## Idioma y compatibilidad tras la adaptación
 

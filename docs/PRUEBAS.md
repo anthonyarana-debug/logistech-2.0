@@ -1,5 +1,25 @@
 # Comprobaciones — historial y cierre Fase 5
 
+## Verificación F6 — entorno aislado
+
+Resultados finales comprobables: INFORME_FASE_6.md y evidencias/fase6/checks.json, e2e-complete.json. scripts/verify_f6.py ejecuta check, migrate --check, makemigrations --check --dry-run, introspección PostgreSQL, pytest completo, Ruff, pip check y test:unit/lint/build dentro de contenedores logistech-f6. La salida de unitarias debe descubrir casos (>0); se corrigió .dockerignore para incluir unit/.
+
+E2E usa HTTP real y PostgreSQL separado, 1 worker y 0 retries; incluye flujos anteriores, administración, axe, anchos 320/390/768/1440 e inglés con navegador español. Caducidad de access se espera cinco minutos reales. Los límites siguen activos; los tests esperan Retry-After en vez de cambiar cuotas.
+
+Desde frontend/, con servicios aislados saludables:
+
+```powershell
+$env:PW_BASE_URL='http://127.0.0.1:5174'
+$env:PW_DEMO_FILE=(Resolve-Path ../.env.f6-demo.json).Path
+$env:PW_REPORT='../output/qa/f6/e2e-complete.json'
+$env:PW_EVIDENCE_PREFIX='fase6'
+node node_modules/@playwright/test/cli.js test --workers=1
+```
+
+Credenciales aleatorias de create_demo se preparan privadamente en la base aislada; nunca copiar passwords a documentación ni subir el JSON. Reporte bruto y contextos de error son privados/ignorados; se conservan resúmenes saneados. E2E crea registros identificados de prueba solamente en logistech-f6. No se migra ni altera la base de trabajo.
+
+No se repite Locust ni se atribuyen métricas F5 a los nuevos endpoints. No hay ejecución k6 adicional. Las pruebas y resultados siguientes son históricos.
+
 ## Adaptación posterior a F5 — idioma y consolidación documental
 
 Nueva base previa: 156 backend aprobadas en 15.33 s sobre PostgreSQL real, antes de cambiar backend. Regresión de adaptación: 163 backend (156 anteriores + siete nuevas), ocho unitarias JS y diez E2E Chromium (nueve anteriores + idioma predeterminado con navegador es-PE); resultado/cifras finales en INFORME_ADAPTACION.md y evidencias/adaptacion-verificacion.json. E2E sin retries, incluida expiración real; no se desactivan límites, CSRF o permisos. Axe y responsive 320/390/768/1440, foco/teclado/Escape y CSS zoom 200% incluidos.

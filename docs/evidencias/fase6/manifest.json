@@ -1,0 +1,106 @@
+{
+  "code_commit": "a0c5288",
+  "scope": "Real isolated F6 execution; test data only; no deployment",
+  "files": [
+    {
+      "file": "admin-branches-1440.png",
+      "bytes": 97400,
+      "sha256": "95d9afea83448dd4955f03262e24bbf5e3063a74eb121c520ebbf2f7d1b4e218"
+    },
+    {
+      "file": "admin-products-1440.png",
+      "bytes": 92417,
+      "sha256": "19741211c02c382239073dc8d635eeedda3a3fbab792cd1ea8907133c6e96820"
+    },
+    {
+      "file": "admin-users-1440.png",
+      "bytes": 106716,
+      "sha256": "d1fa0bcbd3a3b3c780a11545e9d412dd1f913d0b55466fafe932a37283d32d4e"
+    },
+    {
+      "file": "admin-users-390.png",
+      "bytes": 60394,
+      "sha256": "9d027b6c69d493e93f9dae1932f8dc4d75ce750cc5cd3a9f8dd4e7705d6a8202"
+    },
+    {
+      "file": "checks-pre-resume.json",
+      "bytes": 10282,
+      "sha256": "b76a9350bdf6d3fb3850ae13d0bc3b18fe76b1a8988801e624b6e2557122e646"
+    },
+    {
+      "file": "checks.json",
+      "bytes": 10372,
+      "sha256": "369b237333a6e92a294a55a4f2ea1295564e1d2c4c97a3147c3836c6f1f7d3a5"
+    },
+    {
+      "file": "e2e-complete.json",
+      "bytes": 3959,
+      "sha256": "c617352abbe6b4b2148b1cf9ab1d852b59406c46bcac48d0e6df0526b53effb6"
+    },
+    {
+      "file": "e2e-operations-initial.json",
+      "bytes": 1222,
+      "sha256": "932f6cf8697ad874c30f21b599737782c9964e94e2f227a7827a0e65df40bd45"
+    },
+    {
+      "file": "fase6-cajas-1440.png",
+      "bytes": 92777,
+      "sha256": "207202d11b834f204abf65952fff1a3bee61b742707aebf8efe4b92584b6f0ca"
+    },
+    {
+      "file": "fase6-cajas-320.png",
+      "bytes": 55141,
+      "sha256": "eafa624bfd49c08b104557a7f590cf13d9e99ddc3b31e41d54ee845d9b91bea7"
+    },
+    {
+      "file": "fase6-cajas-390.png",
+      "bytes": 56211,
+      "sha256": "93b99f12caa6657f6f0a2b61554473f4cd2cc35265c1a5ebc9b6914dba782e29"
+    },
+    {
+      "file": "fase6-cajas-768.png",
+      "bytes": 67226,
+      "sha256": "6e9551dd5c79ad8dc7a9b19bfeaa6e725939bb07aa5c4753cc23cd36f4f162f4"
+    },
+    {
+      "file": "fase6-cajas-css-200.png",
+      "bytes": 329667,
+      "sha256": "44f118368c756a14100bd997258e370f14b91a311e06bfec91e843d568f0c4ef"
+    },
+    {
+      "file": "fase6-landing-1440.png",
+      "bytes": 231943,
+      "sha256": "6f179661f17be5bd315cdf63fa12c3bff70b4da5bc936f5647359535c82c7bd4"
+    },
+    {
+      "file": "fase6-landing-320.png",
+      "bytes": 174520,
+      "sha256": "022706e978a417b9ee7a50efd74262506708207a2383e27bc603e807512e8d78"
+    },
+    {
+      "file": "fase6-landing-390.png",
+      "bytes": 179904,
+      "sha256": "ffbd5c2f9b3342c69924ed1bb22a38ecd4cda797eae59b8a3b26e9a38e4971d4"
+    },
+    {
+      "file": "fase6-landing-768.png",
+      "bytes": 205794,
+      "sha256": "c2a7a92f5e55eee01322d2e2db320e78b54d6c9cf5b202f7c210299ad6f10887"
+    },
+    {
+      "file": "operator-dashboard-1440.png",
+      "bytes": 136865,
+      "sha256": "d135192076eb8b3c7301ea0d8dcbc68781ddcb9766e1731b2dffce85f32ae41e"
+    },
+    {
+      "file": "resume-e2e-operations.json",
+      "bytes": 1214,
+      "sha256": "c7bc5266efd6d4233510a6c1288b506b98a6d60773414f1dec7d0fb39696d070"
+    },
+    {
+      "file": "root-companies-1440.png",
+      "bytes": 84218,
+      "sha256": "c0e9ee86441eb3c629180f5e16aa4313714ef6f69e8084067981883209eaddbb"
+    }
+  ]
+}

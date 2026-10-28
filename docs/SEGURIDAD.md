@@ -1,5 +1,11 @@
 # Seguridad — validación de Fase 5
 
+## Revisión F6: administración operativa
+
+Se mantienen JWT/CSRF/throttling y errores seguros. Nuevos CRUD comparten TenantViewSet: ámbito antes de filtros, actor actualizado bajo bloqueo y escrituras atómicas. COMPANY_ADMIN solo administra operadores propios, no role/company; SUPERADMIN y actor propio protegidos; claves de privilegio desconocidas rechazadas. Usuarios no se borran; desactivación impide access/refresh. Restablecer password no está habilitado por PATCH: requiere diseño de revocación de sesiones.
+
+Referencias company/category/branch verificadas en servidor, unicidad y CHECK PostgreSQL mantenidos. No hay nuevo puerto de DB: validación usa volumen separado, backend/frontend solo loopback 8001/5174. `.env.f6-demo.json`, tokens y resultados sin sanear permanecen ignorados. Credenciales sintéticas creadas solo en base aislada. No se modifica Android ni se despliega cloud. Auditoría de índice e historial en evidencias/fase6/secret-audit.json; alcance por patrones, sin certificación absoluta. LocMem sigue siendo límite de producción pendiente: contadores compartidos antes de múltiples procesos.
+
 F5: regresión completa sobre PostgreSQL, 156 casos backend y 5 de sesión JS; 9 E2E aislados. Aislamiento/CSRF/roles/hash/constraints siguen activos. Primera regresión E2E obtuvo tres fallos por 429 de refresh tras ejecuciones acumuladas: se conserva en fase5-e2e-inicial.json. Se preparó entorno de validación con DB/caché separadas, sin reducir límites; fase5-e2e-final.json aprobó nueve casos. No se reinició el entorno de demostración para fingir recuperación de la ventana.
 
 Producción añade PostgreSQL TLS verify-full, CA externo opcional/configurable, orígenes CSRF HTTPS explícitos y proxy TLS confiable opt-in. Cinco tests nuevos comprueban políticas y rechazo de opciones inseguras. El artefacto Gunicorn se verificó solo localmente; readiness 503 sin TLS de la DB local es esperado. Cloud, certificados/proxy real, restore y limitación compartida permanecen sin verificar, con dos advertencias HSTS no silenciadas.

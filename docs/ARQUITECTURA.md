@@ -1,8 +1,37 @@
 # Arquitectura vigente — LogisTech 2.0
 
-Estado actualizado el 2026-10-27: F1–F4 implementadas y validadas localmente en F5; frontend Industrial Precision conectado, 156 pruebas backend, 5 JS y 9 E2E aprobados. Carga local 50/100 usuarios registrada. Gunicorn/Linux preparado y comprobado en contenedor efímero; no hay cloud desplegado/verificado. Ver INFORME_FASE_5.md y CHECKLIST_SEMANA_11.md: entrega global PARCIAL por cloud. F6–F8 no iniciadas.
+Estado actualizado el 2026-10-28: F6 bloque 1 añade administración operativa al núcleo
+F0–F5 y su adaptación inglesa. El monolito modular y PostgreSQL compartido se
+conservan. Ver [PLAN_FASE_6](PLAN_FASE_6.md) e [INFORME_FASE_6](INFORME_FASE_6.md).
+La carga Locust 50/100 pertenece a F5; no mide automáticamente las APIs nuevas.
+Cloud continúa parcial, sin despliegue; F7/F8 no iniciadas.
 
-Presentación vigente: inglés predeterminado, catálogos locales, sin API de traducción externa. Contratos/datos/modelos/migraciones estables; [INTERNACIONALIZACION](INTERNACIONALIZACION.md). Los ADR finales de este documento conservan contexto de propuesta inicial; las decisiones vigentes están en DECISIONES_TECNICAS. La estructura y el estado de F5 se precisan aquí.
+Presentación vigente: inglés predeterminado, catálogos locales, sin API externa de
+traducción. Los contratos anteriores conservan rutas, campos y enums. F6 añade
+endpoints y `User.branch` opcional mediante migración aditiva, sin reescribir las
+migraciones anteriores. Los ADR finales conservan contexto de propuesta inicial;
+decisiones vigentes en DECISIONES_TECNICAS y el apartado F6 siguiente.
+
+## Administración operativa F6
+
+`organizations/views.py` administra Company y Branch; `catalog/views.py` reutiliza
+Category y añade Product; `accounts/operations.py` administra cuentas con su política
+propia. Se reutilizan TenantViewSet, permisos actuales, campos estrictos, throttles,
+errores seguros y transacciones. Se relee el actor bajo bloqueo antes de escribir;
+se bloquean empresa y referencias al persistir. El cliente no impone permisos Django.
+
+`User.branch` es una asignación organizativa única opcional con PROTECT. No impone
+un filtro nuevo por sucursal a las cajas: el alcance continúa siendo la empresa.
+Solo el superadmin mueve cuentas entre empresas; la sucursal debe ser coherente y
+el creador histórico de una caja permanece. SUPERADMIN y cambios sobre la propia
+cuenta quedan fuera de la API de administración operativa; su mantenimiento usa
+el procedimiento restringido existente. No hay DELETE de cuentas ni reset de contraseña
+por esta API, que necesitaría revocación de sesiones y un flujo separado.
+
+`/overview/` obtiene recuentos SQL reales según rol y empresa. React reutiliza los
+componentes de formulario, tabla, modal y errores; `Administration.jsx` agrega cuatro
+vistas con navegación y acciones por rol. El servidor aplica la autorización final.
+El cambio de contexto remonta el contenido y descarta formularios de otro ámbito.
 
 ## Componentes y límites
 

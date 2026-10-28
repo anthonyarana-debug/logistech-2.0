@@ -1,5 +1,19 @@
 # Matriz de requisitos y evidencias
 
+## Estado funcional F6 — bloque 1
+
+| Entregable | Resultado local | Evidencia |
+|---|---|---|
+| Empresas, sucursales, productos y usuarios | REST y pantallas reales; categorías/cajas previas conservadas | operations.spec.js, test_operations.py |
+| Permisos y aislamiento | Dos empresas, campos protegidos, roles, desactivación y referencias negativas | Suite PostgreSQL; ENDPOINTS.md |
+| Migraciones seguras | Tres 0002 aditivas; actualización desde 0001 con datos históricos | test_f6_migrations.py |
+| Paneles por rol e idioma | Recuentos reales; inglés predeterminado; responsive/axe | E2E y unitarias de catálogo |
+| Integración y verificación | Resultados finales y archivos en INFORME_FASE_6.md | evidencias/fase6/ |
+| QR/recepción/movimientos/stock/auditoría/Android | Diseñados como siguientes bloques, no implementados | PLAN_FASE_6.md |
+| Cloud | Preparación parcial, sin despliegue | CLOUD_FASE_6.md |
+
+Las matrices académicas y validaciones F0–F5 que siguen permanecen históricas. La autorización funcional F6 supera el alcance del 25 %, sin declarar terminados F7/F8.
+
 Actualización FASE 5 (2026-10-27): **12 requisitos completados localmente y 1 parcial (cloud)**. Validación local aprobada, entrega global PARCIAL si se exige cloud activo; no hay despliegue externo verificado. Código/prueba/resultado/evidencia/pendiente individual en CHECKLIST_SEMANA_11.md. 156 backend + 5 JS + 9 E2E; carga API 50/100 con límites explícitos. Zoom nativo/lector/tacto físico pendientes humanos. F6–F8 no iniciadas.
 
 Adaptación posterior: [matriz de la guía del profesor](MATRIZ_GUIA_PROFESOR.md), [informe académico](INFORME_ACADEMICO.md) y [cierre del ajuste](INFORME_ADAPTACION.md). Sin nuevas funciones F6–F8; cloud continúa parcial.

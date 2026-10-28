@@ -1,5 +1,9 @@
 # Decisiones técnicas
 
+## Decisiones vigentes F6
+
+Reutilizar Company/Branch/Product/User sin duplicar entidades. User.branch nullable y PROTECT mediante 0002: asignación organizativa, no ACL por sucursal. Mantener estados REGISTERED/RECEIVED/REJECTED y semántica F3 hasta diseñar recepción transaccional. No borrar usuarios ni exponer reset password sin revocación específica. No autorizar root/self vía REST. Mantener arrays y contratos F3; paginación y límites distribuidos se prepararán antes de escalar. Paneles muestran conteos actuales, nunca stock ni historial ficticio. Cloud separado de implementación local; requiere autorización y validación de costes.
+
 ## ADR-012 — Inglés predeterminado y consolidación documental
 
 Adaptación aprobada después de F5. Catálogo frontend local e inglés explícito; mensajes/etiquetas backend centralizados y defaults Django en inglés. Se conserva contrato legado español en claves/valores de protocolo, sin traducir datos de usuarios ni modelos/migraciones. Admin adapta presentación mediante copias/contextos/formularios y filtros de etiquetas, preservando seguridad/escape. Español completo opcional no habilitado; no API externa ni nuevas dependencias. Informe académico en español, cinco conclusiones finales; cloud parcial. Rama local hasta revisión, sin push ni F6–F8.

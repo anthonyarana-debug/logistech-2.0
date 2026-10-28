@@ -1,4 +1,21 @@
-# Roles y permisos — Fase 3
+# Roles y permisos — F6 bloque 1
+
+## Ampliación vigente F6 — administración operativa
+
+| Recurso | SUPERADMIN | COMPANY_ADMIN | OPERATOR asignado |
+|---|---|---|---|
+| Empresas | CRUD global; referencias PROTECT | Sin acceso al directorio | Sin acceso |
+| Sucursales/productos/categorías | CRUD global con empresa explícita al crear | CRUD en empresa propia | Lectura en empresa propia |
+| Usuarios | Crear/editar OPERATOR y COMPANY_ADMIN; asignar empresa/sucursal | Crear/editar solo OPERATOR propio; sin enviar role/company | Sin directorio ni escritura |
+| Cuentas protegidas | Sin editarse a sí mismo ni SUPERADMIN/staff por REST | Sin editarse a sí mismo, otros administradores, root, ajenos o no asignados | Sin acceso |
+| Baja de cuenta | Desactivación, sin DELETE | Desactivación de operador propio, sin DELETE | Sin acceso |
+| Panel | Global, filtro de empresa | Empresa propia | Empresa propia sin recuento de usuarios |
+
+Los operadores sin empresa no acceden al inventario ni a estos endpoints. El servidor relee actor y bloquea filas dentro de la transacción; no confía en roles enviados por el cliente o en claims antiguos. Los tokens de una cuenta desactivada se rechazan. No se crea SUPERADMIN por REST. Sucursal es asignación organizativa opcional, sin restringir todavía el inventario por sucursal. Referencias ajenas, campos extra y escalamiento se prueban con dos empresas en tests/test_operations.py.
+
+Las tablas de F2–F5 siguientes son evidencia histórica: donde indican «sin CRUD REST» o «posteriormente» quedan ampliadas por este bloque. El Admin de Django mantiene su política exclusiva de SUPERADMIN.
+
+## Política y evidencia histórica F2–F5
 
 Revalidado en F5: mismas reglas, sin expansión de privilegios. 156 casos backend y 9 E2E aislados cubren cuatro estados de cuenta (los tres roles y operador pendiente), cruces empresariales y campos protegidos. Los usuarios de Locust son operadores de fixtures limitadas, retirados al terminar; no son cuentas de producción. Ver INFORME_FASE_5.md.
 
