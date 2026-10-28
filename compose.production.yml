@@ -49,7 +49,7 @@ services:
       POSTGRES_DB: ${POSTGRES_DB:-logistech}
       POSTGRES_USER: logistech_owner
       POSTGRES_PASSWORD_FILE: /run/secrets/db_owner_password
-      POSTGRES_INITDB_ARGS: --auth-host=scram-sha-256
+      POSTGRES_INITDB_ARGS: --auth-host=scram-sha-256 --locale-provider=icu --icu-locale=und --encoding=UTF8
     secrets: [db_owner_password, db_app_password, postgresql.crt, postgresql.key]
     volumes:
       - postgres_data:/var/lib/postgresql/data

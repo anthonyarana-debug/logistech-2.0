@@ -4,7 +4,7 @@ import { mkdirSync } from 'node:fs'
 import { Workspace } from './workspace.js'
 
 test.skip(process.env.PW_PRODUCTION !== 'true', 'Requires the isolated production rehearsal.')
-const directory = new URL('../../docs/evidencias/fase7/', import.meta.url)
+const directory = new URL(`../../docs/evidencias/${process.env.PW_PRODUCTION_EVIDENCE_PREFIX || 'fase7'}/`, import.meta.url)
 mkdirSync(directory, { recursive: true })
 
 test('F7 compiled HTTPS application, security headers, cookies and private routes', async ({ page, context }) => {

@@ -1,5 +1,10 @@
 # LogisTech 2.0
 
+**F7 WIP respaldada:** investigación AWS suspendida para guardar avances. La imagen
+PostgreSQL candidata pasó el escaneo sin CRITICAL/HIGH y las regresiones; quedan
+revisión de riesgos y tareas de recuperación/despliegue. No hay publicación cloud.
+Ver [estado exacto y pendientes](docs/ESTADO_F7_RESPALDO.md).
+
 ## F7 — preparación AWS y ensayo HTTPS local
 
 Destino previsto **https://logistech.stackpe.online**, DNS en Porkbun. Configuración

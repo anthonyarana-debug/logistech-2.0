@@ -1,0 +1,8 @@
+ Container logistech-f7-candidate-migration-run-f9a9d5762785 Creating
+ Container logistech-f7-candidate-migration-run-f9a9d5762785 Created
+Operations to perform:
+  Apply all migrations: accounts, admin, auth, boxes, catalog, contenttypes, core, organizations, sessions, token_blacklist
+Running migrations:
+  No migrations to apply.
+
+0 static files copied to '/app/staticfiles', 154 unmodified.

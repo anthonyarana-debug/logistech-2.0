@@ -1,5 +1,12 @@
 #!/bin/sh
 set -eu
+if [ -s "$PGDATA/PG_VERSION" ]; then
+  if [ ! -f "$PGDATA/.logistech-platform" ] || \
+     [ "$(cat "$PGDATA/.logistech-platform")" != "${LOGISTECH_PG_PLATFORM:?}" ]; then
+    echo 'Refusing an incompatible/unmarked PostgreSQL data directory. Use a new volume and verified logical restore; never reuse Debian data on Alpine.' >&2
+    exit 1
+  fi
+fi
 install -d -m 700 -o postgres -g postgres /run/postgresql-tls
 install -m 600 -o postgres -g postgres /run/secrets/postgresql.key /run/postgresql-tls/server.key
 install -m 644 -o postgres -g postgres /run/secrets/postgresql.crt /run/postgresql-tls/server.crt

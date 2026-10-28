@@ -19,9 +19,9 @@ COMPOSE = [
     "docker",
     "compose",
     "-p",
-    "logistech-f7-rehearsal",
+    os.environ.get("F7_PROJECT", "logistech-f7-rehearsal"),
     "--env-file",
-    ".env.f7",
+    os.environ.get("F7_ENV_FILE", ".env.f7"),
     "-f",
     "compose.production.yml",
     "-f",
@@ -124,7 +124,7 @@ def main():
             "docker",
             "compose",
             "--env-file",
-            ".env.f7",
+            os.environ.get("F7_ENV_FILE", ".env.f7"),
             "-f",
             "compose.production.yml",
             "config",
@@ -155,7 +155,9 @@ def main():
     assert rejected.returncode != 0, "Mismatched public origin accepted"
     checks.append({"check": "mismatched_origin_rejected", "exit_code": 0})
     context = ssl.create_default_context(
-        cafile=str(ROOT / ".env.f7-secrets/caddy-local-ca.pem")
+        cafile=os.environ.get(
+            "F7_CADDY_CA", str(ROOT / ".env.f7-secrets/caddy-local-ca.pem")
+        )
     )
     routes = {}
     for path, expected in [
@@ -201,7 +203,9 @@ def main():
         "public_deployment": False,
         "checks": checks,
     }
-    destination = ROOT / "docs/evidencias/fase7/local-verification.json"
+    destination = ROOT / os.environ.get(
+        "F7_EVIDENCE_REPORT", "docs/evidencias/fase7/local-verification.json"
+    )
     destination.write_text(
         json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
     )

@@ -15,3 +15,5 @@ ALTER DEFAULT PRIVILEGES FOR ROLE logistech_owner IN SCHEMA public GRANT SELECT,
 ALTER DEFAULT PRIVILEGES FOR ROLE logistech_owner IN SCHEMA public GRANT USAGE, SELECT ON SEQUENCES TO logistech_app;
 SQL
 unset LOGISTECH_APP_PASSWORD
+printf '%s\n' "${LOGISTECH_PG_PLATFORM:?}" > "$PGDATA/.logistech-platform"
+chmod 600 "$PGDATA/.logistech-platform"

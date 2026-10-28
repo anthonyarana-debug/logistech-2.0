@@ -1,0 +1,47 @@
+{
+  "source": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonLightsail/current/us-east-2/index.json",
+  "publicationDate": "2026-09-15T15:19:51Z",
+  "product": {
+    "sku": "DFDB656DRMH5527S",
+    "productFamily": "Lightsail Instance",
+    "attributes": {
+      "servicecode": "AmazonLightsail",
+      "location": "US East (Ohio)",
+      "locationType": "AWS Region",
+      "vcpu": "2",
+      "memory": "4GB",
+      "storage": "80GB",
+      "operatingSystem": "Linux",
+      "group": "Lightsail Instance",
+      "groupDescription": "Number of Lightsail Instance hours",
+      "usagetype": "USE2-BundleUsage:4GB",
+      "operation": "Bundle:4GB",
+      "dataTransferQuota": "4TB",
+      "regionCode": "us-east-2",
+      "servicename": "Amazon Lightsail"
+    }
+  },
+  "terms": {
+    "DFDB656DRMH5527S.JRTCKXETXF": {
+      "offerTermCode": "JRTCKXETXF",
+      "sku": "DFDB656DRMH5527S",
+      "effectiveDate": "2026-09-01T00:00:00Z",
+      "priceDimensions": {
+        "DFDB656DRMH5527S.JRTCKXETXF.6YS6EN2CT7": {
+          "rateCode": "DFDB656DRMH5527S.JRTCKXETXF.6YS6EN2CT7",
+          "description": "$0.03225 / Hour of 4GB bundle Instance including public IPv4 address",
+          "beginRange": "0",
+          "endRange": "Inf",
+          "unit": "Hrs",
+          "pricePerUnit": {
+            "USD": "0.0322500000"
+          },
+          "appliesTo": []
+        }
+      },
+      "termAttributes": {}
+    }
+  },
+  "account_eligibility": "not established by public price list",
+  "resource_created": false
+}

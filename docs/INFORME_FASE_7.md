@@ -1,5 +1,10 @@
 # Informe F7 — preparación AWS y ensayo de producción
 
+Actualización de respaldo: investigación AWS suspendida por el usuario el28/10/2026.
+Se resolvieron los3 CRITICAL en una imagen PostgreSQL candidata y hay nuevas pruebas.
+Consultar [estado WIP y pendientes actuales](ESTADO_F7_RESPALDO.md). Este informe
+conserva los resultados y hallazgos de la preparación inicial como antecedente.
+
 Fecha: 28/10/2026. **Preparación local implementada y verificada; despliegue AWS
 no ejecutado.** Objetivo público previsto: https://logistech.stackpe.online.
 DNS permanece en Porkbun. No se creó infraestructura, cambió plan, consumió crédito

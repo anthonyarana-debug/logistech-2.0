@@ -1,0 +1,13 @@
+{
+  "checks": [
+    {
+      "fixture": "unmarked",
+      "rejected": true
+    },
+    {
+      "fixture": "incompatible",
+      "rejected": true
+    }
+  ],
+  "real_volumes_mounted": false
+}

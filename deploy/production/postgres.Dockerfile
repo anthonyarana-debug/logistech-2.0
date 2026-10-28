@@ -8,8 +8,9 @@ RUN git init && git remote add origin https://github.com/tianon/gosu.git \
     && test "$(git rev-parse HEAD)" = 29b939aa5bd4dc588af765b8248f6e39150d2565
 ENV CGO_ENABLED=0 GOTOOLCHAIN=local
 RUN go build -trimpath -ldflags '-w -s' -o /out/gosu .
-FROM postgres:17.11-bookworm
-RUN apt-get update && apt-get upgrade -y --no-install-recommends \
-    && rm -rf /var/lib/apt/lists/*
+FROM postgres:17.11-alpine3.23@sha256:05aa77262db9277fde6374bb2f901c9604b8a9373029e1a7993440c6aae48736
+# Retain GNU sync/install semantics used by the verified backup/TLS scripts.
+RUN apk upgrade --no-cache && apk add --no-cache bash coreutils openssl ca-certificates
+ENV LOGISTECH_PG_PLATFORM=postgres17-alpine3.23-musl-icu-v1
 COPY --from=gosu-builder /out/gosu /usr/local/bin/gosu
 RUN gosu nobody true

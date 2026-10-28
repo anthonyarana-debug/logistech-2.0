@@ -1,0 +1,17 @@
+
+Running 8 tests using 1 worker
+
+(node:52312) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 e2e\operations.spec.js:6:1 › superadmin creates an enterprise and assigns a real administrative account (5.7s)
+  ok 2 e2e\operations.spec.js:60:1 › company admin manages branch, category, product and operator in its scope (3.0s)
+  ok 3 e2e\operations.spec.js:117:1 › operator has a real role dashboard and read-only catalogue without user directory (565ms)
+  ok 4 e2e\production.spec.js:10:1 › F7 compiled HTTPS application, security headers, cookies and private routes (776ms)
+  ok 5 e2e\production.spec.js:43:1 › F7 real expiration and a single refresh through compiled React and Gunicorn (5.0m)
+  ok 6 e2e\traceability.spec.js:18:1 › F6B2 live QR lookup, printable label, uncertain-network replay and immutable history (4.4s)
+  ok 7 e2e\traceability.spec.js:141:1 › F6B2 live tenant isolation, assigned-role access and simulated camera denial (1.0s)
+  ok 8 e2e\traceability.spec.js:184:1 › F6B2 company admin records a justified rejection; unassigned operator is denied by the API (1.4s)
+
+  Slow test file: e2e\production.spec.js (5.1m)
+  Consider running tests from slow files in parallel. See: https://playwright.dev/docs/test-parallel
+  8 passed (5.3m)
