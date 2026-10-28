@@ -1,5 +1,14 @@
 # Ruta cloud F6 — preparación sin aprovisionamiento
 
+## Continuidad F7 (28/10/2026)
+
+Se preparó una arquitectura de VM única AWS y ensayo HTTPS local sin modificar
+infraestructura externa. Dominio acordado `logistech.stackpe.online`, DNS en Porkbun.
+Ver [INFORME_FASE_7](INFORME_FASE_7.md), [presupuesto](PRESUPUESTO_AWS_F7.md),
+[guía](AWS_F7_GUIA.md). Free Plan US$100 y vencimiento28/04/2027 según el usuario;
+recursos/creditibilidad reales pendientes de confirmar. Cloud sigue parcial.
+El contenido F6 a continuación se mantiene como antecedente, no autorización.
+
 Estado: parcial. El repositorio público aloja código, no una aplicación cloud desplegada. No se contrató infraestructura ni se publicaron servicios. Las pruebas locales no demuestran capacidad cloud.
 
 ## Base reutilizada

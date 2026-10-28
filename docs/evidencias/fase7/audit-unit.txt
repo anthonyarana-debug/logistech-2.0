@@ -1,0 +1,11 @@
+test_database_signature_detected_even_with_innocent_filename (test_publicacion.PublicationAuditTests.test_database_signature_detected_even_with_innocent_filename) ... ok
+test_deleted_secret_is_still_found_in_history_without_disclosure (test_publicacion.PublicationAuditTests.test_deleted_secret_is_still_found_in_history_without_disclosure) ... ok
+test_file_mounted_secret_detected_without_printing_value (test_publicacion.PublicationAuditTests.test_file_mounted_secret_detected_without_printing_value) ... ok
+test_public_secret_directory_reference_is_not_a_credential (test_publicacion.PublicationAuditTests.test_public_secret_directory_reference_is_not_a_credential) ... ok
+test_safe_template_and_ignore_rules (test_publicacion.PublicationAuditTests.test_safe_template_and_ignore_rules) ... ok
+test_sensitive_path_with_unicode_parent_is_not_hidden_by_git_quoting (test_publicacion.PublicationAuditTests.test_sensitive_path_with_unicode_parent_is_not_hidden_by_git_quoting) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 6.656s
+
+OK

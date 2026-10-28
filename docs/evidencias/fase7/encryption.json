@@ -1,0 +1,8 @@
+{
+  "cipher": "CMS AES-256-GCM",
+  "actual_scripts_executed": true,
+  "identical_plaintext_sha256": "e1dbff86c38004b9291710a09bacba110683abf4ea2c2c089600f656526773a5",
+  "tampered_ciphertext_rejected": true,
+  "tampered_output_not_published": true,
+  "cloud_upload": false
+}

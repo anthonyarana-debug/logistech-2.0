@@ -1,0 +1,11 @@
+ Container logistech-f7-rehearsal-db-1 Running
+ Container logistech-f7-rehearsal-db-1 Waiting
+ Container logistech-f7-rehearsal-db-1 Healthy
+ Container logistech-f7-rehearsal-tests-run-ad56bb5cb3eb Creating
+ Container logistech-f7-rehearsal-tests-run-ad56bb5cb3eb Created
+........................................................................ [ 23%]
+........................................................................ [ 46%]
+........................................................................ [ 70%]
+........................................................................ [ 93%]
+...................                                                      [100%]
+307 passed in 32.75s

@@ -1,5 +1,15 @@
 # Base de datos — esquema vigente F6
 
+## F7 — preparación operativa PostgreSQL
+
+Se conserva PostgreSQL 17.11 y el esquema de negocio F0–F6. Nueva migración técnica
+`core/0001_initial.py`: ThrottleWindow con clave HMAC, historial de ventana y expiry
+indexado para cuotas compartidas entre workers. No cambia el usuario personalizado.
+Rol runtime separado sin privilegios DDL/TRUNCATE; propietario solo jobs. Red interna
+sin publicar 5432 y conexión TLS `verify-full` SAN db. Volúmenes de trabajo F6 intactos.
+Ensayo de dump/restore en DB nueva y manifiestos idénticos tras sustituir imágenes:
+[recuperación](BACKUP_RECUPERACION_F7.md), [evidencias](INFORME_FASE_7.md).
+
 ## F6, Bloque 2 — nuevas entidades y migraciones
 
 boxes.0003_boxevent_receipt crea Receipt y BoxEvent sin rellenar procedencias históricas. boxes.0004_immutable_reception_history instala triggers PostgreSQL que rechazan UPDATE/DELETE; reversión de esquema existe para entornos de pruebas, no debe usarse como rutina destructiva.

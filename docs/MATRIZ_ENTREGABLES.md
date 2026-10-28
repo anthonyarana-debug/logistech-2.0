@@ -1,5 +1,18 @@
 # Matriz de requisitos y evidencias
 
+## Actualización F7 — preparación local
+
+| Entregable | Estado real | Evidencia |
+|---|---|---|
+| Compose producción, React estático, Gunicorn, TLS y DB privada | Implementado y ensayado localmente | INFORME_FASE_7.md |
+| DNS Porkbun `logistech.stackpe.online` / certificado público | Preparado; no aplicado/emitido | DNS_TLS_F7.md |
+| AWS y créditos Free Plan | Presupuesto; cuenta no operada | PRESUPUESTO_AWS_F7.md |
+| Backup/restauración/cifrado/persistencia | Ensayo local verificado; automatización remota pendiente | BACKUP_RECUPERACION_F7.md |
+| Seguridad de imágenes | Parches aplicados; hallazgos residuales bloquean revisión pública | CHECKLIST_SEGURIDAD_F7.md |
+| Requisito cloud | **Parcial: sin URL pública validada** | AWS_F7_GUIA.md |
+
+Los informes F0–F6 y documentos académicos se conservan como evidencia histórica.
+
 ## F6, Bloque 2
 
 | Entregable | Estado | Evidencia |

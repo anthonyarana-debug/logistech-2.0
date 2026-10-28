@@ -1,0 +1,14 @@
+
+Running 5 tests using 1 worker
+
+(node:49356) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 e2e\production.spec.js:10:1 › F7 compiled HTTPS application, security headers, cookies and private routes (1.3s)
+  ok 2 e2e\production.spec.js:42:1 › F7 real expiration and a single refresh through compiled React and Gunicorn (5.0m)
+  ok 3 e2e\traceability.spec.js:18:1 › F6B2 live QR lookup, printable label, uncertain-network replay and immutable history (5.3s)
+  ok 4 e2e\traceability.spec.js:141:1 › F6B2 live tenant isolation, assigned-role access and simulated camera denial (2.0s)
+  ok 5 e2e\traceability.spec.js:184:1 › F6B2 company admin records a justified rejection; unassigned operator is denied by the API (2.3s)
+
+  Slow test file: e2e\production.spec.js (5.1m)
+  Consider running tests from slow files in parallel. See: https://playwright.dev/docs/test-parallel
+  5 passed (5.2m)

@@ -1,0 +1,108 @@
+{
+  "source_before": {
+    "database": "logistech",
+    "tls": true,
+    "tls_protocol": "TLSv1.3",
+    "sslmode": "verify-full",
+    "runtime_superuser_createdb_createrole": [
+      false,
+      false,
+      false
+    ],
+    "runtime_schema_create": false,
+    "runtime_history_truncate": false,
+    "history_triggers": {
+      "boxes_event_immutable": "O",
+      "boxes_receipt_immutable": "O"
+    },
+    "invalid_receipt_company": 0,
+    "business_manifest": {
+      "organizations.Company": {
+        "count": 3,
+        "sha256": "ca95de577b25a8d907eceae55dc2b15735e92ee25132f5d726cc93a993b69ffe"
+      },
+      "organizations.Branch": {
+        "count": 6,
+        "sha256": "c0a13e504c07fb823dbc8ec67f15a46c1e1a8fc496c6ba54bd625c7c0c07f0b0"
+      },
+      "accounts.User": {
+        "count": 6,
+        "sha256": "74d5fbb810144c437c8a5947749eb1e6e67ea6a96545c6f06f71758009fc24c2"
+      },
+      "catalog.Category": {
+        "count": 7,
+        "sha256": "11985aa470e33eeb86983caad1ee89d1b4b87a356d6f2fe18197adc11b10e68d"
+      },
+      "catalog.Product": {
+        "count": 6,
+        "sha256": "033ed693b174ae270553be4dd9c46ba50cec5a3c74ef886b337fee1123a7730d"
+      },
+      "boxes.Box": {
+        "count": 16,
+        "sha256": "6447b069cdf4f6409340fda25b5497d48d4925ac277ea8d45916cf3fc84fc40a"
+      },
+      "boxes.Receipt": {
+        "count": 4,
+        "sha256": "9e8dcc4a75342eeee9ab4869e9286bd5dd2f66b81a865ed76a6977b0e4bc0e7e"
+      },
+      "boxes.BoxEvent": {
+        "count": 8,
+        "sha256": "68d32b20b97bf93bc91c38eedbe85ec814101ebb74618fbec079de268e1c3ed1"
+      }
+    }
+  },
+  "source_after": {
+    "database": "logistech",
+    "tls": true,
+    "tls_protocol": "TLSv1.3",
+    "sslmode": "verify-full",
+    "runtime_superuser_createdb_createrole": [
+      false,
+      false,
+      false
+    ],
+    "runtime_schema_create": false,
+    "runtime_history_truncate": false,
+    "history_triggers": {
+      "boxes_event_immutable": "O",
+      "boxes_receipt_immutable": "O"
+    },
+    "invalid_receipt_company": 0,
+    "business_manifest": {
+      "organizations.Company": {
+        "count": 3,
+        "sha256": "ca95de577b25a8d907eceae55dc2b15735e92ee25132f5d726cc93a993b69ffe"
+      },
+      "organizations.Branch": {
+        "count": 6,
+        "sha256": "c0a13e504c07fb823dbc8ec67f15a46c1e1a8fc496c6ba54bd625c7c0c07f0b0"
+      },
+      "accounts.User": {
+        "count": 6,
+        "sha256": "74d5fbb810144c437c8a5947749eb1e6e67ea6a96545c6f06f71758009fc24c2"
+      },
+      "catalog.Category": {
+        "count": 7,
+        "sha256": "11985aa470e33eeb86983caad1ee89d1b4b87a356d6f2fe18197adc11b10e68d"
+      },
+      "catalog.Product": {
+        "count": 6,
+        "sha256": "033ed693b174ae270553be4dd9c46ba50cec5a3c74ef886b337fee1123a7730d"
+      },
+      "boxes.Box": {
+        "count": 16,
+        "sha256": "6447b069cdf4f6409340fda25b5497d48d4925ac277ea8d45916cf3fc84fc40a"
+      },
+      "boxes.Receipt": {
+        "count": 4,
+        "sha256": "9e8dcc4a75342eeee9ab4869e9286bd5dd2f66b81a865ed76a6977b0e4bc0e7e"
+      },
+      "boxes.BoxEvent": {
+        "count": 8,
+        "sha256": "68d32b20b97bf93bc91c38eedbe85ec814101ebb74618fbec079de268e1c3ed1"
+      }
+    }
+  },
+  "business_data_unchanged": true,
+  "volumes_deleted": false
+}

@@ -1,0 +1,32 @@
+{
+  "cfn_lint": {
+    "version": "1.58.0",
+    "region": "us-east-2",
+    "templates": [
+      "deploy/aws/lightsail.yaml",
+      "deploy/aws/ec2.yaml"
+    ],
+    "network": "none",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  "shell_syntax": {
+    "command": "bash -n deploy/production/*.sh (each file)",
+    "exit_code": 0
+  },
+  "academic_documents": {
+    "documents": 6,
+    "conclusions": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "errors": []
+  },
+  "publication_audit_unit_tests": 6,
+  "external_cloud_resources_created": false,
+  "dns_modified": false
+}

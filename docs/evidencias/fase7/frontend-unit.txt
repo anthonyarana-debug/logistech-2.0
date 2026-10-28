@@ -1,0 +1,23 @@
+✔ English is explicit; user data and template interpolation remain literal (1.4122ms)
+✔ English plural forms and numeric/date formatting use centralized locale (161.4026ms)
+✔ English safe errors preserve the legacy API error contract (1.0213ms)
+✔ operational navigation follows current role and assignment (1.0941ms)
+✔ user editor never offers self, superadmin or cross-company escalation (0.1828ms)
+✔ dashboards resolve English catalog keys for the three roles (0.0638ms)
+✔ all literal application message references resolve in the English catalog (5.313ms)
+✔ restauración deduplicada; CSRF y access solo en cabecera (19.0477ms)
+✔ dos 401 simultáneos comparten refresh; se reintenta una vez (2.2412ms)
+✔ refresh rechazado: termina sesión, sin bucle ni datos sensibles (2.1515ms)
+✔ logout concurrente a refresh: no resucita la identidad (1.2434ms)
+✔ fallo de logout: conserva estado de error; 500 y 429 tienen mensajes seguros (1.1974ms)
+✔ reception command only contains authorized input fields; received clears rejection reason (1.554ms)
+✔ uncertain reception retries retain the same key and payload; changed commands receive a fresh key (0.1771ms)
+✔ authenticated SVG download preserves idempotency headers over session renewal without putting tokens in URL (20.6517ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 15
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 243.3689

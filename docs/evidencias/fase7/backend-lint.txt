@@ -1,0 +1,6 @@
+ Container logistech-f7-rehearsal-db-1 Running
+ Container logistech-f7-rehearsal-db-1 Waiting
+ Container logistech-f7-rehearsal-db-1 Healthy
+ Container logistech-f7-rehearsal-tests-run-c7b353d9ead2 Creating
+ Container logistech-f7-rehearsal-tests-run-c7b353d9ead2 Created
+All checks passed!

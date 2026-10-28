@@ -1,5 +1,15 @@
 # Seguridad — validación de Fase 5
 
+## F7 — revisión local de producción
+
+DEBUG false, hosts/CSRF explícitos para `logistech.stackpe.online`, cookies seguras,
+proxy saneado y DB privada TLS, permisos DB reducidos y throttles compartidos.
+Se aplicaron parches DRF/Go/OpenSSL; quedan alertas de imágenes sin parche, incluidos
+CRITICAL de la base PostgreSQL. No se declara autorización de publicación ni
+seguridad completa: [checklist y hallazgos](CHECKLIST_SEGURIDAD_F7.md),
+[DNS/TLS](DNS_TLS_F7.md). Secretos por archivo fuera de Git, CA/clave de recuperación
+offline; no credenciales DEMO en cloud. AWS/DNS todavía sin modificar.
+
 ## F6, Bloque 2 — identificación y registros históricos
 
 QR es identificador público opaco, nunca credencial: payload contiene únicamente qr_code. Generación, descarga y resolución privadas y limitadas por empresa; SVG solo geometría/texto controlados, sin scripts, URLs externas ni nombres de negocio. Etiqueta no almacena secretos. Cámara inicia por acción explícita, procesa imagen en dispositivo y libera tracks; no sube imágenes.

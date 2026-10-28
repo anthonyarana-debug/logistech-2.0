@@ -1,5 +1,16 @@
 # Arquitectura vigente — LogisTech 2.0
 
+## F7 — arquitectura de despliegue preparada, sin publicación
+
+Origen único previsto `https://logistech.stackpe.online`: Caddy sirve React compilado
+y reenvía `/api/` a Gunicorn privado; PostgreSQL persistente en red Docker interna,
+TLS `verify-full`. Compose de producción independiente y ensayo local loopback.
+Porkbun conserva DNS; futuro A hacia IP estática AWS. Rate limiting compartido
+atómico en PostgreSQL (tabla técnica ThrottleWindow), sin añadir Redis. Runtime DB
+con rol limitado y migraciones por job separado. Certificados públicos automáticos
+preparados; emisión real pendiente. Ver [guía](AWS_F7_GUIA.md) y
+[informe](INFORME_FASE_7.md). No cambia los contratos ni el diseño funcional F6.
+
 ## F6, Bloque 2 — recepción y trazabilidad
 
 boxes.reception concentra recepción atómica: actor/caja/empresa/referencias bloqueados; Receipt único por caja y por actor/empresa/idempotency-key; estado y BoxEvent confirmados juntos. BoxViewSet instrumenta creación/edición/borrado y deriva transiciones finales anteriores al mismo servicio. Eventos inmutables con snapshot UUID de caja, que sobrevive a borrado REGISTERED. PostgreSQL bloquea UPDATE/DELETE de historia mediante triggers; no se afirma resistencia frente al propietario de DB/TRUNCATE.

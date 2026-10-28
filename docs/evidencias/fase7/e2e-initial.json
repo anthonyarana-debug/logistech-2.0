@@ -1,0 +1,439 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\anthony\\Documents\\ChatGPT\\Proyecto final dsn\\frontend\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "e2e/operations.spec.js",
+      "e2e/traceability.spec.js",
+      "e2e/production.spec.js",
+      "--workers=1"
+    ],
+    "configFile": "C:\\Users\\anthony\\Documents\\ChatGPT\\Proyecto final dsn\\frontend\\playwright.config.js",
+    "rootDir": "C:/Users/anthony/Documents/ChatGPT/Proyecto final dsn/frontend/e2e",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/Users/anthony/Documents/ChatGPT/Proyecto final dsn/frontend/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "C:/Users/anthony/Documents/ChatGPT/Proyecto final dsn/frontend/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 90000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "C:\\Users\\anthony\\Documents\\ChatGPT\\Proyecto final dsn\\frontend\\test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "",
+        "testDir": "C:\\Users\\anthony\\Documents\\ChatGPT\\Proyecto final dsn\\frontend\\e2e",
+        "snapshotDir": "C:\\Users\\anthony\\Documents\\ChatGPT\\Proyecto final dsn\\frontend\\e2e",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 90000,
+        "use": {
+          "ignoreHTTPSErrors": true,
+          "baseURL": "https://localhost:8447",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "trace": "off",
+          "screenshot": "off",
+          "video": "off"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": ""
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "../output/qa/f7/e2e-production.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "operations.spec.js",
+      "file": "operations.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "superadmin creates an enterprise and assigns a real administrative account",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2309,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T12:54:49.171Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0e3a99392393e31e5d5b-3cabcd77825b4b822516",
+          "file": "operations.spec.js",
+          "line": 6,
+          "column": 1
+        },
+        {
+          "title": "company admin manages branch, category, product and operator in its scope",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2324,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T12:54:51.637Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0e3a99392393e31e5d5b-b90ff84970af58b70f44",
+          "file": "operations.spec.js",
+          "line": 60,
+          "column": 1
+        },
+        {
+          "title": "operator has a real role dashboard and read-only catalogue without user directory",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 498,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T12:54:53.967Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "0e3a99392393e31e5d5b-d98809504a783de30198",
+          "file": "operations.spec.js",
+          "line": 117,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "production.spec.js",
+      "file": "production.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "F7 compiled HTTPS application, security headers, cookies and private routes",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 581,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mfalse\u001b[39m\nReceived: \u001b[31mtrue\u001b[39m",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mfalse\u001b[39m\nReceived: \u001b[31mtrue\u001b[39m\n    at C:\\Users\\anthony\\Documents\\ChatGPT\\Proyecto final dsn\\frontend\\e2e\\production.spec.js:35:72",
+                    "location": {
+                      "file": "C:\\Users\\anthony\\Documents\\ChatGPT\\Proyecto final dsn\\frontend\\e2e\\production.spec.js",
+                      "column": 72,
+                      "line": 35
+                    },
+                    "snippet": "  33 |   await page.getByRole('button', { name: 'Sign out', exact: true }).click()\n  34 |   await expect(page).toHaveURL(/login$/)\n> 35 |   expect((await context.cookies()).some(c => c.name === 'lt_refresh')).toBe(false)\n     |                                                                        ^\n  36 | })\n  37 |\n  38 | function locationOrigin() { return new URL(process.env.PW_BASE_URL).origin }"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\anthony\\Documents\\ChatGPT\\Proyecto final dsn\\frontend\\e2e\\production.spec.js",
+                        "column": 72,
+                        "line": 35
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mfalse\u001b[39m\nReceived: \u001b[31mtrue\u001b[39m\n\n  33 |   await page.getByRole('button', { name: 'Sign out', exact: true }).click()\n  34 |   await expect(page).toHaveURL(/login$/)\n> 35 |   expect((await context.cookies()).some(c => c.name === 'lt_refresh')).toBe(false)\n     |                                                                        ^\n  36 | })\n  37 |\n  38 | function locationOrigin() { return new URL(process.env.PW_BASE_URL).origin }\n    at C:\\Users\\anthony\\Documents\\ChatGPT\\Proyecto final dsn\\frontend\\e2e\\production.spec.js:35:72"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T12:54:54.493Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\anthony\\Documents\\ChatGPT\\Proyecto final dsn\\frontend\\test-results\\production-F7-compiled-HTT-54ed8--cookies-and-private-routes\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\anthony\\Documents\\ChatGPT\\Proyecto final dsn\\frontend\\e2e\\production.spec.js",
+                    "column": 72,
+                    "line": 35
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "e03a4b7a6378dd18a075-689f468c090848f986fc",
+          "file": "production.spec.js",
+          "line": 10,
+          "column": 1
+        },
+        {
+          "title": "F7 real expiration and a single refresh through compiled React and Gunicorn",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 450000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 301526,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T12:54:55.446Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e03a4b7a6378dd18a075-48ec7d243b42ec05c0e6",
+          "file": "production.spec.js",
+          "line": 40,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "traceability.spec.js",
+      "file": "traceability.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "F6B2 live QR lookup, printable label, uncertain-network replay and immutable history",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4800,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T12:59:57.128Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7db8f77701aa47d2386f-b51e92a98936db5f9b60",
+          "file": "traceability.spec.js",
+          "line": 18,
+          "column": 1
+        },
+        {
+          "title": "F6B2 live tenant isolation, assigned-role access and simulated camera denial",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1140,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T13:00:01.936Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7db8f77701aa47d2386f-de558f4d7c05854a13b7",
+          "file": "traceability.spec.js",
+          "line": 141,
+          "column": 1
+        },
+        {
+          "title": "F6B2 company admin records a justified rejection; unassigned operator is denied by the API",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1622,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-28T13:00:03.085Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7db8f77701aa47d2386f-935fb6b702d4c6c270b0",
+          "file": "traceability.spec.js",
+          "line": 184,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-28T12:54:48.703Z",
+    "duration": 316152.729,
+    "expected": 7,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}

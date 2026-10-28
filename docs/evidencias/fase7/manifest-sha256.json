@@ -1,0 +1,181 @@
+{
+  "basis": "canonical Git staged blob bytes; text LF; self excluded",
+  "files": {
+    "docs/evidencias/fase7/README.md": {
+      "sha256": "5f34199fb46b3dbb3079ce543179fd7f85c07070f098d1d64c5bc0988b67b5e9",
+      "bytes": 3542
+    },
+    "docs/evidencias/fase7/audit-unit.txt": {
+      "sha256": "5e5294b055ff198e8393b83a17de6cf0fafef02dea99872d44c2483b63ca7e58",
+      "bytes": 1080
+    },
+    "docs/evidencias/fase7/auxiliary-checks.json": {
+      "sha256": "fdaae023b5cac5b9e8bed5e8c7c55566fd5b101d96fdff4a8a9cbd94c698f681",
+      "bytes": 595
+    },
+    "docs/evidencias/fase7/backend-baseline.txt": {
+      "sha256": "b85b77b9f29271ececcf095505222b26d254c7ab39dc803cd30a2dc2aedeab7f",
+      "bytes": 341
+    },
+    "docs/evidencias/fase7/backend-final.txt": {
+      "sha256": "d1df702a8de1d80080b9535e19159d01db60f8039435021b80bd5679a3ed11f5",
+      "bytes": 693
+    },
+    "docs/evidencias/fase7/backend-lint.txt": {
+      "sha256": "474b9784e063b370eb4cb1977a311b849d6555163aa036fda624b99de1849afc",
+      "bytes": 291
+    },
+    "docs/evidencias/fase7/compiled-https-dashboard.png": {
+      "sha256": "0f62af6b02459fe2f79a5f3307f4fd429d075752711f6e90495fac8eb70090ce",
+      "bytes": 143665
+    },
+    "docs/evidencias/fase7/database-restore.json": {
+      "sha256": "9e895f35b376bc5096ae023a9b55a49649f34da623ee10a31e42314bf9c78a1d",
+      "bytes": 3285
+    },
+    "docs/evidencias/fase7/e2e-five-cases.json": {
+      "sha256": "2d55186aab96c87896c45963bddd12041b824a63d1f5d252a2bf966b367abb82",
+      "bytes": 8620
+    },
+    "docs/evidencias/fase7/e2e-five-cases.txt": {
+      "sha256": "0fab3863ededd31027ecdcc024d5a7ba88ea44fcc03dad76fbe553ab914405ac",
+      "bytes": 1008
+    },
+    "docs/evidencias/fase7/e2e-initial.json": {
+      "sha256": "10149284eb6c321d0a47288ac7090f00e44bce50f56bafecf5f8be5c545be4fb",
+      "bytes": 15145
+    },
+    "docs/evidencias/fase7/e2e-initial.txt": {
+      "sha256": "6bee1fd81ee1cf4c6f1a2e7cde70f30bfc12a9502e1324ff4994f9f403feb911",
+      "bytes": 2382
+    },
+    "docs/evidencias/fase7/e2e-logout-recheck.txt": {
+      "sha256": "45fd3ee3a03de3340579973fac4ce8a83b53a57ea096d769b64ccc6d26ed9683",
+      "bytes": 338
+    },
+    "docs/evidencias/fase7/e2e-patched-proxy.json": {
+      "sha256": "59bcac88a01c20e7c0025089a538f0f1490b60eac9fbf67e759cc191c274521a",
+      "bytes": 4207
+    },
+    "docs/evidencias/fase7/e2e-patched-proxy.txt": {
+      "sha256": "d884c7ba068d2df331579f9489bf44797dcc5cd50f764801f01448aa52db59ac",
+      "bytes": 337
+    },
+    "docs/evidencias/fase7/encryption.json": {
+      "sha256": "870f305b06cfb7cfd7a83cb4bc4b8a905d2d6791bfd650405c3ebbc1ddd1953b",
+      "bytes": 275
+    },
+    "docs/evidencias/fase7/frontend-build.txt": {
+      "sha256": "6148d3fe9515267e3cd1a1b88227ab54549ea042b00b1890a11b8f69fd3f6734",
+      "bytes": 984
+    },
+    "docs/evidencias/fase7/frontend-lint.txt": {
+      "sha256": "c9f448abc44ccf8c8445ef77242f67b37cf3009a802857c8c6a44c4c7ac854a3",
+      "bytes": 44
+    },
+    "docs/evidencias/fase7/frontend-unit.txt": {
+      "sha256": "3bcb1c11fefd2c697679976522f54be634ad851eaf0fc9965d9027da05111a2b",
+      "bytes": 1421
+    },
+    "docs/evidencias/fase7/https-routes.json": {
+      "sha256": "978691c0116aa421a0b8c6385913bb79774b0521e08da38024265df2626ff18c",
+      "bytes": 929
+    },
+    "docs/evidencias/fase7/local-verification.json": {
+      "sha256": "9fdd7d94937167b8110b3fdb52ff49b781a4d104460def51d59b702fd904ca3a",
+      "bytes": 5960
+    },
+    "docs/evidencias/fase7/npm-audit.json": {
+      "sha256": "92bd2080b9fbfe0ce232149e647d00069c55359f2859a2181d03cee327ed8bfd",
+      "bytes": 364
+    },
+    "docs/evidencias/fase7/persistence-recreation.json": {
+      "sha256": "32fa53b20c6c1e3eeb6f943d849ff21730e2d24e325a5a8e0fb5652cc019f0da",
+      "bytes": 3269
+    },
+    "docs/evidencias/fase7/pip-check.txt": {
+      "sha256": "d35393b1f121bc4d3fed0244eaaadae52ec889d24199f675f82962eca07a50ae",
+      "bytes": 564
+    },
+    "docs/evidencias/fase7/regression/box-qr-live.png": {
+      "sha256": "a4a0fcc40af1dc0bbb54242fd369b7fcd85277de47b06a362a7a7f7794ec1f15",
+      "bytes": 129334
+    },
+    "docs/evidencias/fase7/regression/camera-denial-SIMULATED.png": {
+      "sha256": "6a8ff6e6aa619a161e7d98292529f65a8067df5edcf793564fae7d9044d21bfc",
+      "bytes": 93151
+    },
+    "docs/evidencias/fase7/regression/history-390.png": {
+      "sha256": "4f37549ec9aa77d21c55a1b71fa9d29e16d796d6fc22a84d4b050c4fafd8e64b",
+      "bytes": 43617
+    },
+    "docs/evidencias/fase7/regression/history-live-readonly.png": {
+      "sha256": "801c0aa985087bd3f4070476e8144638032e59873cd261668ca38f841042081a",
+      "bytes": 87089
+    },
+    "docs/evidencias/fase7/regression/identification-manual-live.png": {
+      "sha256": "88362694ed9a6d6fe034df8a92cadc5164e1cdd1e877f4975050f1a70b78a295",
+      "bytes": 91290
+    },
+    "docs/evidencias/fase7/regression/identification-result-390.png": {
+      "sha256": "aeba01dc367987002e3f3f5e21144ee6049fecfe72f4a53baf37d963602fa040",
+      "bytes": 60382
+    },
+    "docs/evidencias/fase7/regression/printable-label-live.png": {
+      "sha256": "81b515abddd38c67897909cc48e5a37545f7150df008026a922945fa26544836",
+      "bytes": 13151
+    },
+    "docs/evidencias/fase7/regression/printable-label-live.svg": {
+      "sha256": "614a4bf4eb4b98a8ea1670de4756e15e7bf0388bb1fb1086a8ffe262ca34ac39",
+      "bytes": 9416
+    },
+    "docs/evidencias/fase7/regression/reception-live-replay.png": {
+      "sha256": "bb02ded258e0701607862ed3cbc3107dcc530a93a6d0372d99d6505b99a261db",
+      "bytes": 119786
+    },
+    "docs/evidencias/fase7/regression/rejection-admin-live.png": {
+      "sha256": "9e2321199608df07a0a4f0e4b59982fc55ca0467c26d4999572028fe9d31a72b",
+      "bytes": 128283
+    },
+    "docs/evidencias/fase7/secret-audit.json": {
+      "sha256": "0a670d34fe2f14c1ecf76ef197a9df1f81df542bb24955a59786b073f231bc08",
+      "bytes": 474
+    },
+    "docs/evidencias/fase7/tls-initial.json": {
+      "sha256": "13a804a768715b013775e035545c0fa98b6dd04b012e4ca607675fbc85a7c494",
+      "bytes": 758
+    },
+    "docs/evidencias/fase7/vulnerabilities-backend-final.json": {
+      "sha256": "b838818594d43c820f68317b4340b969ddcea55d1c7ce33ff2520fd23eb8ad79",
+      "bytes": 505842
+    },
+    "docs/evidencias/fase7/vulnerabilities-backend-initial.json": {
+      "sha256": "712718f154ebee352568d56e31a93333e041b0aadc60df434c7ff150836937e2",
+      "bytes": 545895
+    },
+    "docs/evidencias/fase7/vulnerabilities-backend.json": {
+      "sha256": "712718f154ebee352568d56e31a93333e041b0aadc60df434c7ff150836937e2",
+      "bytes": 545895
+    },
+    "docs/evidencias/fase7/vulnerabilities-postgres-patched.json": {
+      "sha256": "f5e305be47113a84f86c786b332f1616b5c9316905fa49b1529cd6967c29e24d",
+      "bytes": 1023788
+    },
+    "docs/evidencias/fase7/vulnerabilities-postgres.json": {
+      "sha256": "d22e47b8955153dd7939d4dae53a50bdcf205fe3fb3de45dff89ef786eeb8934",
+      "bytes": 1242096
+    },
+    "docs/evidencias/fase7/vulnerabilities-proxy-final.json": {
+      "sha256": "d1ea9de1074bac76bc267d16cf654a7e82c210211a6b45a27b913bb83e07774e",
+      "bytes": 193875
+    },
+    "docs/evidencias/fase7/vulnerabilities-proxy-patched.json": {
+      "sha256": "f6c983f54cbc263b80243d6eed63b08ff3f7eb4014e41e085155d0e5942c5327",
+      "bytes": 168842
+    },
+    "docs/evidencias/fase7/vulnerabilities-proxy.json": {
+      "sha256": "5aa8cdfe1a14d0452de345fd5bb3961ff38aee8feee4783e144b68afd4445200",
+      "bytes": 666710
+    }
+  }
+}

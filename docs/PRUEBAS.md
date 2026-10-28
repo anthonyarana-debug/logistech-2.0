@@ -1,5 +1,16 @@
 # Comprobaciones — historial y cierre Fase 5
 
+## F7 — resultados locales adicionales (28/10/2026)
+
+Backend final: **307 passed**, PostgreSQL real 17.11, TLS `verify-full`. Frontend:
+15 unitarias, lint/build. Ensayo HTTPS con frontend compilado y Gunicorn: operaciones
+previas verificadas, 5 casos posteriores aprobados (incluye expiración real de JWT)
+y smoke de cookies/rutas repetido tras parchear el proxy. No sumar repeticiones como
+casos distintos. `verify_f7.py`: 10 comprobaciones, con dos avisos HSTS documentados.
+Backup/restauración y conservación de datos al reemplazar imágenes verificadas.
+Trivy informa riesgos pendientes, no un resultado totalmente limpio. Ver
+[desglose, fallos y evidencias](INFORME_FASE_7.md). Ninguna prueba contra AWS público.
+
 ## F6, Bloque 2 — reproducción y evidencias
 
 Con el stack aislado logistech-f6 saludable, ejecutar `python scripts/verify_f6_block2.py` para checks completos y evidencias nuevas en evidencias/fase6-bloque2/checks.json (no sobrescribe F6 bloque1). Backend usa PostgreSQL, qrcode 8.2 y ZXing-C++ 3.1.1 solo en desarrollo para decodificar los módulos del SVG real, incluida etiqueta. No añade Pillow ni servicio QR externo.

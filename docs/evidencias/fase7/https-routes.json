@@ -1,0 +1,46 @@
+{
+  "/": {
+    "status": 200,
+    "content_type": "text/html; charset=utf-8",
+    "cache": "no-cache"
+  },
+  "/app/receptions": {
+    "status": 200,
+    "content_type": "text/html; charset=utf-8",
+    "cache": "no-cache"
+  },
+  "/api/v1/health/": {
+    "status": 200,
+    "content_type": "application/json",
+    "cache": null
+  },
+  "/api/v1/missing/": {
+    "status": 404,
+    "content_type": "application/json",
+    "cache": null
+  },
+  "/admin/": {
+    "status": 404,
+    "content_type": null,
+    "cache": null
+  },
+  "/assets/missing.js": {
+    "status": 404,
+    "content_type": null,
+    "cache": null
+  },
+  "/static/admin/css/base.css": {
+    "status": 200,
+    "content_type": "text/css; charset=utf-8",
+    "cache": null
+  },
+  "assets": {
+    "count": 2,
+    "all_present_immutable": true,
+    "same_origin": true
+  },
+  "private_ca": {
+    "trusted_chain_succeeds": true,
+    "without_explicit_ca_fails": true
+  }
+}

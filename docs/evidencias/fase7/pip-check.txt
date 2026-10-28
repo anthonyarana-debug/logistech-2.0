@@ -1,0 +1,7 @@
+ Container logistech-f7-rehearsal-db-1 Running
+ Container logistech-f7-rehearsal-db-1 Waiting
+ Container logistech-f7-rehearsal-db-1 Healthy
+ Container logistech-f7-rehearsal-tests-run-9fc68e82d5dd Creating
+ Container logistech-f7-rehearsal-tests-run-9fc68e82d5dd Created
+WARNING: The directory '/home/app/.cache/pip' or its parent directory is not owned or is not writable by the current user. The cache has been disabled. Check the permissions and owner of that directory. If executing pip with sudo, you should use sudo's -H flag.
+No broken requirements found.

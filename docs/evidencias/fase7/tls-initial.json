@@ -1,0 +1,37 @@
+{
+  "/": {
+    "status": 200,
+    "content_type": "text/html; charset=utf-8",
+    "bytes": 655
+  },
+  "/app/receptions": {
+    "status": 200,
+    "content_type": "text/html; charset=utf-8",
+    "bytes": 655
+  },
+  "/api/v1/health/": {
+    "status": 200,
+    "content_type": "application/json",
+    "bytes": 52
+  },
+  "/api/v1/health/live/": {
+    "status": 200,
+    "content_type": "application/json",
+    "bytes": 50
+  },
+  "/api/v1/not-found/": {
+    "status": 404,
+    "content_type": "application/json",
+    "bytes": 34
+  },
+  "/admin/": {
+    "status": 200,
+    "content_type": "text/html; charset=utf-8",
+    "bytes": 655
+  },
+  "/static/admin/css/base.css": {
+    "status": 200,
+    "content_type": "text/css; charset=utf-8",
+    "bytes": 22120
+  }
+}

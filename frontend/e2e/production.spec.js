@@ -29,6 +29,7 @@ test('F7 compiled HTTPS application, security headers, cookies and private route
   expect(refresh.secure && refresh.httpOnly).toBe(true)
   expect(refresh.sameSite).toBe('Lax')
   expect(await page.evaluate(() => document.cookie.includes('lt_refresh'))).toBe(false)
+  await expect(page.getByRole('heading', { name: 'Latest records', exact: true })).toBeVisible()
   await page.screenshot({ path: fileURLToPath(new URL('compiled-https-dashboard.png', directory)), fullPage: true })
   const logout = page.waitForResponse(r => r.url().endsWith('/auth/logout/') && r.request().method() === 'POST')
   await page.getByRole('button', { name: 'Sign out', exact: true }).click()
