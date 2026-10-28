@@ -11,6 +11,7 @@ from apps.core.operations_messages import text
 from apps.organizations.models import Branch, Company
 
 from .models import User
+from .password_errors import password_error_details
 
 
 def assignment_changed(instance, attrs):
@@ -135,7 +136,9 @@ class UserAdministrationSerializer(OperationalSerializer):
             try:
                 password_validation.validate_password(attrs["password"], probe)
             except ModelValidationError as error:
-                raise serializers.ValidationError({"password": error.messages}) from None
+                raise serializers.ValidationError(
+                    {"password": password_error_details(error, probe)}
+                ) from None
         return attrs
 
     def create(self, validated_data):

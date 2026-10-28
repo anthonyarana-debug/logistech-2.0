@@ -9,9 +9,10 @@ from rest_framework.exceptions import ValidationError
 from apps.catalog.models import Product
 from apps.core.api import Conflict, StrictModelSerializer, is_global
 from apps.core.messages import message
+from apps.core.operational_serializers import OperationalSerializer
 from apps.organizations.models import Branch, Company
 
-from .models import Box
+from .models import Box, BoxEvent, Receipt
 
 
 class QuantityField(serializers.IntegerField):
@@ -120,3 +121,62 @@ class BoxSerializer(StrictModelSerializer):
                 }:
                     raise
         raise Conflict(message("a_unique_identifier_could_not_be_generated_please_try_again"))
+
+
+class ReceiptRequestSerializer(serializers.Serializer):
+    box = serializers.UUIDField()
+    branch = serializers.UUIDField()
+    result = serializers.ChoiceField(choices=["RECEIVED", "REJECTED"])
+    reason = serializers.ChoiceField(choices=["", *Receipt.Reason.values], default="")
+
+    def to_internal_value(self, data):
+        from collections.abc import Mapping
+
+        if not isinstance(data, Mapping) or set(data) - set(self.fields):
+            raise ValidationError({"campos": "The request must contain only allowed fields."})
+        return super().to_internal_value(data)
+
+    def validate(self, attrs):
+        if (attrs["result"] == "RECEIVED" and attrs["reason"]) or (
+            attrs["result"] == "REJECTED" and not attrs["reason"]
+        ):
+            raise ValidationError(
+                {"reason": "Rejection requires a reason; received boxes require an empty reason."}
+            )
+        return attrs
+
+
+class ReceiptSerializer(OperationalSerializer):
+    class Meta:
+        model = Receipt
+        fields = [
+            "id",
+            "box",
+            "internal_id",
+            "company",
+            "branch",
+            "actor",
+            "result",
+            "reason",
+            "source",
+            "created_at",
+        ]
+        read_only_fields = fields
+
+
+class BoxEventSerializer(OperationalSerializer):
+    class Meta:
+        model = BoxEvent
+        fields = [
+            "id",
+            "event_type",
+            "box",
+            "internal_id",
+            "company",
+            "branch",
+            "actor",
+            "outcome",
+            "data",
+            "created_at",
+        ]
+        read_only_fields = fields

@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from apps.accounts.models import User
-from apps.boxes.models import Box
+from apps.boxes.models import Box, BoxEvent, Receipt
 from apps.catalog.models import Category, Product
 from apps.organizations.models import Branch, Company
 
@@ -32,7 +32,14 @@ class OverviewView(APIView):
                 raise ValidationError({"company": text("invalid_filters")}) from None
             if not global_actor and company != request.user.company_id:
                 raise PermissionDenied(text("scope_denied"))
-        models = {"branches": Branch, "products": Product, "categories": Category, "boxes": Box}
+        models = {
+            "branches": Branch,
+            "products": Product,
+            "categories": Category,
+            "boxes": Box,
+            "receipts": Receipt,
+            "events": BoxEvent,
+        }
         if request.user.role != User.Role.OPERATOR:
             models["users"] = User
         counts = {}

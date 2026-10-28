@@ -33,8 +33,8 @@ export default function Dashboard() {
       {overview.loading ? <LoadingState /> : overview.error ? <ErrorState error={overview.error} onRetry={overview.reload} /> :
         <section className="overview-strip" aria-label={t('ops_administration')}>
           {Object.entries(overview.data.counts).filter(([kind]) => !['boxes', 'categories'].includes(kind)).map(([kind, count]) =>
-            <div key={kind}><span className="mono">{t(`ops_${kind}`)}</span>
-              <strong>{formatNumber(count)}</strong><Link className="text-link" to={`/app/${kind}`}>{t('ops_open_records')}</Link></div>)}
+            <div key={kind}><span className="mono">{t(kind === 'receipts' ? 'receptions' : kind === 'events' ? 'trace_history' : `ops_${kind}`)}</span>
+              <strong>{formatNumber(count)}</strong><Link className="text-link" to={`/app/${kind === 'receipts' ? 'receptions' : kind === 'events' ? 'history' : kind}`}>{t('ops_open_records')}</Link></div>)}
         </section>}
       {boxes.error || cats.error ? (
         <ErrorState

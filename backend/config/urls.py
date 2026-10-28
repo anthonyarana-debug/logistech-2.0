@@ -1,7 +1,8 @@
 from django.urls import include, path
 
 from apps.accounts.operations import UserViewSet
-from apps.boxes.views import BoxViewSet
+from apps.boxes.identification import BoxIdentificationViewSet, IdentificationView
+from apps.boxes.views import BoxEventViewSet, BoxViewSet, ReceiptViewSet
 from apps.catalog.views import CategoryViewSet, ProductViewSet
 from apps.core.overview import OverviewView
 from apps.core.references import ReferenceView
@@ -55,6 +56,15 @@ for resource, view in [
         path(f"api/v1/{resource}/<uuid:pk>/", view.as_view(methods)),
     ]
 urlpatterns.append(path("api/v1/overview/", OverviewView.as_view()))
+urlpatterns += [
+    path("api/v1/identification/resolve/", IdentificationView.as_view()),
+    path("api/v1/boxes/<uuid:pk>/qr/", BoxIdentificationViewSet.as_view({"get": "qr"})),
+    path("api/v1/boxes/<uuid:pk>/label/", BoxIdentificationViewSet.as_view({"get": "label"})),
+    path("api/v1/receipts/", ReceiptViewSet.as_view({"get": "list", "post": "create"})),
+    path("api/v1/receipts/<uuid:pk>/", ReceiptViewSet.as_view({"get": "retrieve"})),
+    path("api/v1/box-events/", BoxEventViewSet.as_view({"get": "list"})),
+    path("api/v1/box-events/<uuid:pk>/", BoxEventViewSet.as_view({"get": "retrieve"})),
+]
 
 handler404 = "apps.core.views.not_found"
 handler500 = "apps.core.views.server_error"

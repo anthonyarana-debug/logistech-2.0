@@ -43,7 +43,7 @@ export class ApiError extends Error {
     this.retryAfter = Number(retryAfter) || null
   }
 }
-async function raw(path, { method = 'GET', data, token, signal, csrf } = {}) {
+async function raw(path, { method = 'GET', data, token, signal, csrf, headers = {}, responseType } = {}) {
   let response
   try {
     response = await fetch(`${base}${path}`, {
@@ -54,7 +54,8 @@ async function raw(path, { method = 'GET', data, token, signal, csrf } = {}) {
       credentials: 'same-origin',
       cache: 'no-store',
       headers: {
-        Accept: 'application/json',
+        Accept: responseType === 'blob' ? '*/*' : 'application/json',
+        ...headers,
         ...(data !== undefined ? { 'Content-Type': 'application/json' } : {}),
         ...(token ? { Authorization: `Bearer ${token}` } : {}),
         ...(csrf ? { 'X-CSRFToken': csrf } : {}),
@@ -67,9 +68,9 @@ async function raw(path, { method = 'GET', data, token, signal, csrf } = {}) {
       detalle: t("no_connection_to_the_service_check_your_connection"),
     })
   }
-  const body = response.status === 204 ? null : await response.json().catch(() => null)
+  const body = response.status === 204 || (responseType === 'blob' && response.ok) ? null : await response.json().catch(() => null)
   if (!response.ok) throw new ApiError(response.status, body, response.headers.get('Retry-After'))
-  return body
+  return responseType === 'blob' ? await response.blob() : body
 }
 async function csrf() {
   if (!csrfPromise)

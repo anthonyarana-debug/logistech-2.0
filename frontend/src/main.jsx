@@ -9,6 +9,9 @@ import AuthPage from './pages/AuthPage.jsx'
 import Dashboard from './pages/Dashboard.jsx'
 import Administration from './pages/Administration.jsx'
 import Resources from './pages/Resources.jsx'
+import Identification from './pages/Identification.jsx'
+import Receptions from './pages/Receptions.jsx'
+import History from './pages/History.jsx'
 import BoxDetail from './pages/BoxDetail.jsx'
 import { InDevelopment, NotFound, ServiceStatus } from './pages/Special.jsx'
 import '@fontsource/ibm-plex-sans/latin-400.css'
@@ -56,6 +59,9 @@ createRoot(document.getElementById('root')).render(
           <Route path="categorias" element={<Resources key="categories" kind="categories" />} />
           <Route path="cajas" element={<Resources key="boxes" kind="boxes" />} />
           <Route path="cajas/:id" element={<BoxDetail />} />
+          <Route path="identify" element={<Identification />} />
+          <Route path="receptions" element={<Receptions />} />
+          <Route path="history" element={<History />} />
           <Route path="en-desarrollo" element={<InDevelopment />} />
           <Route path="*" element={<NotFound />} />
         </Route>

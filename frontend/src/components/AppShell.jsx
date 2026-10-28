@@ -17,6 +17,9 @@ const baseNavigation = [
   ['/app', 'grid', t("overview")],
   ['/app/cajas', 'box', t("boxes")],
   ['/app/categorias', 'tag', t("categories")],
+  ['/app/identify', 'search', t('trace_identify')],
+  ['/app/receptions', 'box', t('receptions')],
+  ['/app/history', 'clock', t('trace_history')],
 ]
 export default function AppShell() {
   const auth = useAuth(),
@@ -61,12 +64,6 @@ export default function AppShell() {
             </NavLink>
           ))}
         </nav>
-        <div className="sidebar-upcoming">
-          <p className="sidebar-section">{t("coming_soon")}</p>
-          <Link to="/app/en-desarrollo" onClick={() => setMenu(false)}>
-            <Icon name="clock" />{t("receptions")}<span className="soon-label">{t('ops_planned')}</span>
-          </Link>
-        </div>
         <div className="sidebar-footer">
           <span className="status-dot" />
           <p>{t("a_place_for_everything")}<br />

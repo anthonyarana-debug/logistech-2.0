@@ -189,7 +189,7 @@ test('superadmin: ámbito, referencias legibles y menú móvil', async ({ page }
     .filter({ visible: true })
     .click()
   await expect(
-    page.getByRole('heading', { name: "The next stage is in development." }),
+    page.getByRole('heading', { name: "Receptions", exact: true }),
   ).toBeVisible()
 })
 

@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
 import AxeBuilder from '@axe-core/playwright'
-import { randomUUID } from 'node:crypto'
+import { randomBytes, randomUUID } from 'node:crypto'
 import { Workspace } from './workspace.js'
 
 test('superadmin creates an enterprise and assigns a real administrative account', async ({ page }) => {
@@ -24,7 +24,7 @@ test('superadmin creates an enterprise and assigns a real administrative account
   await page.getByRole('button', { name: 'Create user', exact: true }).click()
   const email = `f6-${randomUUID()}@example.test`
   await page.getByLabel('Email address').fill(email)
-  await page.getByLabel('Password', { exact: true }).fill(`F6!${randomUUID()}`)
+  await page.getByLabel('Password', { exact: true }).fill(`Op!${randomBytes(24).toString('base64url')}`)
   await page.getByRole('dialog').getByLabel('Role', { exact: true }).selectOption('COMPANY_ADMIN')
   await page.getByLabel('Company', { exact: true }).selectOption({ label: company })
   await page.getByLabel('Assigned branch').selectOption({ label: branch })
@@ -95,7 +95,7 @@ test('company admin manages branch, category, product and operator in its scope'
   await expect(page.getByRole('dialog').getByLabel('Role', { exact: true })).toHaveCount(0)
   const email = `operator-${randomUUID()}@example.test`
   await page.getByLabel('Email address').fill(email)
-  await page.getByLabel('Password', { exact: true }).fill(`F6!${randomUUID()}`)
+  await page.getByLabel('Password', { exact: true }).fill(`Op!${randomBytes(24).toString('base64url')}`)
   await page.getByLabel('Assigned branch').selectOption({ label: `Branch ${suffix}` })
   await page.getByRole('button', { name: 'Save changes', exact: true }).click()
   await expect(page.getByRole('dialog')).toHaveCount(0)

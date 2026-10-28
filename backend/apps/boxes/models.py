@@ -89,3 +89,130 @@ class Box(CompanyOwned):
 
     def __str__(self):
         return self.internal_id
+
+
+class ImmutableQuerySet(models.QuerySet):
+    def update(self, **kwargs):
+        raise ValidationError("Historical records cannot be changed.")
+
+    def delete(self):
+        raise ValidationError("Historical records cannot be deleted.")
+
+    def bulk_update(self, objs, fields, batch_size=None):
+        raise ValidationError("Historical records cannot be changed.")
+
+
+class ImmutableRecord(CompanyOwned):
+    objects = ImmutableQuerySet.as_manager()
+
+    class Meta:
+        abstract = True
+
+    def save(self, *args, **kwargs):
+        if not self._state.adding:
+            raise ValidationError("Historical records cannot be changed.")
+        return super().save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        raise ValidationError("Historical records cannot be deleted.")
+
+
+class Receipt(ImmutableRecord):
+    class Reason(models.TextChoices):
+        DAMAGED = "DAMAGED", "Damaged"
+        INCORRECT_ITEM = "INCORRECT_ITEM", "Incorrect item"
+        OTHER = "OTHER", "Other"
+
+    class Source(models.TextChoices):
+        RECEIPT_API = "RECEIPT_API", "Receipt API"
+        BOX_STATUS_UPDATE = "BOX_STATUS_UPDATE", "Box status update"
+
+    box = models.OneToOneField(Box, on_delete=models.PROTECT, related_name="receipt")
+    internal_id = models.CharField(max_length=35)
+    branch = models.ForeignKey("organizations.Branch", on_delete=models.PROTECT)
+    actor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
+    result = models.CharField(
+        max_length=16, choices=[("RECEIVED", "Received"), ("REJECTED", "Rejected")]
+    )
+    reason = models.CharField(max_length=20, choices=Reason, blank=True, default="")
+    source = models.CharField(max_length=20, choices=Source)
+    idempotency_key = models.UUIDField(default=uuid.uuid4, editable=False)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["company", "actor", "idempotency_key"], name="receipt_actor_company_key"
+            ),
+            models.CheckConstraint(
+                condition=Q(result="RECEIVED", reason="")
+                | Q(result="REJECTED", reason__in=["DAMAGED", "INCORRECT_ITEM", "OTHER"]),
+                name="receipt_valid_outcome",
+            ),
+            models.CheckConstraint(
+                condition=Q(source__in=["RECEIPT_API", "BOX_STATUS_UPDATE"]),
+                name="receipt_valid_source",
+            ),
+        ]
+        indexes = [models.Index(fields=["company", "created_at"], name="receipt_company_date")]
+
+
+class BoxEvent(ImmutableRecord):
+    class EventType(models.TextChoices):
+        BOX_CREATED = "BOX_CREATED", "Box created"
+        BOX_UPDATED = "BOX_UPDATED", "Box updated"
+        BOX_DELETED = "BOX_DELETED", "Box deleted"
+        RECEIPT_RECORDED = "RECEIPT_RECORDED", "Receipt recorded"
+
+    # A snapshot UUID deliberately survives deletion of a registered box.
+    box = models.UUIDField()
+    internal_id = models.CharField(max_length=35)
+    branch = models.ForeignKey("organizations.Branch", on_delete=models.PROTECT)
+    actor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
+    event_type = models.CharField(max_length=20, choices=EventType)
+    outcome = models.CharField(max_length=16, choices=Box.Status)
+    data = models.JSONField(default=dict)
+
+    class Meta:
+        constraints = [
+            models.CheckConstraint(
+                condition=Q(
+                    event_type__in=["BOX_CREATED", "BOX_UPDATED", "BOX_DELETED", "RECEIPT_RECORDED"]
+                ),
+                name="box_event_valid_type",
+            ),
+            models.CheckConstraint(
+                condition=Q(outcome__in=["REGISTERED", "RECEIVED", "REJECTED"]),
+                name="box_event_valid_outcome",
+            ),
+        ]
+        indexes = [
+            models.Index(fields=["company", "box", "created_at"], name="event_company_box_date")
+        ]
+
+    def clean(self):
+        super().clean()
+        import json
+
+        allowed = {
+            "product",
+            "quantity",
+            "weight_kg",
+            "priority",
+            "status",
+            "branch",
+            "receipt",
+            "result",
+            "reason",
+            "source",
+        }
+        if (
+            not isinstance(self.data, dict)
+            or set(self.data) - allowed
+            or len(json.dumps(self.data)) > 2048
+        ):
+            raise ValidationError({"data": "Event data must be an allowlisted bounded snapshot."})
+        if any(
+            not isinstance(value, (str, int, type(None))) or isinstance(value, bool)
+            for value in self.data.values()
+        ):
+            raise ValidationError({"data": "Event snapshot values must be scalar."})

@@ -1,5 +1,5 @@
 import { t, formatDate } from '../i18n/index.js'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useAuth } from '../auth.jsx'
 import {
@@ -15,7 +15,37 @@ import {
 } from '../components/ui.jsx'
 import { useRemote } from '../hooks/useRemote.js'
 import { api } from '../services/api.js'
+import { downloadLabel } from '../services/traceability.js'
 import { BoxForm } from './Resources.jsx'
+
+function BoxIdentity({ box }) {
+  const qr = useRemote(`/boxes/${box.id}/qr/`)
+  const [url, setUrl] = useState(''), [error, setError] = useState(null), [busy, setBusy] = useState(false)
+  useEffect(() => {
+    if (!qr.data?.svg) return
+    const objectUrl = URL.createObjectURL(new globalThis.Blob([qr.data.svg], { type: 'image/svg+xml' }))
+    setUrl(objectUrl)
+    return () => URL.revokeObjectURL(objectUrl)
+  }, [qr.data])
+  async function download() {
+    setBusy(true); setError(null)
+    try { await downloadLabel(box.id, box.internal_id) } catch (error) { setError(error) } finally { setBusy(false) }
+  }
+  return <div className="qr-content">
+    <p className="eyebrow">{t('qr_code_content')}</p>
+    {qr.loading ? <LoadingState /> : qr.error ? <ErrorState error={qr.error} onRetry={qr.reload} /> : <>
+      {url && <img src={url} alt={t('trace_qr_alt', { identifier: box.internal_id })} width="200" height="200" style={{ maxWidth: '100%' }} />}
+      <p><code style={{ overflowWrap: 'anywhere' }}>{qr.data.payload}</code></p>
+      <Button variant="secondary" busy={busy} onClick={download}>{t('trace_download_label')}</Button>
+    </>}
+    {error && <ErrorState error={error} />}
+    <p>{t('independent_identifier_if_the_qr_code_is_damaged')}</p>
+    <div className="action-buttons">
+      <Link className="text-link" to={`/app/receptions?box=${box.id}`}>{t('receptions')}</Link>
+      <Link className="text-link" to={`/app/history?box=${box.id}`}>{t('trace_history')}</Link>
+    </div>
+  </div>
+}
 
 export default function BoxDetail() {
   const { id } = useParams(),
@@ -84,12 +114,7 @@ export default function BoxDetail() {
           <p className="eyebrow">{t("internal_identifier")}</p>
           <h2 className="mono">{box.internal_id}</h2>
           <StatusBadge value={box.status} />
-          <div className="qr-content">
-            <p className="eyebrow">{t("qr_code_content")}</p>
-            <code>{box.qr_code}</code>
-            <p>{t("independent_identifier_if_the_qr_code_is_damaged")}</p>
-          </div>
-          <p className="small-note">{t("camera_scanning_will_be_added_in_a_later")}</p>
+          <BoxIdentity key={box.id} box={box} />
         </section>
         <section className="detail-panel">
           <h2>{t("goods_details")}</h2>

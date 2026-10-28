@@ -8,6 +8,8 @@ from rest_framework.exceptions import AuthenticationFailed
 
 from apps.core.messages import message
 
+from .password_errors import password_error_details
+
 User = get_user_model()
 
 
@@ -35,7 +37,9 @@ class RegistrationSerializer(StrictSerializer):
         try:
             password_validation.validate_password(attrs["password"], user=user)
         except DjangoValidationError as error:
-            raise serializers.ValidationError({"password": error.messages}) from None
+            raise serializers.ValidationError(
+                {"password": password_error_details(error, user)}
+            ) from None
         return attrs
 
     def create(self, validated_data):
