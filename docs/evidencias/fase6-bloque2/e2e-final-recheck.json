@@ -1,0 +1,25 @@
+{
+  "source": "Actual Playwright; private attachments/error bodies excluded",
+  "workers": 1,
+  "stats": {
+    "startTime": "2026-10-28T12:00:59.526Z",
+    "duration": 15798.824999999999,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  },
+  "tests": [
+    {
+      "title": "F6B2 live QR lookup, printable label, uncertain-network replay and immutable history",
+      "file": "traceability.spec.js",
+      "status": "unexpected",
+      "results": [
+        {
+          "status": "failed",
+          "duration_ms": 15278
+        }
+      ]
+    }
+  ]
+}

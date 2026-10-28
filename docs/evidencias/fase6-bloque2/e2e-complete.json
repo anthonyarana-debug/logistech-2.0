@@ -1,0 +1,190 @@
+{
+  "source": "Real Playwright report; credentials, attachments and error contexts excluded",
+  "workers": 1,
+  "stats": {
+    "startTime": "2026-10-28T11:41:47.859Z",
+    "duration": 572236.025,
+    "expected": 11,
+    "skipped": 0,
+    "unexpected": 5,
+    "flaky": 0
+  },
+  "tests": [
+    {
+      "title": "accesibilidad automática, ampliación CSS 200%, vacío, 403 y 500",
+      "file": "accessibility.spec.js",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration_ms": 44629
+        }
+      ]
+    },
+    {
+      "title": "landing, responsive, teclado, movimiento reducido y rutas públicas",
+      "file": "flows.spec.js",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration_ms": 818
+        }
+      ]
+    },
+    {
+      "title": "registro real y validación de confirmación; login incorrecto",
+      "file": "flows.spec.js",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration_ms": 825
+        }
+      ]
+    },
+    {
+      "title": "administrador: CRUD, integridad, filtros, sesión y responsive operacional",
+      "file": "flows.spec.js",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration_ms": 5415
+        }
+      ]
+    },
+    {
+      "title": "operador asignado: lectura de categorías y caja autorizada",
+      "file": "flows.spec.js",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration_ms": 983
+        }
+      ]
+    },
+    {
+      "title": "operador pendiente: sin consultas de inventario privado",
+      "file": "flows.spec.js",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration_ms": 48928
+        }
+      ]
+    },
+    {
+      "title": "superadmin: ámbito, referencias legibles y menú móvil",
+      "file": "flows.spec.js",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration_ms": 5923
+        }
+      ]
+    },
+    {
+      "title": "fallo de red simulado: error de servicio seguro y recuperable",
+      "file": "flows.spec.js",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration_ms": 226
+        }
+      ]
+    },
+    {
+      "title": "English remains the default with Spanish browser preferences",
+      "file": "language.spec.js",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration_ms": 414
+        }
+      ]
+    },
+    {
+      "title": "superadmin creates an enterprise and assigns a real administrative account",
+      "file": "operations.spec.js",
+      "status": "unexpected",
+      "results": [
+        {
+          "status": "failed",
+          "duration_ms": 979
+        }
+      ]
+    },
+    {
+      "title": "company admin manages branch, category, product and operator in its scope",
+      "file": "operations.spec.js",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration_ms": 2224
+        }
+      ]
+    },
+    {
+      "title": "operator has a real role dashboard and read-only catalogue without user directory",
+      "file": "operations.spec.js",
+      "status": "unexpected",
+      "results": [
+        {
+          "status": "failed",
+          "duration_ms": 12495
+        }
+      ]
+    },
+    {
+      "title": "access expira realmente a cinco minutos: renovación única y pérdida de refresh",
+      "file": "session.spec.js",
+      "status": "unexpected",
+      "results": [
+        {
+          "status": "failed",
+          "duration_ms": 339212
+        }
+      ]
+    },
+    {
+      "title": "F6B2 live QR lookup, printable label, uncertain-network replay and immutable history",
+      "file": "traceability.spec.js",
+      "status": "unexpected",
+      "results": [
+        {
+          "status": "failed",
+          "duration_ms": 14615
+        }
+      ]
+    },
+    {
+      "title": "F6B2 live tenant isolation, assigned-role access and simulated camera denial",
+      "file": "traceability.spec.js",
+      "status": "unexpected",
+      "results": [
+        {
+          "status": "timedOut",
+          "duration_ms": 90018
+        }
+      ]
+    },
+    {
+      "title": "F6B2 company admin records a justified rejection; unassigned operator is denied by the API",
+      "file": "traceability.spec.js",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration_ms": 1492
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "source": "Real Playwright report; credentials, attachments and error contexts excluded",
+  "workers": 1,
+  "stats": {
+    "startTime": "2026-10-28T11:41:26.042Z",
+    "duration": 8771.756000000001,
+    "expected": 3,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "tests": [
+    {
+      "title": "F6B2 live QR lookup, printable label, uncertain-network replay and immutable history",
+      "file": "traceability.spec.js",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration_ms": 4340
+        }
+      ]
+    },
+    {
+      "title": "F6B2 live tenant isolation, assigned-role access and simulated camera denial",
+      "file": "traceability.spec.js",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration_ms": 1370
+        }
+      ]
+    },
+    {
+      "title": "F6B2 company admin records a justified rejection; unassigned operator is denied by the API",
+      "file": "traceability.spec.js",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration_ms": 1611
+        }
+      ]
+    }
+  ]
+}

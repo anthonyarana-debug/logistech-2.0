@@ -20,3 +20,24 @@ Conservar Dockerfile de producción, configuración Django de producción, Gunic
 ## Criterios pendientes
 
 HTTPS/DNS reales, conectividad TLS PostgreSQL externa, backup/restauración cloud, límites compartidos, supervisión y costes requieren comprobación. También faltan stock/movimientos/auditoría e integración Android de siguientes bloques. Preparar staging puede avanzar paralelamente; no se afirma que esté desplegado.
+
+## Preparación adicional del Bloque 2 (F7 sin despliegue)
+
+Los QR/etiquetas se generan como SVG en memoria, sin bucket, archivos públicos ni
+persistencia de imagen. No se requiere S3 para este bloque. Si posteriormente se
+archivan etiquetas, usar acceso privado/caducidad y permisos de empresa; nunca
+publicarlas automáticamente. La aplicación web requiere HTTPS/contexto seguro
+para cámara; CSP debe permitir imágenes Blob de mismo contexto y Permissions-Policy
+limitar cámara al origen autorizado, sin permisos automáticos.
+
+Respaldar PostgreSQL con Receipt, BoxEvent, constraints, índices y funciones/triggers.
+Ensayar restore que conserve idempotencia e inmutabilidad; monitorizar crecimiento
+del historial/índices y retención legal. No implementar purga que borre auditoría
+ordinariamente. 0003/0004 son aditivas sin backfill ficticio; migrar como job único
+tras backup y prueba de actualización/restauración. Las cuentas de aplicación no
+deben tener privilegios de superusuario, TRUNCATE o alteración de triggers.
+
+Probar concurrencia en el servicio administrado objetivo, manejo40P01/40001, cuotas
+compartidas, TLS, restauración y rollback de aplicación compatible con esquema. Los
+QR son públicos como identificadores, pero su descarga/resolución siguen privadas.
+Ningún recurso AWS de pago ni servicio externo fue aprovisionado o desplegado.

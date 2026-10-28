@@ -1,5 +1,37 @@
 # Contrato REST vigente — F6 bloque 1
 
+## F6, Bloque 2 — identificación, recepción y eventos
+
+Todas las rutas siguientes exigen Bearer, cuenta activa y ámbito empresarial autorizado. SUPERADMIN válido opera globalmente; COMPANY_ADMIN/OPERATOR asignados solo en su empresa activa; sin empresa 403. Cuota privada compartida 120/min, JSON de error seguro en inglés, `Cache-Control: no-store`. Los UUID ajenos e inexistentes tienen el mismo 404. El QR no autoriza acceso.
+
+| Ruta / método | Entrada y filtros | Respuesta |
+|---|---|---|
+| GET `/api/v1/identification/resolve/` | Solo `code`, una vez: `logistech:box:<qr_code>`, UUID QR o CJ-32hex | 200 BoxSerializer existente; 400 formato/parámetros; 404 no disponible |
+| GET `/api/v1/boxes/{id}/qr/` | UUID de modelo, sin filtros | 200 `{box,internal_id,qr_code,payload,svg}`; SVG determinista |
+| GET `/api/v1/boxes/{id}/label/` | UUID de modelo, Accept `*/*` | 200 SVG imprimible descargable, 100×80 mm; no JSON en éxito |
+| GET/POST `/api/v1/receipts/` | GET: company, box, branch, result (RECEIVED/REJECTED); POST descrito abajo | Array 200; creación 201; replay 200 |
+| GET `/api/v1/receipts/{id}/` | UUID recepción; sin filtros | Receipt 200; ajeno/inexistente 404 |
+| GET `/api/v1/box-events/` | company, box (UUID), event_type | Array de eventos 200; filtros inválidos/repetidos 400 |
+| GET `/api/v1/box-events/{id}/` | UUID evento; sin filtros | Evento 200; ajeno/inexistente 404 |
+
+Métodos de mutación no publicados en QR/resolución/historial y PUT/PATCH/DELETE de recepciones: 405 tras autorización. Filtros company ajenos: 403; box/branch ajenos no amplían ámbito y pueden producir lista vacía. Sin autenticación 401; cuota excedida 429. No se añade paginación incompatible con arrays F3 en este bloque.
+
+POST recepción requiere cabecera `Idempotency-Key: <UUID>` y exclusivamente:
+
+```json
+{"box":"<box UUID>","branch":"<current branch UUID>","result":"RECEIVED","reason":""}
+```
+
+Para REJECTED, reason requiere DAMAGED, INCORRECT_ITEM u OTHER. No se aceptan company, actor, fechas ni claves arbitrarias. La sucursal debe ser la de la caja, nunca un traslado implícito. Caja REGISTERED, empresa/producto/sucursal activos y referencias coherentes. Motivos/campos/cabecera inválidos: 400; caja resuelta, referencias inactivas o solicitud incompatible con clave anterior: 409. Esperar/reintentar conflictos PostgreSQL 40P01/40001 con la misma clave; errores de base no reconocidos siguen siendo 500 genéricos.
+
+Idempotencia persistente por `(company,actor,key)`, sin caducidad automática. Misma solicitud y actor devuelve receipt original y cabecera `Idempotent-Replayed: true`. Otra clave para la misma caja no crea recepción adicional (409). Guardar clave y payload en Android hasta conocer resultado definitivo; no regenerar tras timeout. Web conserva el intento durante la vida del formulario; tras navegación/recarga no promete recuperación automática del intento.
+
+Receipt: `{id,box,internal_id,company,branch,actor,result,reason,source,created_at}`. source RECEIPT_API o BOX_STATUS_UPDATE. Eventos: `{id,event_type,box,internal_id,company,branch,actor,outcome,data,created_at}`. Tipos BOX_CREATED/BOX_UPDATED/BOX_DELETED/RECEIPT_RECORDED; data snapshot permitido y acotado (producto, cantidad, peso, prioridad, estado, sucursal y, en recepción, recibo/resultado/motivo/origen). No incluye contraseña, JWT, clave de idempotencia ni notas libres. Fechas ISO-8601 UTC.
+
+Compatibilidad: PATCH/PUT antiguo para estado final utiliza el servicio transaccional, source BOX_STATUS_UPDATE; rechazo sin motivo se registra OTHER. No cambia contrato ni enum. Las cajas terminales anteriores no reciben historia inventada. Eventos posteriores al bloque se registran en la misma transacción. Borrado REGISTERED conserva historial de UUID; recepción protege la caja. [Reglas](REGLAS_RECEPCION.md).
+
+Overview incorpora `counts.receipts` y `counts.events` mediante consultas reales por ámbito. Son registros persistidos, no unidades de stock ni tendencias históricas de operación previas al módulo.
+
 ## Administración operativa F6 (contrato vigente)
 
 Base `/api/v1/`; Bearer JWT, CSRF en auth con cookies, errores humanos en inglés y claves JSON heredadas conservadas. Listas devuelven arrays; todavía sin paginación. Campos UUID; fechas e identificadores son de solo lectura. Límite privado compartido: 120/min por usuario; `Cache-Control: no-store`. Sin nuevos endpoints públicos.

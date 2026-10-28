@@ -1,5 +1,11 @@
 # Roles y permisos — F6 bloque 1
 
+## F6, Bloque 2 — política ampliada
+
+SUPERADMIN global válido y COMPANY_ADMIN/OPERATOR asignados pueden identificar, descargar QR/etiqueta, consultar historia y registrar recepción, respetando empresa activa y referencias. Sin empresa/empresa inactiva deniega; OPERATOR no adquiere administración de categorías/usuarios ni borrado de cajas. User.branch sigue siendo organizativa, no ACL nueva. Solo un REGISTERED puede resolverse; la recepción no habilita transferencias ni stock.
+
+Recepciones/historia son de solo lectura después de creación, también para SUPERADMIN en API ordinaria. No existen endpoints de corrección o borrado de eventos. Un error de negocio futuro se corregirá mediante evento compensatorio diseñado, nunca reescritura. Borrado REGISTERED permitido según F3 genera BOX_DELETED y conserva snapshot; empresa/actor/sucursal con historia quedan protegidos por FK.
+
 ## Ampliación vigente F6 — administración operativa
 
 | Recurso | SUPERADMIN | COMPANY_ADMIN | OPERATOR asignado |

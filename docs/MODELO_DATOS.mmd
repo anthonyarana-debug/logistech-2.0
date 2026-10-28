@@ -12,6 +12,13 @@ erDiagram
     PRODUCT ||--o{ BOX : producto_unico
     BRANCH ||--o{ BOX : almacena
     USER ||--o{ BOX : crea
+    COMPANY ||--o{ RECEIPT : registra
+    COMPANY ||--o{ BOX_EVENT : aisla_historia
+    BOX ||--o| RECEIPT : resolucion_unica
+    BRANCH ||--o{ RECEIPT : recibe
+    BRANCH ||--o{ BOX_EVENT : referencia
+    USER ||--o{ RECEIPT : realiza
+    USER ||--o{ BOX_EVENT : actua
     COMPANY {
         uuid id PK
         string name
@@ -72,5 +79,30 @@ erDiagram
         string priority
         string status
         uuid created_by_id FK
+        datetime created_at
+    }
+    RECEIPT {
+        uuid id PK
+        uuid company_id FK
+        uuid box_id FK,UK
+        uuid branch_id FK
+        uuid actor_id FK
+        string internal_id "Snapshot"
+        string result "RECEIVED o REJECTED"
+        string reason "Vacio o enum de rechazo"
+        string source
+        uuid idempotency_key "UNIQUE empresa actor clave"
+        datetime created_at
+    }
+    BOX_EVENT {
+        uuid id PK
+        uuid company_id FK
+        uuid box "Snapshot sin FK, sobrevive borrado"
+        uuid branch_id FK
+        uuid actor_id FK
+        string internal_id "Snapshot"
+        string event_type
+        string outcome
+        json data "Allowlist acotada"
         datetime created_at
     }

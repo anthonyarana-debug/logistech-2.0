@@ -1,5 +1,9 @@
 # Decisiones técnicas
 
+## F6, Bloque 2
+
+QR = logistech:box:<qr_code>, separado de UUID del modelo/internal_id; generación SVG local determinista. Receipt es resolución final única, no movimiento ni saldo. Idempotencia por actor/empresa/clave; historial UUID snapshot conserva borrados autorizados. Triggers PostgreSQL bloquean UPDATE/DELETE sin afirmar inmutabilidad contra propietario DB. Cajas terminales anteriores no reciben backfill ficticio. CRUD anterior se integra al servicio, sin romper estados o exigir nueva cabecera al PATCH antiguo. [Reglas completas](REGLAS_RECEPCION.md).
+
 ## Decisiones vigentes F6
 
 Reutilizar Company/Branch/Product/User sin duplicar entidades. User.branch nullable y PROTECT mediante 0002: asignación organizativa, no ACL por sucursal. Mantener estados REGISTERED/RECEIVED/REJECTED y semántica F3 hasta diseñar recepción transaccional. No borrar usuarios ni exponer reset password sin revocación específica. No autorizar root/self vía REST. Mantener arrays y contratos F3; paginación y límites distribuidos se prepararán antes de escalar. Paneles muestran conteos actuales, nunca stock ni historial ficticio. Cloud separado de implementación local; requiere autorización y validación de costes.

@@ -1,5 +1,18 @@
 # LogisTech 2.0
 
+## F6, Bloque 2 — QR, recepción y trazabilidad
+
+Implementación sobre codex/fase-6-administracion, conservando Bloque1. QR visible y
+etiqueta imprimible, resolución manual/cámara con permiso, recepciones persistentes
+con idempotencia y transacciones PostgreSQL, historial de solo lectura y contadores
+reales. Estados previos conservados; no es todavía stock ni movimientos.
+
+[Reglas](docs/REGLAS_RECEPCION.md), [contrato REST](docs/ENDPOINTS.md),
+[compatibilidad Android](docs/ANDROID_COMPATIBILIDAD.md) e
+[informe y resultados reales](docs/INFORME_FASE_6_BLOQUE_2.md).
+Verificar con scripts/verify_f6_block2.py. La validación final usa logistech-f6-b2 y
+compose.traceability-validation.yml, aislados en 127.0.0.1:5175/8002; la base de trabajo no se migra automáticamente. Cloud parcial.
+
 Repositorio público: [anthonyarana-debug/logistech-2.0](https://github.com/anthonyarana-debug/logistech-2.0), main predeterminada y F0–F5 publicados. Ver [publicación verificada](docs/PUBLICACION_GITHUB.md), [auditoría previa](docs/AUDITORIA_GITHUB.md) e [instrucciones para otra computadora](docs/NUEVA_COMPUTADORA.md). Las credenciales, bases y volúmenes locales se recrean o transfieren por un canal privado separado, nunca por Git. GitHub aloja el código; la aplicación no se desplegó en cloud.
 
 Adaptación local aprobada: aplicación en inglés por defecto y documentación académica consolidada. Ver [INFORME_ACADEMICO](docs/INFORME_ACADEMICO.md), [matriz de la guía](docs/MATRIZ_GUIA_PROFESOR.md), [API interna](docs/API_INTERNA.md), [internacionalización](docs/INTERNACIONALIZACION.md) y [cierre de adaptación](docs/INFORME_ADAPTACION.md). Estos cambios se conservaron en `codex/documentacion-internacionalizacion` y forman parte de la base de `codex/fase-6-administracion`; todavía no se han publicado en GitHub.

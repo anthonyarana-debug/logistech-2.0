@@ -1,0 +1,50 @@
+{
+  "scope": "Final isolated server auth counts only; no headers/cookies/bodies. Includes later targeted runs and real throttling.",
+  "counts": [
+    {
+      "path": "/api/v1/auth/csrf/",
+      "status": "200",
+      "count": 41
+    },
+    {
+      "path": "/api/v1/auth/login/",
+      "status": "200",
+      "count": 16
+    },
+    {
+      "path": "/api/v1/auth/login/",
+      "status": "401",
+      "count": 1
+    },
+    {
+      "path": "/api/v1/auth/login/",
+      "status": "429",
+      "count": 4
+    },
+    {
+      "path": "/api/v1/auth/me/",
+      "status": "200",
+      "count": 1
+    },
+    {
+      "path": "/api/v1/auth/refresh/",
+      "status": "200",
+      "count": 3
+    },
+    {
+      "path": "/api/v1/auth/refresh/",
+      "status": "401",
+      "count": 27
+    },
+    {
+      "path": "/api/v1/auth/refresh/",
+      "status": "429",
+      "count": 10
+    },
+    {
+      "path": "/api/v1/auth/register/",
+      "status": "201",
+      "count": 1
+    }
+  ]
+}

@@ -1,5 +1,20 @@
 # Matriz de requisitos y evidencias
 
+## F6, Bloque 2
+
+| Entregable | Estado | Evidencia |
+|---|---|---|
+| QR/etiqueta/resolución autenticada | Implementado, SVG vectorial y decodificación independiente | test_identification.py, E2E y capturas |
+| Cámara web | Implementada con soporte nativo y permiso voluntario; cámara física pendiente de comprobación humana | Denegación SIMULADA documentada, alternativa manual real |
+| Recepción única/transaccional/idempotente | Implementada con PostgreSQL real | test_reception.py, hilos/concurrencia/rollback y E2E replay |
+| Historia persistente | Read-only REST/ORM y triggers PostgreSQL; datos históricos previos no inventados | Tests SQL, migraciones y eventos reales |
+| Contratos web/móvil | REST documentado, Android no modificado ni integrado | ENDPOINTS y ANDROID_COMPATIBILIDAD |
+| Indicadores operativos | Conteos reales de recepciones/eventos por ámbito | Overview y E2E |
+| Stock/movimientos/reportes | Pendientes de siguientes bloques | PLAN_FASE_6 |
+| Cloud | Preparación parcial, sin provisión ni despliegue | CLOUD_FASE_6 |
+
+Resultados finales y limitaciones: INFORME_FASE_6_BLOQUE_2.md. Matrices previas conservan su carácter histórico.
+
 ## Estado funcional F6 — bloque 1
 
 | Entregable | Resultado local | Evidencia |

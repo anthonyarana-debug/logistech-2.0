@@ -1,5 +1,13 @@
 # Arquitectura vigente — LogisTech 2.0
 
+## F6, Bloque 2 — recepción y trazabilidad
+
+boxes.reception concentra recepción atómica: actor/caja/empresa/referencias bloqueados; Receipt único por caja y por actor/empresa/idempotency-key; estado y BoxEvent confirmados juntos. BoxViewSet instrumenta creación/edición/borrado y deriva transiciones finales anteriores al mismo servicio. Eventos inmutables con snapshot UUID de caja, que sobrevive a borrado REGISTERED. PostgreSQL bloquea UPDATE/DELETE de historia mediante triggers; no se afirma resistencia frente al propietario de DB/TRUNCATE.
+
+boxes.identification genera SVG determinista en memoria con qrcode 8.2, sin almacenamiento externo ni API de QR. Resolver usa queryset defensivo y ámbito de servidor. Etiqueta SVG vectorial 100×80 mm con referencia legible. Frontend muestra Blob local y descarga autenticada; cámara BarcodeDetector solo por acción del usuario y soporte/contexto seguro, con entrada manual siempre disponible. El stream se libera al detener/desmontar. Nuevo código no abre enlaces arbitrarios leídos del QR.
+
+React incorpora Identification, Receptions e History y contadores de recepciones/eventos; usa contratos REST compartibles con Android. Los detalles históricos se presentan como datos de negocio, no como panel técnico JSON. Continúan monolito modular, PostgreSQL, Industrial Precision y catálogos ingleses. Ver REGLAS_RECEPCION.md y ANDROID_COMPATIBILIDAD.md.
+
 Estado actualizado el 2026-10-28: F6 bloque 1 añade administración operativa al núcleo
 F0–F5 y su adaptación inglesa. El monolito modular y PostgreSQL compartido se
 conservan. Ver [PLAN_FASE_6](PLAN_FASE_6.md) e [INFORME_FASE_6](INFORME_FASE_6.md).

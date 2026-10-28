@@ -1,5 +1,16 @@
 # Referencia de API interna para mantenimiento
 
+## F6, Bloque 2
+
+- boxes.identification: payload/qr_svg/printable_label, IdentificationView y BoxIdentificationViewSet; resolución exacta y SVG privados, sin persistencia de archivo.
+- boxes.reception: receive_box transaccional y record_event con snapshot permitido. Llamada desde ReceiptViewSet y transiciones de BoxViewSet, sin duplicar semántica.
+- boxes.models: Receipt/BoxEvent e ImmutableRecord/ImmutableQuerySet; triggers definidos en boxes0004.
+- boxes.views: ReceiptViewSet/BoxEventViewSet y ReceptionConflictMixin para 40P01/40001 seguros; actores y referencias actuales, sin claims de autorización obsoletos.
+- services/traceability.js: resolveCode, receiptBody, receiptAttempt y downloadLabel; API conserva Authorization en memoria y renovación única, admite cabeceras de idempotencia y Blob.
+- Identification.jsx, Receptions.jsx, History.jsx: nuevas pantallas; BoxDetail muestra QR y enlaces; Dashboard usa recuentos reales adicionales.
+
+No llamar receive_box con datos sin validar fuera de su frontera REST; reason/result/source están validados por serializer y restricciones PostgreSQL. Eventos se escriben en la misma transacción del caso de uso; no mediante tareas asíncronas que puedan perderse.
+
 ## Ampliación F6
 
 - accounts.operations: UserAdministration, UserAdministrationSerializer, UserViewSet; asignación y desactivación con filas bloqueadas. Sin DELETE ni reset de contraseña.

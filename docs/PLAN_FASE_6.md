@@ -67,3 +67,19 @@ Se corrigieron etiqueta last_name ausente, descubrimiento unit/ en Docker y
 conservación de sucursal inactiva al desactivar usuarios. Sin debilitar permisos.
 Se conservó main y no se hizo push ni despliegue. Los siguientes bloques siguen
 pendientes; este cierre no declara terminada toda la evolución F6.
+
+## Evolución Bloque 2
+
+Identificación QR, recepción e historial se implementan conforme a REGLAS_RECEPCION.md.
+El listado «todavía no implementada» anterior pertenece al cierre del Bloque1;
+para estado vigente ver INFORME_FASE_6_BLOQUE_2.md. No se implementa ReceiptLine
+multicaja: Receipt resuelve una caja con producto/quantity existentes, sin simular
+stock. Movimientos, conciliación, analítica y Android siguen pendientes.
+
+## Cierre Bloque2
+
+273 pruebas PostgreSQL,15 unitarias frontend y16 E2E completos pasan;3 E2E afectados
+por el último ajuste visual vuelven a pasar. QR/etiqueta/resolución, recepción
+idempotente e historia inmutable implementados; cámara física, impresión y Android
+requieren comprobación humana. Ver INFORME_FASE_6_BLOQUE_2.md. No se ejecutó F7
+ni se aprovisionó cloud.

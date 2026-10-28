@@ -1,5 +1,15 @@
 # Base de datos — esquema vigente F6
 
+## F6, Bloque 2 — nuevas entidades y migraciones
+
+boxes.0003_boxevent_receipt crea Receipt y BoxEvent sin rellenar procedencias históricas. boxes.0004_immutable_reception_history instala triggers PostgreSQL que rechazan UPDATE/DELETE; reversión de esquema existe para entornos de pruebas, no debe usarse como rutina destructiva.
+
+Receipt: UUID, company/branch/actor PROTECT, box OneToOne PROTECT, internal_id snapshot, result/reason/source con CHECK, idempotency_key UUID y UNIQUE(company,actor,key), created_at; índice (company,created_at). BoxEvent: UUID, company/branch/actor PROTECT, box UUID snapshot sin FK, internal_id, event_type/outcome con CHECK, data JSON acotado/permitido, created_at; índice (company,box,created_at). No hay saldo de stock nuevo.
+
+Los FK simples no prueban igualdad de empresa entre tablas: servicio y modelos conservan esa responsabilidad. Eventos son append-only en API/ORM y protegidos por triggers contra modificación/borrado ordinarios; dueño de DB/TRUNCATE o alteración de esquema no quedan criptográficamente impedidos. Una prueba migra F6 bloque1 con cajas REGISTERED/RECEIVED/REJECTED y comprueba IDs/estados intactos y cero recepciones/eventos ficticios.
+
+Migraciones ejecutadas exclusivamente en logistech-f6 aislado; base de trabajo preservada. Revisar backup, restauración, crecimiento de eventos, permisos y ventana de migración antes de aplicar a otro entorno.
+
 ## Ampliación vigente F6
 
 Migraciones aditivas: accounts/0002 añade User.branch nullable con FK PROTECT y CHECK branch requiere company; organizations/0002 añade CHECK ACTIVE/INACTIVE para Company/Branch; catalog/0002 añade CHECK ACTIVE/INACTIVE para Product. Las 0001, los UUID, internal_id y qr_code existentes se conservan. Diagrama editable actualizado; SVG/PNG fase5 permanecen evidencia histórica.

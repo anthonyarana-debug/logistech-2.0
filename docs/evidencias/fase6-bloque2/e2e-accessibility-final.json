@@ -1,0 +1,48 @@
+{
+  "source": "Actual Playwright execution; private attachments and error bodies excluded",
+  "workers": 1,
+  "retries": 0,
+  "stats": {
+    "startTime": "2026-10-28T12:13:13.352Z",
+    "duration": 6589.958,
+    "expected": 3,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "tests": [
+    {
+      "title": "landing, responsive, teclado, movimiento reducido y rutas públicas",
+      "file": "flows.spec.js",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration_ms": 1018
+        }
+      ]
+    },
+    {
+      "title": "English remains the default with Spanish browser preferences",
+      "file": "language.spec.js",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration_ms": 612
+        }
+      ]
+    },
+    {
+      "title": "F6B2 live QR lookup, printable label, uncertain-network replay and immutable history",
+      "file": "traceability.spec.js",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration_ms": 4218
+        }
+      ]
+    }
+  ]
+}

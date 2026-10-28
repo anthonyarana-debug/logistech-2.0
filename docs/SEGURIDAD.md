@@ -1,5 +1,13 @@
 # Seguridad — validación de Fase 5
 
+## F6, Bloque 2 — identificación y registros históricos
+
+QR es identificador público opaco, nunca credencial: payload contiene únicamente qr_code. Generación, descarga y resolución privadas y limitadas por empresa; SVG solo geometría/texto controlados, sin scripts, URLs externas ni nombres de negocio. Etiqueta no almacena secretos. Cámara inicia por acción explícita, procesa imagen en dispositivo y libera tracks; no sube imágenes.
+
+Recepción impone actor/company/fecha en servidor y verifica caja/sucursal/empresa/referencias bajo transacción. Clave de idempotencia no sustituye Bearer y se limita a actor/empresa. Una recepción por caja, replay exacto y conflictos comprobados con hilos PostgreSQL reales. Eventos y recepciones rechazan mutaciones REST/ORM y UPDATE/DELETE PostgreSQL. Triggers no sustituyen privilegios DB, backup ni control del propietario de la base. Conflictos de concurrencia conocidos devuelven 409 seguro; otros fallos internos 500 genérico, con rollback probado.
+
+Historia permite consultar solo snapshots autorizados; no passwords, tokens ni notas libres. Usuario reasignado no traslada la historia de su empresa anterior. Archivos QR no se persisten en servidor ni requieren bucket público. Backups Git solo tras auditoría de secretos y sin alterar main. Ver informe y evidencias/fase6-bloque2/.
+
 ## Revisión F6: administración operativa
 
 Se mantienen JWT/CSRF/throttling y errores seguros. Nuevos CRUD comparten TenantViewSet: ámbito antes de filtros, actor actualizado bajo bloqueo y escrituras atómicas. COMPANY_ADMIN solo administra operadores propios, no role/company; SUPERADMIN y actor propio protegidos; claves de privilegio desconocidas rechazadas. Usuarios no se borran; desactivación impide access/refresh. Restablecer password no está habilitado por PATCH: requiere diseño de revocación de sesiones.

@@ -1,0 +1,11 @@
+{
+  "commit": "ca58c1689427b8fa63db54faa2bbbbbd0fa10f58",
+  "branch": "codex/fase-6-administracion",
+  "working_tree_at_recovery": "clean",
+  "baseline_postgresql": "216 passed in 21.16s",
+  "backup_branch": "codex/respaldo-f6-bloque-1",
+  "backup_remote_sha_verified": "ca58c1689427b8fa63db54faa2bbbbbd0fa10f58",
+  "main_sha": "e7e437c1586c887bc096f0e07639598a70306d04",
+  "work_database": "untouched",
+  "original_android": "not inspected or modified"
+}

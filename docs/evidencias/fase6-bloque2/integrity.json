@@ -1,0 +1,58 @@
+{
+  "timestamp_utc": "2026-10-28T12:15:09.806732+00:00",
+  "scope": "Read-only isolated demo PostgreSQL; historical actors may be reassigned",
+  "vendor": "postgresql",
+  "versions": {
+    "qrcode": "8.2",
+    "zxing-cpp": "3.1.1",
+    "Django": "5.2.18"
+  },
+  "counts": {
+    "boxes": 35,
+    "receipts": 9,
+    "events": 26
+  },
+  "events_by_type": [
+    {
+      "event_type": "BOX_DELETED",
+      "count": 2
+    },
+    {
+      "event_type": "BOX_CREATED",
+      "count": 13
+    },
+    {
+      "event_type": "RECEIPT_RECORDED",
+      "count": 9
+    },
+    {
+      "event_type": "BOX_UPDATED",
+      "count": 2
+    }
+  ],
+  "legacy_terminal_boxes_without_receipt": 12,
+  "discrepancies": {
+    "receipt_company": 0,
+    "receipt_branch": 0,
+    "receipt_status": 0,
+    "event_branch": 0
+  },
+  "triggers": [
+    "boxes_event_immutable",
+    "boxes_receipt_immutable"
+  ],
+  "constraints": {
+    "boxes_receipt": [
+      "boxes_receipt_box_id_key",
+      "boxes_receipt_pkey",
+      "receipt_actor_company_key",
+      "receipt_valid_outcome",
+      "receipt_valid_source"
+    ],
+    "boxes_boxevent": [
+      "box_event_valid_outcome",
+      "box_event_valid_type",
+      "boxes_boxevent_pkey"
+    ]
+  }
+}

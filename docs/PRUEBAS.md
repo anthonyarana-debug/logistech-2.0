@@ -1,5 +1,15 @@
 # Comprobaciones — historial y cierre Fase 5
 
+## F6, Bloque 2 — reproducción y evidencias
+
+Con el stack aislado logistech-f6 saludable, ejecutar `python scripts/verify_f6_block2.py` para checks completos y evidencias nuevas en evidencias/fase6-bloque2/checks.json (no sobrescribe F6 bloque1). Backend usa PostgreSQL, qrcode 8.2 y ZXing-C++ 3.1.1 solo en desarrollo para decodificar los módulos del SVG real, incluida etiqueta. No añade Pillow ni servicio QR externo.
+
+Playwright desde frontend/, con PW_BASE_URL=http://127.0.0.1:5174, PW_DEMO_FILE apuntando al JSON privado F6 y PW_REPORT a output/qa/f6-b2/ ignorado. `node node_modules/@playwright/test/cli.js test --workers=1`; prefijo PW_EVIDENCE_PREFIX=fase6-b2 evita sobrescribir capturas anteriores. E2E conserva cuotas y cinco minutos reales de caducidad. Los reportes públicos son resúmenes saneados.
+
+Casos nuevos: tres roles, dos empresas, QR propio/ajeno/inexistente/UUID de modelo, payloads inválidos, cuota120 real, descarga SVG, decodificación ZXing independiente; recepción aceptada/rechazada/motivos, replay/concurrencia por caja/actor/clave, rollback y errores seguros, mutación SQL bloqueada y actualización de migraciones sin historia inventada. E2E prueba una respuesta de recepción perdida después de commit real y replay200; denegación de cámara es explícitamente simulada. Axe y responsive en nuevas pantallas; cámara física/impresión/Android requieren revisión humana.
+
+No hay nueva prueba de carga Locust/k6 ni benchmark cloud. Resultados reales finales en INFORME_FASE_6_BLOQUE_2.md.
+
 ## Verificación F6 — entorno aislado
 
 Resultados finales comprobables: INFORME_FASE_6.md y evidencias/fase6/checks.json, e2e-complete.json. scripts/verify_f6.py ejecuta check, migrate --check, makemigrations --check --dry-run, introspección PostgreSQL, pytest completo, Ruff, pip check y test:unit/lint/build dentro de contenedores logistech-f6. La salida de unitarias debe descubrir casos (>0); se corrigió .dockerignore para incluir unit/.
@@ -284,3 +294,29 @@ Se corrigió una importación de Decimal detectada en lint y al cargar el comand
 Rate limiting sigue local/no atómico entre workers. No RLS ni triggers cruzados para impedir todo SQL administrativo directo; la API filtra y valida sus vías. Listas sin paginación inicial, sin endpoints públicos de productos/sucursales, sin recepción/historial completos. Sin carga/Locust, cloud, TLS externo, backups, móvil o pruebas visuales F4. Estas verificaciones corresponden a fases todavía no autorizadas.
 
 CHECKLIST HUMANO F3: revisar informe/contrato y autorizar F4 por separado. Dirección visual ya registrada: A con recursos oscuros de B, sin segundo tema. No se necesita repetir manualmente las comprobaciones técnicas completadas.
+
+## Ejecución final aislada del Bloque 2
+
+Se utiliza un proyecto separado logistech-f6-b2 y compose.traceability-validation.yml,
+con volumen propio y puertos loopback8002/5175; logistech-f6 y su volumen se conservan.
+Esto permite una ejecución completa desde un estado de pruebas conocido después de
+varias sesiones que agotaron refresh30/hora en F6. No se reinicia ni limpia caché
+para eludir una cuota durante una ejecución; no cambian tasas, TTL ni IP.
+
+```powershell
+docker compose -p logistech-f6-b2 -f docker-compose.yml -f compose.traceability-validation.yml build
+docker compose -p logistech-f6-b2 -f docker-compose.yml -f compose.traceability-validation.yml up -d --wait db
+docker compose -p logistech-f6-b2 -f docker-compose.yml -f compose.traceability-validation.yml run --rm --no-deps backend python manage.py migrate --noinput
+docker compose -p logistech-f6-b2 -f docker-compose.yml -f compose.traceability-validation.yml up -d --wait
+python scripts/verify_f6_block2.py
+```
+
+Para E2E final, PW_BASE_URL=http://127.0.0.1:5175 y PW_DEMO_FILE apunta a
+.env.f6-b2-final-demo.json privado, generado con create_demo en ese proyecto. No incluir
+el JSON en Git. Flujos SPA usan enlaces cuando no prueban recarga, evitando consumo
+innecesario de refresh; la prueba de caducidad conserva el tiempo y la renovación
+reales. Los reportes fallidos previos se conservan saneados, no se ocultan.
+
+El cierre completo pasó16/16 en e2e-verified.json. Tras el ajuste final de contraste,
+se verificaron3 E2E afectados en e2e-accessibility-final.json y15 unitarias/lint/build.
+No se repitió otra vez el temporizador de cinco minutos ya aprobado.
