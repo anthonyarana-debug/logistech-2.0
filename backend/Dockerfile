@@ -20,5 +20,9 @@ FROM runtime AS production
 USER root
 COPY requirements-production.txt ./
 RUN pip install --no-cache-dir -r requirements-production.txt
+RUN mkdir -p /app/staticfiles && chown 10001:10001 /app/staticfiles
+# Runtime images are immutable: package installation tools and their vendored
+# dependencies belong in build/test stages, not the Internet-facing process.
+RUN python -m pip uninstall -y pip setuptools wheel
 USER app
-CMD ["gunicorn", "config.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "2", "--threads", "2", "--access-logfile", "-", "--error-logfile", "-"]
+CMD ["gunicorn", "config.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "2", "--threads", "2", "--access-logfile", "-", "--access-logformat", "{\"status\":%(s)s,\"method\":\"%(m)s\",\"duration_us\":%(D)s}", "--error-logfile", "-", "--forwarded-allow-ips", "*"]

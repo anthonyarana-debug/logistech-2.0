@@ -81,6 +81,17 @@ def sensitive_path(name):
 
 def local_values():
     values = set()
+    # Compose production credentials are mounted individually, never stored in dotenv.
+    # Compare their exact values without printing them or treating public CA files as keys.
+    for directory in ROOT.glob(".env.*-secrets"):
+        if not directory.is_dir():
+            continue
+        for name in ("django_secret_key", "db_owner_password", "db_app_password"):
+            path = directory / name
+            if path.is_file():
+                value = path.read_bytes().strip()
+                if len(value) >= 16:
+                    values.add(value)
     for path in ROOT.glob(".env*"):
         if not path.is_file() or path.name == ".env.example":
             continue
@@ -97,6 +108,10 @@ def local_values():
                 if "=" not in line or line.lstrip().startswith("#"):
                     continue
                 key, value = line.split("=", 1)
+                # Public directory reference, not a secret value. The actual
+                # mounted credentials are compared from their files above.
+                if key.strip().upper() == "F7_SECRETS_DIR":
+                    continue
                 if any(part in key.upper() for part in ("SECRET", "PASSWORD", "TOKEN", "API_KEY")):
                     value = value.strip().strip("\"'")
                     if len(value) >= 16 and not value.startswith("REEMPLAZAR_"):

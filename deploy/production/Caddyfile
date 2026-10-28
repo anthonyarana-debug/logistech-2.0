@@ -1,0 +1,7 @@
+{
+    email {$ACME_EMAIL}
+    admin off
+}
+{$PUBLIC_DOMAIN} {
+    import /etc/caddy/routes.caddy
+}

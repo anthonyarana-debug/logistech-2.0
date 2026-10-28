@@ -5,7 +5,7 @@ import { mkdirSync, readFileSync } from 'node:fs'
 import { randomUUID } from 'node:crypto'
 import { Workspace, demo } from './workspace.js'
 
-const evidenceDirectory = new URL('../../docs/evidencias/fase6-bloque2/', import.meta.url)
+const evidenceDirectory = new URL(`../../docs/evidencias/${process.env.PW_EVIDENCE_PREFIX || 'fase6-bloque2'}/`, import.meta.url)
 mkdirSync(evidenceDirectory, { recursive: true })
 const evidence = name => fileURLToPath(new URL(`${name}.png`, evidenceDirectory))
 async function login(page, role) {

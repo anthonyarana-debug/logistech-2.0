@@ -1,0 +1,6 @@
+# Docker Compose >=2.24.4: replace public ports instead of appending.
+services:
+  proxy:
+    ports: !override ['127.0.0.1:8087:80', '127.0.0.1:8447:443']
+    volumes:
+      - ./deploy/production/Caddyfile.local:/etc/caddy/Caddyfile:ro

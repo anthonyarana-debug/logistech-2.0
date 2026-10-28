@@ -1,0 +1,151 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: >-
+  PREPARATION ONLY. Alternative EC2 VM, security group and one stable public IPv4
+  in an existing public subnet. Creating this stack consumes credits or incurs charges.
+  Approval is required first. No application installation or DNS changes.
+Metadata:
+  Documentation:
+    Instance: https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-ec2-instance.html
+    ElasticIp: https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-ec2-eip.html
+    UbuntuImages: https://ubuntu.com/aws/docs/aws-how-to/instances/find-ubuntu-images/
+    FreePlanTypes: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-free-tier-usage.html
+  ReviewNotes:
+    - Verify available credits, AMI Free Tier eligibility, instance availability and quotas before creation.
+    - Existing subnet must belong to VpcId and have a route through an existing internet gateway.
+    - Ubuntu SSM lookup requires permission to read the public Canonical parameter in Ohio.
+    - t3.small has 2 GiB RAM; c7i-flex.large offers 4 GiB at substantially greater credit consumption.
+    - Retained VM, EBS and IPv4 keep consuming credits or charges until explicitly removed.
+    - No VPC, NAT gateway, load balancer, RDS, Route53, or IAM resources are created here.
+Parameters:
+  InstanceName:
+    Type: String
+    Default: logistech-f7
+    MinLength: 1
+    MaxLength: 100
+  VpcId:
+    Type: AWS::EC2::VPC::Id
+    Description: Existing VPC, verified before approval.
+  SubnetId:
+    Type: AWS::EC2::Subnet::Id
+    Description: Existing public subnet in VpcId with internet gateway route; no NAT gateway required.
+  KeyName:
+    Type: AWS::EC2::KeyPair::KeyName
+    Description: Existing regional EC2 SSH key pair; no private key is embedded.
+  AdminSshCidr:
+    Type: String
+    Description: Administrator public IPv4 in CIDR /32 format.
+    AllowedPattern: '^((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\.){3}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])/32$'
+    ConstraintDescription: Use a single valid public IPv4 followed by /32.
+  InstanceType:
+    Type: String
+    Default: t3.small
+    AllowedValues: [t3.small, c7i-flex.large]
+    Description: Free Plan listed x86 alternatives; 2 GiB default or explicitly selected 4 GiB c7i-flex.large. Eligibility still requires account verification.
+  UbuntuAmiParameter:
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Default: /aws/service/canonical/ubuntu/server/24.04/stable/current/amd64/hvm/ebs-gp3/ami-id
+    Description: Canonical Ubuntu Server 24.04 amd64; resolve and verify Free Tier eligibility before approving creation.
+  RootDiskGiB:
+    Type: Number
+    Default: 40
+    AllowedValues: [40, 60]
+    Description: Encrypted gp3 root disk; retained after termination and billed while provisioned.
+Rules:
+  OhioOnly:
+    Assertions:
+      - Assert: !Equals [!Ref 'AWS::Region', us-east-2]
+        AssertDescription: Review this proposal in Ohio (us-east-2) only.
+Conditions:
+  IsBurstableT3: !Equals [!Ref InstanceType, t3.small]
+Resources:
+  ApplicationSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      GroupDescription: LogisTech HTTPS and administrator-only SSH; PostgreSQL is not public.
+      VpcId: !Ref VpcId
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: !Ref AdminSshCidr
+          Description: Administrator IPv4 only
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+          Description: HTTP redirect and ACME validation
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp: 0.0.0.0/0
+          Description: Public HTTPS
+      SecurityGroupEgress:
+        - IpProtocol: '-1'
+          CidrIp: 0.0.0.0/0
+          Description: OS updates, container downloads and approved backups
+      Tags:
+        - Key: Project
+          Value: LogisTech
+        - Key: Phase
+          Value: '7'
+  ApplicationInstance:
+    Type: AWS::EC2::Instance
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      ImageId: !Ref UbuntuAmiParameter
+      InstanceType: !Ref InstanceType
+      KeyName: !Ref KeyName
+      CreditSpecification: !If
+        - IsBurstableT3
+        - CPUCredits: standard
+        - !Ref 'AWS::NoValue'
+      MetadataOptions:
+        HttpTokens: required
+        HttpEndpoint: enabled
+        HttpPutResponseHopLimit: 1
+      Monitoring: false
+      PropagateTagsToVolumeOnCreation: true
+      NetworkInterfaces:
+        - DeviceIndex: '0'
+          AssociatePublicIpAddress: false
+          DeleteOnTermination: true
+          SubnetId: !Ref SubnetId
+          GroupSet: [!Ref ApplicationSecurityGroup]
+      BlockDeviceMappings:
+        - DeviceName: /dev/sda1
+          Ebs:
+            Encrypted: true
+            VolumeType: gp3
+            VolumeSize: !Ref RootDiskGiB
+            DeleteOnTermination: false
+      Tags:
+        - Key: Name
+          Value: !Ref InstanceName
+        - Key: Project
+          Value: LogisTech
+        - Key: Phase
+          Value: '7'
+  ApplicationElasticIp:
+    Type: AWS::EC2::EIP
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      Domain: vpc
+      InstanceId: !Ref ApplicationInstance
+      Tags:
+        - Key: Project
+          Value: LogisTech
+        - Key: Phase
+          Value: '7'
+Outputs:
+  InstanceId:
+    Value: !Ref ApplicationInstance
+  PublicIPv4:
+    Description: Proposed Porkbun A-record target after separate DNS approval.
+    Value: !Ref ApplicationElasticIp
+  ProposedApplicationURL:
+    Description: Available only after application deployment, separately approved DNS and successful TLS issuance.
+    Value: https://logistech.stackpe.online

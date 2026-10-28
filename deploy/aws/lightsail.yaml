@@ -1,0 +1,90 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: >-
+  PREPARATION ONLY. LogisTech F7 single Lightsail VM and stable IPv4.
+  Creating this stack consumes credits or incurs charges. Approval is required first.
+  This template neither installs the application nor changes DNS.
+Metadata:
+  Documentation:
+    Instance: https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-lightsail-instance.html
+    Ports: https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-properties-lightsail-instance-port.html
+    StaticIp: https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-lightsail-staticip.html
+  ReviewNotes:
+    - Verify account Free Plan access, credits, bundle, blueprint and quotas before creating.
+    - Select an IPv4-compatible Linux Ubuntu bundle; no bundle ID is assumed.
+    - CloudFormation Lightsail Instance has no supported IpAddressType property.
+    - Retained resources continue consuming credits or charges until explicitly removed.
+    - Keep independent downloaded backups before Free Plan expiry or credit exhaustion.
+Parameters:
+  InstanceName:
+    Type: String
+    Default: logistech-f7
+    MinLength: 2
+    MaxLength: 100
+    AllowedPattern: '^[a-zA-Z0-9][a-zA-Z0-9_.-]*[a-zA-Z0-9]$'
+  BlueprintId:
+    Type: String
+    MinLength: 1
+    Description: Existing available Ubuntu Linux blueprint ID verified in us-east-2; required, no assumed ID.
+  BundleId:
+    Type: String
+    MinLength: 1
+    Description: Verified IPv4-compatible bundle ID; proposed 4 GB USD24/month, subject to current region pricing and plan eligibility.
+  KeyPairName:
+    Type: String
+    MinLength: 1
+    Description: Existing Lightsail SSH key pair in us-east-2; retain its private key outside this template.
+  AdminSshCidr:
+    Type: String
+    Description: Administrator public IPv4 in CIDR /32 format; never open SSH to the world.
+    AllowedPattern: '^((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\.){3}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])/32$'
+    ConstraintDescription: Use a single valid public IPv4 followed by /32.
+Rules:
+  OhioOnly:
+    Assertions:
+      - Assert: !Equals [!Ref 'AWS::Region', us-east-2]
+        AssertDescription: Review this proposal in Ohio (us-east-2) only.
+Resources:
+  ApplicationInstance:
+    Type: AWS::Lightsail::Instance
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      InstanceName: !Ref InstanceName
+      BlueprintId: !Ref BlueprintId
+      BundleId: !Ref BundleId
+      KeyPairName: !Ref KeyPairName
+      Networking:
+        Ports:
+          - Protocol: tcp
+            FromPort: 22
+            ToPort: 22
+            Cidrs: [!Ref AdminSshCidr]
+          - Protocol: tcp
+            FromPort: 80
+            ToPort: 80
+            Cidrs: [0.0.0.0/0]
+          - Protocol: tcp
+            FromPort: 443
+            ToPort: 443
+            Cidrs: [0.0.0.0/0]
+      Tags:
+        - Key: Project
+          Value: LogisTech
+        - Key: Phase
+          Value: '7'
+  ApplicationStaticIp:
+    Type: AWS::Lightsail::StaticIp
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      StaticIpName: !Sub '${InstanceName}-ipv4'
+      AttachedTo: !Ref ApplicationInstance
+Outputs:
+  PublicIPv4:
+    Description: Proposed Porkbun A-record target after separate DNS approval.
+    Value: !GetAtt ApplicationStaticIp.IpAddress
+  ProposedApplicationURL:
+    Description: Becomes available only after application deployment, approved DNS A record and successful TLS issuance.
+    Value: https://logistech.stackpe.online
+  SshUsername:
+    Value: !GetAtt ApplicationInstance.UserName

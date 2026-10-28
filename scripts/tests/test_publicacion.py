@@ -65,6 +65,24 @@ class PublicationAuditTests(unittest.TestCase):
             any(item["tipo"] == "base_o_dump_por_contenido" for item in result["hallazgos"])
         )
 
+    def test_file_mounted_secret_detected_without_printing_value(self):
+        directory = self.root / ".env.fixture-secrets"
+        directory.mkdir()
+        artificial = "synthetic-mounted-value-" + "X" * 32
+        (directory / "db_app_password").write_text(artificial, encoding="utf-8")
+        (self.root / "innocent.txt").write_text(artificial, encoding="utf-8")
+        self.git("add", "innocent.txt")
+        result = self.audit()
+        self.assertTrue(any(item["tipo"] == "valor_privado_local" for item in result["hallazgos"]))
+        self.assertNotIn(artificial, str(result))
+
+    def test_public_secret_directory_reference_is_not_a_credential(self):
+        reference = "./.env.fixture-secrets"
+        (self.root / ".env.local").write_text("F7_SECRETS_DIR=" + reference, encoding="utf-8")
+        (self.root / "public-config.txt").write_text(reference, encoding="utf-8")
+        self.git("add", "public-config.txt")
+        self.assertEqual(self.audit()["hallazgos"], [])
+
     def test_sensitive_path_with_unicode_parent_is_not_hidden_by_git_quoting(self):
         folder = self.root / "área privada"
         folder.mkdir()

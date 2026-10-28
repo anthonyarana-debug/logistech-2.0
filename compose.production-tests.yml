@@ -1,0 +1,24 @@
+# QA only. Never include this file in an Internet deployment.
+services:
+  tests:
+    image: logistech-f7-tests:local
+    profiles: [qa]
+    environment:
+      DJANGO_SETTINGS_MODULE: config.settings.testing
+      SECRET_KEY_FILE: /run/secrets/django_secret_key
+      DEBUG: 'false'
+      ALLOWED_HOSTS: localhost
+      CSRF_TRUSTED_ORIGINS: https://localhost:8447
+      POSTGRES_DB: logistech
+      POSTGRES_USER: logistech_owner
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_owner_password
+      DB_HOST: db
+      DB_SSLROOTCERT: /run/config/postgresql-ca.pem
+    secrets: [django_secret_key, db_owner_password]
+    volumes:
+      - ${F7_SECRETS_DIR:-./.env.f7-secrets}/postgresql-ca.pem:/run/config/postgresql-ca.pem:ro
+    networks: [database]
+    command: [python, -m, pytest, -q, -o, cache_dir=/tmp/pytest-f7]
+    tmpfs: ['/tmp:size=128m,mode=1777']
+    depends_on:
+      db: {condition: service_healthy}

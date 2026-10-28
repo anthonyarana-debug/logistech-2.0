@@ -1,0 +1,11 @@
+{
+    admin off
+    auto_https disable_redirects
+}
+https://localhost {
+    tls internal
+    import /etc/caddy/routes.caddy
+}
+http://localhost {
+    redir https://localhost:8447{uri} 308
+}

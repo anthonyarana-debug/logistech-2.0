@@ -1,0 +1,38 @@
+name: Manual production image audit
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Build images without starting any services
+        run: |
+          mkdir -p images reports
+          docker build --target production -t logistech-backend:qa backend
+          docker build -f deploy/production/proxy.Dockerfile -t logistech-proxy:qa .
+          docker build -f deploy/production/postgres.Dockerfile -t logistech-postgres:qa .
+          for image in backend proxy postgres; do
+            docker save -o "images/$image.tar" "logistech-$image:qa"
+          done
+      - name: Scan all runtime images (no deployment or AWS credentials)
+        run: |
+          mkdir -p "$RUNNER_TEMP/trivy-cache"
+          for image in backend proxy postgres; do
+            docker run --rm -v "$PWD/images:/images:ro" -v "$PWD/reports:/reports" \
+              -v "$RUNNER_TEMP/trivy-cache:/root/.cache/trivy" aquasec/trivy:0.76.1 image \
+              --scanners vuln --severity HIGH,CRITICAL --input "/images/$image.tar" \
+              --format json --output "/reports/$image.json"
+          done
+          python3 scripts/check_image_vulnerabilities.py reports/backend.json reports/proxy.json reports/postgres.json
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        if: always()
+        with:
+          name: production-vulnerability-reports
+          path: reports/
+          retention-days: 14

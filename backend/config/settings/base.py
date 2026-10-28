@@ -11,6 +11,14 @@ BASE_DIR = Path(__file__).resolve().parents[2]
 
 def required(name):
     value = os.environ.get(name, "").strip()
+    file_name = os.environ.get(f"{name}_FILE", "").strip()
+    if value and file_name:
+        raise ImproperlyConfigured(f"Set only one of {name} or {name}_FILE.")
+    if file_name:
+        try:
+            value = Path(file_name).read_text(encoding="utf-8").strip()
+        except (OSError, UnicodeError):
+            raise ImproperlyConfigured(f"Cannot read {name}_FILE.") from None
     if not value or value.startswith("REEMPLAZAR_"):
         raise ImproperlyConfigured(f"Set the {name} environment variable.")
     return value
@@ -89,6 +97,7 @@ REST_FRAMEWORK = {
         "private_api": "120/min",
     },
 }
+USE_DATABASE_THROTTLE = False
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),

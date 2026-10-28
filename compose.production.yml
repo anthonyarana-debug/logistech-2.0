@@ -1,0 +1,163 @@
+name: logistech-production
+x-logging: &logging
+  driver: json-file
+  options: {max-size: '10m', max-file: '3'}
+x-backend: &backend
+  image: logistech-backend:${SOURCE_REF:?Set immutable SOURCE_REF}
+  build: {context: ./backend, target: production}
+  restart: unless-stopped
+  init: true
+  read_only: true
+  tmpfs: ['/tmp:size=64m,mode=1777']
+  cap_drop: [ALL]
+  security_opt: [no-new-privileges:true]
+  cpus: '1.0'
+  mem_limit: 512m
+  pids_limit: 100
+  logging: *logging
+  networks: [application, database]
+  environment: &appenv
+    DJANGO_SETTINGS_MODULE: config.settings.production
+    DEBUG: 'false'
+    SECRET_KEY_FILE: /run/secrets/django_secret_key
+    ALLOWED_HOSTS: ${PUBLIC_DOMAIN:?Set PUBLIC_DOMAIN}
+    CSRF_TRUSTED_ORIGINS: ${PUBLIC_ORIGIN:?Set PUBLIC_ORIGIN}
+    TRUSTED_TLS_PROXY: 'true'
+    POSTGRES_DB: ${POSTGRES_DB:-logistech}
+    POSTGRES_USER: logistech_app
+    POSTGRES_PASSWORD_FILE: /run/secrets/db_app_password
+    DB_HOST: db
+    DB_PORT: '5432'
+    DB_CONNECT_TIMEOUT: '3'
+    DB_SSLROOTCERT: /run/config/postgresql-ca.pem
+  secrets: [django_secret_key, db_app_password]
+  volumes:
+    - static_data:/app/staticfiles
+    - ${F7_SECRETS_DIR:-./.env.f7-secrets}/postgresql-ca.pem:/run/config/postgresql-ca.pem:ro
+  depends_on:
+    db: {condition: service_healthy}
+services:
+  db:
+    image: logistech-postgres:${SOURCE_REF:?Set immutable SOURCE_REF}
+    build: {context: ., dockerfile: deploy/production/postgres.Dockerfile}
+    entrypoint: [bash, /opt/production/db-entrypoint.sh]
+    command: [postgres, -c, ssl=on, -c, ssl_cert_file=/run/postgresql-tls/server.crt, -c, ssl_key_file=/run/postgresql-tls/server.key, -c, ssl_min_protocol_version=TLSv1.2, -c, hba_file=/opt/production/pg_hba.conf, -c, log_statement=none, -c, log_min_error_statement=panic]
+    restart: unless-stopped
+    shm_size: 128m
+    tmpfs: ['/run/postgresql-tls:size=1m,mode=0700', '/tmp:size=32m,mode=1777']
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-logistech}
+      POSTGRES_USER: logistech_owner
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_owner_password
+      POSTGRES_INITDB_ARGS: --auth-host=scram-sha-256
+    secrets: [db_owner_password, db_app_password, postgresql.crt, postgresql.key]
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./deploy/production/db-entrypoint.sh:/opt/production/db-entrypoint.sh:ro
+      - ./deploy/production/pg_hba.conf:/opt/production/pg_hba.conf:ro
+      - ./deploy/production/init-db.sh:/docker-entrypoint-initdb.d/10-app-role.sh:ro
+    networks: [database]
+    security_opt: [no-new-privileges:true]
+    cpus: '1.0'
+    mem_limit: 768m
+    pids_limit: 150
+    logging: *logging
+    healthcheck:
+      test: [CMD-SHELL, 'pg_isready -U logistech_owner -d "$${POSTGRES_DB}"']
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
+  backend:
+    <<: *backend
+    healthcheck:
+      test: [CMD, python, -c, 'import os, urllib.request; r=urllib.request.Request("http://127.0.0.1:8000/api/v1/health/", headers={"Host":os.environ["ALLOWED_HOSTS"], "X-Forwarded-Proto":"https"}); urllib.request.urlopen(r, timeout=4)']
+      interval: 15s
+      timeout: 5s
+      retries: 6
+      start_period: 20s
+  migration:
+    <<: *backend
+    profiles: [tools]
+    restart: 'no'
+    environment:
+      <<: *appenv
+      POSTGRES_USER: logistech_owner
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_owner_password
+    secrets: [django_secret_key, db_owner_password]
+    command: [sh, -ec, 'python manage.py migrate --noinput && python manage.py collectstatic --noinput']
+  proxy:
+    image: logistech-proxy:${SOURCE_REF:?Set immutable SOURCE_REF}
+    build: {context: ., dockerfile: deploy/production/proxy.Dockerfile}
+    restart: unless-stopped
+    read_only: true
+    tmpfs: ['/tmp:size=16m,mode=1777']
+    ports: ['80:80', '443:443']
+    environment:
+      PUBLIC_DOMAIN: ${PUBLIC_DOMAIN:?Set PUBLIC_DOMAIN}
+      ACME_EMAIL: ${ACME_EMAIL:?Set ACME_EMAIL}
+    volumes: [caddy_data:/data, caddy_config:/config, static_data:/srv/static:ro]
+    networks: [application]
+    depends_on:
+      backend: {condition: service_healthy}
+    cap_drop: [ALL]
+    cap_add: [NET_BIND_SERVICE]
+    security_opt: [no-new-privileges:true]
+    cpus: '0.5'
+    mem_limit: 192m
+    pids_limit: 100
+    logging: *logging
+  backup:
+    image: logistech-postgres:${SOURCE_REF:?Set immutable SOURCE_REF}
+    profiles: [tools]
+    entrypoint: [bash, /opt/production/backup-job.sh]
+    environment: &operatorenv
+      PGHOST: db
+      PGUSER: logistech_owner
+      PGDATABASE: ${POSTGRES_DB:-logistech}
+      PGSSLMODE: verify-full
+      PGSSLROOTCERT: /run/config/postgresql-ca.pem
+    secrets: [db_owner_password]
+    volumes:
+      - ${F7_BACKUP_DIR:-./backups/f7}:/backups
+      - ./deploy/production:/opt/production:ro
+      - ${F7_SECRETS_DIR:-./.env.f7-secrets}/postgresql-ca.pem:/run/config/postgresql-ca.pem:ro
+    networks: [database]
+    depends_on:
+      db: {condition: service_healthy}
+    logging: *logging
+    mem_limit: 256m
+    pids_limit: 64
+  restore:
+    image: logistech-postgres:${SOURCE_REF:?Set immutable SOURCE_REF}
+    profiles: [tools]
+    entrypoint: [bash, /opt/production/restore-job.sh]
+    environment:
+      <<: *operatorenv
+      STAGING_DB: ${STAGING_DB:-}
+      RESTORE_FILE: ${RESTORE_FILE:-}
+    secrets: [db_owner_password]
+    volumes:
+      - ${F7_BACKUP_DIR:-./backups/f7}:/backups:ro
+      - ./deploy/production:/opt/production:ro
+      - ${F7_SECRETS_DIR:-./.env.f7-secrets}/postgresql-ca.pem:/run/config/postgresql-ca.pem:ro
+    networks: [database]
+    depends_on:
+      db: {condition: service_healthy}
+    logging: *logging
+    mem_limit: 256m
+    pids_limit: 64
+networks:
+  application:
+  database: {internal: true}
+volumes:
+  postgres_data:
+  static_data:
+  caddy_data:
+  caddy_config:
+secrets:
+  django_secret_key: {file: '${F7_SECRETS_DIR:-./.env.f7-secrets}/django_secret_key'}
+  db_owner_password: {file: '${F7_SECRETS_DIR:-./.env.f7-secrets}/db_owner_password'}
+  db_app_password: {file: '${F7_SECRETS_DIR:-./.env.f7-secrets}/db_app_password'}
+  postgresql.crt: {file: '${F7_SECRETS_DIR:-./.env.f7-secrets}/postgresql.crt'}
+  postgresql.key: {file: '${F7_SECRETS_DIR:-./.env.f7-secrets}/postgresql.key'}
