@@ -6,7 +6,7 @@ import { useTenant } from '../components/AppShell.jsx'
 import {
   Button,
   ConfirmModal,
-  DataTable,
+  DataTable, Pagination,
   EmptyState,
   ErrorState,
   FilterBar,
@@ -20,7 +20,7 @@ import {
   StatusBadge,
   Toast,
 } from '../components/ui.jsx'
-import { useDebounced, useRemote } from '../hooks/useRemote.js'
+import { useCollection, useDebounced, useRemote } from '../hooks/useRemote.js'
 import { api } from '../services/api.js'
 
 function CategoryForm({ record, onClose, onSaved }) {
@@ -265,7 +265,7 @@ export default function Resources({ kind }) {
     (mode === 'internal_id'
       ? /^CJ-[0-9a-f]{32}$/i.test(debounced)
       : /^[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$/i.test(debounced))
-  const resource = useRemote(
+  const resource = useCollection(
     `/${kind}/`,
     {
       company: tenant.company,
@@ -523,7 +523,7 @@ export default function Resources({ kind }) {
           <span>
             {resource.loading
               ? t("loading")
-              : resultCount(rows.length, boxes)}
+              : resultCount(resource.count, boxes)}
           </span>
           <span>{tenant.companyName}</span>
         </div>
@@ -550,6 +550,7 @@ export default function Resources({ kind }) {
             }
           >{t("try_other_filters_or_register_a_resource_if")}</EmptyState>
         )}
+        <Pagination collection={resource} />
       </section>
       <p className="scope-note">{t("the_api_enforces_permissions")}{' '}
         {boxes

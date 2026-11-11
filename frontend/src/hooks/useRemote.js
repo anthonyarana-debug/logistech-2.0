@@ -42,3 +42,28 @@ export function useDebounced(value, delay = 300) {
   }, [value, delay])
   return current
 }
+
+export function useCollection(path, query = {}, enabled = true) {
+  const scope = JSON.stringify([path, query])
+  const [selection, setSelection] = useState({ scope: '', page: 1 })
+  const page = selection.scope === scope ? selection.page : 1
+  const remote = useRemote(path, { ...query, page }, enabled)
+  const setPage = (next) => setSelection({ scope, page: next })
+  useEffect(() => {
+    setSelection((current) => current.scope === scope ? current : { scope, page: 1 })
+  }, [scope])
+  // A deletion can empty the last page. Keep the filters and return to the first page.
+  useEffect(() => {
+    if (remote.error?.status === 404 && page > 1)
+      setSelection({ scope, page: 1 })
+  }, [remote.error, page, scope])
+  return {
+    ...remote,
+    data: remote.data?.results ?? null,
+    count: remote.data?.count ?? 0,
+    page,
+    previous: Boolean(remote.data?.previous),
+    next: Boolean(remote.data?.next),
+    setPage,
+  }
+}

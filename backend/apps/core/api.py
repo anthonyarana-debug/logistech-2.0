@@ -3,6 +3,7 @@
 import uuid
 from collections.abc import Mapping
 
+from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError as ModelValidationError
 from django.db import IntegrityError, transaction
@@ -14,6 +15,7 @@ from rest_framework.exceptions import (
     PermissionDenied,
     ValidationError,
 )
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import SAFE_METHODS, IsAuthenticated
 
 from apps.accounts.permissions import HasCompanyAccess
@@ -89,10 +91,40 @@ class StrictModelSerializer(serializers.ModelSerializer):
         return attrs
 
 
+class CollectionPagination(PageNumberPagination):
+    page_size_query_param = "page_size"
+
+    def get_page_size(self, request):
+        maximum = settings.COLLECTION_MAX_PAGE_SIZE
+        raw = request.query_params.get(self.page_size_query_param)
+        if raw is None:
+            return min(settings.COLLECTION_PAGE_SIZE, maximum)
+        if not raw.isascii() or not raw.isdecimal() or len(raw) > 9:
+            raise ValidationError({"page_size": "Enter a positive page size."})
+        size = int(raw)
+        if not 1 <= size <= maximum:
+            raise ValidationError({"page_size": f"Enter a page size between 1 and {maximum}."})
+        return size
+
+    def paginate_queryset(self, queryset, request, view=None):
+        if not {"page", "page_size"} & request.query_params.keys():
+            return None
+        return super().paginate_queryset(queryset, request, view)
+
+    def get_page_number(self, request, paginator):
+        raw = request.query_params.get(self.page_query_param)
+        if raw is not None and (
+            not raw.isascii() or not raw.isdecimal() or len(raw) > 9 or int(raw) < 1
+        ):
+            raise ValidationError({"page": "Enter a positive page number."})
+        return super().get_page_number(request, paginator)
+
+
 class TenantViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated, ResourcePermission]
     throttle_classes = [PrivateUserThrottle]
     operator_write = False
+    pagination_class = CollectionPagination
     # Nombre de filtro -> lookup. Nunca aceptar lookups arbitrarios de ORM.
     uuid_filters = {"company": "company_id"}
     choice_filters = {}
@@ -114,6 +146,8 @@ class TenantViewSet(viewsets.ModelViewSet):
         params = self.request.query_params
         allowed = set(self.uuid_filters) | set(self.choice_filters) | set(self.extra_filters)
         allowed |= {"search"} if self.search_fields else set()
+        if self.action == "list":
+            allowed |= {"page", "page_size", "order"}
         if self.action != "list" and params:
             raise ValidationError(
                 {"filtros": message("filters_are_only_accepted_on_the_collection")}
@@ -146,7 +180,11 @@ class TenantViewSet(viewsets.ModelViewSet):
         queryset = self.filter_extra(queryset, params)
         if self.request.method not in SAFE_METHODS:
             queryset = queryset.select_for_update(of=("self",))
-        return queryset.order_by("created_at", "id")
+        order = params.get("order", "oldest")
+        if order not in {"oldest", "newest"}:
+            raise ValidationError({"order": "Choose oldest or newest."})
+        fields = ("-created_at", "-id") if order == "newest" else ("created_at", "id")
+        return queryset.order_by(*fields)
 
     def filter_extra(self, queryset, params):
         return queryset

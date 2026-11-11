@@ -96,3 +96,20 @@ Para ejecutar: seguir [NUEVA_COMPUTADORA](NUEVA_COMPUTADORA.md). Para cambios: p
 ## Comando académico de datos DEMO
 
 `python manage.py create_demo --namespace <namespace> --output <ruta>`: ambos argumentos son obligatorios. Namespace exige 3–32 letras minúsculas ASCII, números o guiones. Rechaza namespace/archivo existentes; no restablece contraseñas. Crea dos empresas y referencias/cajas/usuarios rotulados, con contraseñas aleatorias y archivo exclusivo 0600. Devuelve confirmación inglesa con la ruta; nunca imprime valores de credenciales. En Windows, restringir la ACL de la copia privada. No ejecutar contra producción. Sus datos de negocio españoles son fixtures identificados y no se traducen como UI.
+## Paginación de colecciones en Semana 13
+
+Las colecciones de empresas, sucursales, usuarios, categorías, productos, cajas,
+recepciones e historial admiten `page`, `page_size` y `order`. Por ejemplo,
+`GET /api/v1/categories/?page=2&page_size=25&search=demo`.
+
+Enviar `page` o `page_size` activa el objeto con `count`, `next`, `previous`
+y `results`. Los parámetros omitidos usan página 1 y tamaño 25. Los tamaños
+se configuran con `COLLECTION_PAGE_SIZE` y `COLLECTION_MAX_PAGE_SIZE` en el
+proceso Django. El máximo predeterminado es 100 y el tope absoluto es 250.
+
+La respuesta anterior en forma de lista se conserva si se omiten los dos
+parámetros de paginación. `order` acepta `oldest` y `newest`. La fecha de
+creación y el identificador resuelven el orden y los empates. Conteo y resultados
+respetan permisos y filtros. Una primera página vacía devuelve 200 y cero
+resultados. Un número positivo fuera de rango devuelve 404. Parámetros inválidos,
+repetidos o enviados a un detalle devuelven 400.

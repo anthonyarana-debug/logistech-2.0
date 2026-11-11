@@ -77,6 +77,9 @@ DATABASES = {
         "OPTIONS": {"connect_timeout": int(os.environ.get("DB_CONNECT_TIMEOUT", "3"))},
     }
 }
+COLLECTION_PAGE_SIZE = max(1, int(os.environ.get("COLLECTION_PAGE_SIZE", "25")))
+COLLECTION_MAX_PAGE_SIZE = min(250, max(1, int(os.environ.get("COLLECTION_MAX_PAGE_SIZE", "100"))))
+
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework_simplejwt.authentication.JWTAuthentication",

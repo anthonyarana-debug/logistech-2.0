@@ -1,7 +1,7 @@
 import { useSearchParams } from 'react-router-dom'
 import { useTenant } from '../components/AppShell.jsx'
-import { DataTable, EmptyState, ErrorState, FormField, LoadingState, PageIntro, StatusBadge } from '../components/ui.jsx'
-import { useDebounced, useRemote } from '../hooks/useRemote.js'
+import { DataTable, Pagination, EmptyState, ErrorState, FormField, LoadingState, PageIntro, StatusBadge } from '../components/ui.jsx'
+import { useCollection, useDebounced } from '../hooks/useRemote.js'
 import { t, formatDate } from '../i18n/index.js'
 
 function EventDetails({ event }) {
@@ -31,7 +31,7 @@ function EventDetails({ event }) {
 export default function History() {
   const tenant = useTenant(), [params, setParams] = useSearchParams()
   const box = params.get('box') || '', filter = useDebounced(box)
-  const events = useRemote('/box-events/', { company: tenant.company, box: filter })
+  const events = useCollection('/box-events/', { company: tenant.company, box: filter })
   return <>
     <PageIntro eyebrow={t('trace_operations')} title={t('trace_history')}>{t('trace_history_description')}</PageIntro>
     <FormField label={t('trace_box_filter')} value={box} onChange={e => setParams(e.target.value ? { box: e.target.value } : {}, { replace: true })} maxLength={36} />
@@ -45,5 +45,6 @@ export default function History() {
         { key: 'outcome', title: t('trace_result'), render: r => <StatusBadge value={r.outcome} /> },
         { key: 'data', title: t('trace_event_data'), render: r => <EventDetails event={r} /> },
       ]} />}
+    <Pagination collection={events} />
   </>
 }

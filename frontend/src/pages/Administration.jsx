@@ -2,10 +2,10 @@ import { useCallback, useState } from 'react'
 import { useAuth } from '../auth.jsx'
 import { useTenant, roleNames } from '../components/AppShell.jsx'
 import {
-  Button, ConfirmModal, DataTable, EmptyState, ErrorState, FilterBar, FormField,
+  Button, ConfirmModal, DataTable, Pagination, EmptyState, ErrorState, FilterBar, FormField,
   LoadingState, Modal, PageIntro, PasswordField, SearchBar, SelectField, StatusBadge, Toast,
 } from '../components/ui.jsx'
-import { useDebounced, useRemote } from '../hooks/useRemote.js'
+import { useCollection, useDebounced, useRemote } from '../hooks/useRemote.js'
 import { t, formatNumber } from '../i18n/index.js'
 import { api } from '../services/api.js'
 import { canAdminister, canEditUser } from '../services/operations.js'
@@ -107,7 +107,7 @@ function AdministrationBody({ kind }) {
   const [editor, setEditor] = useState(null), [remove, setRemove] = useState(null)
   const [busy, setBusy] = useState(false), [removeError, setRemoveError] = useState(null), [toast, setToast] = useState('')
   const closeToast = useCallback(() => setToast(''), [])
-  const resource = useRemote(`/${kind}/`, {
+  const resource = useCollection(`/${kind}/`, {
     ...(!companies ? { company: tenant.company } : {}), search: useDebounced(search.trim()),
     ...(users ? { is_active: status, role } : { status }),
   })
@@ -150,10 +150,11 @@ function AdministrationBody({ kind }) {
         {users && <SelectField label={t('ops_role')} value={role} onChange={e => setRole(e.target.value)}
           placeholder={t('ops_all_roles')} options={Object.entries(roleNames).map(([id, name]) => ({ id, name }))} />}
       </FilterBar>
-      <p className="results-caption" aria-live="polite">{resource.loading ? t('loading') : t('ops_records', { count: formatNumber(resource.data?.length || 0) })}</p>
+      <p className="results-caption" aria-live="polite">{resource.loading ? t('loading') : t('ops_records', { count: formatNumber(resource.count) })}</p>
       {resource.loading ? <LoadingState /> : resource.error ? <ErrorState error={resource.error} onRetry={resource.reload} /> :
         resource.data?.length ? <DataTable caption={t(`ops_${kind}`)} rows={resource.data} columns={columns} /> :
           <EmptyState title={t('no_matches_for_these_filters')}>{t('ops_empty')}</EmptyState>}
+      <Pagination collection={resource} />
     </section>
     {editor && <RecordForm kind={kind} record={editor === 'new' ? null : editor} onClose={() => setEditor(null)} onSaved={saved} />}
     {remove && <ConfirmModal title={t('ops_confirm_delete')} busy={busy} error={removeError}

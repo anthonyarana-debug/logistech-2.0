@@ -257,6 +257,19 @@ export function FilterBar({ children, onClear }) {
     </div>
   )
 }
+export function Pagination({ collection }) {
+  if (!collection.previous && !collection.next) return null
+  return (
+    <nav className="filter-bar" aria-label="Pagination">
+      <button type="button" className="button button-secondary" disabled={!collection.previous}
+        onClick={() => collection.setPage(collection.page - 1)}>Previous page</button>
+      <span aria-live="polite">Page {collection.page} · {collection.count} records</span>
+      <button type="button" className="button button-secondary" disabled={!collection.next}
+        onClick={() => collection.setPage(collection.page + 1)}>Next page</button>
+    </nav>
+  )
+}
+
 export function DataTable({ caption, columns, rows }) {
   return (
     <div className="table-region" role="region" aria-label={caption} tabIndex="0">

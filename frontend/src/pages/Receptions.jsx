@@ -1,8 +1,8 @@
 import { useRef, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { useTenant } from '../components/AppShell.jsx'
-import { Button, DataTable, EmptyState, ErrorState, LoadingState, PageIntro, SelectField, StatusBadge } from '../components/ui.jsx'
-import { useRemote } from '../hooks/useRemote.js'
+import { Button, DataTable, Pagination, EmptyState, ErrorState, LoadingState, PageIntro, SelectField, StatusBadge } from '../components/ui.jsx'
+import { useCollection, useRemote } from '../hooks/useRemote.js'
 import { t, formatDate } from '../i18n/index.js'
 import { api } from '../services/api.js'
 import { receiptAttempt, receiptBody } from '../services/traceability.js'
@@ -41,7 +41,7 @@ function ReceiptForm({ box, onSaved }) {
 export default function Receptions() {
   const tenant = useTenant(), [params] = useSearchParams(), [selected, setSelected] = useState(undefined)
   const initial = useRemote(`/boxes/${params.get('box')}/`, {}, !!params.get('box'))
-  const receipts = useRemote('/receipts/', { company: tenant.company })
+  const receipts = useCollection('/receipts/', { company: tenant.company })
   const box = selected === undefined ? initial.data : selected
   return <>
     <PageIntro eyebrow={t('trace_operations')} title={t('receptions')}>{t('trace_reception_description')}</PageIntro>
@@ -57,5 +57,6 @@ export default function Receptions() {
         { key: 'actor', title: t('trace_actor') },
         { key: 'created_at', title: t('created'), render: r => formatDate(r.created_at) },
       ]} />}
+    <Pagination collection={receipts} />
   </>
 }

@@ -17,8 +17,8 @@ import { dashboardKey } from '../services/operations.js'
 export default function Dashboard() {
   const auth = useAuth(),
     tenant = useTenant()
-  const boxes = useRemote('/boxes/', { company: tenant.company }),
-    cats = useRemote('/categories/', { company: tenant.company })
+  const boxes = useRemote('/boxes/', { company: tenant.company, page_size: 5, order: 'newest' }),
+    registered = useRemote('/boxes/', { company: tenant.company, status: 'REGISTERED', page_size: 1 })
   const overview = useRemote('/overview/', { company: tenant.company })
   return (
     <>
@@ -30,40 +30,41 @@ export default function Dashboard() {
           </Link>
         }
       >{t("view_records_in_the_selected_scope_indicators_are")}</PageIntro>
-      {overview.loading ? <LoadingState /> : overview.error ? <ErrorState error={overview.error} onRetry={overview.reload} /> :
+      {overview.data &&
         <section className="overview-strip" aria-label={t('ops_administration')}>
           {Object.entries(overview.data.counts).filter(([kind]) => !['boxes', 'categories'].includes(kind)).map(([kind, count]) =>
             <div key={kind}><span className="mono">{t(kind === 'receipts' ? 'receptions' : kind === 'events' ? 'trace_history' : `ops_${kind}`)}</span>
               <strong>{formatNumber(count)}</strong><Link className="text-link" to={`/app/${kind === 'receipts' ? 'receptions' : kind === 'events' ? 'history' : kind}`}>{t('ops_open_records')}</Link></div>)}
         </section>}
-      {boxes.error || cats.error ? (
+      {boxes.error || registered.error || overview.error ? (
         <ErrorState
-          error={boxes.error || cats.error}
+          error={boxes.error || registered.error || overview.error}
           onRetry={() => {
             boxes.reload()
-            cats.reload()
+            registered.reload()
+            overview.reload()
           }}
         />
-      ) : boxes.loading || cats.loading ? (
+      ) : boxes.loading || registered.loading || overview.loading ? (
         <LoadingState />
       ) : (
         <>
           <section className="overview-strip" aria-label={t("query_summary")}>
             <div>
               <span className="mono">{t("boxes_in_this_scope")}</span>
-              <strong>{formatNumber(boxes.data.length)}</strong>
+              <strong>{formatNumber(boxes.data.count)}</strong>
               <p>{t("available_records")}</p>
             </div>
             <div>
               <span className="mono">{t("by_initial_status")}</span>
               <strong>
-                {formatNumber(boxes.data.filter((b) => b.status === 'REGISTERED').length)}
+                {formatNumber(registered.data.count)}
               </strong>
               <p>{t("with_registered_status")}</p>
             </div>
             <div>
               <span className="mono">{t("classification")}</span>
-              <strong>{formatNumber(cats.data.length)}</strong>
+              <strong>{formatNumber(overview.data.counts.categories)}</strong>
               <p>{t("available_categories")}</p>
             </div>
           </section>
@@ -77,10 +78,10 @@ export default function Dashboard() {
               <Link className="text-link" to="/app/cajas">{t("view_all_boxes")}{' '}<Icon name="arrow" />
               </Link>
             </div>
-            {boxes.data.length ? (
+            {boxes.data.count ? (
               <DataTable
                 caption={t("latest_five_boxes_by_creation_date")}
-                rows={[...boxes.data].reverse().slice(0, 5)}
+                rows={boxes.data.results}
                 columns={[
                   {
                     key: 'internal_id',
