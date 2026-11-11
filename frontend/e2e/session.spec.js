@@ -1,6 +1,8 @@
 import { test, expect } from '@playwright/test'
 import { Workspace } from './workspace.js'
 
+test.skip(process.env.PW_PRODUCTION === 'true', 'The production suite tests renewal through the compiled application.')
+
 test('access expira realmente a cinco minutos: renovación única y pérdida de refresh', async ({
   page,
   context,

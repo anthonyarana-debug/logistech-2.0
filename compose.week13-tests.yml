@@ -1,0 +1,9 @@
+# Use after compose.production-tests.yml in the local Week 13 rehearsal.
+# Test the checked-out source instead of the source bundled in an older QA image.
+services:
+  tests:
+    image: logistech-week13-tests:local
+    environment:
+      PYTHONDONTWRITEBYTECODE: '1'
+    volumes:
+      - ./backend:/app:ro

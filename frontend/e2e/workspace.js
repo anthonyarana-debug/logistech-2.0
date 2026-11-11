@@ -18,19 +18,26 @@ export class Workspace {
     await p.goto('/login')
     await p.getByLabel("Email address").fill(demo.users[role].email)
     await p.getByLabel("Password", { exact: true }).fill(demo.users[role].password)
-    const response = p.waitForResponse(
-      (r) => r.url().endsWith('/auth/login/') && r.request().method() === 'POST',
-    )
-    await p.getByRole('button', { name: "Sign in", exact: true }).click()
-    const result = await response
-    // Respeta los límites reales entre ejecuciones, sin cambiarlos ni evadir IP.
-    if (result.status() === 429) {
-      const seconds = Number(result.headers()['retry-after']) || 60
-      await expect
-        .poll(() => Date.now(), { timeout: (seconds + 2) * 1000, intervals: [1000] })
-        .toBeGreaterThan(Date.now() + seconds * 1000)
+    const submit = async () => {
+      const response = p.waitForResponse(
+        (r) => r.url().endsWith('/auth/login/') && r.request().method() === 'POST',
+      )
       await p.getByRole('button', { name: "Sign in", exact: true }).click()
-    } else expect(result.status()).toBe(200)
+      return response
+    }
+    let result = await submit()
+    if (result.status() === 429) {
+      const seconds = Number(result.headers()['retry-after'])
+      if (!Number.isFinite(seconds) || seconds < 1 || seconds > 45) {
+        throw new Error('Login quota still active. Use a fresh rehearsal or wait for Retry-After.')
+      }
+      const retryAt = Date.now() + seconds * 1000
+      await expect
+        .poll(() => Date.now(), { timeout: (seconds + 3) * 1000, intervals: [1000] })
+        .toBeGreaterThanOrEqual(retryAt)
+      result = await submit()
+    }
+    expect(result.status()).toBe(200)
     await expect(p).toHaveURL(/\/app$/)
   }
   async nav(name) {
