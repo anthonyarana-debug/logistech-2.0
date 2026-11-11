@@ -1,0 +1,144 @@
+
+Running 22 tests using 1 worker
+
+(node:17820) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  1 e2e\accessibility.spec.js:14:1 › accesibilidad automática, ampliación CSS 200%, vacío, 403 y 500 (8.3s)
+  ok  2 e2e\flows.spec.js:5:1 › landing, responsive, teclado, movimiento reducido y rutas públicas (790ms)
+  ok  3 e2e\flows.spec.js:39:1 › registro real y validación de confirmación; login incorrecto (781ms)
+  ok  4 e2e\flows.spec.js:59:1 › administrador: CRUD, integridad, filtros, sesión y responsive operacional (7.0s)
+  ok  5 e2e\flows.spec.js:141:1 › operador asignado: lectura de categorías y caja autorizada (1.2s)
+  ok  6 e2e\flows.spec.js:155:1 › operador pendiente: sin consultas de inventario privado (534ms)
+  ok  7 e2e\flows.spec.js:169:1 › superadmin: ámbito, referencias legibles y menú móvil (46.3s)
+  x   8 e2e\flows.spec.js:196:1 › fallo de red simulado: error de servicio seguro y recuperable (12.2s)
+(node:47624) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  9 e2e\language.spec.js:3:1 › English remains the default with Spanish browser preferences (397ms)
+  ok 10 e2e\operations.spec.js:6:1 › superadmin creates an enterprise and assigns a real administrative account (2.1s)
+  ok 11 e2e\operations.spec.js:60:1 › company admin manages branch, category, product and operator in its scope (2.7s)
+  x  12 e2e\operations.spec.js:117:1 › operator has a real role dashboard and read-only catalogue without user directory (12.4s)
+(node:49772) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 13 e2e\pagination.spec.js:5:1 › category navigation uses server totals and resets on a new filter (3.6s)
+  -  14 e2e\production.spec.js:10:1 › F7 compiled HTTPS application, security headers, cookies and private routes
+  -  15 e2e\production.spec.js:43:1 › F7 real expiration and a single refresh through compiled React and Gunicorn
+  ok 16 e2e\resilience.spec.js:5:3 › simulated 500 shows a safe error and retry reloads categories (25.9s)
+  ok 17 e2e\resilience.spec.js:5:3 › simulated 503 shows a safe error and retry reloads categories (13.7s)
+  ok 18 e2e\resilience.spec.js:5:3 › simulated offline shows a safe error and retry reloads categories (2.7s)
+  x  19 e2e\session.spec.js:4:1 › access expira realmente a cinco minutos: renovación única y pérdida de refresh (5.1m)
+(node:54444) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 20 e2e\traceability.spec.js:18:1 › F6B2 live QR lookup, printable label, uncertain-network replay and immutable history (4.6s)
+  ok 21 e2e\traceability.spec.js:141:1 › F6B2 live tenant isolation, assigned-role access and simulated camera denial (1.1s)
+  x  22 e2e\traceability.spec.js:184:1 › F6B2 company admin records a justified rejection; unassigned operator is denied by the API (1.5m)
+
+
+  1) e2e\flows.spec.js:196:1 › fallo de red simulado: error de servicio seguro y recuperable ───────
+
+    Error: expect(page).toHaveURL(expected) failed
+
+    Expected pattern: /login$/
+    Received string:  "https://localhost:8453/app"
+    Timeout: 12000ms
+
+    Call log:
+      - Expect "toHaveURL" with timeout 12000ms
+        27 × locator resolved to <html lang="en">…</html>
+           - unexpected value "https://localhost:8453/app"
+
+
+      201 |   await page.unroute('**/api/v1/**')
+      202 |   await page.getByRole('button', { name: "Try again" }).click()
+    > 203 |   await expect(page).toHaveURL(/login$/)
+          |                      ^
+      204 | })
+      205 |
+        at C:\Users\anthony\Documents\ChatGPT\Proyecto final dsn\frontend\e2e\flows.spec.js:203:22
+
+    Error Context: test-results\flows-fallo-de-red-simulad-d0321-rvicio-seguro-y-recuperable\error-context.md
+
+  2) e2e\operations.spec.js:117:1 › operator has a real role dashboard and read-only catalogue without user directory
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('heading', { name: 'This access is unavailable to you.' })
+    Expected: visible
+    Timeout: 12000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('heading', { name: 'This access is unavailable to you.' }) with timeout 12000ms
+      - waiting for getByRole('heading', { name: 'This access is unavailable to you.' })
+
+
+      123 |   await expect(page.getByRole('link', { name: 'Users', exact: true })).toHaveCount(0)
+      124 |   await page.goto('/app/users')
+    > 125 |   await expect(page.getByRole('heading', { name: 'This access is unavailable to you.' })).toBeVisible()
+          |                                                                                           ^
+      126 | })
+      127 |
+        at C:\Users\anthony\Documents\ChatGPT\Proyecto final dsn\frontend\e2e\operations.spec.js:125:91
+
+    Error Context: test-results\operations-operator-has-a--f1bbf-ogue-without-user-directory\error-context.md
+
+  3) e2e\session.spec.js:4:1 › access expira realmente a cinco minutos: renovación única y pérdida de refresh
+
+    Error: page.evaluate: TypeError: Failed to fetch dynamically imported module: https://localhost:8453/src/services/api.js
+
+      23 |     .toBeGreaterThan(expires + 1000)
+      24 |   // Dos solicitudes con el access vencido deben compartir una sola renovación.
+    > 25 |   const result = await page.evaluate(async () => {
+         |                             ^
+      26 |     const { api } = await import('/src/services/api.js')
+      27 |     const responses = await Promise.all([api('/boxes/'), api('/categories/')])
+      28 |     return responses.map(Array.isArray)
+        at C:\Users\anthony\Documents\ChatGPT\Proyecto final dsn\frontend\e2e\session.spec.js:25:29
+
+    Error Context: test-results\session-access-expira-real-88211--única-y-pérdida-de-refresh\error-context.md
+
+  4) e2e\traceability.spec.js:184:1 › F6B2 company admin records a justified rejection; unassigned operator is denied by the API
+
+    Error: expect(received).toBeGreaterThan(expected)
+
+    Expected: > 1794381035195
+    Received:   1794380671800
+
+    Call Log:
+    - Test timeout of 90000ms exceeded
+
+       at workspace.js:31
+
+      29 |       await expect
+      30 |         .poll(() => Date.now(), { timeout: (seconds + 2) * 1000, intervals: [1000] })
+    > 31 |         .toBeGreaterThan(Date.now() + seconds * 1000)
+         |          ^
+      32 |       await p.getByRole('button', { name: "Sign in", exact: true }).click()
+      33 |     } else expect(result.status()).toBe(200)
+      34 |     await expect(p).toHaveURL(/\/app$/)
+        at Workspace.login (C:\Users\anthony\Documents\ChatGPT\Proyecto final dsn\frontend\e2e\workspace.js:31:10)
+        at login (C:\Users\anthony\Documents\ChatGPT\Proyecto final dsn\frontend\e2e\traceability.spec.js:13:3)
+        at C:\Users\anthony\Documents\ChatGPT\Proyecto final dsn\frontend\e2e\traceability.spec.js:185:17
+
+    Error: page.waitForResponse: Test ended.
+
+      10 | const evidence = name => fileURLToPath(new URL(`${name}.png`, evidenceDirectory))
+      11 | async function login(page, role) {
+    > 12 |   const logged = page.waitForResponse(r => r.url().endsWith('/auth/login/') && r.status() === 200)
+         |                       ^
+      13 |   await new Workspace(page).login(role)
+      14 |   return (await (await logged).json()).access
+      15 | }
+        at login (C:\Users\anthony\Documents\ChatGPT\Proyecto final dsn\frontend\e2e\traceability.spec.js:12:23)
+        at C:\Users\anthony\Documents\ChatGPT\Proyecto final dsn\frontend\e2e\traceability.spec.js:185:23
+
+    Error Context: test-results\traceability-F6B2-company--33f25-erator-is-denied-by-the-API\error-context.md
+
+  Slow test file: e2e\session.spec.js (5.1m)
+  Consider running tests from slow files in parallel. See: https://playwright.dev/docs/test-parallel
+  4 failed
+    e2e\flows.spec.js:196:1 › fallo de red simulado: error de servicio seguro y recuperable ────────
+    e2e\operations.spec.js:117:1 › operator has a real role dashboard and read-only catalogue without user directory
+    e2e\session.spec.js:4:1 › access expira realmente a cinco minutos: renovación única y pérdida de refresh
+    e2e\traceability.spec.js:184:1 › F6B2 company admin records a justified rejection; unassigned operator is denied by the API
+  2 skipped
+  16 passed (9.0m)

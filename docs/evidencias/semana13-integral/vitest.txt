@@ -1,0 +1,27 @@
+
+> logistech-frontend@0.1.0 test:unit
+> node --test unit/*.test.js
+
+✔ English is explicit; user data and template interpolation remain literal (1.2143ms)
+✔ English plural forms and numeric/date formatting use centralized locale (47.1861ms)
+✔ English safe errors preserve the legacy API error contract (0.7725ms)
+✔ operational navigation follows current role and assignment (0.7018ms)
+✔ user editor never offers self, superadmin or cross-company escalation (0.1469ms)
+✔ dashboards resolve English catalog keys for the three roles (0.1184ms)
+✔ all literal application message references resolve in the English catalog (17.4661ms)
+✔ restauración deduplicada; CSRF y access solo en cabecera (35.8101ms)
+✔ dos 401 simultáneos comparten refresh; se reintenta una vez (3.0433ms)
+✔ refresh rechazado: termina sesión, sin bucle ni datos sensibles (2.6409ms)
+✔ logout concurrente a refresh: no resucita la identidad (1.8094ms)
+✔ fallo de logout: conserva estado de error; 500 y 429 tienen mensajes seguros (1.8553ms)
+✔ reception command only contains authorized input fields; received clears rejection reason (1.6432ms)
+✔ uncertain reception retries retain the same key and payload; changed commands receive a fresh key (0.8956ms)
+✔ authenticated SVG download preserves idempotency headers over session renewal without putting tokens in URL (30.589ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 15
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 159.5004

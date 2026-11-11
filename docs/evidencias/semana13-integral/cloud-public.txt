@@ -1,0 +1,9 @@
+DNS público: logistech.stackpe.online A 18.221.197.129 (Cloudflare, TTL configurado 600 en Porkbun).
+HTTPS: verificación del certificado Let’s Encrypt con el nombre público y la IPv4 explícita.
+Landing HTTPS: HTTP 200 con recursos compilados.
+API de salud y PostgreSQL: HTTP 200.
+Inicio de sesión administrador, cookie Secure/HttpOnly y empresas paginadas: verificados.
+Cierre de sesión: HTTP 204.
+Temporizador diario de backups: enabled, active, ejecución inicial success.
+Copia cifrada fuera de AWS: SHA-256 coincidente y descifrado autenticado.
+Revalidación por DNS sobre HTTPS de Cloudflare, sin forzar IP: HTTP 200, validación TLS 0 (correcta).
