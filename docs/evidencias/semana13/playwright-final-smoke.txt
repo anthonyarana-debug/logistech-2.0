@@ -1,0 +1,13 @@
+
+> logistech-frontend@0.1.0 test:e2e
+> playwright test --workers=1 pagination.spec.js production.spec.js -g category navigation|compiled HTTPS
+
+
+Running 2 tests using 1 worker
+
+(node:51656) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 e2e\pagination.spec.js:5:1 › category navigation uses server totals and resets on a new filter (4.5s)
+  ok 2 e2e\production.spec.js:10:1 › F7 compiled HTTPS application, security headers, cookies and private routes (726ms)
+
+  2 passed (5.9s)

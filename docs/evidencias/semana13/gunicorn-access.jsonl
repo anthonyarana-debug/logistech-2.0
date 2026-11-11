@@ -1,0 +1,8 @@
+{"status":200,"method":"GET","duration_us":9422}
+{"status":200,"method":"POST","duration_us":197013}
+{"status":200,"method":"GET","duration_us":42720}
+{"status":200,"method":"GET","duration_us":46693}
+{"status":200,"method":"GET","duration_us":49535}
+{"status":200,"method":"GET","duration_us":21164}
+{"status":204,"method":"POST","duration_us":22882}
+{"status":200,"method":"GET","duration_us":11825}

@@ -106,7 +106,13 @@ def set_table(doc, data, index):
     doc.add_paragraph().paragraph_format.space_after = Pt(0)
 
 
-def main():
+def main(
+    source=SOURCE,
+    output=OUTPUT,
+    title="Informe académico de LogisTech",
+    subtitle="Versión 2.0 y evidencias de pruebas del núcleo inicial",
+    cover=False,
+):
     doc = Document()
     section = doc.sections[0]
     section.page_width, section.page_height = Inches(8.2677), Inches(11.6929)
@@ -124,7 +130,7 @@ def main():
         fonts.set(qn("w:hAnsi"), "Times New Roman")
     normal = doc.styles["Normal"]
     normal.font.size = Pt(12)
-    normal.paragraph_format.line_spacing = 2
+    normal.paragraph_format.line_spacing = 1.45 if cover else 2
     normal.paragraph_format.space_after = Pt(0)
     normal.paragraph_format.first_line_indent = Inches(0.5)
     normal.paragraph_format.widow_control = True
@@ -152,11 +158,18 @@ def main():
     field = OxmlElement("w:fldSimple")
     field.set(qn("w:instr"), "PAGE")
     header._p.append(field)
-    doc.add_paragraph("Informe académico de LogisTech", "Title")
-    doc.add_paragraph("Versión 2.0 y evidencias de pruebas del núcleo inicial", "Subtitle")
+    heading = doc.add_paragraph(title, "Title")
+    subheading = doc.add_paragraph(subtitle, "Subtitle")
     p = doc.add_paragraph("Desarrollo de Soluciones en la Nube   TECSUP")
     p.paragraph_format.first_line_indent = Inches(0)
-    lines = SOURCE.read_text(encoding="utf-8").splitlines()
+    if cover:
+        heading.paragraph_format.space_before = Pt(125)
+        date = doc.add_paragraph("Semana 13 · 10 de noviembre de 2026 · Lima")
+        for line in (heading, subheading, p, date):
+            line.alignment = WD_ALIGN_PARAGRAPH.CENTER
+            line.paragraph_format.first_line_indent = Inches(0)
+        doc.add_page_break()
+    lines = source.read_text(encoding="utf-8").splitlines()
     i = 1
     tables = 0
     figures = 0
@@ -183,11 +196,11 @@ def main():
                     rows.append(row)
                 i += 1
             tables += 1
-            set_table(doc, rows, tables)
+            set_table(doc, rows, 0 if cover else tables)
             continue
         image = re.match(r"!\[([^\]]*)\]\(([^)]+)\)", line)
         if image:
-            path = SOURCE.parent / image[2]
+            path = source.parent / image[2]
             with Image.open(path) as im:
                 w, h = im.size
             width = min(WIDTH, 5.7 * w / h)
@@ -251,13 +264,13 @@ def main():
         for border in list(paragraph._p.iter(qn("w:pBdr"))):
             border.getparent().remove(border)
     props = doc.core_properties
-    props.title = "Informe académico de LogisTech 2.0 y evidencias de pruebas"
-    props.subject = "Núcleo inicial F0–F5 y pruebas locales documentadas"
+    props.title = title if cover else "Informe académico de LogisTech 2.0 y evidencias de pruebas"
+    props.subject = subtitle if cover else "Núcleo inicial F0–F5 y pruebas locales documentadas"
     props.author = ""
     props.last_modified_by = ""
-    OUTPUT.parent.mkdir(parents=True, exist_ok=True)
-    doc.save(OUTPUT)
-    print(f"DOCX created: {OUTPUT}; tables={tables}; embedded figures={figures}")
+    output.parent.mkdir(parents=True, exist_ok=True)
+    doc.save(output)
+    print(f"DOCX created: {output}; tables={tables}; embedded figures={figures}")
 
 
 if __name__ == "__main__":
