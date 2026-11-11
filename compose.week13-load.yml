@@ -1,0 +1,4 @@
+# Apply after compose.production-rehearsal.yml. Load runners use the proxy's namespace.
+services:
+  proxy:
+    ports: !reset []

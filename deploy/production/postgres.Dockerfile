@@ -10,7 +10,8 @@ ENV CGO_ENABLED=0 GOTOOLCHAIN=local
 RUN go build -trimpath -ldflags '-w -s' -o /out/gosu .
 FROM postgres:17.11-alpine3.23@sha256:05aa77262db9277fde6374bb2f901c9604b8a9373029e1a7993440c6aae48736
 # Retain GNU sync/install semantics used by the verified backup/TLS scripts.
-RUN apk upgrade --no-cache && apk add --no-cache bash coreutils openssl ca-certificates
+RUN apk upgrade --no-cache \
+    && apk add --no-cache bash coreutils openssl ca-certificates 'libxslt>=1.1.43-r4'
 ENV LOGISTECH_PG_PLATFORM=postgres17-alpine3.23-musl-icu-v1
 COPY --from=gosu-builder /out/gosu /usr/local/bin/gosu
 RUN gosu nobody true

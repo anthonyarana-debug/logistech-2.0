@@ -1,0 +1,4 @@
+# Apply after compose.production-rehearsal.yml. Local access only.
+services:
+  proxy:
+    ports: !override ['127.0.0.1:8453:443']

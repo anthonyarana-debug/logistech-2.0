@@ -18,6 +18,10 @@ USER app
 
 FROM runtime AS production
 USER root
+RUN sed -i 's|http://deb.debian.org|https://deb.debian.org|g' /etc/apt/sources.list.d/debian.sources \
+    && apt-get -o Acquire::Retries=0 update \
+    && apt-get -o Acquire::Retries=0 upgrade -y --no-install-recommends \
+    && rm -rf /var/lib/apt/lists/*
 COPY requirements-production.txt ./
 RUN pip install --no-cache-dir -r requirements-production.txt
 RUN mkdir -p /app/staticfiles && chown 10001:10001 /app/staticfiles

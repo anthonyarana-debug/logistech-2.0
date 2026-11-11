@@ -20,7 +20,7 @@ ENV CGO_ENABLED=0 GOTOOLCHAIN=local GOMAXPROCS=2
 WORKDIR /build
 RUN go mod init logistech.local/caddy-build \
     && go get github.com/caddyserver/caddy/v2/cmd/caddy@v2.11.7 \
-    && go get github.com/go-jose/go-jose/v4@v4.1.6 golang.org/x/net@v0.60.0
+    && go get github.com/go-jose/go-jose/v4@v4.1.6 golang.org/x/net@v0.62.0
 # cmd/caddy imports modules/standard, preserving ACME, local CA, files and proxy.
 RUN mkdir -p /out && go build -mod=readonly -p 2 -trimpath \
     -ldflags '-w -s -X github.com/caddyserver/caddy/v2.CustomVersion=v2.11.7' \
