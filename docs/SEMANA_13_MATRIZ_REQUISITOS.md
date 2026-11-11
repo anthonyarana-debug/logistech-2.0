@@ -1,21 +1,21 @@
-# Matriz de Semana 13
+# Matriz de aceptación de Semana 13
 
-Se evalúan los 13 requisitos del profesor con igual peso. Los trece tienen evidencia (100 % de cobertura del bloque del 80 %). La comprobación pública incluye TLS, salud, sesión de administrador y lectura paginada. La calificación corresponde al profesor.
+La evaluación académica contabiliza requisitos con al menos una evidencia reproducible. Hay 13 de 13 con evidencia local o pública. Esa cifra mide presencia de evidencia y no equivale a la nota. La aceptación operativa exige comprobar en AWS el criterio de la fila. El resultado operativo es 6 de 13 (46,2 %) verificados en AWS, 5 parciales y 2 verificados en ensayo aislado (carga y caídas). Los flujos de QR, recepción e historial se evalúan como criterios adicionales de cierre F7.
 
-| N.º | Requisito | Estado | Evidencia |
+| N.º | Requisito | Estado en AWS | Evidencia y límite |
 |---:|---|---|---|
-| 1 | CRUD funcional | PROBADO | API y Playwright, con integridad y permisos |
-| 2 | Paginación y latencia | PROBADO | Páginas y filtros API/UI, página 400 con 10.000 categorías |
-| 3 | Múltiples tipos de usuario | PROBADO | Superadmin, administrador, operador asignado y pendiente |
-| 4 | Proyecto desplegado en servidor | PROBADO | Lightsail por HTTPS. Landing y API 200, login y consulta paginada verificados desde Internet |
-| 5 | PostgreSQL y diagrama | PROBADO | Migraciones y [diagrama editable](MODELO_DATOS.mmd) |
-| 6 | CORS restringido | PROBADO | Mismo origen y origen ajeno sin autorización |
-| 7 | Pruebas preventivas de caídas | PROBADO | Caídas controladas de PostgreSQL y Gunicorn, vuelta a HTTP 200 |
-| 8 | Autenticación y autorización | PROBADO | CSRF, cookies, permisos y aislamiento en API |
-| 9 | Inicio de sesión con correo | PROBADO | Acceso por correo y credenciales inválidas en Playwright |
-| 10 | Tokens expirados y rutas protegidas | PROBADO | Renovación real y rutas privadas de la aplicación |
-| 11 | Pantallas para errores previstos | PROBADO | Validación, 403/404 y ensayos de red, 500 y 503 |
-| 12 | Pruebas de 1.000–5.000 | PROBADO | 5.000 GET, 20 VU, p95 39,94 ms y cero errores en el ensayo histórico |
-| 13 | Backups | PROBADO | Dump, checksum, cifrado, restauración independiente y persistencia |
+| 1 | CRUD completo | PARCIAL | Lectura autenticada en AWS. Escrituras y borrados permitidos probados en el ensayo local |
+| 2 | Paginación | PARCIAL | Recuento, límite, orden, filtro e inválidos en AWS. Navegación con varias páginas y aislamiento por rol en ensayo |
+| 3 | Tipos de usuario | PARCIAL | SUPERADMIN en AWS. Administrador de empresa y operador en ensayo |
+| 4 | Servidor desplegado | PROBADA | DNS público, redirección 308, TLS válido, landing, recursos y ruta React |
+| 5 | Base de datos y diagrama | PROBADA | PostgreSQL saludable con volumen persistente y migraciones al día. [Diagrama](MODELO_DATOS.mmd) |
+| 6 | CORS | PROBADA | El origen ajeno no recibió Access-Control-Allow-Origin |
+| 7 | Prevención de caídas | PROBADA EN ENSAYO | PostgreSQL y Gunicorn recuperaron HTTP 200 tras fallos controlados locales |
+| 8 | Autenticación y autorización | PARCIAL | CSRF, cookie, sesión y protección anónima verificados. Permisos completos requieren piloto de roles |
+| 9 | Login por correo | PROBADA | Inicio de sesión real del SUPERADMIN por correo en AWS |
+| 10 | Tokens expirados y rutas protegidas | PROBADA | Expiración natural en AWS (401), renovación (200), cierre (204) y refresh posterior rechazado (401) |
+| 11 | Pantallas para errores | PARCIAL | API 400/401/404 en AWS. Interfaz de recuperación 500/503 y permisos en ensayo |
+| 12 | Pruebas de 1.000–5.000 | PROBADA EN ENSAYO | 5.000 GET en k6, 20 VU, p95 39,94 ms y cero errores |
+| 13 | Backups | PROBADA | Temporizador activo, checksum de la copia más reciente y evidencia previa de restauración independiente y descifrado externo |
 
-Los extras de VPC y optimización se evalúan aparte. La red privada Docker está ensayada. Una VPC de producción se comprobaría con la alternativa EC2. La configuración de carga está acotada y la atribución del pico de p95 requiere medición continua.
+[Resultados de pruebas](SEMANA_13_RESULTADOS_PRUEBAS.md) · [Despliegue y alcance](SEMANA_13_DESPLIEGUE_AWS.md)

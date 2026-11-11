@@ -1,5 +1,7 @@
 # Informe Fase 5 — validación del entregable del 25 %
 
+> Documento histórico. El estado posterior de AWS consta en [Despliegue de Semana 13](SEMANA_13_DESPLIEGUE_AWS.md).
+
 Fecha: 27 de octubre de 2026, America/Lima. Rama `codex/fase-5-validacion`, base `b05ce9e` limpia antes de comenzar.
 
 **Validación local COMPLETADA. Entregable global PARCIAL por cloud.** Doce requisitos tienen evidencia local suficiente y uno, cloud, sigue parcial. Se puede realizar una demostración local verificable; si el profesor exige URL pública activa, **todavía no estamos preparados para acreditar ese requisito**. No se creó infraestructura externa ni se iniciaron F6/F7/F8.

@@ -8,6 +8,6 @@
 6. Ejecutar la cantidad solicitada de un perfil acotado con `powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/demo_semana13.ps1 -Escenario Paginacion -Cantidad 100`. En PowerShell 7 usar `pwsh -NoProfile -File scripts/demo_semana13.ps1 -Escenario Paginacion -Cantidad 100`. Para paginación están disponibles 100, 500, 1.000, 2.500 y 5.000. Para registro use `-Escenario Registro -Cantidad 2`. Abrir [la gráfica](evidencias/semana13-cierre/capacity.html).
 7. En el ensayo sintético, ejecutar `py scripts/verify_week13_recovery.py` para demostrar restauración y persistencia. Programar ese paso fuera de otras operaciones de la demo, ya que reinicia servicios del ensayo.
 8. Abrir una ruta inexistente, mostrar la respuesta al acceso de un operador sin empresa y revisar las capturas de 500/503 simulados.
-9. Una vez autorizado y publicado, abrir el sitio público, comprobar certificado, salud y los flujos desde otra red. Ver [aceptación AWS](AWS_F7_GUIA.md).
+9. Abrir [LogisTech en AWS](https://logistech.stackpe.online/). En PowerShell, ejecutar `Resolve-DnsName logistech.stackpe.online -Type A -Server 1.1.1.1` y `curl.exe --doh-url https://1.1.1.1/dns-query -fsS https://logistech.stackpe.online/api/v1/health/`. Mostrar la sesión autorizada y la lectura paginada. Realizar el CRUD, QR y recepción en el ensayo local mientras el piloto público esté pendiente.
 
 [Preparación local y credenciales de ensayo](LOGISTECH_SEMANA_13_DEMO.md)

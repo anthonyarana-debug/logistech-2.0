@@ -1,5 +1,7 @@
 # Informe de cierre — Fase 2
 
+> Documento histórico. El estado posterior de AWS consta en [Despliegue de Semana 13](SEMANA_13_DESPLIEGUE_AWS.md).
+
 Fecha: 27 de octubre de 2026 (America/Lima).
 
 FASE COMPLETADA: Modelos y autenticación, con preparación documental de diseño Industrial Precision.

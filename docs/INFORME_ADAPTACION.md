@@ -1,5 +1,7 @@
 # Informe de cierre — adaptación de idioma y documentación académica
 
+> Documento histórico. El estado posterior de AWS consta en [Despliegue de Semana 13](SEMANA_13_DESPLIEGUE_AWS.md).
+
 Fecha: 27 de octubre de 2026, America/Lima. Rama local `codex/documentacion-internacionalizacion`, base `e7e437c1586c887bc096f0e07639598a70306d04`.
 
 **Adaptación completada y verificada localmente para revisión.** No se inició F6/F7/F8. No se hizo push, no se cambió visibilidad en GitHub y no se desplegó infraestructura o aplicación externa. El repositorio ya era público, confirmado por consulta anónima; esta adaptación permanece local hasta autorización de publicación. Cloud continúa **PARCIAL**.

@@ -1,5 +1,7 @@
 # Ejecución local y preparación futura
 
+> Documento histórico. El estado posterior de AWS consta en [Despliegue de Semana 13](SEMANA_13_DESPLIEGUE_AWS.md).
+
 ## Estado vigente F5
 
 **Cloud PARCIAL: planificado y artefactos preparados parcialmente; no desplegado ni verificado.** Se construyó localmente el target `production` de backend con Gunicorn 26.2.0, sin herramientas de desarrollo; pip check/check-config aprobados. Un contenedor efímero sin puertos publicados comprobó redirección 301 y liveness 200 a través de un proxy local simulado. Readiness devuelve 503 porque la base local no tiene el TLS/CA exigido por `verify-full`: es un fallo cerrado esperado, no una conexión cloud acreditada.

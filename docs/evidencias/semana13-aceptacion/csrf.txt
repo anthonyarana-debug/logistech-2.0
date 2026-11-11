@@ -1,0 +1,1 @@
+POST refresh desde origen ajeno y sin CSRF: HTTP 403. Petición sin credenciales.

@@ -1,5 +1,7 @@
 # Informe de Fase 4 — Frontend funcional y UI/UX
 
+> Documento histórico. El estado posterior de AWS consta en [Despliegue de Semana 13](SEMANA_13_DESPLIEGUE_AWS.md).
+
 Fecha: 27 de octubre de 2026, America/Lima. Rama local: `codex/fase-4-frontend`.
 
 **Alcance funcional implementado y comprobaciones disponibles aprobadas. Se entrega para revisión humana. F5 no iniciada. No se declara completo el 25 % ni un despliegue cloud.** Permanecen revisiones humanas de zoom nativo, lector de pantalla y dispositivos físicos; se detallan abajo.

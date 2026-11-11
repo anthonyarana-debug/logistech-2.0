@@ -1,0 +1,6 @@
+logistech-production-proxy-1 cpu=0.00% memory=13.1MiB / 192MiB
+logistech-production-backend-1 cpu=0.03% memory=127.6MiB / 512MiB
+logistech-production-db-1 cpu=0.00% memory=46.49MiB / 768MiB
+17.11
+82
+0

@@ -1,0 +1,31 @@
+
+Running 3 tests using 1 worker
+
+(node:48188) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 e2e\resilience.spec.js:5:3 › simulated 500 shows a safe error and retry reloads categories (7.7s)
+  ok 2 e2e\resilience.spec.js:5:3 › simulated 503 shows a safe error and retry reloads categories (1.6s)
+  x  3 e2e\resilience.spec.js:5:3 › simulated offline shows a safe error and retry reloads categories (268ms)
+
+
+  1) e2e\resilience.spec.js:5:3 › simulated offline shows a safe error and retry reloads categories
+
+    Error: Login quota still active. Use a fresh rehearsal or wait for Retry-After.
+
+       at workspace.js:32
+
+      30 |       const seconds = Number(result.headers()['retry-after'])
+      31 |       if (!Number.isFinite(seconds) || seconds < 1 || seconds > 45) {
+    > 32 |         throw new Error('Login quota still active. Use a fresh rehearsal or wait for Retry-After.')
+         |               ^
+      33 |       }
+      34 |       const retryAt = Date.now() + seconds * 1000
+      35 |       await expect
+        at Workspace.login (C:\Users\anthony\Documents\ChatGPT\Proyecto final dsn\frontend\e2e\workspace.js:32:15)
+        at C:\Users\anthony\Documents\ChatGPT\Proyecto final dsn\frontend\e2e\resilience.spec.js:7:5
+
+    Error Context: test-results\resilience-simulated-offli-a15ea-nd-retry-reloads-categories\error-context.md
+
+  1 failed
+    e2e\resilience.spec.js:5:3 › simulated offline shows a safe error and retry reloads categories ─
+  2 passed (10.2s)

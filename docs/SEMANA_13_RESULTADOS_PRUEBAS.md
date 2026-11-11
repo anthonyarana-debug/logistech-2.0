@@ -24,3 +24,22 @@ Los 5.000 GET con 20 VU, 0,97 s de pausa, p95 de 39,94 ms y cero errores duraron
 - Los otros HIGH de backend afectan ncurses, SQLite, libacl, systemd y Archive::Tar. La API usa PostgreSQL, no procesa bases SQLite ni archivos tar del usuario, no abre terminales y no ejecuta systemd-homed. Las bibliotecas siguen instaladas y los informes conservan todas las entradas.
 - El proxy incluye go-jose/v3 3.0.5, que no tiene parche para CVE-2026-116587. El v4 se fijó en 4.1.6 en el build de la entrega anterior. La configuración observada sirve archivos, reenvía HTTP y solicita TLS mediante ACME. No configura entrada JWK, middleware OIDC ni un servidor ACME público. El paquete sigue en el binario. [Aviso del mantenedor](https://github.com/go-jose/go-jose/security/advisories/GHSA-mgcc-cww5-fp2q)
 - La revisión de alcance reduce exposición. Los resultados permanecen visibles y requieren seguimiento de las actualizaciones del proveedor.
+
+## Revalidación de aceptación del 11 de noviembre de 2026
+
+| Prueba | Entorno | Resultado | Evidencia y observaciones |
+|---|---|---|---|
+| pytest | PostgreSQL aislado en Docker local | 316 aprobadas en 42,24 s | [Salida](evidencias/semana13-aceptacion/pytest.txt) |
+| Vitest, ESLint, build y Ruff | Local | 15 unitarias y comprobaciones aprobadas | [Vitest](evidencias/semana13-aceptacion/vitest.txt) · [Build](evidencias/semana13-aceptacion/build.txt) |
+| Playwright | Ensayo local TLS | 5 aprobadas en la tanda inicial. Cinco casos alcanzaron la cuota de login. Se reintentaron por grupos | [Tanda inicial](evidencias/semana13-aceptacion/playwright.txt) |
+| k6 | Docker aislado, PostgreSQL, 2 VU | 100 GET, p95 33,00 ms, p99 45,37 ms, 3,19 req/s y cero errores | [JSON](evidencias/semana13-aceptacion/k6-get-100.json) |
+| Auditoría Trivy | Capas de las tres imágenes desplegadas | 0 CRITICAL, 47 HIGH de backend, 1 HIGH de proxy y 0 de PostgreSQL. El escáner no indicó versiones corregidas | [Backend](evidencias/semana13-aceptacion/current-backend.json) · [Proxy](evidencias/semana13-aceptacion/current-proxy.json) · [PostgreSQL](evidencias/semana13-aceptacion/current-postgres.json) |
+| Recursos | AWS, muestra puntual | PostgreSQL 17.11. RAM observada de proxy 13,1 MiB, backend 127,6 MiB y DB 46,49 MiB | [Muestra](evidencias/semana13-aceptacion/host-metrics.txt) |
+
+La comparación entre Docker local, el manifiesto del TAR y AWS verificó la misma secuencia de capas raíz de los tres componentes. El identificador de configuración serializado en el TAR difiere del identificador mostrado por Docker en ejecución. Las alertas residuales se mantienen en los informes. La aplicación usa PostgreSQL y no ofrece los flujos de montaje, terminal, TAR o JWK de las dependencias afectadas descritos en la revisión anterior. Esta evaluación de exposición no equivale a un parche.
+
+El caso histórico de 2.500 GET con 20 VU conserva p95 de 734,64 ms. La nueva muestra de 100 GET verifica el ejecutor y no aísla la causa del pico histórico. Medir espera de workers, latencias SQL, CPU y E/S en la misma ventana antes de atribuirlo a un componente.
+
+La repetición focalizada de Playwright aprobó los dos casos todavía afectados por la cuota, con cuentas nuevas en el ensayo. Las tandas intermedias aprobaron los otros tres casos. [Repetición final](evidencias/semana13-aceptacion/playwright-final.txt)
+
+En AWS se comprobó que el JWT de acceso expiró de forma natural con HTTP 401, que el refresh devolvió acceso válido y que el cierre devolvió 204 e invalidó el refresh. También se verificaron el 403 de CSRF y las respuestas 400 de orden, filtro y tamaño de página inválidos. No había una segunda página de empresas activas con el filtro elegido. [Evidencia HTTPS](evidencias/semana13-aceptacion/public.json) · [CSRF](evidencias/semana13-aceptacion/csrf.txt)

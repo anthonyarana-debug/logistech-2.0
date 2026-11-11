@@ -1,5 +1,7 @@
 # LogisTech 2.0 — Informe académico del núcleo inicial
 
+> Documento histórico. El estado posterior de AWS consta en [Despliegue de Semana 13](SEMANA_13_DESPLIEGUE_AWS.md).
+
 Fecha: 27 de octubre de 2026, America/Lima. Versión documental: entrega con anexo probatorio para presentación, posterior a la adaptación F5. Proyecto académico de Desarrollo de Soluciones en la Nube — TECSUP.
 
 **Estado:** núcleo F0–F5 validado localmente; adaptación de idioma y consolidación documental en esta entrega. Requisito cloud **PARCIAL**, sin aplicación desplegada externamente. F6/F7/F8 no iniciadas. La publicación del código en GitHub no representa un despliegue del sistema.

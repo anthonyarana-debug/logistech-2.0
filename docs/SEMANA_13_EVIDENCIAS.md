@@ -10,3 +10,10 @@
 | AWS público | [Evidencia HTTPS](evidencias/semana13-integral/cloud-public.txt) · [Despliegue](SEMANA_13_DESPLIEGUE_AWS.md) | Landing, salud, login de administrador y lectura paginada |
 
 El manual visual distingue las capturas de la fuente académica, las de Playwright y las de fallos simulados. Los recuadros señalan acciones y campos con números que se explican debajo.
+
+## Aceptación F7 en AWS y ensayo local
+
+- [Comprobaciones externas](evidencias/semana13-aceptacion/public.json) y [prueba de CSRF](evidencias/semana13-aceptacion/csrf.txt). Incluyen expiración real del acceso, renovación y cierre de sesión.
+- [Métricas del host](evidencias/semana13-aceptacion/host-metrics.txt) y escaneos de las capas desplegadas de [Django](evidencias/semana13-aceptacion/current-backend.json), [PostgreSQL](evidencias/semana13-aceptacion/current-postgres.json) y [proxy](evidencias/semana13-aceptacion/current-proxy.json).
+- [pytest](evidencias/semana13-aceptacion/pytest.txt), [Vitest](evidencias/semana13-aceptacion/vitest.txt), [Playwright inicial](evidencias/semana13-aceptacion/playwright.txt), [trazabilidad](evidencias/semana13-aceptacion/playwright-traceability.txt), [resiliencia](evidencias/semana13-aceptacion/playwright-resilience.txt) y [repetición final](evidencias/semana13-aceptacion/playwright-final.txt).
+- [k6 local con 100 solicitudes GET](evidencias/semana13-aceptacion/k6-get-100.json). La interpretación, el entorno y los límites figuran en [Resultados de pruebas](SEMANA_13_RESULTADOS_PRUEBAS.md).

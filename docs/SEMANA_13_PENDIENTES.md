@@ -6,3 +6,5 @@
 - Arrancar F8 por incrementos cuando se cumplan los criterios de entrada del plan.
 
 [Checklist F7](LOGISTECH_SEMANA_13_AWS_CHECKLIST.md) · [Plan F8](PLAN_FASE_8.md)
+
+La contraseña inicial del administrador debe rotarse por un canal privado cuando el propietario lo autorice. Después se verifican el inicio de sesión, la renovación y los permisos. Revisar el siguiente respaldo nocturno y confirmar una copia cifrada posterior a la creación del administrador.

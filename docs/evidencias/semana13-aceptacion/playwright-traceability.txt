@@ -1,0 +1,44 @@
+
+Running 3 tests using 1 worker
+
+(node:30904) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 e2e\traceability.spec.js:18:1 › F6B2 live QR lookup, printable label, uncertain-network replay and immutable history (6.3s)
+  ok 2 e2e\traceability.spec.js:141:1 › F6B2 live tenant isolation, assigned-role access and simulated camera denial (1.3s)
+  x  3 e2e\traceability.spec.js:184:1 › F6B2 company admin records a justified rejection; unassigned operator is denied by the API (247ms)
+
+
+  1) e2e\traceability.spec.js:184:1 › F6B2 company admin records a justified rejection; unassigned operator is denied by the API
+
+    Error: Login quota still active. Use a fresh rehearsal or wait for Retry-After.
+
+       at workspace.js:32
+
+      30 |       const seconds = Number(result.headers()['retry-after'])
+      31 |       if (!Number.isFinite(seconds) || seconds < 1 || seconds > 45) {
+    > 32 |         throw new Error('Login quota still active. Use a fresh rehearsal or wait for Retry-After.')
+         |               ^
+      33 |       }
+      34 |       const retryAt = Date.now() + seconds * 1000
+      35 |       await expect
+        at Workspace.login (C:\Users\anthony\Documents\ChatGPT\Proyecto final dsn\frontend\e2e\workspace.js:32:15)
+        at login (C:\Users\anthony\Documents\ChatGPT\Proyecto final dsn\frontend\e2e\traceability.spec.js:13:3)
+        at C:\Users\anthony\Documents\ChatGPT\Proyecto final dsn\frontend\e2e\traceability.spec.js:185:17
+
+    Error: page.waitForResponse: Test ended.
+
+      10 | const evidence = name => fileURLToPath(new URL(`${name}.png`, evidenceDirectory))
+      11 | async function login(page, role) {
+    > 12 |   const logged = page.waitForResponse(r => r.url().endsWith('/auth/login/') && r.status() === 200)
+         |                       ^
+      13 |   await new Workspace(page).login(role)
+      14 |   return (await (await logged).json()).access
+      15 | }
+        at login (C:\Users\anthony\Documents\ChatGPT\Proyecto final dsn\frontend\e2e\traceability.spec.js:12:23)
+        at C:\Users\anthony\Documents\ChatGPT\Proyecto final dsn\frontend\e2e\traceability.spec.js:185:23
+
+    Error Context: test-results\traceability-F6B2-company--33f25-erator-is-denied-by-the-API\error-context.md
+
+  1 failed
+    e2e\traceability.spec.js:184:1 › F6B2 company admin records a justified rejection; unassigned operator is denied by the API
+  2 passed (9.4s)

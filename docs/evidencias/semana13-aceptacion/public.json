@@ -1,0 +1,28 @@
+{
+  "utc": "2026-11-11T13:37:36.096323+00:00",
+  "checks": {
+    "landing": 200,
+    "asset": 200,
+    "react_deep_route": 200,
+    "liveness": 200,
+    "readiness": 200,
+    "foreign_origin": 200,
+    "anonymous": 401,
+    "missing_api": 404,
+    "csrf": 200,
+    "admin_login": 200,
+    "admin_identity": 200,
+    "pagination": 200,
+    "next_page_available": false,
+    "invalid_page_size": 400,
+    "invalid_filter": 400,
+    "invalid_order": 400,
+    "renewal": 200,
+    "renewed_token": 200,
+    "expired_access": 401,
+    "renewal_after_expiration": 200,
+    "access_after_renewal": 200,
+    "logout": 204,
+    "refresh_after_logout": 401
+  }
+}
