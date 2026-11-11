@@ -1,0 +1,10 @@
+[Unit]
+Description=LogisTech encrypted PostgreSQL backup
+After=docker.service
+Requires=docker.service
+
+[Service]
+Type=oneshot
+WorkingDirectory=/home/ubuntu/logistech-f7
+UMask=0077
+ExecStart=/bin/bash /home/ubuntu/logistech-f7/deploy/production/backup-encrypted.sh
