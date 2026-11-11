@@ -1,0 +1,12 @@
+[
+  {
+    "page_size": 1,
+    "rows": 1,
+    "queries": 6
+  },
+  {
+    "page_size": 25,
+    "rows": 5,
+    "queries": 6
+  }
+]

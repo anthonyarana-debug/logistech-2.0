@@ -112,6 +112,7 @@ def main(
     title="Informe académico de LogisTech",
     subtitle="Versión 2.0 y evidencias de pruebas del núcleo inicial",
     cover=False,
+    cover_lines=("Semana 13 · 10 de noviembre de 2026 · Lima",),
 ):
     doc = Document()
     section = doc.sections[0]
@@ -164,8 +165,8 @@ def main(
     p.paragraph_format.first_line_indent = Inches(0)
     if cover:
         heading.paragraph_format.space_before = Pt(125)
-        date = doc.add_paragraph("Semana 13 · 10 de noviembre de 2026 · Lima")
-        for line in (heading, subheading, p, date):
+        cover_details = [doc.add_paragraph(text) for text in cover_lines]
+        for line in (heading, subheading, p, *cover_details):
             line.alignment = WD_ALIGN_PARAGRAPH.CENTER
             line.paragraph_format.first_line_indent = Inches(0)
         doc.add_page_break()

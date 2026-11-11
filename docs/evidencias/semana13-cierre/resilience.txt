@@ -1,0 +1,14 @@
+
+> logistech-frontend@0.1.0 test:e2e
+> playwright test --workers=1 resilience.spec.js
+
+
+Running 3 tests using 1 worker
+
+(node:33268) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 e2e\resilience.spec.js:5:3 › simulated 500 shows a safe error and retry reloads categories (5.2s)
+  ok 2 e2e\resilience.spec.js:5:3 › simulated 503 shows a safe error and retry reloads categories (3.0s)
+  ok 3 e2e\resilience.spec.js:5:3 › simulated offline shows a safe error and retry reloads categories (2.7s)
+
+  3 passed (15.8s)

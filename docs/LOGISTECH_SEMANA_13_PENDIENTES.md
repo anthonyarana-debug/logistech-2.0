@@ -1,9 +1,9 @@
 # Pendientes de Semana 13
 
 - **Despliegue público.** Confirmar elegibilidad actual de la cuenta y autorizar recursos, gasto y DNS. El ensayo está disponible en `https://localhost:8453`. Se conserva la preparación F7. [Guía AWS](AWS_F7_GUIA.md)
-- **Carga académica.** Se ejecutaron perfiles pequeños. Para 1000–5000 y 10000–50000 definir la mezcla, duración, tamaño de datos, techo de almacenamiento y concurrencia. El límite de registro de tres por hora impide interpretar esos tamaños como altas exitosas en un mismo escenario con la política actual. El máximo de dos minutos del runner es un criterio de parada y puede dejar iteraciones incompletas. [Ejecutor de Grafana k6](https://grafana.com/docs/k6/latest/using-k6/scenarios/executors/shared-iterations/)
+- **Capacidad.** El mayor perfil que cumplió el criterio fue 5.000 GET con 20 VU y p95 de 39.94 ms. Los perfiles 10.000–50.000 están preparados en k6 y fuera del rango habilitado por el runner local. Requieren entorno dedicado, presupuesto de cuotas y escalamiento sostenido. La política de registro limita las altas a tres por hora por IP.
 - **Referencias y paginación.** Los clientes antiguos conservan el listado sin envoltorio. Los selectores de referencias siguen usando su contrato anterior. Medir catálogos masivos antes de migrar estos clientes y definir cuándo retirar el listado completo.
-- **Monitoreo.** CPU y memoria de carga se capturaron antes y después. Una serie temporal y el perfil de consultas PostgreSQL siguen pendientes. Definir un RPO y RTO para la operación real y medirlos fuera del portátil.
+- **Monitoreo.** CPU y memoria de carga se capturaron antes y después. Se registró una serie temporal de espacio en disco y EXPLAIN de dos páginas. Queda instrumentar CPU, RAM y consultas durante operación sostenida. Definir un RPO y RTO para la operación real y medirlos fuera del portátil.
 - **Revisión operativa.** Revisar alertas HIGH residuales, advertencias HSTS, rotación de copias y verificación pública del certificado. Mantener el repositorio de respaldo como punto de retorno y desplegar por SHA e imágenes auditadas.
 
 ## Preparación para aprobar el despliegue

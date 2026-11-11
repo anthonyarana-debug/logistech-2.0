@@ -1,0 +1,23 @@
+{
+  "project": "logistech-week13",
+  "backup_bytes": 93836,
+  "backup_seconds": 6.994,
+  "restore_seconds": 6.429,
+  "restart_until_manifest_seconds": 19.855,
+  "checksum_verified_by_restore": true,
+  "existing_database_refused": true,
+  "manifest_matches": true,
+  "persisted_after_restart": true,
+  "model_counts": {
+    "organizations.Company": 6,
+    "organizations.Branch": 12,
+    "accounts.User": 12,
+    "catalog.Category": 14,
+    "catalog.Product": 12,
+    "boxes.Box": 28,
+    "boxes.Receipt": 4,
+    "boxes.BoxEvent": 8
+  },
+  "tls": "TLSv1.3",
+  "invalid_receipt_company": 0
+}

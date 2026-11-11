@@ -1,0 +1,6 @@
+Authenticated encrypted backup created. Copy only the encrypted archive off-site.
+Authenticated backup decrypted. Keep the plaintext recovery dump private.
+84181c695edac3b9f1d5442dcbb9c0cff8f292c9774533fce81b5fe617ee8ff3  source.dump
+84181c695edac3b9f1d5442dcbb9c0cff8f292c9774533fce81b5fe617ee8ff3  restored.dump
+Error decrypting CMS structure
+tamper_rejected=true

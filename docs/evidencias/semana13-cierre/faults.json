@@ -1,0 +1,37 @@
+{
+  "project": "logistech-week13-fault-c245737a467d",
+  "kind": "local fault simulation",
+  "healthy": {
+    "status": 200,
+    "cors": null
+  },
+  "database_down": {
+    "status": 503,
+    "cors": null
+  },
+  "database_recovered": {
+    "status": 200,
+    "cors": null
+  },
+  "database_recovery_seconds": 7.193,
+  "backend_down": {
+    "status": 502,
+    "cors": null
+  },
+  "backend_recovered": {
+    "status": 200,
+    "cors": null
+  },
+  "rollback_f7": {
+    "status": 200,
+    "cors": null
+  },
+  "forward_week13": {
+    "status": 200,
+    "cors": null
+  },
+  "category_count_before_and_after": [
+    6,
+    6
+  ]
+}
