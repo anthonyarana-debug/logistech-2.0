@@ -302,7 +302,7 @@ def revise_report(document, annotated):
     )
     caption = document.add_paragraph("Figura C1. Latencia p95 del ensayo de paginación")
     caption.paragraph_format.keep_with_next = True
-    document.add_picture(str(EVIDENCE / "capacity-p95.png"), width=Inches(5.75))
+    document.add_picture(str(EVIDENCE / "capacity-p95.png"), width=Inches(4.85))
     document.add_heading("15.1. Producción, seguridad y recuperación", level=2)
     document.add_paragraph(
         "El ensayo usó React compilado, Caddy, Gunicorn y PostgreSQL privado. Trivy volvió a registrar cero "
