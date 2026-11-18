@@ -9,6 +9,8 @@ from rest_framework.throttling import SimpleRateThrottle
 
 class AuthThrottle(SimpleRateThrottle):
     def allow_request(self, request, view):
+        if getattr(settings, "LOAD_TEST_MODE", False):
+            return True
         if not settings.USE_DATABASE_THROTTLE:
             return super().allow_request(request, view)
         if self.rate is None:

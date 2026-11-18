@@ -101,6 +101,9 @@ REST_FRAMEWORK = {
     },
 }
 USE_DATABASE_THROTTLE = False
+# Ventana temporal de pruebas de carga: desactiva los rate limits para medir la
+# capacidad real del servidor. Debe volver a false al terminar la prueba.
+LOAD_TEST_MODE = env_bool("LOAD_TEST_MODE")
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),

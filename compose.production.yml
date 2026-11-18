@@ -23,6 +23,7 @@ x-backend: &backend
     ALLOWED_HOSTS: ${PUBLIC_DOMAIN:?Set PUBLIC_DOMAIN}
     CSRF_TRUSTED_ORIGINS: ${PUBLIC_ORIGIN:?Set PUBLIC_ORIGIN}
     TRUSTED_TLS_PROXY: 'true'
+    LOAD_TEST_MODE: ${LOAD_TEST_MODE:-false}
     POSTGRES_DB: ${POSTGRES_DB:-logistech}
     POSTGRES_USER: logistech_app
     POSTGRES_PASSWORD_FILE: /run/secrets/db_app_password
