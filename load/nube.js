@@ -9,8 +9,12 @@
 // Modo profesor: N iteraciones repartidas entre VUS usuarios, con un tiempo máximo.
 //   ITERATIONS=10000 VUS=10 DURATION=30s
 //
-// El servidor debe tener LOAD_TEST_MODE=true; si no, las respuestas 429 aparecen
-// contadas como "cuota" (rate limit) y no como caída del servidor.
+// El servidor debe tener LOAD_TEST_MODE=true y el mismo LOAD_TEST_TOKEN que se pasa
+// aquí: solo las solicitudes con esa cabecera omiten el rate limit. Sin token, las
+// respuestas 429 aparecen contadas como "cuota" y no como caída del servidor.
+//
+// Corte automático: si más del ABORT_ERROR_RATE (por defecto 5 %) de las solicitudes
+// falla durante 10 s, k6 se detiene para no tumbar el servidor.
 import http from 'k6/http'
 import { check } from 'k6'
 import { Counter, Trend } from 'k6/metrics'
@@ -25,6 +29,10 @@ const DURATION = __ENV.DURATION || '60s'
 const RUN_ID = (__ENV.RUN_ID || String(Date.now())).toLowerCase().replace(/[^a-z0-9]/g, '')
 const TAG = __ENV.TAG || `${SCENARIO}-${ITERATIONS}-${VUS}vu`
 const OUT = __ENV.OUT_DIR || '/results'
+const ABORT_ERROR_RATE = Number(__ENV.ABORT_ERROR_RATE || 0.05)
+// Cabecera común: el token de la ventana de prueba (nunca se imprime).
+const COMMON = __ENV.LOAD_TEST_TOKEN ? { 'X-Load-Test-Token': __ENV.LOAD_TEST_TOKEN } : {}
+const params = (name, timeout, headers = {}) => ({ headers: { ...COMMON, ...headers }, tags: { name }, timeout })
 
 if (!['register', 'login', 'get', 'mixed'].includes(SCENARIO)) throw new Error('SCENARIO inválido')
 if (!(ITERATIONS >= 1 && VUS >= 1 && VUS <= ITERATIONS)) throw new Error('ITERATIONS/VUS inválidos')
@@ -38,10 +46,11 @@ export const options = {
   insecureSkipTLSVerify: __ENV.INSECURE === 'true',
   noCookiesReset: true, // cada VU conserva su cookie CSRF entre iteraciones
   summaryTrendStats: ['avg', 'min', 'med', 'p(90)', 'p(95)', 'p(99)', 'max'],
-  // Umbrales informativos: no abortan, para poder documentar dónde empieza a fallar.
   thresholds: {
-    http_req_failed: ['rate<0.01'],
+    // Informativo (no aborta): marca la prueba como fallida si supera 1 %.
     http_req_duration: ['p(95)<1000'],
+    // Corte de seguridad: aborta ante errores sostenidos.
+    http_req_failed: ['rate<0.01', { threshold: `rate<${ABORT_ERROR_RATE}`, abortOnFail: true, delayAbortEval: '10s' }],
   },
 }
 
@@ -65,7 +74,7 @@ function classify(res) {
 
 function csrf() {
   if (csrfToken) return csrfToken
-  const res = http.get(API + '/auth/csrf/', { tags: { name: 'GET csrf' }, timeout: '10s' })
+  const res = http.get(API + '/auth/csrf/', params('GET csrf', '10s'))
   classify(res)
   if (res.status === 200) csrfToken = res.json('csrfToken')
   return csrfToken
@@ -81,7 +90,7 @@ function register() {
   const res = http.post(API + '/auth/register/',
     // Contraseña aleatoria y distinta del correo (el validador rechaza las parecidas).
     JSON.stringify({ email, password: `Qz7#${Math.random().toString(36).slice(2, 12)}!Wm`, first_name: 'Carga', last_name: 'K6' }),
-    { headers: jsonHeaders(), tags: { name: 'POST register' }, timeout: '30s' })
+    params('POST register', '30s', jsonHeaders()))
   classify(res)
   registerTime.add(res.timings.duration)
   if (check(res, { 'registro 201': r => r.status === 201 })) created.add(1)
@@ -89,7 +98,7 @@ function register() {
 
 function login() {
   const res = http.post(API + '/auth/login/', JSON.stringify({ email: __ENV.EMAIL, password: __ENV.PASSWORD }),
-    { headers: jsonHeaders(), tags: { name: 'POST login' }, timeout: '30s' })
+    params('POST login', '30s', jsonHeaders()))
   classify(res)
   if (check(res, { 'login 200': r => r.status === 200 })) access = res.json('access')
   return res.status === 200
@@ -98,17 +107,16 @@ function login() {
 function getCategories() {
   if (!access && !login()) return
   const page = 1 + (exec.scenario.iterationInTest % Number(__ENV.PAGES || 1))
-  let res = http.get(`${API}/categories/?page_size=25&page=${page}`,
-    { headers: { Authorization: 'Bearer ' + access }, tags: { name: 'GET categories' }, timeout: '30s' })
+  const url = `${API}/categories/?page_size=25&page=${page}`
+  let res = http.get(url, params('GET categories', '30s', { Authorization: 'Bearer ' + access }))
   if (res.status === 401 && login()) // el access token dura 5 min
-    res = http.get(`${API}/categories/?page_size=25&page=${page}`,
-      { headers: { Authorization: 'Bearer ' + access }, tags: { name: 'GET categories' }, timeout: '30s' })
+    res = http.get(url, params('GET categories', '30s', { Authorization: 'Bearer ' + access }))
   classify(res)
   check(res, { 'consulta 200': r => r.status === 200 })
 }
 
 function health() {
-  const res = http.get(API + '/health/', { tags: { name: 'GET health' }, timeout: '10s' })
+  const res = http.get(API + '/health/', params('GET health', '10s'))
   classify(res)
   check(res, { 'salud 200': r => r.status === 200 })
 }
@@ -139,8 +147,11 @@ export function handleSummary(data) {
     usuarios_creados: val(data, 'usuarios_creados'), run_id: RUN_ID,
     cuota_429: val(data, 'fallo_cuota_429'), cliente_4xx: val(data, 'fallo_cliente_4xx'),
     servidor_5xx: val(data, 'fallo_servidor_5xx'), red_timeout: val(data, 'fallo_red_timeout'),
+    token_prueba: Boolean(__ENV.LOAD_TEST_TOKEN),
   }
-  row.resultado = done < ITERATIONS ? 'INCOMPLETO (no terminó en el tiempo)'
+  row.resultado = done < ITERATIONS && row.error_pct >= 100 * ABORT_ERROR_RATE
+    ? `CORTADO (errores sostenidos >= ${100 * ABORT_ERROR_RATE} %)`
+    : done < ITERATIONS ? 'INCOMPLETO (no terminó en el tiempo)'
     : row.error_pct > 1 ? 'FALLIDO (errores > 1 %)'
     : row.p95_ms > 1000 ? 'LENTO (p95 > 1 s)' : 'APROBADO'
   const text = [

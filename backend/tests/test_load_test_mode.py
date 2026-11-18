@@ -17,19 +17,52 @@ def test_rate_limits_apply_by_default(client):
     assert client.post("/api/v1/auth/register/", {}, format="json").status_code == 429
 
 
+TOKEN = "t" * 40
+
+
+def register(client, n, **headers):
+    return client.post(
+        "/api/v1/auth/register/",
+        {"email": f"k6-t{n}@example.test", "password": PASSWORD},
+        format="json",
+        **headers,
+    )
+
+
 @pytest.mark.parametrize("database_throttle", [False, True])
-def test_load_test_mode_disables_rate_limits(client, settings, database_throttle):
+def test_load_test_token_bypasses_rate_limits(client, settings, database_throttle):
     settings.LOAD_TEST_MODE = True
+    settings.LOAD_TEST_TOKEN = TOKEN
     settings.USE_DATABASE_THROTTLE = database_throttle
     csrf(client)
     for n in range(8):
-        response = client.post(
-            "/api/v1/auth/register/",
-            {"email": f"k6-t{n}@example.test", "password": PASSWORD},
-            format="json",
-        )
-        assert response.status_code == 201
+        assert register(client, n, HTTP_X_LOAD_TEST_TOKEN=TOKEN).status_code == 201
     assert User.objects.filter(email__startswith="k6-t").count() == 8
+
+
+@pytest.mark.parametrize("header", [{}, {"HTTP_X_LOAD_TEST_TOKEN": "x" * 40}])
+def test_public_traffic_stays_limited_during_load_test(client, settings, header):
+    settings.LOAD_TEST_MODE = True
+    settings.LOAD_TEST_TOKEN = TOKEN
+    csrf(client)
+    codes = [register(client, n, **header).status_code for n in range(4)]
+    assert codes == [201, 201, 201, 429]
+
+
+def test_token_is_ignored_when_mode_is_off(client, settings):
+    settings.LOAD_TEST_MODE = False
+    settings.LOAD_TEST_TOKEN = TOKEN
+    csrf(client)
+    codes = [register(client, n, HTTP_X_LOAD_TEST_TOKEN=TOKEN).status_code for n in range(4)]
+    assert codes[-1] == 429
+
+
+def test_short_token_never_bypasses(client, settings):
+    settings.LOAD_TEST_MODE = True
+    settings.LOAD_TEST_TOKEN = "corto"
+    csrf(client)
+    codes = [register(client, n, HTTP_X_LOAD_TEST_TOKEN="corto").status_code for n in range(4)]
+    assert codes[-1] == 429
 
 
 def test_load_test_mode_raises_deploy_warning(settings):

@@ -101,9 +101,13 @@ REST_FRAMEWORK = {
     },
 }
 USE_DATABASE_THROTTLE = False
-# Ventana temporal de pruebas de carga: desactiva los rate limits para medir la
-# capacidad real del servidor. Debe volver a false al terminar la prueba.
+# Ventana temporal de pruebas de carga. Solo las solicitudes que envían la cabecera
+# X-Load-Test-Token con este secreto omiten los rate limits; el tráfico público sigue
+# limitado. Debe volver a false al terminar la prueba.
 LOAD_TEST_MODE = env_bool("LOAD_TEST_MODE")
+LOAD_TEST_TOKEN = required("LOAD_TEST_TOKEN") if LOAD_TEST_MODE else ""
+if LOAD_TEST_MODE and len(LOAD_TEST_TOKEN) < 32:
+    raise ImproperlyConfigured("LOAD_TEST_TOKEN requires at least 32 characters.")
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),

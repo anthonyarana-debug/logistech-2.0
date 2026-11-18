@@ -3,13 +3,22 @@ from datetime import UTC, datetime
 
 from django.conf import settings
 from django.db import transaction
-from django.utils.crypto import salted_hmac
+from django.utils.crypto import constant_time_compare, salted_hmac
 from rest_framework.throttling import SimpleRateThrottle
+
+
+def load_test_request(request):
+    """True only during LOAD_TEST_MODE and when the request carries the secret token."""
+    token = getattr(settings, "LOAD_TEST_TOKEN", "")
+    if not (getattr(settings, "LOAD_TEST_MODE", False) and len(token) >= 32):
+        return False
+    supplied = request.META.get("HTTP_X_LOAD_TEST_TOKEN", "")
+    return constant_time_compare(supplied, token)
 
 
 class AuthThrottle(SimpleRateThrottle):
     def allow_request(self, request, view):
-        if getattr(settings, "LOAD_TEST_MODE", False):
+        if load_test_request(request):
             return True
         if not settings.USE_DATABASE_THROTTLE:
             return super().allow_request(request, view)

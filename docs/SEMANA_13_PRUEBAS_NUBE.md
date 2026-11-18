@@ -6,13 +6,14 @@ Esta guía responde a la observación de la revisión. Las pruebas anteriores se
 
 | Cambio | Archivo | Motivo |
 |---|---|---|
-| Interruptor `LOAD_TEST_MODE` | `backend/config/settings/base.py`, `backend/apps/accounts/throttles.py`, `compose.production.yml` | El rate limit de seguridad (registro 3/hora por IP, API 120/min por usuario) bloqueaba las pruebas masivas y devolvía 429. Con `LOAD_TEST_MODE=true` los límites se desactivan solo durante la ventana de prueba. Por defecto vale `false`. |
+| Ventana `LOAD_TEST_MODE` + `LOAD_TEST_TOKEN` | `backend/config/settings/base.py`, `backend/apps/accounts/throttles.py`, `compose.production.yml` | El rate limit de seguridad (registro 3/hora por IP, API 120/min por usuario) bloqueaba las pruebas masivas y devolvía 429. Durante la ventana, **solo** las solicitudes con la cabecera `X-Load-Test-Token` igual al secreto (mínimo 32 caracteres, comparación en tiempo constante) omiten el límite. El tráfico público sigue limitado. Sin token o con `LOAD_TEST_MODE=false`, el límite se aplica siempre. |
 | Aviso `logistech.W010` | `backend/apps/core/checks.py` | `manage.py check --deploy` avisa si el modo de prueba quedó encendido. |
 | Script k6 para la nube | `load/nube.js` | Modo del profesor: N iteraciones repartidas entre VU trabajadores, con un tiempo máximo. Clasifica cada error como cuota (429), cliente (4xx), servidor (5xx) o red/timeout. |
-| Ejecutor | `scripts/run_cloud_load.ps1` | Corre k6 en Docker y permite escaleras de 50 a 50 000. |
+| Ejecutor | `scripts/run_cloud_load.ps1` | Corre k6 en Docker y permite escaleras de 50 a 50 000. Los secretos (token, correo, contraseña) pasan a Docker por nombre de variable, nunca como valor en la línea de comandos. La escalera se detiene en el primer escalón que no aprueba, y k6 aborta solo si los errores superan el 5 % durante 10 s. |
 | Resumen y gráficas | `scripts/summarize_cloud_load.py` | Genera CSV, una tabla Markdown y un HTML con barras imprimibles en blanco y negro. |
 | Conteo y limpieza | `manage.py load_test_users` | Cuenta y elimina solo usuarios `k6-...@example.test` de rol OPERATOR sin empresa. |
-| Pruebas | `backend/tests/test_load_test_mode.py` | Comprueban que el límite sigue activo por defecto, que el modo de prueba lo desactiva y que la limpieza no toca usuarios reales. |
+| Pruebas | `backend/tests/test_load_test_mode.py` | Comprueban que el límite sigue activo por defecto, que solo el token correcto lo omite, que el público sigue limitado durante la ventana, que un token corto o con el modo apagado no sirve, y que la limpieza no toca usuarios reales. |
+| Ensayo local | `scripts/test_cloud_load_local.ps1` | Reproduce todo en Docker, incluida la comprobación de que el público recibe 429 durante la ventana. `-SinToken` demuestra el fallo por cuota y el corte de la escalera. |
 
 ## Glosario para la tabla de resultados
 
@@ -20,6 +21,7 @@ Esta guía responde a la observación de la revisión. Las pruebas anteriores se
 - **Fallido por cuota (429)**: el rate limit rechazó la solicitud. No es una caída del servidor, sino la protección funcionando.
 - **Fallido por volumen o capacidad (5xx o timeout)**: el servidor no pudo atender la cantidad de solicitudes. 502 significa que Gunicorn no respondió, 503 que la base de datos no estaba disponible y timeout que la respuesta superó 30 s.
 - **Incompleto**: no terminó todas las iteraciones dentro del tiempo máximo.
+- **Cortado**: k6 se detuvo solo porque los errores superaron el 5 % sostenido (protección para no tumbar el servidor).
 - **Aprobado**: todas las iteraciones terminaron, con error ≤ 1 % y p95 ≤ 1 s.
 - **Lectura / escritura**: GET de categorías es lectura. El registro es escritura, porque inserta en `accounts_user` y calcula el hash de la contraseña.
 
@@ -44,8 +46,12 @@ docker compose -p logistech-production --env-file .env.f7 -f compose.production.
 
 ### 2. Abrir la ventana de prueba
 
+Genera un token nuevo para esta ventana. No lo pegues en chats, documentos ni commits; pásalo a tu PC por un canal privado.
+
 ```bash
 echo 'LOAD_TEST_MODE=true' >> .env.f7
+echo "LOAD_TEST_TOKEN=$(openssl rand -hex 32)" >> .env.f7
+grep '^LOAD_TEST_TOKEN=' .env.f7 | cut -d= -f2    # cópialo a tu PC por un canal privado
 docker compose -p logistech-production --env-file .env.f7 -f compose.production.yml up -d --wait backend
 docker compose -p logistech-production --env-file .env.f7 -f compose.production.yml exec backend python manage.py check --deploy   # debe mostrar W010
 ```
@@ -53,6 +59,9 @@ docker compose -p logistech-production --env-file .env.f7 -f compose.production.
 ### 3. Ejecutar las pruebas desde tu PC (PowerShell, con Docker Desktop encendido)
 
 ```powershell
+# El mismo token del servidor (solo en esta ventana de PowerShell)
+$env:K6_LOAD_TEST_TOKEN = Read-Host 'Token de prueba'
+
 # Registro masivo, que escribe en la BD: 50, 100, 200, 500 y 1000 con 10 VU
 .\scripts\run_cloud_load.ps1 -Ladder register
 
@@ -60,7 +69,7 @@ docker compose -p logistech-production --env-file .env.f7 -f compose.production.
 .\scripts\run_cloud_load.ps1 -Scenario register -Iterations 10000 -VUs 10 -Duration 30s
 
 # Lectura autenticada de 100 a 50 000 (requiere una cuenta con rol asignado)
-$env:K6_EMAIL = 'tu-admin@...'; $env:K6_PASSWORD = '...'
+$env:K6_EMAIL = 'tu-admin@...'; $env:K6_PASSWORD = Read-Host 'Contraseña admin'
 .\scripts\run_cloud_load.ps1 -Ladder get
 ```
 
@@ -87,7 +96,7 @@ GROUP BY 1 ORDER BY 1;
 ### 5. Cerrar la ventana de prueba (obligatorio)
 
 ```bash
-sed -i 's/^LOAD_TEST_MODE=true$/LOAD_TEST_MODE=false/' .env.f7
+sed -i 's/^LOAD_TEST_MODE=true$/LOAD_TEST_MODE=false/; /^LOAD_TEST_TOKEN=/d' .env.f7
 docker compose -p logistech-production --env-file .env.f7 -f compose.production.yml up -d --wait backend
 docker compose -p logistech-production --env-file .env.f7 -f compose.production.yml exec backend python manage.py check --deploy   # W010 ya no debe aparecer
 # Opcional, después de tomar las capturas:
@@ -107,6 +116,8 @@ Referencia medida en local el 18/11/2026 con `scripts/test_cloud_load_local.ps1`
 | GET 1000 | 1000/1000 | 10 | 5,87 s | 173,74 | 67,86 | 0 | — | Aprobado |
 
 Interpretación del caso de 10 000 en 30 s: no hubo errores ni caída. El servidor atendió todas las solicitudes que recibió en 0,19 s (p95), pero su techo de escritura es de unas 60 altas por segundo (pico de 66), así que en 30 s solo caben unas 1800. El límite es la CPU: cada alta calcula el hash PBKDF2 de la contraseña. Para alcanzar 10 000 en 30 s harían falta unas 333 altas por segundo, es decir, unas cinco veces más CPU o workers. No se debe bajar la seguridad del hash para lograrlo. En la nube, con 1 CPU, el techo será menor; ese es el número que va al informe.
+
+Escalera local del 18/11/2026 con token (`test_cloud_load_local.ps1 -Ladder register`): 50, 100, 200, 500 y 1000 registros aprobados, con 0 % de errores, entre 58 y 63 req/s y p95 entre 180 y 242 ms. PostgreSQL confirmó 1850 usuarios. En la misma ventana, el tráfico sin token recibió `[400, 400, 400, 429]`: el público siguió limitado. Con `-SinToken`, el escalón de 50 terminó FALLIDO con 47 respuestas 429 de cuota y solo 3 altas (el límite de 3 por hora), y la escalera se detuvo sola.
 
 Si una prueba falla, documentarla en la tabla de incidentes con causa, impacto, solución y verificación. Ejemplos probables:
 
