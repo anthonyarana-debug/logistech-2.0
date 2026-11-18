@@ -11,7 +11,7 @@
 #   .\scripts\run_cloud_load.ps1 -Ladder register      (50, 100, 200, 500, 1000)
 #   .\scripts\run_cloud_load.ps1 -Ladder get           (100, 1000, 5000, 10000, 25000, 50000)
 #
-# La escalera se detiene en el primer escalón que no termine APROBADO (usa
+# La escalera se detiene en el primer escalón con errores o incompleto; LENTO continúa (usa
 # -ContinueOnFailure para seguir). k6 aborta solo si los errores superan
 # -AbortErrorRate (por defecto 0.05 = 5 %) durante 10 s.
 param(
@@ -63,7 +63,10 @@ function Invoke-K6([string]$scenario, [int]$iterations, [int]$vus, [string]$dura
 function Invoke-Ladder([string]$scenario, [int[]]$steps, [int]$vus, [string]$duration) {
   foreach ($n in $steps) {
     $result = Invoke-K6 $scenario $n $vus $duration
-    if ($result -ne 'APROBADO' -and -not $ContinueOnFailure) {
+    # LENTO (p95 > 1 s sin errores) es un dato de capacidad y no detiene la escalera.
+    # Se detiene ante errores (FALLIDO/CORTADO), sin resultado o INCOMPLETO
+    # (si no terminó a tiempo, un escalón mayor tampoco terminará).
+    if ($result -notin 'APROBADO', 'LENTO (p95 > 1 s)' -and -not $ContinueOnFailure) {
       Write-Warning "Escalera detenida en $scenario-$n ($result). Revisa el servidor antes de seguir."
       break
     }
