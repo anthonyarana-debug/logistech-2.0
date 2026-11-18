@@ -34,6 +34,14 @@ git fetch && git checkout <SHA-de-esta-rama>
 bash deploy/production/update.sh <SHA-de-esta-rama>
 ```
 
+### 1b. Cargar categorías por tipo de producto (observación de la revisión)
+
+Crea seis tipos (electrodomésticos, muebles, cerámica y vidrio frágil, electrónica frágil, alimentos perecibles y ferretería), cada uno con su propio prefijo de SKU (ELEC-, MUEB-, FRAG-, TECN-, PERE-, FERR-) y tres productos. No duplica nada si se ejecuta dos veces.
+
+```bash
+docker compose -p logistech-production --env-file .env.f7 -f compose.production.yml exec backend python manage.py seed_catalog --company "Tecsup"
+```
+
 ### 2. Abrir la ventana de prueba
 
 ```bash
@@ -90,7 +98,15 @@ docker compose -p logistech-production --env-file .env.f7 -f compose.production.
 
 El backend en producción tiene 1 CPU y 512 MB (`compose.production.yml`), con Gunicorn de 2 workers × 2 threads. Cada registro calcula un hash PBKDF2 de la contraseña, que es costoso a propósito para resistir ataques. Por eso la escritura llega a su techo mucho antes que la lectura.
 
-Referencia medida en local el 18/11/2026, con `runserver` y sin límite de CPU: 200 registros en 3,7 s (pico de 60 altas por segundo, p95 de 221 ms) y 1000 GET en 5,9 s (174 req/s, p95 de 68 ms). En la nube se espera menos. Lo que se mida allí es el dato que va al informe.
+Referencia medida en local el 18/11/2026 con `scripts/test_cloud_load_local.ps1` (Docker, `runserver`, sin límite de CPU). Es un ensayo local y no reemplaza la prueba en la nube:
+
+| Prueba | Hechas/objetivo | VU | Duración | Req/s | p95 ms | Error % | Usuarios en BD | Resultado |
+|---|---:|---:|---:|---:|---:|---:|---:|---|
+| Registro 200 | 200/200 | 10 | 3,58 s | 58,64 | 218,01 | 0 | 200 | Aprobado |
+| Registro 10 000 en 30 s | 1806/10 000 | 10 | 30,14 s | 60,26 | 191,79 | 0 | 1806 | Incompleto |
+| GET 1000 | 1000/1000 | 10 | 5,87 s | 173,74 | 67,86 | 0 | — | Aprobado |
+
+Interpretación del caso de 10 000 en 30 s: no hubo errores ni caída. El servidor atendió todas las solicitudes que recibió en 0,19 s (p95), pero su techo de escritura es de unas 60 altas por segundo (pico de 66), así que en 30 s solo caben unas 1800. El límite es la CPU: cada alta calcula el hash PBKDF2 de la contraseña. Para alcanzar 10 000 en 30 s harían falta unas 333 altas por segundo, es decir, unas cinco veces más CPU o workers. No se debe bajar la seguridad del hash para lograrlo. En la nube, con 1 CPU, el techo será menor; ese es el número que va al informe.
 
 Si una prueba falla, documentarla en la tabla de incidentes con causa, impacto, solución y verificación. Ejemplos probables:
 
