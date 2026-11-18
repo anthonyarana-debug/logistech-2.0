@@ -1,0 +1,6 @@
+2026-11-18T07:01:30Z
+PBKDF2 iterations 1000000
+seconds per hash (wall, process CPU) [(0.5348, 0.5347), (0.5369, 0.535), (0.5357, 0.5347), (0.5361, 0.536), (0.5351, 0.535)]
+mean (wall, process CPU) [0.5357, 0.5351]
+W010 absent
+Anonymous registration statuses: [400, 400, 400, 429]

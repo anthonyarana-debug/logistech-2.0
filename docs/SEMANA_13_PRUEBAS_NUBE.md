@@ -158,3 +158,20 @@ La consulta SQL y el comando Django coinciden en 50 usuarios. El primer y últim
 | 01:49 | El p95 del escalón de 50 superó el umbral | Se cancelaron los escalones siguientes | Se confirmaron 50 altas y cero errores 429, 5xx o timeout. La API de salud respondió antes y después. |
 
 La segunda ventana se cerró a las 01:49:54 de Lima. El backend y su configuración quedaron con `LOAD_TEST_MODE=false`, sin token y sin W010. Salud devolvió HTTP 200. Las cuatro solicitudes de registro inválidas sin token devolvieron 400, 400, 400 y 429. [Ventana](evidencias/semana13-nube/ventana.txt) · [Cuota](evidencias/semana13-nube/cuota.txt)
+
+## Diagnóstico y nueva versión del 18 de noviembre de 2026
+
+Lightsail ejecuta `b0d385d68c1877405e610eb990aa17828fd6bcdc`. Este commit cambia el ejecutor local para que un resultado lento pueda continuar. Las entradas de compilación de los tres servicios coincidían con la versión anterior. Se verificaron y reutilizaron las imágenes auditadas, se verificó el archivo transferido por SHA-256 y se aplicó el procedimiento de Compose. Django no tenía migraciones pendientes. El respaldo previo `/home/ubuntu/logistech-f7/backups/f7/logistech-20261118T065643Z-446cd153.dump` pasó la verificación SHA-256.
+
+| Medición | Entorno | Resultado |
+|---|---|---|
+| Hash PBKDF2, 1.000.000 de iteraciones | Equipo local, referencia del operador | 0,117 s por hash |
+| Hash aislado, cinco repeticiones | Lightsail, backend con cuota de 1 vCPU | 0,6421 s de reloj por hash en la primera serie |
+| Hash aislado, cinco repeticiones | Lightsail, backend con cuota de 1 vCPU | 0,5357 s de reloj y 0,5351 s de CPU por hash en la segunda serie |
+| Registros confirmados en el ensayo anterior | Lightsail, PostgreSQL de producción | 50 en 54,28 s, equivalentes a 0,92 altas/s |
+
+El host informa 2 vCPU Intel Xeon Platinum 8259CL a 2,50 GHz. El límite del contenedor es `cpu.max = 100000 100000`, equivalente a 1 vCPU. Los tiempos observados en AWS fueron entre 4,6 y 5,5 veces mayores que la referencia local. Si el costo medido se mantiene, un proceso que use por completo 1 vCPU alcanzaría aproximadamente 1,6–1,9 hashes/s antes de contar el trabajo de la aplicación y la base. Dos vCPU reducirían la cola de trabajo en paralelo y permitirían, como estimación ideal, 3,1–3,7 hashes/s. Los cuatro hilos concurrentes de Gunicorn comparten el presupuesto de CPU del contenedor. La coincidencia de reloj y CPU en la segunda serie aislada ayuda a explicar el costo del hash en reposo. Aún falta medir saturación durante las corridas y cotejar créditos de ráfaga con esa franja. [Salida del diagnóstico](evidencias/semana13-nube/diagnostico-b0d385d.txt)
+
+La instancia actual de US$24/mes tiene dos vCPU y una línea base publicada del 20 % por vCPU. Cambiar la cuota del backend a 2 vCPU dentro del mismo plan tendría costo incremental de instancia de US$0. Se propone medir con la misma carga, comparando dos y cuatro hilos y observando la competencia con PostgreSQL. La opción de 8 GB cuesta US$44/mes, US$20 adicionales, y tiene una línea base del 30 % con dos vCPU. AWS lista desde US$384/mes planes mayores que pueden usar ráfaga automática sin consumir créditos de ráfaga. Los precios son referencias públicas. [CPU de Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/baseline-cpu-performance.html) · [Tarifas](https://aws.amazon.com/lightsail/pricing/)
+
+La nueva tanda quedó pendiente. El lanzamiento de la ventana privada de credenciales fue rechazado por la revisión automática y el acceso a la consola de Lightsail falló en este entorno. Por ello faltan los escalones nuevos, el muestreo durante la carga, la captura de créditos y la comparación entre escalones. Se comprobó salud HTTP 200, modo de carga desactivado, token ausente y W010 ausente. Otra comprobación de registro sin token devolvió 400, 400, 400 y 429.
