@@ -19,7 +19,7 @@ Esta guía responde a la observación de la revisión. Las pruebas anteriores se
 
 - **Iteración**: una operación completa, por ejemplo un registro. **VU**: un usuario o trabajador simultáneo.
 - **Fallido por cuota (429)**: el rate limit rechazó la solicitud. No es una caída del servidor, sino la protección funcionando.
-- **Fallido por volumen o capacidad (5xx o timeout)**: el servidor no pudo atender la cantidad de solicitudes. 502 significa que Gunicorn no respondió, 503 que la base de datos no estaba disponible y timeout que la respuesta superó 30 s.
+- **5xx o timeout**: pueden indicar un problema de capacidad. Un 502 corresponde a un fallo de respuesta del servicio aguas arriba. Un 503 indica indisponibilidad y requiere comprobar qué servicio lo emitió. Un timeout indica que el cliente agotó el plazo de la solicitud. Los logs y las métricas ayudan a identificar la causa.
 - **Incompleto**: no terminó todas las iteraciones dentro del tiempo máximo.
 - **Cortado**: k6 se detuvo solo porque los errores superaron el 5 % sostenido (protección para no tumbar el servidor).
 - **Aprobado**: todas las iteraciones terminaron, con error ≤ 1 % y p95 ≤ 1 s.
@@ -127,3 +127,34 @@ Si una prueba falla, documentarla en la tabla de incidentes con causa, impacto, 
 | 502 o timeouts en registro masivo | CPU del backend al 100 % por el hash de contraseñas | Subir workers o `cpus` del backend, o escalar la instancia; repetir con menos VU |
 | 503 | PostgreSQL saturado o reiniciándose | Revisar `docker compose logs db`, esperar la salud y repetir |
 | Incompleto en 30 s | Volumen mayor que la capacidad por segundo | Reportar el máximo alcanzado y el escalón donde falló |
+
+## Resultados en la nube (18 de noviembre de 2026)
+
+La instancia Lightsail ejecutó `90b8b7c77856cf09c72ed26f30e608cea9dc67f0`. El respaldo previo pasó SHA-256. La siembra en Tecsup creó seis categorías y 18 productos. Una segunda ejecución creó cero. [Despliegue](evidencias/semana13-nube/despliegue.txt) · [Catálogo](evidencias/semana13-nube/catalogo.txt)
+
+| Entorno | Escenario | Iteraciones | VU | Duración | Req/s | p95 | Error | Altas en PostgreSQL | Resultado |
+|---|---|---:|---:|---:|---:|---:|---:|---:|---|
+| Local, referencia histórica | Registro | 200/200 | 10 | 3,58 s | 58,64 | 218,01 ms | 0 % | 200 | Aprobado |
+| Local, referencia histórica | Registro | 1.806/10.000 | 10 | 30,14 s | 60,26 | 191,79 ms | 0 % | 1.806 | Incompleto |
+| Local, referencia histórica | GET | 1.000/1.000 | 10 | 5,87 s | 173,74 | 67,86 ms | 0 % | — | Aprobado |
+| AWS, base de producción | Registro | 50/50 | 10 | 58,829 s | 1,02 | 17.321,05 ms | 0 % | 50 | Lento |
+| AWS, base de producción | Registro 100, 200, 500, 1.000 y 10.000 | — | — | — | — | — | — | — | Pendiente |
+| AWS, base de producción | GET hasta 50.000 y mixto | — | — | — | — | — | — | — | Pendiente |
+
+El primer escalón en AWS superó el límite de p95 de 1 s, así que la escalera se detuvo antes de 100. El p95 específico del POST de registro fue 17.345,83 ms. El p95 de espera HTTP fue 17.320,74 ms y el de conexión 184,85 ms. La mayor parte de la latencia observada fue espera por la respuesta. El hash PBKDF2, el límite de una CPU y los cuatro hilos de Gunicorn son hipótesis que requieren mediciones durante la corrida. Las muestras puntuales antes y después no confirman el cuello de botella. Si se confirma presión de CPU o cola de Gunicorn, evaluar CPU disponible y concurrencia de workers antes de cambiar la instancia o sus límites. [Tabla k6](evidencias/semana13-nube/resumen.md) · [Gráficas](evidencias/semana13-nube/resumen.html)
+
+La consulta SQL y el comando Django coinciden en 50 usuarios. El primer y último registro quedaron separados por 54,28 s, con 0,92 altas/s según el intervalo de PostgreSQL y un pico de 4 altas en un segundo. Los 1,02 req/s de k6 incluyen diez consultas CSRF y los 50 POST. La evidencia SQL se obtuvo con `psql` dentro del contenedor. [Conteo y serie por segundo](evidencias/semana13-nube/postgresql.txt)
+
+| Servicio | CPU antes | CPU después | RAM antes | RAM después |
+|---|---:|---:|---:|---:|
+| Backend | 0,04 % | 0,03 % | 119,6 MiB | 132,2 MiB |
+| PostgreSQL | 0,66 % | 4,48 % | 22,25 MiB | 22,49 MiB |
+
+[Muestras de recursos](evidencias/semana13-nube/recursos.txt)
+
+| Hora de Lima | Incidente | Impacto | Acción y verificación |
+|---|---|---|---|
+| 01:47 | Docker rechazó la ruta relativa de evidencias | Cero solicitudes en ese intento | Se cerró la ventana y se repitió con ruta absoluta. La API de salud respondió antes y después. |
+| 01:49 | El p95 del escalón de 50 superó el umbral | Se cancelaron los escalones siguientes | Se confirmaron 50 altas y cero errores 429, 5xx o timeout. La API de salud respondió antes y después. |
+
+La segunda ventana se cerró a las 01:49:54 de Lima. El backend y su configuración quedaron con `LOAD_TEST_MODE=false`, sin token y sin W010. Salud devolvió HTTP 200. Las cuatro solicitudes de registro inválidas sin token devolvieron 400, 400, 400 y 429. [Ventana](evidencias/semana13-nube/ventana.txt) · [Cuota](evidencias/semana13-nube/cuota.txt)

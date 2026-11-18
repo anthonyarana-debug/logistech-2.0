@@ -1,0 +1,15 @@
+Validación previa y despliegue en Lightsail, 18/11/2026
+
+Rama fuente: feat/pruebas-carga-nube
+SOURCE_REF: 90b8b7c77856cf09c72ed26f30e608cea9dc67f0
+SOURCE_REF anterior: d92ecad202672eba604e73cd9f2dd0106d89a167
+pytest con PostgreSQL 17 aislado: 329 passed in 39.82s
+Ruff: All checks passed!
+Backup previo: /home/ubuntu/logistech-f7/backups/f7/logistech-20261118T063828Z-f34e4a70.dump
+sha256sum -c: OK
+Trivy 0.76.1: 0 CRITICAL en las tres imágenes, 47 HIGH backend, 0 PostgreSQL, 1 proxy.
+SHA-256 de backend.tar, postgres.tar, proxy.tar y config.tar: OK en destino.
+Docker inspect: IDs y capas raíz iguales en el equipo operador y en Lightsail.
+Plan de migración: sin operaciones pendientes. El paso de migración final no aplicó cambios de esquema.
+Proxy, backend y PostgreSQL sanos tras la actualización.
+Verificación externa: HTTP 200 en /, /login y /api/v1/health/.

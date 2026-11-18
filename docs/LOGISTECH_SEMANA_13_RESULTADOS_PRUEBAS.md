@@ -17,8 +17,8 @@ Entorno de ensayo del 10 de noviembre de 2026, Lima. Windows con Docker Desktop 
 | Plantillas AWS | Aprobado | cfn-lint 1.58.0 sobre Lightsail y EC2 para us-east-2, con red deshabilitada |
 | CORS | Aprobado | Origen externo sin `Access-Control-Allow-Origin` en la consulta verificada |
 | Backup, restauración y persistencia | Aprobado | 90 497 bytes, checksum correcto, ocho modelos coincidentes y rechazo de destino existente |
-| k6 1000–50000 | No ejecutado | Perfiles parametrizados. Falta dimensionamiento y prueba escalonada |
-| Despliegue y validación externos | Bloqueado por autorización | Se validó el ensayo local |
+| k6 en AWS | Parcial | 50/50 registros persistidos. La escalera se detuvo por p95 de 17,32 s. Pendientes los escalones restantes y GET hasta 50.000. [Resultados en la nube](SEMANA_13_PRUEBAS_NUBE.md#resultados-en-la-nube-18-de-noviembre-de-2026) |
+| Despliegue y validación externos | Operativo | El 18/11/2026 AWS ejecutó `90b8b7c`. Portada, login y salud respondieron HTTP 200. [Evidencia](evidencias/semana13-nube/despliegue.txt) |
 
 ## Auditoría de las imágenes
 

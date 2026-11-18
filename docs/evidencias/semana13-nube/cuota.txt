@@ -1,0 +1,2 @@
+Health HTTP 200
+Registration without test token, invalid JSON fields: [400, 400, 400, 429]
