@@ -58,3 +58,6 @@ pgdata/
 
 # Vistas de revisión documental, no forman parte de la entrega.
 output/qa/
+
+# Datos de pruebas de carga (token y credenciales), nunca commitear
+.logistech-k6-env.ps1

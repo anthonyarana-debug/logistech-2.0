@@ -1,0 +1,61 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8">
+<title>Anexo D — Pruebas en la nube</title>
+<style>
+@page { size: A4; margin: 18mm 16mm; }
+body { font-family: "Times New Roman", serif; font-size: 11pt; color: #000; background: #fff; max-width: 180mm; margin: auto; line-height: 1.35; }
+h1 { font-size: 15pt; margin: 0 0 4pt; } h2 { font-size: 12.5pt; margin: 14pt 0 4pt; border-bottom: 1px solid #000; }
+table { border-collapse: collapse; width: 100%; font-size: 8.6pt; margin: 4pt 0 6pt; }
+th, td { border: 1px solid #000; padding: 2pt 3pt; text-align: center; } th { background: #e6e6e6; }
+td:first-child { white-space: nowrap; }
+figure { margin: 4pt 0 8pt; } figcaption { font-size: 9pt; font-style: italic; text-align: center; }
+.nota { font-size: 9pt; } .box { border: 1px solid #000; padding: 5pt 7pt; margin: 6pt 0; }
+code { font-family: Consolas, monospace; font-size: 9pt; }
+.pb { page-break-before: always; }
+</style></head><body>
+<h1>Anexo D — Pruebas de carga en la nube (AWS Lightsail)</h1>
+<p class="nota">Fecha: 18 de noviembre de 2026. Servidor: <code>https://logistech.stackpe.online</code> (AWS Lightsail, Ohio, 2 vCPU, 4 GB; backend limitado a 1 vCPU, Gunicorn 2 procesos × 2 hilos; PostgreSQL 17 con TLS). Generador: k6 1.5.0 en Docker desde la PC del operador en Lima, por internet. Las corridas locales anteriores (Anexo B) se conservan solo como referencia.</p>
+
+<div class="box"><b>Resumen.</b> En el servidor de producción se ejecutaron 35 541 consultas autenticadas con 100 % de respuestas correctas (escalones 100, 1000, 5000, 10 000 y 25 000) y se escribieron <b>653 usuarios reales en PostgreSQL</b>. El cuello de botella medido es la CPU del backend al calcular el hash de contraseñas (PBKDF2 de 1 000 000 de iteraciones: 0,54–0,64 s por hash en Lightsail frente a 0,117 s en la PC local). Las lecturas, que no calculan hash, sostienen unas 31 solicitudes/s con p95 menor a 1 s.</div>
+
+<h2>D.1 Local frente a nube</h2>
+<table><tr><th></th><th>Local (PC del operador)</th><th>Nube (AWS Lightsail)</th></tr>
+<tr><td>Dónde corre el backend</td><td>Docker en la misma PC que k6</td><td>Servidor público, acceso por internet y TLS</td></tr>
+<tr><td>CPU disponible</td><td>32 hilos</td><td>1 vCPU (cuota del contenedor) en instancia con ráfagas</td></tr>
+<tr><td>Hash PBKDF2 (1 M iteraciones)</td><td>0,117 s</td><td>0,54–0,64 s</td></tr>
+<tr><td>Registros por segundo</td><td>≈ 60</td><td>≈ 0,9–1,0</td></tr>
+<tr><td>Lecturas por segundo (20 VUs)</td><td>≈ 174</td><td>≈ 31</td></tr></table>
+
+<h2>D.2 Lecturas autenticadas (GET de categorías, 20 VUs)</h2>
+<table><tr><th>Hora Lima</th><th>Objetivo</th><th>Hechas</th><th>VUs</th><th>Duración</th><th>Req/s</th><th>Mediana*</th><th>p95</th><th>Errores</th><th>Local (referencia)</th><th>Resultado</th></tr><tr><td>06:45</td><td>100</td><td>100</td><td>20</td><td>25,9 s</td><td>5,40</td><td>0,71 s</td><td>18,32 s</td><td>0,00 %</td><td>—</td><td><b>LENTO</b></td></tr><tr><td>06:46</td><td>1 000</td><td>1 000</td><td>20</td><td>51,7 s</td><td>20,12</td><td>0,66 s</td><td>1,19 s</td><td>0,00 %</td><td>174 req/s · p95 0,07 s</td><td><b>LENTO</b></td></tr><tr><td>06:49</td><td>5 000</td><td>5 000</td><td>20</td><td>165,1 s</td><td>30,52</td><td>0,55 s</td><td>0,79 s</td><td>0,00 %</td><td>—</td><td><b>APROBADO</b></td></tr><tr><td>06:55</td><td>10 000</td><td>10 000</td><td>20</td><td>317,9 s</td><td>31,65</td><td>0,55 s</td><td>0,89 s</td><td>0,10 %</td><td>—</td><td><b>APROBADO</b></td></tr><tr><td>07:05</td><td>25 000</td><td>19 441</td><td>20</td><td>600,8 s</td><td>32,49</td><td>0,56 s</td><td>0,91 s</td><td>0,10 %</td><td>—</td><td><b>INCOMPLETO</b></td></tr></table>
+<p class="nota">* Mediana del tiempo total por solicitud. El p95 de los escalones 100 y 1000 sube porque incluye los 20 inicios de sesión iniciales (cada uno calcula un hash). El 0,10 % de errores en 10 000 y 25 000 corresponde a respuestas 401 por vencimiento del token JWT de 5 minutos: k6 vuelve a iniciar sesión y repite la consulta, de modo que todas las consultas terminaron con 200. El escalón de 25 000 quedó INCOMPLETO al llegar al tiempo máximo de 600 s (19 441 consultas), sin errores: marca la capacidad sostenida del servidor.</p>
+<figure><svg viewBox="0 0 640 150" width="100%" role="img" aria-label="Figura D1. Solicitudes por segundo por escalón de lectura"><text x="102" y="20" text-anchor="end" font-size="12">get 100</text><rect x="110" y="5" width="73.1" height="20" fill="#333"/><text x="189.1" y="20" font-size="12">5,4 req/s</text><text x="102" y="48" text-anchor="end" font-size="12">get 1 000</text><rect x="110" y="33" width="272.5" height="20" fill="#333"/><text x="388.5" y="48" font-size="12">20,1 req/s</text><text x="102" y="76" text-anchor="end" font-size="12">get 5 000</text><rect x="110" y="61" width="413.3" height="20" fill="#333"/><text x="529.3" y="76" font-size="12">30,5 req/s</text><text x="102" y="104" text-anchor="end" font-size="12">get 10 000</text><rect x="110" y="89" width="428.5" height="20" fill="#333"/><text x="544.5" y="104" font-size="12">31,6 req/s</text><text x="102" y="132" text-anchor="end" font-size="12">get 25 000</text><rect x="110" y="117" width="440.0" height="20" fill="#333"/><text x="556.0" y="132" font-size="12">32,5 req/s</text></svg><figcaption>Figura D1. Solicitudes por segundo por escalón de lectura</figcaption></figure>
+
+<h2>D.3 Escrituras reales en PostgreSQL (registro, 10 VUs)</h2>
+<table><tr><th>Hora Lima</th><th>Objetivo</th><th>Hechas</th><th>VUs</th><th>Duración</th><th>Req/s</th><th>Mediana*</th><th>p95</th><th>Errores</th><th>Filas en BD</th><th>Local (referencia)</th><th>Resultado</th></tr><tr><td>07:06</td><td>50</td><td>50</td><td>10</td><td>59,2 s</td><td>1,01</td><td>5,20 s</td><td>19,27 s</td><td>0,00 %</td><td>50</td><td>60 req/s · p95 0,18 s</td><td><b>LENTO</b></td></tr><tr><td>07:08</td><td>100</td><td>100</td><td>10</td><td>116,5 s</td><td>0,94</td><td>10,86 s</td><td>13,87 s</td><td>0,00 %</td><td>100</td><td>60 req/s · p95 0,20 s</td><td><b>LENTO</b></td></tr><tr><td>07:12</td><td>200</td><td>200</td><td>10</td><td>233,3 s</td><td>0,90</td><td>14,25 s</td><td>16,76 s</td><td>0,00 %</td><td>200</td><td>58 req/s · p95 0,24 s</td><td><b>LENTO</b></td></tr><tr><td>07:18</td><td>500</td><td>266</td><td>10</td><td>308,5 s</td><td>0,89</td><td>10,50 s</td><td>14,94 s</td><td>0,00 %</td><td>266</td><td>62 req/s · p95 0,22 s</td><td><b>INCOMPLETO</b></td></tr></table>
+<p class="nota">Cada registro crea un usuario <code>k6-&lt;RUN_ID&gt;-&lt;n&gt;@example.test</code> con rol OPERADOR. Las filas se comprueban en pgAdmin con la consulta de D.6. No hubo errores 4xx, 5xx ni de red: la lentitud se debe a la CPU, no a caídas.</p>
+<figure><svg viewBox="0 0 640 122" width="100%" role="img" aria-label="Figura D2. p95 (ms) por escalón de registro"><text x="102" y="20" text-anchor="end" font-size="12">register 50</text><rect x="110" y="5" width="440.0" height="20" fill="#333"/><text x="556.0" y="20" font-size="12">19,3 s</text><text x="102" y="48" text-anchor="end" font-size="12">register 100</text><rect x="110" y="33" width="316.6" height="20" fill="#333"/><text x="432.6" y="48" font-size="12">13,9 s</text><text x="102" y="76" text-anchor="end" font-size="12">register 200</text><rect x="110" y="61" width="382.6" height="20" fill="#333"/><text x="498.6" y="76" font-size="12">16,8 s</text><text x="102" y="104" text-anchor="end" font-size="12">register 500</text><rect x="110" y="89" width="341.1" height="20" fill="#333"/><text x="457.1" y="104" font-size="12">14,9 s</text></svg><figcaption>Figura D2. p95 (ms) por escalón de registro</figcaption></figure>
+
+<h2 class="pb">D.4 Caso del profesor: 10 000 registros en 30 s con 10 VUs</h2>
+<table><tr><th>Hora Lima</th><th>Objetivo</th><th>Hechas</th><th>VUs</th><th>Duración</th><th>Req/s</th><th>Mediana*</th><th>p95</th><th>Errores</th><th>Filas en BD</th><th>Local (referencia)</th><th>Resultado</th></tr><tr><td>07:19</td><td>10 000</td><td>34</td><td>10</td><td>39,3 s</td><td>1,12</td><td>7,56 s</td><td>16,15 s</td><td>0,00 %</td><td>34</td><td>—</td><td><b>INCOMPLETO</b></td></tr></table>
+<p class="nota">Resultado esperado: INCOMPLETO. Con 1 vCPU y un hash de ≈ 0,6 s, el servidor puede crear alrededor de 1 usuario por segundo; en 30 s no es posible crear 10 000 sin reducir la seguridad del hash. En local el mismo caso llegó a 1806 registros (≈ 60/s). No es una caída: no hubo errores 5xx y el servidor siguió respondiendo.</p>
+
+<h2>D.5 Significado de cada resultado y de cada tipo de fallo</h2>
+<table><tr><th>Término</th><th>Significado</th></tr>
+<tr><td>APROBADO</td><td>Todas las iteraciones terminaron, errores ≤ 1 % y p95 ≤ 1 s.</td></tr>
+<tr><td>LENTO</td><td>Todo terminó sin errores, pero el p95 superó 1 s. Es un dato de capacidad, no una falla.</td></tr>
+<tr><td>INCOMPLETO</td><td>Se alcanzó el tiempo máximo antes de terminar el volumen pedido (volumen mayor que la capacidad).</td></tr>
+<tr><td>FALLIDO</td><td>Más de 1 % de solicitudes con error.</td></tr>
+<tr><td>CORTADO</td><td>k6 se detuvo solo porque los errores superaron 5 % durante 10 s (protección para no tumbar el servidor).</td></tr>
+<tr><td>Cuota (429)</td><td>El rate limit rechazó la solicitud (por ejemplo, 3 registros por hora por IP). Es una defensa, no una caída.</td></tr>
+<tr><td>Cliente 4xx</td><td>Datos inválidos, CSRF o credenciales (400, 401, 403).</td></tr>
+<tr><td>Servidor 5xx / red</td><td>Error interno o tiempo de espera agotado: indicaría saturación o caída. <b>En todas las corridas en la nube fue 0.</b></td></tr></table>
+<p class="nota">El servidor no se cayó en ninguna corrida. Si ocurriera, Docker lo reinicia (<code>restart: unless-stopped</code>) y el healthcheck de <code>/api/v1/health/</code> lo verifica cada 15 s; los respaldos previos tienen verificación SHA-256.</p>
+
+<h2>D.6 Seguridad durante las pruebas</h2>
+<p>Los límites (rate limits) no se desactivaron para el público. Durante una ventana temporal (<code>LOAD_TEST_MODE=true</code>), solo las solicitudes que envían la cabecera secreta <code>X-Load-Test-Token</code> (64 caracteres, comparación en tiempo constante) omiten los límites. Una corrida con token inválido obtuvo 47 respuestas 429 de 60 solicitudes y solo 3 usuarios creados: el límite público siguió activo. Al cerrar la ventana se vuelve a <code>LOAD_TEST_MODE=false</code>, se borra el token y se comprueba un 429 al cuarto registro sin token.</p>
+<p><b>Verificación en pgAdmin:</b></p>
+<p><code>SELECT count(*), min(created_at), max(created_at), max(created_at) - min(created_at) AS duracion FROM accounts_user WHERE email LIKE 'k6-1118070526%@example.test';</code></p>
+
+<h2>D.7 Cuello de botella y solución propuesta</h2>
+<p>Techo teórico de registro = CPU disponible ÷ costo del hash = 1 vCPU ÷ 0,54–0,64 s ≈ 1,6–1,9 registros/s; lo medido (≈ 1/s) incluye además Django, TLS y PostgreSQL. La seguridad del hash no se reduce. Soluciones, de menor a mayor costo: (1) subir la cuota del backend de 1 a 2 vCPU y 4 procesos Gunicorn dentro de la misma instancia (costo adicional US$0, duplica el techo teórico); (2) un plan de Lightsail con más vCPU o sin ráfagas; (3) varias instancias del backend detrás del proxy. Las lecturas no dependen del hash y ya cumplen 1000–5000 solicitudes en el servidor con 0 % de errores.</p>
+</body></html>
