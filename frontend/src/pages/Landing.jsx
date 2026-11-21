@@ -185,9 +185,9 @@ export default function Landing() {
       <footer className="public-footer">
         <Logo compact />
         <p>
-          Proyecto académico · TECSUP
+          Plataforma logística multiempresa
           <br />
-          <span>Desarrollo de Soluciones en la Nube</span>
+          <span>Identificación, recepción y trazabilidad de cajas</span>
         </p>
         <Link to="/estado">
           Estado del servicio <Icon name="arrow" />
