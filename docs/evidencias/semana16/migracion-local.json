@@ -1,0 +1,18 @@
+{
+  "environment": "local Docker, two independent PostgreSQL containers, synthetic data",
+  "backup_sha256": "e4bf4f0d80929f4d028d24646ba37e157b9555f56c81fde52806a01d14fc354e",
+  "backup_bytes": 72798,
+  "backup_seconds": 0.284,
+  "restore_seconds": 0.335,
+  "seconds_until_comparison": 1.093,
+  "source_preserved": true,
+  "manifest": {
+    "boxes": 12,
+    "branches": 4,
+    "products": 6,
+    "companies": 2,
+    "migrations": 41,
+    "boxes_digest": "6b850af91c4df5f4e046085e9dcc5d01",
+    "history_triggers": 2
+  }
+}

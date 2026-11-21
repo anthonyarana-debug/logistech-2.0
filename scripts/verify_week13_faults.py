@@ -12,7 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 PROJECT = "logistech-week13-fault-" + uuid.uuid4().hex[:12]
 ENV = {
     **os.environ,
-    "SOURCE_REF": "week13-local",
+    "SOURCE_REF": os.environ.get("FAULT_TEST_SOURCE_REF", "week13-local"),
     "PUBLIC_DOMAIN": "localhost",
     "PUBLIC_ORIGIN": "https://localhost",
     "POSTGRES_DB": "logistech",
@@ -34,14 +34,19 @@ COMPOSE = [
 PROBE = """
 import json, ssl, urllib.request, urllib.error
 request = urllib.request.Request(
-    "https://localhost/api/v1/health/",
-    headers={"Origin": "https://untrusted.example.test"},
+    "https://localhost/api/v1/health/?private=local-log-probe",
+    headers={"Origin": "https://untrusted.example.test", "X-Probe": "local-log-probe"},
 )
 try:
-    response = urllib.request.urlopen(request, context=ssl.create_default_context(cafile="/root.crt"), timeout=8)
+    context = ssl.create_default_context(cafile="/root.crt")
+    response = urllib.request.urlopen(request, context=context, timeout=8)
 except urllib.error.HTTPError as exc:
     response = exc
-print(json.dumps({"status": response.status, "cors": response.headers.get("Access-Control-Allow-Origin")}))
+print(json.dumps({
+    "status": response.status,
+    "cors": response.headers.get("Access-Control-Allow-Origin"),
+    "request_id": response.headers.get("X-Request-ID"),
+}))
 """
 
 
@@ -89,11 +94,71 @@ def probe(cert):
             f"{cert}:/root.crt:ro",
             "--entrypoint",
             "python",
-            "logistech-backend:week13-local",
+            f"logistech-backend:{ENV['SOURCE_REF']}",
             "-c",
             PROBE,
         )
     )
+
+
+def await_healthy(cert):
+    deadline = time.monotonic() + 25
+    last_error = ""
+    while time.monotonic() < deadline:
+        try:
+            response = probe(cert)
+            if response["status"] == 200:
+                return response
+            last_error = f"HTTP {response['status']}"
+        except subprocess.CalledProcessError as error:
+            last_error = error.stderr.strip()
+        time.sleep(0.5)
+    raise RuntimeError(f"HTTPS readiness deadline expired: {last_error}")
+
+
+def failure_record(request_id):
+    logs = run("docker", "logs", f"{PROJECT}-backend-1")
+    for line in logs.splitlines():
+        try:
+            event = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        if event.get("request_id") == request_id and event.get("status") == 503:
+            return event
+    raise AssertionError("No JSON access log found for the database failure")
+
+
+def verify_proxy_error_logs():
+    result = subprocess.run(
+        ["docker", "logs", f"{PROJECT}-proxy-1"],
+        cwd=ROOT, capture_output=True, text=True, encoding="utf-8", errors="replace",
+        check=True, timeout=15,
+    )
+    logs = result.stdout + result.stderr
+    errors = []
+    for line in logs.splitlines():
+        try:
+            event = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        if event.get("status") == 502:
+            errors.append(event)
+    assert errors and all("request" not in event for event in errors)
+    assert "local-log-probe" not in logs
+    return {"filtered_502_records": len(errors)}
+
+
+def copy_local_ca(cert):
+    source = f"{PROJECT}-proxy-1:/data/caddy/pki/authorities/local/root.crt"
+    for _ in range(20):
+        try:
+            run("docker", "cp", source, str(cert))
+            return
+        except subprocess.CalledProcessError as error:
+            if "could not find" not in error.stderr.lower():
+                raise
+            time.sleep(0.5)
+    raise RuntimeError("Caddy did not create its local CA before the deadline")
 
 
 def main():
@@ -105,28 +170,32 @@ def main():
             up(ENV, "db")
             run(*COMPOSE, "--profile", "tools", "run", "--rm", "--no-deps", "migration")
             up(ENV, "backend", "proxy")
-            run(
-                "docker",
-                "cp",
-                f"{PROJECT}-proxy-1:/data/caddy/pki/authorities/local/root.crt",
-                str(cert),
-            )
-            evidence["healthy"] = probe(cert)
-            assert evidence["healthy"] == {"status": 200, "cors": None}
+            copy_local_ca(cert)
+            evidence["healthy"] = await_healthy(cert)
+            assert evidence["healthy"]["status"] == 200
+            assert evidence["healthy"]["cors"] is None
             run(*COMPOSE, "stop", "db")
             evidence["database_down"] = probe(cert)
             assert evidence["database_down"]["status"] == 503
+            if evidence["database_down"]["request_id"]:
+                evidence["database_failure_access_log"] = failure_record(
+                    evidence["database_down"]["request_id"]
+                )
             started = time.monotonic()
             up(ENV, "db", "backend")
-            evidence["database_recovered"] = probe(cert)
+            evidence["database_recovered"] = await_healthy(cert)
             evidence["database_recovery_seconds"] = round(time.monotonic() - started, 3)
             assert evidence["database_recovered"]["status"] == 200
 
             run(*COMPOSE, "stop", "backend")
             evidence["backend_down"] = probe(cert)
             assert evidence["backend_down"]["status"] == 502
+            if os.environ.get("FAULT_TEST_CHECK_PROXY_LOGS") == "true":
+                evidence["proxy_logs"] = verify_proxy_error_logs()
+            started = time.monotonic()
             up(ENV, "backend")
-            evidence["backend_recovered"] = probe(cert)
+            evidence["backend_recovered"] = await_healthy(cert)
+            evidence["backend_recovery_seconds"] = round(time.monotonic() - started, 3)
             assert evidence["backend_recovered"]["status"] == 200
 
             run(
@@ -154,10 +223,10 @@ def main():
                 "select count(*) from catalog_category",
             )
             up(baseline, "db", "backend", "proxy")
-            evidence["rollback_f7"] = probe(cert)
+            evidence["rollback_f7"] = await_healthy(cert)
             assert evidence["rollback_f7"]["status"] == 200
             up(ENV, "db", "backend", "proxy")
-            evidence["forward_week13"] = probe(cert)
+            evidence["forward_week13"] = await_healthy(cert)
             assert evidence["forward_week13"]["status"] == 200
             after = run(
                 "docker",

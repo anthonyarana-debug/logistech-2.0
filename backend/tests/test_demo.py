@@ -27,3 +27,20 @@ def test_demo_is_explicit_random_and_non_destructive(tmp_path):
         call_command("create_demo", namespace="test-f4", output=str(output))
     assert output.read_bytes() == original
     assert User.objects.count() == 4
+
+
+@pytest.mark.django_db
+def test_warehouse_scenario_separates_catalog_by_box_location(tmp_path):
+    output = tmp_path / "credentials.json"
+    call_command(
+        "create_demo", namespace="warehouse-test", output=str(output), scenario="warehouse",
+    )
+    company_id = json.loads(output.read_text())["companies"][0]
+    boxes = Box.objects.filter(company_id=company_id)
+    assert boxes.count() == 6
+    assert set(boxes.values_list("branch__name", "product__name")) == {
+        ("Callao · Equipamiento y embalaje", "Sensores de temperatura"),
+        ("Callao · Equipamiento y embalaje", "Cintas de embalaje"),
+        ("Ate · Alimentos", "Conservas selladas"),
+    }
+    assert boxes.filter(status=Box.Status.REGISTERED).count() == 3

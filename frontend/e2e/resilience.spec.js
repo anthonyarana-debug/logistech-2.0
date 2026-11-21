@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 import { Workspace, evidencePath } from './workspace.js'
 
-for (const fault of [500, 503, 'offline']) {
+for (const fault of [500, 502, 503, 'offline']) {
   test(`simulated ${fault} shows a safe error and retry reloads categories`, async ({ page }) => {
     const workspace = new Workspace(page)
     await workspace.login('admin')

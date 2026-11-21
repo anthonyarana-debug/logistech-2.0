@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     "apps.boxes",
 ]
 MIDDLEWARE = [
+    "apps.core.observability.RequestDiagnosticsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -155,6 +156,7 @@ X_FRAME_OPTIONS = "DENY"
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
-    "handlers": {"console": {"class": "logging.StreamHandler"}},
+    "formatters": {"safe_json": {"()": "apps.core.observability.SafeJsonFormatter"}},
+    "handlers": {"console": {"class": "logging.StreamHandler", "formatter": "safe_json"}},
     "root": {"handlers": ["console"], "level": "WARNING"},
 }

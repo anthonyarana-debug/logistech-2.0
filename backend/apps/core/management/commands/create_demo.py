@@ -22,6 +22,7 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument("--namespace", required=True)
         parser.add_argument("--output", required=True)
+        parser.add_argument("--scenario", choices=("default", "warehouse"), default="default")
 
     def handle(self, *args, **options):
         namespace = options["namespace"]
@@ -36,12 +37,21 @@ class Command(BaseCommand):
                 message("demo_exists")
             )
         credentials = {"namespace": namespace, "users": {}}
+        warehouse = options["scenario"] == "warehouse"
+        company_names = (
+            ("Distribuidora Costa Central", "Distribuidora Sur")
+            if warehouse else ("Almacén Lima", "Almacén Arequipa")
+        )
+        branch_names = (
+            ("Callao · Equipamiento y embalaje", "Ate · Alimentos")
+            if warehouse else ("Centro de distribución", "Zona de despacho")
+        )
         created_file = False
         try:
             with transaction.atomic():
                 companies = [
                     Company.objects.create(name=f"DEMO · {namespace} · {name}")
-                    for name in ("Almacén Lima", "Almacén Arequipa")
+                    for name in company_names
                 ]
                 for role, company in (
                     ("root", None),
@@ -71,7 +81,7 @@ class Command(BaseCommand):
                 for company in companies:
                     branches = [
                         Branch.objects.create(company=company, name=name)
-                        for name in ("Centro de distribución", "Zona de despacho")
+                        for name in branch_names
                     ]
                     for index, name in enumerate(("Instrumentos", "Suministros", "Alimentos")):
                         category = Category.objects.create(
@@ -96,16 +106,17 @@ class Command(BaseCommand):
                             if company == companies[0]
                             else User.objects.get(email=credentials["users"]["root"]["email"])
                         )
-                        for n in range(2):
+                        locations = (int(index == 2),) * 2 if warehouse else (0, 1)
+                        for sequence, branch_index in enumerate(locations):
                             Box.objects.create(
                                 company=company,
                                 product=product,
-                                branch=branches[n],
+                                branch=branches[branch_index],
                                 quantity=12 + index * 6,
                                 weight_kg="4.500",
                                 priority=("HIGH", "NORMAL", "LOW")[index],
                                 status="REGISTERED"
-                                if n == 0
+                                if sequence == 0
                                 else ("RECEIVED" if index != 2 else "REJECTED"),
                                 created_by=owner,
                             )

@@ -1,0 +1,7 @@
+SOURCE_REF=b0d385d68c1877405e610eb990aa17828fd6bcdc
+LOAD_TEST_MODE=false
+Backend mode false; token absent
+W010 absent
+{"estado":"disponible","base_de_datos":"disponible"}
+HTTPS health check passed.
+2026-11-21T04:22:03Z

@@ -12,7 +12,14 @@ def api_exception_handler(exc, context):
     response = exception_handler(exc, context)
     if response is None:
         # No registrar str(exc), SQL, payloads, cookies o credenciales.
-        logging.getLogger(__name__).error("Fallo interno de API: %s", type(exc).__name__)
+        logging.getLogger(__name__).error(
+            "Internal API failure",
+            extra={
+                "event": "api_exception",
+                "request_id": getattr(context.get("request"), "request_id", None),
+                "exception_type": type(exc).__name__,
+            },
+        )
         return Response({"detalle": message("internal_service_error")}, status=500)
     if response is not None:
         if isinstance(exc, (AuthenticationFailed, NotAuthenticated)):

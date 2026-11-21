@@ -1,0 +1,3 @@
+| Fecha UTC | Escenario | Objetivo | Hechas | VU | T. máx | Duración s | HTTP | Req/s | Prom ms | p95 ms | p99 ms | Error % | Creados BD | 429 | 5xx | Timeout | Resultado |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 2026-11-21T04:27:17.071Z | register | 100 | 100 | 10 | 60s | 10.09 | 110 | 10.91 | 894.85 | 1568.57 | 2016.59 | 0 | 100 | 0 | 0 | 0 | LENTO (p95 > 1 s) |

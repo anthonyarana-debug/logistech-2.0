@@ -1,22 +1,22 @@
 # LogisTech 2.0
 
-**F7 WIP respaldada:** investigación AWS suspendida para guardar avances. La imagen
-PostgreSQL candidata pasó el escaneo sin CRITICAL/HIGH y las regresiones; quedan
-revisión de riesgos y tareas de recuperación/despliegue. No hay publicación cloud.
-Ver [estado exacto y pendientes](docs/ESTADO_F7_RESPALDO.md).
+**Semana 16.** El sitio está operativo en [AWS Lightsail](https://logistech.stackpe.online/).
+La [puesta al día de Semana 16](docs/SEMANA_16_ESTADO.md) reúne las pruebas de carga
+en AWS, el cierre de la ventana de carga, la comparación local de CPU y el estado
+de recuperación, CI y Android.
 
-## F7 — preparación AWS y ensayo HTTPS local
+## F7 — antecedentes de la preparación AWS y el ensayo HTTPS local
 
-Destino previsto **https://logistech.stackpe.online**, DNS en Porkbun. Configuración
-separada con React compilado, Caddy, Gunicorn y PostgreSQL privado/TLS; aún **sin
-despliegue AWS ni cambios DNS**. Rama `codex/fase-7-despliegue`, base estable F6 B2
-`118eed3`. La seguridad de imágenes conserva hallazgos pendientes de revisión.
+El ensayo inicial preparó **https://logistech.stackpe.online** para DNS en Porkbun,
+React compilado, Caddy, Gunicorn y PostgreSQL privado con TLS. Se trabajó en
+`codex/fase-7-despliegue` desde el commit F6 B2 `118eed3`. Los hallazgos
+residuales de las imágenes siguen documentados.
 
 [Informe y pruebas](docs/INFORME_FASE_7.md), [guía AWS](docs/AWS_F7_GUIA.md),
 [presupuesto Free Plan](docs/PRESUPUESTO_AWS_F7.md), [DNS/TLS](docs/DNS_TLS_F7.md),
 [seguridad](docs/CHECKLIST_SEGURIDAD_F7.md) y [backup](docs/BACKUP_RECUPERACION_F7.md).
 `python scripts/verify_f7.py` verifica el ensayo ya instalado, sin crear recursos.
-La publicación de F7 y el despliegue siguen sujetos a revisión/autorización.
+Consultar el [estado actual de AWS](docs/SEMANA_16_ESTADO.md) antes de desplegar otra versión.
 
 ## F6, Bloque 2 — QR, recepción y trazabilidad
 
@@ -31,11 +31,11 @@ reales. Estados previos conservados; no es todavía stock ni movimientos.
 Verificar con scripts/verify_f6_block2.py. La validación final usa logistech-f6-b2 y
 compose.traceability-validation.yml, aislados en 127.0.0.1:5175/8002; la base de trabajo no se migra automáticamente. Cloud parcial.
 
-Repositorio público: [anthonyarana-debug/logistech-2.0](https://github.com/anthonyarana-debug/logistech-2.0), main predeterminada y F0–F5 publicados. Ver [publicación verificada](docs/PUBLICACION_GITHUB.md), [auditoría previa](docs/AUDITORIA_GITHUB.md) e [instrucciones para otra computadora](docs/NUEVA_COMPUTADORA.md). Las credenciales, bases y volúmenes locales se recrean o transfieren por un canal privado separado, nunca por Git. GitHub aloja el código; la aplicación no se desplegó en cloud.
+Repositorio público: [anthonyarana-debug/logistech-2.0](https://github.com/anthonyarana-debug/logistech-2.0), main predeterminada y F0–F5 publicados. Ver [publicación verificada](docs/PUBLICACION_GITHUB.md), [auditoría previa](docs/AUDITORIA_GITHUB.md) e [instrucciones para otra computadora](docs/NUEVA_COMPUTADORA.md). Las credenciales, bases y volúmenes locales se recrean o transfieren por un canal privado separado, nunca por Git.
 
 Adaptación local aprobada: aplicación en inglés por defecto y documentación académica consolidada. Ver [INFORME_ACADEMICO](docs/INFORME_ACADEMICO.md), [matriz de la guía](docs/MATRIZ_GUIA_PROFESOR.md), [API interna](docs/API_INTERNA.md), [internacionalización](docs/INTERNACIONALIZACION.md) y [cierre de adaptación](docs/INFORME_ADAPTACION.md). Estos cambios se conservaron en `codex/documentacion-internacionalizacion` y forman parte de la base de `codex/fase-6-administracion`; están respaldados en GitHub en `codex/respaldo-f6-bloque-2` (`118eed3`); `main` conserva la versión anterior.
 
-Origen académico: Desarrollo de Soluciones en la Nube — TECSUP. La evolución funcional continúa con **F6, bloque 1: administración operativa**, autorizada el 28 de octubre de 2026. Reutiliza Django/DRF, React, PostgreSQL e Industrial Precision; los informes académicos y evidencias F0–F5 permanecen históricos. Cloud continúa parcial, sin despliegue externo.
+Origen académico: Desarrollo de Soluciones en la Nube — TECSUP. **F6, bloque 1: administración operativa** se autorizó el 28 de octubre de 2026. Reutiliza Django/DRF, React, PostgreSQL e Industrial Precision. Los informes académicos y evidencias F0–F5 permanecen como antecedentes.
 
 ## Desarrollo F6
 
@@ -217,4 +217,4 @@ Django local no carga .env automáticamente; Compose sí inyecta sus variables. 
 - [Industrial Precision y brief Stitch](docs/DISENO_UI_UX.md): A como base con recursos oscuros de B, sin segundo tema. Los bocetos son antecedentes documentales; no rediseño implementado.
 - [Plan](docs/PLAN.md), [matriz](docs/MATRIZ_ENTREGABLES.md), [decisiones](docs/DECISIONES_TECNICAS.md) y [diagrama actual editable](docs/MODELO_DATOS.mmd).
 
-No hay despliegue cloud, recepción avanzada, QR con cámara ni estadísticas históricas operativas. Sí hay pruebas de carga locales F5 con alcance y límites documentados. Marcas iniciales de estado no equivalen a un módulo de recepción. Rate limiting por proceso; HSTS de subdominios/preload pendiente. No se auditaron las fuentes Android ni se modificó el original o contactó al VPS. F0–F5 están cerradas; F6–F8 siguen sin autorización.
+Para el estado de AWS, carga, recuperación y Android consultar el [informe de Semana 16](docs/SEMANA_16_ESTADO.md). El [plan F8](docs/PLAN_FASE_8.md) recoge los incrementos de movimientos, saldos por sucursal y reportes.

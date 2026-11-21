@@ -1,0 +1,13 @@
+
+> logistech-frontend@0.1.0 test:e2e
+> playwright test resilience.spec.js --workers 1
+
+
+Running 4 tests using 1 worker
+
+  ok 1 e2e\resilience.spec.js:5:3 › simulated 500 shows a safe error and retry reloads categories (1.6s)
+  ok 2 e2e\resilience.spec.js:5:3 › simulated 502 shows a safe error and retry reloads categories (598ms)
+  ok 3 e2e\resilience.spec.js:5:3 › simulated 503 shows a safe error and retry reloads categories (599ms)
+  ok 4 e2e\resilience.spec.js:5:3 › simulated offline shows a safe error and retry reloads categories (568ms)
+
+  4 passed (4.6s)

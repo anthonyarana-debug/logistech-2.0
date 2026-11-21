@@ -29,4 +29,4 @@ RUN mkdir -p /app/staticfiles && chown 10001:10001 /app/staticfiles
 # dependencies belong in build/test stages, not the Internet-facing process.
 RUN python -m pip uninstall -y pip setuptools wheel
 USER app
-CMD ["gunicorn", "config.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "2", "--threads", "2", "--access-logfile", "-", "--access-logformat", "{\"status\":%(s)s,\"method\":\"%(m)s\",\"duration_us\":%(D)s}", "--error-logfile", "-", "--forwarded-allow-ips", "*"]
+CMD ["gunicorn", "--config", "python:config.gunicorn", "config.wsgi:application"]

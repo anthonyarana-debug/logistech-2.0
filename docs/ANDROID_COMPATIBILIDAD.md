@@ -1,5 +1,7 @@
 # Compatibilidad Android — contrato preparado, integración pendiente
 
+La revisión de la semana 16 localizó y compiló una copia del proyecto móvil. Consultar [Auditoría Android](ANDROID_SEMANA_16.md) para los resultados nuevos. La introducción siguiente describe el estado original del contrato.
+
 No se abrió ni modificó el repositorio Android separado. No se afirman lenguaje,
 SDK, librerías, endpoints o compatibilidad de su código sin auditarlo. Este contrato
 identifica lo que debe revisarse antes de integrar.

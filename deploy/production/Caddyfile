@@ -1,6 +1,12 @@
 {
     email {$ACME_EMAIL}
     admin off
+    log default {
+        format filter {
+            wrap json
+            request delete
+        }
+    }
 }
 {$PUBLIC_DOMAIN} {
     import /etc/caddy/routes.caddy

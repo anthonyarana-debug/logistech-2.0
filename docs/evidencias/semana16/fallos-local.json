@@ -1,0 +1,54 @@
+{
+  "project": "logistech-week13-fault-d86335b19d93",
+  "kind": "local fault simulation",
+  "healthy": {
+    "status": 200,
+    "cors": null,
+    "request_id": "60987f5bc5a04d659b877e0885909c88"
+  },
+  "database_down": {
+    "status": 503,
+    "cors": null,
+    "request_id": "09e507fd3094404c873f3330e0086592"
+  },
+  "database_failure_access_log": {
+    "status": 503,
+    "method": "GET",
+    "duration_us": 3992126,
+    "request_id": "09e507fd3094404c873f3330e0086592"
+  },
+  "database_recovered": {
+    "status": 200,
+    "cors": null,
+    "request_id": "463a9d1694c64b32bf9a47bbd47de578"
+  },
+  "database_recovery_seconds": 8.054,
+  "backend_down": {
+    "status": 502,
+    "cors": null,
+    "request_id": null
+  },
+  "proxy_logs": {
+    "filtered_502_records": 1
+  },
+  "backend_recovered": {
+    "status": 200,
+    "cors": null,
+    "request_id": "e6ea553669614d9fbfaa7426f6ddeec9"
+  },
+  "backend_recovery_seconds": 7.615,
+  "rollback_f7": {
+    "status": 200,
+    "cors": null,
+    "request_id": null
+  },
+  "forward_week13": {
+    "status": 200,
+    "cors": null,
+    "request_id": "7e49a53aa67f4ef3a2579b41c1d53d07"
+  },
+  "category_count_before_and_after": [
+    6,
+    6
+  ]
+}
