@@ -154,7 +154,6 @@ export default function AppShell() {
           </main>
           <footer className="app-footer">
             <span>LogisTech 2.0 / Hoja de control</span>
-            <span>TECSUP · Proyecto académico</span>
           </footer>
         </div>
       </div>
